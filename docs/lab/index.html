@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The lab &middot; eCDFP &middot; ITGate Academy</title>
+<meta name="description" content="The eCDFP forensic lab — three VMware VMs on a host-only network, the machine specs, the host requirements and the snapshot policy.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text">
+        <span class="hb-name">ITGate Academy</span>
+        <span class="hb-sub">eCDFP &middot; Lab</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="../index.html#sessions">Sessions</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html" class="active">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../index.html#resources">Resources</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <div class="eyebrow">Three machines &middot; one host &middot; no network</div>
+    <h1>The <span>lab</span></h1>
+    <p class="lede">VMware Workstation only. No cloud, no SIEM, no internet. Evidence is handled on machines that cannot reach anything, which is what makes the handling defensible.</p>
+    <div class="stats">
+      <div class="stat"><b>3</b><span>Virtual machines</span></div>
+      <div class="stat"><b>250 GB</b><span>Free disk needed</span></div>
+      <div class="stat"><b>8 GB</b><span>Largest VM</span></div>
+      <div class="stat"><b>6</b><span>Snapshots kept</span></div>
+      <div class="stat"><b>0</b><span>Cloud services</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap section hub-main">
+  <h2 class="sec">Topology</h2>
+  <p class="sec-desc">One host-only network. EVI-SRC01 is compromised and imaged; the image is examined
+     on FOR-WS01; Kali carries the acquisition and timeline tooling.</p>
+  <div class="svg-wrap">
+<svg viewBox="0 0 1500 340" role="img" preserveAspectRatio="xMidYMid meet">
+  <title>The eCDFP lab - three VMs on one host-only network, with evidence flowing one way</title>
+  <rect x="20" y="24" width="440" height="132" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+  <rect x="20" y="24" width="4" height="132" rx="2" fill="var(--accent-cyan)"/>
+  <text x="44" y="62" font-size="23" font-weight="600" fill="var(--accent-cyan)" font-family="monospace">FOR-WS01</text>
+  <text x="44" y="92" font-size="18" fill="var(--text-primary)">Windows 11 analyst workstation</text>
+  <text x="44" y="118" font-size="16" fill="var(--text-secondary)">4 vCPU &#183; 8 GB &#183; 120 GB</text>
+  <text x="44" y="142" font-size="15" fill="var(--text-secondary)">where every examination happens</text>
+  <path d="M 240 156 L 240 206" stroke="var(--border)" stroke-width="2"/>
+  <rect x="530" y="24" width="440" height="132" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+  <rect x="530" y="24" width="4" height="132" rx="2" fill="var(--accent-cyan)"/>
+  <text x="554" y="62" font-size="23" font-weight="600" fill="var(--accent-cyan)" font-family="monospace">EVI-SRC01</text>
+  <text x="554" y="92" font-size="18" fill="var(--text-primary)">Windows 10 Pro victim</text>
+  <text x="554" y="118" font-size="16" fill="var(--text-secondary)">2 vCPU &#183; 4 GB &#183; 60 GB</text>
+  <text x="554" y="142" font-size="15" fill="var(--text-secondary)">compromised, then imaged &#8212; the evidence factory</text>
+  <path d="M 750 156 L 750 206" stroke="var(--border)" stroke-width="2"/>
+  <rect x="1040" y="24" width="440" height="132" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+  <rect x="1040" y="24" width="4" height="132" rx="2" fill="var(--accent-cyan)"/>
+  <text x="1064" y="62" font-size="23" font-weight="600" fill="var(--accent-cyan)" font-family="monospace">Kali</text>
+  <text x="1064" y="92" font-size="18" fill="var(--text-primary)">Ubuntu / Kali toolbox</text>
+  <text x="1064" y="118" font-size="16" fill="var(--text-secondary)">2 vCPU &#183; 4 GB &#183; 60 GB</text>
+  <text x="1064" y="142" font-size="15" fill="var(--text-secondary)">acquisition and timeline tooling</text>
+  <path d="M 1260 156 L 1260 206" stroke="var(--border)" stroke-width="2"/>
+  <rect x="20" y="206" width="1460" height="48" rx="10" fill="var(--bg-secondary)" stroke="var(--accent-green)" stroke-width="1.5"/>
+  <text x="750" y="236" text-anchor="middle" font-size="18" fill="var(--text-primary)">VMware host-only network &#183; no NAT &#183; no internet &#183; nothing leaves the host</text>
+  <path d="M 700 292 L 268 292" stroke="var(--accent-cyan)" stroke-width="2"/>
+  <path d="M 258 292 l 10 -6 v 12 z" fill="var(--accent-cyan)"/>
+  <text x="480" y="322" text-anchor="middle" font-size="16" fill="var(--text-secondary)">imaged, hashed, then examined on the workstation</text>
+  <text x="1260" y="322" text-anchor="middle" font-size="16" fill="var(--text-secondary)">dc3dd &#183; Sleuthkit &#183; plaso &#183; foremost &#183; tcpdump</text>
+</svg>
+</div>
+
+  <h2 class="sec" style="margin-top:30px">The machines</h2>
+  <div class="table-wrap">
+  <table>
+    <colgroup><col style="width:12%"><col style="width:23%"><col style="width:20%"><col style="width:45%"></colgroup>
+    <thead><tr><th>VM</th><th>What it is</th><th>Spec</th><th>Job</th></tr></thead>
+    <tbody>
+    <tr><td><code>FOR-WS01</code></td><td>Windows 11 analyst workstation</td><td>4 vCPU · 8 GB · 120 GB</td><td>Where all analysis happens. Snapshot per session.</td></tr>
+    <tr><td><code>EVI-SRC01</code></td><td>Windows 10 Pro victim</td><td>2 vCPU · 4 GB · 60 GB</td><td>Gets compromised, then imaged — the evidence factory.</td></tr>
+    <tr><td><code>Kali</code></td><td>Kali Linux</td><td>2 vCPU · 4 GB · 60 GB</td><td><code>dd</code>/<code>dc3dd</code>, Sleuthkit, plaso, foremost, bulk_extractor, tcpdump.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+  <section class="s-block" id="before">
+    <h2 class="sec">Before your first session</h2>
+    <div class="lab-box">
+      <span class="cl-label">Setup</span>
+      <ul>
+        <li><strong>250 GB free on the host</strong>, and VMware Workstation installed.</li>
+        <li><strong>FOR-WS01 ships pre-built</strong> — a clean Windows with no tools. You install the
+            tool set in S1 and take the <code>CLEAN-TOOLS</code> snapshot yourself. Building the
+            workstation is not a use of class time; using it is.</li>
+        <li>The session's evidence downloaded <strong>and hash-verified before class</strong>.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <p><strong>The full build guide is live.</strong> The step-by-step build of <code>FOR-WS01</code> &mdash;
+         the Windows 11 VM, the tool set installed session by session, verification and snapshots &mdash; is at
+         <a href="setup.html"><strong>Workstation setup &rarr;</strong></a>. Machine specs, the host requirement
+         and the snapshot policy above are settled.</p>
+    </div>
+  </section>
+
+  <section class="s-block" id="snapshots">
+    <h2 class="sec">Snapshot policy</h2>
+    <p class="sec-desc">One snapshot per session on FOR-WS01, taken before you touch evidence.</p>
+    <ul>
+      <li><code>CLEAN-TOOLS</code> — taken in S1 once the tool set is installed and verified.
+          <strong>Never delete this one.</strong> Every later session is recoverable from it.</li>
+      <li><code>S0N-START</code> — taken at the start of each session, before any evidence is mounted.</li>
+      <li>EVI-SRC01 is snapshotted by the instructor before staging, so the compromise can be re-run.</li>
+    </ul>
+    <div class="caveat">
+      <span class="cl-label">Caveat</span>
+      <p>A snapshot is not a forensic copy and never appears in a chain-of-custody form. It protects
+         your workstation, not the evidence — the evidence is protected by hashes and by working only
+         on a copy.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>ITGate Academy · eCDFP Diploma · Your gate to the world</span>
+    <span class="mono">Primary reference: INE eCDFP · 6 sessions · 24 hours</span>
+  </div>
+</footer>
+
+</body>
+</html>

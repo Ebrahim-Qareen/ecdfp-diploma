@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>References &middot; eCDFP &middot; ITGate Academy</title>
+<meta name="description" content="eCDFP references — the INE module mapping, the exam domains, the public evidence corpora and the tool notes that affect how the course teaches them.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text">
+        <span class="hb-name">ITGate Academy</span>
+        <span class="hb-sub">eCDFP &middot; References</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="../index.html#sessions">Sessions</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../index.html#resources" class="active">Resources</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <div class="eyebrow">Where the material comes from</div>
+    <h1><span>References</span></h1>
+    <p class="lede">The primary reference is the INE eCDFP courseware. Everything else on this page either supplies evidence the course could not otherwise obtain, or changes how a tool may be used.</p>
+    <div class="stats">
+      <div class="stat"><b>5</b><span>INE modules</span></div>
+      <div class="stat"><b>10</b><span>INE units</span></div>
+      <div class="stat"><b>4</b><span>Exam domains</span></div>
+      <div class="stat"><b>2</b><span>External corpora</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap section hub-main">
+  <h2 class="sec">INE modules and where they land</h2>
+  <p class="sec-desc">Three numbering systems are in play — INE units, our five condensed modules, and
+     the six sessions. This is the reconciliation.</p>
+  <div class="table-wrap">
+  <table>
+    <colgroup><col style="width:11%"><col style="width:57%"><col style="width:32%"></colgroup>
+    <thead><tr><th>Module</th><th>INE units</th><th>Sessions</th></tr></thead>
+    <tbody>
+    <tr><td><code>M1</code></td><td>1 Introduction to Digital Forensics · 2 Data Acquisition</td><td><code>S1</code> · <code>S2</code></td></tr>
+    <tr><td><code>M2</code></td><td>3 Data Representation &amp; Files Examination</td><td><code>S3</code></td></tr>
+    <tr><td><code>M3</code></td><td>4 Disks · 5 File Systems</td><td><code>S4</code></td></tr>
+    <tr><td><code>M4</code></td><td>6 Windows Forensics · 7 Network Forensics</td><td><code>S5</code> · <code>S6</code></td></tr>
+    <tr><td><code>M5</code></td><td>8 Log Analysis · 9 Timeline Analysis · 10 Reporting</td><td><code>S1</code> (report template) · <code>S6</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+  <h2 class="sec" style="margin-top:30px">Exam domains</h2>
+  <p class="sec-desc">The course is balanced against the published domain weights, not against wall-clock
+     hours. <a href="../roadmap.html#reconciliation">The full reconciliation &rarr;</a></p>
+  <div class="table-wrap">
+  <table>
+    <colgroup><col style="width:46%"><col style="width:18%"><col style="width:18%"><col style="width:18%"></colgroup>
+    <thead><tr><th>Exam domain</th><th class="num">Exam weight</th><th class="num">This course</th><th class="num">&Delta;</th></tr></thead>
+    <tbody>
+    <tr><td>Fundamentals of Digital Forensics</td><td class="num">33 %</td><td class="num">32.4 %</td><td class="num">-0.6</td></tr>
+    <tr><td>Digital Forensics Tools & Techniques</td><td class="num">27 %</td><td class="num">27.3 %</td><td class="num">+0.3</td></tr>
+    <tr><td>Preservation of Evidence</td><td class="num">20 %</td><td class="num">21.5 %</td><td class="num">+1.5</td></tr>
+    <tr><td>Storage Device Fundamentals</td><td class="num">20 %</td><td class="num">18.7 %</td><td class="num">-1.3</td></tr>
+    </tbody>
+  </table>
+</div>
+
+  <h2 class="sec" style="margin-top:30px">Public evidence corpora</h2>
+  <div class="grid">
+    <article class="card">
+      <h3>NIST CFReDS</h3>
+      <p>The Tier 2 anchor. The <strong>Data Leakage Case</strong> supplies NTFS, exFAT, FAT32 and
+         UDF/optical evidence from a single scenario, in both E01 and raw, with published hashes — the
+         two file systems our own lab cannot produce. A US Government work in the public domain, so
+         classroom use is unrestricted; we link rather than rehost by choice.</p>
+      <div class="chips">
+        <a class="tag" href="https://cfreds.nist.gov/" target="_blank" rel="noopener">cfreds.nist.gov</a>
+        <span class="tag">Tier 2</span>
+      </div>
+    </article>
+    <article class="card">
+      <h3>Practical notes before you download</h3>
+      <p>The images live on the archive host rather than the portal, the PC image is several gigabytes,
+         and the raw variants are <strong>7-Zip split archives</strong> (<code>.7z.001</code>) — not
+         split raw segments. Extract them before adding them to a tool, or the tool will read one
+         fragment and tell you nothing is there.</p>
+      <div class="chips"><span class="tag">Download before class</span><span class="tag">Verify the hash</span></div>
+    </article>
+  </div>
+
+  <h2 class="sec" style="margin-top:30px">Tool notes that change how we teach</h2>
+  <div class="caveat">
+    <span class="cl-label">KAPE licensing</span>
+    <p>As of <strong>1 January 2026</strong>, KAPE is no longer available for commercial use — that is,
+       on a third-party network or as part of a paid engagement. Classroom and educational use remains
+       free, so we still teach it, <strong>and every KAPE step in this course is paired with a free
+       standalone alternative</strong> so you can do the same work on Monday. The limit is stated in the
+       session, not left to be discovered mid-engagement.</p>
+  </div>
+  <div class="note">
+    <p>Tool versions and artifact paths are re-checked when each session is built, and the version used
+       is written into that session's lab. A command that worked in a course recorded two years ago is
+       not evidence that it works now.</p>
+  </div>
+
+  <h2 class="sec" style="margin-top:30px">Taught beyond the courseware</h2>
+  <p class="sec-desc">These topics are on the roadmap and the INE units do not cover them, so they are
+     built from current external sources and the source is named in the session that teaches them.
+     A topic with no source is either researched or removed &mdash; never quietly taught from memory.
+     The full register, including the decided-but-unscheduled and case-critical items, is on the
+     <a href="../roadmap.html#open">roadmap</a>.</p>
+  <div class="table-wrap">
+  <table>
+    <colgroup><col style="width:8%"><col style="width:44%"><col style="width:13%"><col style="width:35%"></colgroup>
+    <thead><tr><th>ID</th><th>Item</th><th>Sessions</th><th>Where the source is missing</th></tr></thead>
+    <tbody>
+    <tr><td><code>GAP-11</code></td><td>Beaconing intervals and jitter</td><td>S6</td><td><code>Module_04</code> §7.1</td></tr>
+    <tr><td><code>GAP-12</code></td><td>TLS fingerprinting (JA3 / JA3S)</td><td>S6</td><td><code>Module_04</code> §7.2</td></tr>
+    <tr><td><code>GAP-13</code></td><td>DNS anomaly detection</td><td>S6</td><td><code>Module_04</code> §7.3</td></tr>
+    <tr><td><code>GAP-14</code></td><td>NetworkMiner</td><td>S6</td><td><code>Module_04</code> §7.4</td></tr>
+    <tr><td><code>GAP-15</code></td><td>Wireshark <em>Export Objects</em></td><td>S6</td><td><code>Module_04</code> §7.6</td></tr>
+    <tr><td><code>GAP-16</code></td><td>KAPE and Timeline Explorer</td><td>S2 &middot; S4</td><td><code>Module_01</code> §7 G6 · <code>Module_03</code> §7.2</td></tr>
+    <tr><td><code>GAP-17</code></td><td>Windows 10/11 artifact changes — <code>ActivitiesCache.db</code>, SRUM, USB <code>Properties</code> sub-IDs</td><td>S5</td><td><code>Module_04</code> §7.7</td></tr>
+    <tr><td><code>GAP-18</code></td><td>Modern plaso workflow (<code>log2timeline.py</code> → <code>psort.py</code>)</td><td>S6</td><td><code>Module_05</code> §7.12</td></tr>
+    <tr><td><code>GAP-19</code></td><td>NTFS deletion mechanics — in-use flag, <code>$Bitmap</code> release, index entry removal</td><td>S4</td><td><code>Module_03</code> §7.3</td></tr>
+    <tr><td><code>GAP-20</code></td><td>TRIM, garbage collection and wear levelling</td><td>S4</td><td><code>Module_03</code> §7.1</td></tr>
+    </tbody>
+  </table>
+</div>
+
+  <h2 class="sec" style="margin-top:30px">Standards and tool documentation</h2>
+  <ul>
+    <li><strong>NIST SP 800-86</strong> — <em>Guide to Integrating Forensic Techniques into Incident
+        Response</em>. The order-of-volatility and process language this course uses.
+        <a href="https://csrc.nist.gov/" target="_blank" rel="noopener">csrc.nist.gov</a></li>
+    <li><strong>SWGDE</strong> — best-practice documents for imaging, memory capture and reporting.
+        <a href="https://www.swgde.org/" target="_blank" rel="noopener">swgde.org</a></li>
+    <li><strong>Autopsy / The Sleuth Kit</strong> —
+        <a href="https://www.sleuthkit.org/autopsy/" target="_blank" rel="noopener">sleuthkit.org/autopsy</a></li>
+    <li><strong>Eric Zimmerman's tools</strong> — MFTECmd, RECmd, PECmd, Timeline Explorer.
+        <a href="https://ericzimmerman.github.io/" target="_blank" rel="noopener">ericzimmerman.github.io</a></li>
+    <li><strong>plaso / log2timeline</strong> —
+        <a href="https://plaso.readthedocs.io/" target="_blank" rel="noopener">plaso.readthedocs.io</a></li>
+    <li><strong>Wireshark documentation</strong> —
+        <a href="https://www.wireshark.org/docs/" target="_blank" rel="noopener">wireshark.org/docs</a></li>
+  </ul>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>ITGate Academy · eCDFP Diploma · Your gate to the world</span>
+    <span class="mono">Primary reference: INE eCDFP · 6 sessions · 24 hours</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+# ---------------------------------------------------------------------------
+# eCDFP Diploma - ITGate Academy.  This repository is PUBLIC (D22).
+# Everything listed here is either third-party source material, evidence,
+# an answer, or too large to version.
+#
+# Top-level paths are anchored with a leading "/" ON PURPOSE.  core.ignorecase
+# is true on Windows, so an unanchored "Resources/" also matches
+# "docs/resources/" and silently drops three published pages from the site.
+# ---------------------------------------------------------------------------
+
+# Source material and evidence - never committed (R9, D12)
+/Resources/
+/evidence/
+/labs/vm_notes/
+/knowledge_base/_source_text/
+
+# Answers. The repo is public, so "instructor copy only" has to be enforced here.
+/cases/*/answer_key.md
+/packages/*/quiz_answer_key.md
+
+# Lab virtual machines and installer media (~78 GB - never version these)
+/tools/Windows-Victim/
+/tools/Windows-Workstation/
+*.iso
+*.vmdk
+*.vmem
+*.vmss
+*.vmsn
+*.vmx
+*.vmxf
+*.vmsd
+*.nvram
+*.scoreboard
+vmware*.log
+mksSandbox*.log
+
+# Working scratch - build inputs, screenshots, spent files
+/Claude outputs/
+/_to_delete/
+
+# Credentials and local-only notes
+*CREDENTIALS*
+*.local.md
+
+# Evidence byte formats (R9)
+*.E01
+*.Ex01
+*.AD1
+*.dd
+*.raw
+*.mem
+*.dmp
+*.pcap
+*.pcapng
+*.vhd
+*.vhdx
+
+# Registry hives.  Anchored to /evidence/ so a case-insensitive match can never
+# hit an ordinary file called "system" or "sam" somewhere in the tree.
+/evidence/**/NTUSER.DAT
+/evidence/**/USRCLASS.DAT
+/evidence/**/SYSTEM
+/evidence/**/SOFTWARE
+/evidence/**/SAM
+/evidence/**/SECURITY
+NTUSER.DAT
+USRCLASS.DAT

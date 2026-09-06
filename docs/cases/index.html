@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case files &middot; eCDFP &middot; ITGate Academy</title>
+<meta name="description" content="The eCDFP investigations — one blocked hour per session, all cut from a single carry-through incident.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text">
+        <span class="hb-name">ITGate Academy</span>
+        <span class="hb-sub">eCDFP &middot; Cases</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="../index.html#sessions" class="active">Sessions</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../index.html#resources">Resources</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <div class="eyebrow">Sixty minutes a session &middot; one incident all the way through</div>
+    <h1>Case <span>files</span></h1>
+    <p class="lede">Every session ends with a blocked hour of independent investigation. The cases are not six unrelated puzzles — from S2 onwards they are six cuts through one incident, taken deeper each time.</p>
+    <div class="stats">
+      <div class="stat"><b>360</b><span>Investigation min</span></div>
+      <div class="stat"><b>6</b><span>Blocked hours</span></div>
+      <div class="stat"><b>1</b><span>Incident</span></div>
+      <div class="stat"><b>9</b><span>Evidence sets</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap section hub-main">
+  <h2 class="sec">The incident that runs through the course</h2>
+  <p class="sec-desc">Staged on <code>EVI-SRC01</code>, imaged in S2, and cut deeper every session
+     afterwards. One chain, one image, one timeline.</p>
+  <ol><li>a malicious document arrives</li><li>malware executes and establishes persistence</li><li>a C2 beacon opens</li><li>RDP lateral movement</li><li>collection and staging of the data</li><li>exfiltration to a USB device</li></ol>
+  <p class="sec-desc">Ransomware tooling is staged on the host and <strong>never fired</strong> — the
+     absence is part of the case, and reporting it correctly is part of the grade. The company, the
+     users and the addresses are fictional; there is no real personal data and no live malware
+     anywhere in the evidence.</p>
+
+  <div class="note">
+    <p><strong>How a session cuts the incident.</strong> S3 examines the document that started it.
+       S4 recovers what was deleted while staging. S5 establishes which user ran what, and which device
+       was attached. S6 puts the network evidence beside the host evidence and builds the timeline.</p>
+  </div>
+
+  <h2 class="sec" style="margin-top:30px">The investigations</h2>
+  <div class="grid">
+    <article class="card">
+      <div class="card-top"><span class="snum">S01</span><h3>Forensic Foundations, Evidence Integrity &amp; Chain of Custody</h3></div>
+      <ul style="margin:0 0 10px"><li><code>S1-09</code> — Case 01 — verify 4 files against a signed manifest, find the tampered one <span class="tag">60 min</span> <span class="tag evs">EVS-01</span></li></ul>
+      <div class="chips"><span class="tag">60 min blocked</span>
+        <a class="tag" href="../session-01/brief.html">Session brief</a></div>
+    </article>
+    <article class="card">
+      <div class="card-top"><span class="snum">S02</span><h3>Acquisition — Disk, Memory &amp; Live Response</h3></div>
+      <ul style="margin:0 0 10px"><li><code>S2-08</code> — Case 02a — acquire and verify the suspect USB <span class="tag">35 min</span> <span class="tag evs">EVS-04</span></li><li><code>S2-09</code> — Case 02b — examine the acquired image's partition and file-system structure <span class="tag">25 min</span> <span class="tag evs">EVS-04</span></li></ul>
+      <div class="chips"><span class="tag">60 min blocked</span>
+        <a class="tag" href="../session-02/brief.html">Session brief</a></div>
+    </article>
+    <article class="card">
+      <div class="card-top"><span class="snum">S03</span><h3>Data Representation &amp; File Examination</h3></div>
+      <ul style="margin:0 0 10px"><li><code>S3-08</code> — Case 03 — 12 renamed/corrupted files, identify each by header <span class="tag">35 min</span> <span class="tag evs">EVS-05</span></li><li><code>S3-09</code> — The carry-through malicious document — structure, embedded objects, metadata <span class="tag">25 min</span> <span class="tag evs">EVS-06</span></li></ul>
+      <div class="chips"><span class="tag">60 min blocked</span>
+        <a class="tag" href="../session-03/brief.html">Session brief</a></div>
+    </article>
+    <article class="card">
+      <div class="card-top"><span class="snum">S04</span><h3>Storage Devices, Partitions &amp; File Systems</h3></div>
+      <ul style="margin:0 0 10px"><li><code>S4-09</code> — File carving — PhotoRec/foremost, and carving the staged archive <span class="tag">25 min</span> <span class="tag evs">EVS-02</span></li><li><code>S4-10</code> — Case 04 — wiped partition table, recover it and prove the recovery <span class="tag">35 min</span> <span class="tag evs">EVS-07</span></li></ul>
+      <div class="chips"><span class="tag">60 min blocked</span>
+        <a class="tag" href="../session-04/brief.html">Session brief</a></div>
+    </article>
+    <article class="card">
+      <div class="card-top"><span class="snum">S05</span><h3>Windows Forensics — Registry, User Activity &amp; Execution</h3></div>
+      <ul style="margin:0 0 10px"><li><code>S5-08</code> — Recycle bin (<code>$I</code>/<code>$R</code>) and Volume Shadow Copies (VSS) — deleted files and previous versions <span class="tag">25 min</span> <span class="tag evs">EVS-02</span></li><li><code>S5-09</code> — Case 05 — which USB, which user, which program ran, when, how many times <span class="tag">35 min</span> <span class="tag evs">EVS-02 · EVS-04</span></li></ul>
+      <div class="chips"><span class="tag">60 min blocked</span>
+        <a class="tag" href="../session-05/brief.html">Session brief</a></div>
+    </article>
+    <article class="card">
+      <div class="card-top"><span class="snum">S06</span><h3>Network Forensics, Timelines, Reporting &amp; Capstone</h3></div>
+      <ul style="margin:0 0 10px"><li><code>S6-09</code> — Capstone — full investigation across image + memory + pcap <span class="tag">45 min</span> <span class="tag evs">EVS-02 · EVS-03 · EVS-08</span></li><li><code>S6-10</code> — Volatility 3 in the capstone — processes, network connections, injected code <span class="tag">15 min</span> <span class="tag evs">EVS-03</span></li></ul>
+      <div class="chips"><span class="tag">60 min blocked</span>
+        <a class="tag" href="../session-06/brief.html">Session brief</a></div>
+    </article>
+  </div>
+
+  <h2 class="sec" style="margin-top:30px">How the questions are written</h2>
+  <div class="finding">
+    <span class="cl-label">Every case</span>
+    <p>At least one question in every case has <strong>&ldquo;this artifact cannot prove that&rdquo;</strong>
+       as its correct answer. Recognising the limit of an artifact is graded exactly like finding one.</p>
+  </div>
+  <div class="limitation">
+    <span class="cl-label">Never asked</span>
+    <p>No question has a password, hash, key or a person's personal data as its answer. You are asked
+       <em>which</em> account was used, <em>which</em> device was attached, <em>how many</em> records were
+       staged — never the value itself. Secrets enter a report by reference only: path, offset, timestamp,
+       record count.</p>
+  </div>
+  <p class="sec-desc" style="margin-top:18px">Answer keys are instructor-only and are not published
+     on this site.</p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>ITGate Academy · eCDFP Diploma · Your gate to the world</span>
+    <span class="mono">Primary reference: INE eCDFP · 6 sessions · 24 hours</span>
+  </div>
+</footer>
+
+</body>
+</html>

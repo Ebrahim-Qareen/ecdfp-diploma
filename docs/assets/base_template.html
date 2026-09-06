@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--
+  base_template.html -- eCDFP Diploma session skeleton.
+  ecdfp-session-html starts EVERY session page from this file.
+  Copy to docs/session-NN/index.html, set data-session, fill the pages.
+  Asset paths are ../assets/... which is correct from docs/session-NN/.
+  Never inline CSS or JS. Never fork the stylesheet. Never enable cleanUrls.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session NN — TITLE · eCDFP · ITGate Academy</title>
+<meta name="description" content="ITGate Academy eCDFP diploma — Session NN.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+</head>
+
+<body data-session="sNN">
+
+<header class="site-header">
+  <a class="brand" href="../index.html">
+    <span class="brand-mark" aria-hidden="true">iG</span>
+    <span>ITGate <span class="brand-sub">eCDFP</span></span>
+  </a>
+  <div class="session-title"><strong>Session NN</strong> — TITLE</div>
+  <span class="progress-chip">NN / 6</span>
+</header>
+
+<div class="page-layout">
+
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>How this session works</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>Break</span></a></li>
+    </ol>
+  </nav>
+
+  <main class="main">
+
+    <!-- p1 ................................................... cover -->
+    <section class="page" id="p1">
+      <span class="kicker">Session NN</span>
+      <h1>TITLE</h1>
+      <p>One-line promise of what the student can do by the end.</p>
+
+      <div class="key-takeaway">
+        <span class="cl-label">Recap — Session NN-1</span>
+        <p>Maps to the previous session's takeaways. Required on every session.</p>
+      </div>
+    </section>
+
+    <!-- p2 ....................................... how this works + the pair -->
+    <section class="page" id="p2">
+      <span class="kicker">How this session works</span>
+      <h2>Findings and interpretation</h2>
+      <p>
+        The distinction below appears on every page of every session, and it is
+        criterion 4 of the report rubric. Colour is never the only signal — the
+        border style carries the same meaning.
+      </p>
+
+      <div class="finding">
+        <span class="cl-label">Finding</span>
+        <p>What the artifact literally says, with the artifact named and its exact path given.</p>
+      </div>
+
+      <div class="interpretation">
+        <span class="cl-label">Interpretation</span>
+        <p>What it means. Reasoning, drawn from one or more findings, never mixed into them.</p>
+      </div>
+
+      <div class="limitation">
+        <span class="cl-label">Cannot prove</span>
+        <p>What this evidence cannot show, however it is read.</p>
+      </div>
+
+      <div class="coc">
+        <span class="cl-label">Chain of custody</span>
+        <p>who · what · when · from where · hash · where stored</p>
+      </div>
+    </section>
+
+    <!-- p3 ................................................... break -->
+    <section class="page" id="p3">
+      <span class="kicker">Break</span>
+      <div class="break-card" data-timer="15" data-timer-done="Back to it">
+        <h2>15 minutes</h2>
+        <p class="break-timer">15:00</p>
+        <p>Leave the evidence mounted read-only. Do not close the imaging window.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav" aria-label="Page navigation">
+  <button class="btn ghost" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> · </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 3</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<!-- task-creator modal: required on every session (#taskList homework) -->
+<div class="modal" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle" hidden>
+  <div class="modal-card">
+    <h3 id="taskModalTitle">Add a task</h3>
+    <form>
+      <label for="taskText">What do you want to follow up on?</label>
+      <input type="text" id="taskText" name="taskText" autocomplete="off">
+      <div class="modal-actions">
+        <button class="btn ghost" type="button" data-action="close-modal">Cancel</button>
+        <button class="btn" type="submit">Add</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+</body>
+</html>

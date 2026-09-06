@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eCDFP Diploma &middot; ITGate Academy</title>
+<meta name="description" content="ITGate Academy eCDFP diploma — practical Windows digital forensics in six sessions: integrity, acquisition, file examination, file systems, Windows artifacts, timelines and reporting.">
+<link rel="stylesheet" href="assets/css/ecdfp.css">
+<link rel="icon" href="assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="index.html">
+      <img src="assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text">
+        <span class="hb-name">ITGate Academy</span>
+        <span class="hb-sub">eCDFP Diploma</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="index.html#sessions" class="active">Sessions</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="lab/index.html">Lab</a>
+      <a href="resources/evidence.html">Evidence</a>
+      <a href="index.html#records">Records</a>
+      <a href="index.html#resources">Resources</a>
+      <a href="index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <div class="eyebrow">INE eCDFP &middot; Certified Digital Forensics Professional</div>
+    <h1>Prove what the evidence says.<br><span>Never more than that.</span></h1>
+    <p class="lede">Practical, instructor-led Windows digital forensics. Six four-hour sessions, every student at a keyboard, every session ending in a verified acquisition and a written finding. The fourth diploma after SOC Analyst, CEH and eCIR.</p>
+    <div class="stats">
+      <div class="stat"><b>6</b><span>Sessions</span></div>
+      <div class="stat"><b>24</b><span>Hours</span></div>
+      <div class="stat"><b>62</b><span>Topics</span></div>
+      <div class="stat"><b>83%</b><span>Hands-on</span></div>
+      <div class="stat"><b>9</b><span>Evidence sets</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section-sm" id="legend">
+  <h2 class="sec">The distinction this course is built on</h2>
+  <p class="sec-desc">Separating what the evidence <em>says</em> from what you <em>conclude</em> is the
+     professional skill eCDFP exists to teach. It is colour-coded on every page and it is criterion 4
+     of the report rubric. The border style carries the same meaning as the colour, so the distinction
+     survives a bad projector, a greyscale printout and colour blindness.</p>
+  <div class="legend">
+    <div class="finding">
+      <span class="cl-label">Finding</span>
+      <p><code>SYSTEM\MountedDevices</code> records volume GUID <code>{&hellip;}</code> for a device with serial <code>07A1&hellip;</code>.</p>
+    </div>
+    <div class="interpretation">
+      <span class="cl-label">Interpretation</span>
+      <p>A removable device was attached to this host at least once while this hive was live.</p>
+    </div>
+    <div class="limitation">
+      <span class="cl-label">Cannot prove</span>
+      <p>Who attached it, or that any file was copied to it. That needs a different artifact.</p>
+    </div>
+  </div>
+</section>
+
+<main class="wrap section" id="sessions">
+  <h2 class="sec">Course roadmap</h2>
+  <p class="sec-desc">Six sessions in a fixed order — integrity before acquisition, acquisition before
+     analysis, file systems before Windows artifacts, timelines and reporting last. Each card opens the
+     session brief: what it covers, the evidence you verify beforehand, and what you hand in.
+     The teaching pages publish one session at a time, and a card becomes a link to its teaching page
+     the day that session ships. <a href="roadmap.html">See the full roadmap &rarr;</a></p>
+  <div class="grid">
+    <a class="card live" href="session-01/index.html">
+      <div class="card-top"><span class="snum">S01</span><h3>Forensic Foundations, Evidence Integrity &amp; Chain of Custody</h3></div>
+      <p>Hashing, write-blocking, the chain-of-custody form, and the report template that every later session reuses.</p>
+      <div class="hands">
+        <div class="hands-track"><span class="hands-fill" style="width:77%"></span></div>
+        <span class="hands-label">Hands-on 158 of 205 topic minutes · 77%</span>
+      </div>
+      <div class="chips">
+        <span class="tag">Tier A</span><span class="tag">INE M1 intro</span><span class="tag">F 72</span><span class="tag">T 38</span><span class="tag">P 95</span>
+        <span class="tag evs">EVS-01 · verified</span>
+        <span class="status live">Teaching page live</span>
+      </div>
+    </a>
+    <a class="card live" href="session-02/index.html">
+      <div class="card-top"><span class="snum">S02</span><h3>Acquisition — Disk, Memory &amp; Live Response</h3></div>
+      <p>Order of volatility, memory capture, FTK Imager and <code>dc3dd</code>, E01 vs raw vs AD1. The carry-through case is born here.</p>
+      <div class="hands">
+        <div class="hands-track"><span class="hands-fill" style="width:76%"></span></div>
+        <span class="hands-label">Hands-on 155 of 205 topic minutes · 76%</span>
+      </div>
+      <div class="chips">
+        <span class="tag">Tier A</span><span class="tag">INE M1</span><span class="tag">T 35</span><span class="tag">P 110</span><span class="tag">S 60</span>
+        <span class="tag evs">EVS-02/03/04/09 &middot; pending acquisition</span>
+        <span class="status live">Teaching page live</span>
+      </div>
+    </a>
+    <a class="card" href="session-03/brief.html">
+      <div class="card-top"><span class="snum">S03</span><h3>Data Representation &amp; File Examination</h3></div>
+      <p>Hex, magic bytes, headers and footers, EXIF and metadata, malicious documents, signature versus extension.</p>
+      <div class="hands">
+        <div class="hands-track"><span class="hands-fill" style="width:83%"></span></div>
+        <span class="hands-label">Hands-on 170 of 205 topic minutes · 83%</span>
+      </div>
+      <div class="chips">
+        <span class="tag">Tier A</span><span class="tag">INE M2</span><span class="tag">F 130</span><span class="tag">T 45</span><span class="tag">P 15</span><span class="tag">S 15</span>
+        <span class="tag evs">EVS-05</span><span class="tag evs">EVS-06</span>
+        <span class="status planned">Brief · teaching page Phase 4</span>
+      </div>
+    </a>
+    <a class="card" href="session-04/brief.html">
+      <div class="card-top"><span class="snum">S04</span><h3>Storage Devices, Partitions &amp; File Systems</h3></div>
+      <p>HDD and SSD internals, slack space, MBR versus GPT, FAT and NTFS, <code>$MFT</code>, ADS, carving and deleted data.</p>
+      <div class="hands">
+        <div class="hands-track"><span class="hands-fill" style="width:85%"></span></div>
+        <span class="hands-label">Hands-on 175 of 205 topic minutes · 85%</span>
+      </div>
+      <div class="chips">
+        <span class="tag">Tier B</span><span class="tag">INE M3</span><span class="tag">T 35</span><span class="tag">P 15</span><span class="tag">S 155</span>
+        <span class="tag evs">EVS-02</span><span class="tag evs">EVS-04</span><span class="tag evs">EVS-07</span>
+        <span class="status planned">Brief · teaching page Phase 4</span>
+      </div>
+    </a>
+    <a class="card" href="session-05/brief.html">
+      <div class="card-top"><span class="snum">S05</span><h3>Windows Forensics — Registry, User Activity &amp; Execution</h3></div>
+      <p>Hives, USB history, shellbags, prefetch, amcache, LNK and jumplists, recycle bin and Volume Shadow Copies.</p>
+      <div class="hands">
+        <div class="hands-track"><span class="hands-fill" style="width:90%"></span></div>
+        <span class="hands-label">Hands-on 185 of 205 topic minutes · 90%</span>
+      </div>
+      <div class="chips">
+        <span class="tag">Tier B</span><span class="tag">INE M4</span><span class="tag">F 155</span><span class="tag">T 35</span><span class="tag">P 15</span>
+        <span class="tag evs">EVS-02</span><span class="tag evs">EVS-04</span>
+        <span class="status planned">Brief · teaching page Phase 4</span>
+      </div>
+    </a>
+    <a class="card" href="session-06/brief.html">
+      <div class="card-top"><span class="snum">S06</span><h3>Network Forensics, Timelines, Reporting &amp; Capstone</h3></div>
+      <p>Wireshark and <code>tcpdump</code>, network file carving, plaso super-timelines, and the full written capstone report.</p>
+      <div class="hands">
+        <div class="hands-track"><span class="hands-fill" style="width:86%"></span></div>
+        <span class="hands-label">Hands-on 177 of 205 topic minutes · 86%</span>
+      </div>
+      <div class="chips">
+        <span class="tag">Tier A</span><span class="tag">INE M4 + M5</span><span class="tag">F 42</span><span class="tag">T 148</span><span class="tag">P 15</span>
+        <span class="tag evs">EVS-02</span><span class="tag evs">EVS-03</span><span class="tag evs">EVS-08</span>
+        <span class="status planned">Brief · teaching page Phase 4</span>
+      </div>
+    </a>
+    <article class="card">
+      <div class="card-top"><span class="snum">&#9733;</span><h3>Milestone review — Sessions 1&ndash;3</h3></div>
+      <p>A checkpoint before the two catalogue sessions: integrity, acquisition and file examination, scored so you know which session to revise.</p>
+      <div class="chips">
+        <span class="tag">Checkpoint</span><span class="tag">Self-scoring</span>
+        <span class="status planned">Planned</span>
+      </div>
+    </article>
+  </div>
+</main>
+
+<section class="wrap section-sm" id="lab">
+  <h2 class="sec">The forensic lab</h2>
+  <p class="sec-desc">Three local VMs on VMware Workstation. No cloud, no SIEM, nothing leaves the host —
+     evidence is handled on machines that cannot reach a network.</p>
+  <div class="tiles">
+    <a class="tile" href="lab/index.html"><span class="ico">&#128421;</span><h4>Topology &amp; machines</h4><p>The three VMs, their specs, and the job each one does.</p></a>
+    <a class="tile" href="lab/index.html#before"><span class="ico">&#9989;</span><h4>Before your first session</h4><p>Disk space, the imported workstation, and the evidence you verify at home.</p></a>
+    <a class="tile" href="lab/index.html#snapshots"><span class="ico">&#128247;</span><h4>Snapshot policy</h4><p>One snapshot per session, and the one you never delete.</p></a>
+    <span class="tile"><span class="ico">&#9881;</span><h4>Setup guide</h4><p>The full build, step by step with verification. Arrives in Phase 3.</p></span>
+  </div>
+</section>
+
+<section class="wrap section-sm" id="evidence">
+  <h2 class="sec">Evidence and the report</h2>
+  <p class="sec-desc">Two things run through all six sessions unchanged: how evidence is handled, and how
+     the report is graded.</p>
+  <div class="tiles">
+    <a class="tile" href="resources/evidence.html"><span class="ico">&#128274;</span><h4>Evidence &amp; integrity</h4><p>The policy, the nine sets, and the hash you verify before class.</p></a>
+    <a class="tile" href="resources/report.html"><span class="ico">&#128221;</span><h4>The report and its rubric</h4><p>Four criteria, identical in all six sessions. Criterion 4 is the course.</p></a>
+    <a class="tile" href="cases/index.html"><span class="ico">&#128269;</span><h4>Case files</h4><p>The six investigations and the incident that runs through them.</p></a>
+  </div>
+</section>
+
+<section class="wrap section-sm" id="records">
+  <h2 class="sec">Case records &mdash; chain of custody</h2>
+  <p class="sec-desc">One unbroken Chain-of-Custody record per case, maintained across the whole course. Each
+     session's record carries every earlier session forward and adds its own, then exports to a clean,
+     court-ready document you submit. Structure follows <strong>SWGDE 18-Q-002</strong> (report content),
+     <strong>SWGDE 18-F-002</strong> (evidence collection and custody) and <strong>ISO/IEC 27037</strong>
+     (identification, collection, acquisition, preservation).</p>
+  <div class="tiles">
+    <a class="tile" href="session-01/record.html"><span class="ico">&#128279;</span><h4>S01 &middot; Integrity &amp; custody</h4><p>Authorization gate, integrity verification against the signed manifest, working-copy discipline, the custody entry.</p></a>
+    <a class="tile" href="session-02/record.html"><span class="ico">&#128190;</span><h4>S02 &middot; Acquisition</h4><p>Scene and device documentation, order of volatility, write blocker engaged, imaging and the verification hash.</p></a>
+    <a class="tile" href="session-03/record.html"><span class="ico">&#128196;</span><h4>S03 &middot; File examination</h4><p>Working copy verified, signature versus extension, metadata and embedded content.</p></a>
+    <a class="tile" href="session-04/record.html"><span class="ico">&#128189;</span><h4>S04 &middot; File systems</h4><p>Partition structure recovered and proven, <code>$MFT</code> parsed, carving and what carving cannot show.</p></a>
+    <a class="tile" href="session-05/record.html"><span class="ico">&#128187;</span><h4>S05 &middot; Windows artifacts</h4><p>Registry hives extracted from the image, USB and removable-media history, execution evidence.</p></a>
+    <a class="tile" href="session-06/record.html"><span class="ico">&#128225;</span><h4>S06 &middot; Network &amp; capstone</h4><p>Packet capture examined, super-timeline built, findings separated from interpretation, final disposition.</p></a>
+  </div>
+</section>
+
+<section class="wrap section-sm" id="resources">
+  <h2 class="sec">Resources</h2>
+  <p class="sec-desc">Reference material supporting every session. Items appear here as they are built —
+     a card is a link only when its page exists.</p>
+  <div class="tiles">
+    <a class="tile" href="roadmap.html"><span class="ico">&#128506;</span><h4>Course roadmap</h4><p>Every topic, its minutes, its prerequisites and the session it belongs to.</p></a>
+    <a class="tile" href="resources/references.html"><span class="ico">&#128279;</span><h4>References</h4><p>INE module mapping, the exam domains, evidence corpora and tool notes.</p></a>
+    <span class="tile"><span class="ico">&#129514;</span><h4>Practice labs</h4><p>External rooms and challenges per session. Planned.</p></span>
+    <span class="tile"><span class="ico">&#128203;</span><h4>Cheat sheets</h4><p>One card per session, printable. Published with each session.</p></span>
+    <span class="tile"><span class="ico">&#128218;</span><h4>Glossary</h4><p>Every term, with what it proves beside it. Planned.</p></span>
+    <span class="tile"><span class="ico">&#9733;</span><h4>Milestone review</h4><p>The Sessions 1&ndash;3 checkpoint. Planned.</p></span>
+  </div>
+</section>
+
+<section class="wrap section-sm" id="about">
+  <h2 class="sec">About this course</h2>
+  <div class="grid">
+    <article class="card">
+      <h3>Who it is for</h3>
+      <p>Analysts who have finished SOC Analyst, CEH or eCIR and now have to answer the question those
+         courses stop at: <em>what actually happened on this machine, and how do you know?</em>
+         Windows, networking and command-line fundamentals are assumed, never re-taught.</p>
+    </article>
+    <article class="card">
+      <h3>How it works</h3>
+      <p>Every session is the same shape: 130 minutes of theory going straight into your own keyboard,
+         60 minutes of blocked independent investigation, and 15 minutes of hash-verify and
+         chain-of-custody close. You work alone at the keyboard; you pair only to peer-review a report.</p>
+    </article>
+    <article class="card">
+      <h3>What you leave with</h3>
+      <p>A verified acquisition you made yourself, six graded reports against one unchanging rubric,
+         a capstone investigation across disk, memory and network — and the habit of saying
+         <em>this artifact cannot prove that</em> out loud.</p>
+    </article>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>ITGate Academy · eCDFP Diploma · Your gate to the world</span>
+    <span class="mono">Primary reference: INE eCDFP · 6 sessions · 24 hours</span>
+  </div>
+</footer>
+
+</body>
+</html>

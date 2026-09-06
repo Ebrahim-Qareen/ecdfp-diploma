@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evidence &amp; integrity &middot; eCDFP &middot; ITGate Academy</title>
+<meta name="description" content="The eCDFP evidence policy, the nine evidence sets, the sourcing tiers and the hash verification every student performs before class.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text">
+        <span class="hb-name">ITGate Academy</span>
+        <span class="hb-sub">eCDFP &middot; Evidence</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="../index.html#sessions">Sessions</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html" class="active">Evidence</a>
+      <a href="../index.html#resources">Resources</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <div class="eyebrow">Manifests, hashes and logs &middot; never bytes</div>
+    <h1>Evidence &amp; <span>integrity</span></h1>
+    <p class="lede">How evidence is sourced, published, distributed and verified. This is the one part of the course that never changes between sessions, because everything else depends on it.</p>
+    <div class="stats">
+      <div class="stat"><b>9</b><span>Evidence sets</span></div>
+      <div class="stat"><b>3</b><span>Sourcing tiers</span></div>
+      <div class="stat"><b>2</b><span>Hashes per set</span></div>
+      <div class="stat"><b>15 min</b><span>Close, every session</span></div>
+      <div class="stat"><b>0</b><span>Bytes published</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap section hub-main">
+
+  <div class="caveat">
+    <span class="cl-label">Publishing policy</span>
+    <p>This site publishes <strong>manifests, hashes and acquisition logs — never evidence bytes</strong>.
+       Images are distributed offline. Every set states its sourcing tier, its provenance and its licence,
+       and public corpora are <strong>linked, never rehosted</strong>.</p>
+  </div>
+
+  <h2 class="sec">Before every session</h2>
+  <p class="sec-desc">Evidence for session <em>N</em> is published by the end of session <em>N&minus;1</em>,
+     always with both hashes.</p>
+  <ol>
+    <li>Download the set for the coming session.</li>
+    <li>Compute <strong>MD5 and SHA-256</strong> and compare both against the published manifest.</li>
+    <li>Record the result in your chain-of-custody form <em>before</em> you open anything.</li>
+  </ol>
+  <div class="finding">
+    <span class="cl-label">If a hash does not match</span>
+    <p>That is a finding. Bring it to the session and report it — do not re-download quietly and do not
+       work on it. The instructor keeps a fallback USB set for exactly this case.</p>
+  </div>
+  <div class="limitation">
+    <span class="cl-label">What a matching hash proves</span>
+    <p>That the bytes you hold are the bytes that were hashed. It does not prove where they came from,
+       who made them, or that they were acquired correctly — that is what the chain of custody and the
+       acquisition log are for.</p>
+  </div>
+
+  <h2 class="sec" style="margin-top:30px">The sets</h2>
+  <p class="sec-desc">Provisional identifiers from the roadmap. <code>design/evidence_sets.md</code> owns
+     the final IDs, licences, sizes and hashes, and is the only place a set may be marked verified —
+     which happens in Phase 3, before the session that needs it is built.</p>
+  <div class="table-wrap">
+  <table>
+    <colgroup><col style="width:8%"><col style="width:36%"><col style="width:14%"><col style="width:12%"><col style="width:10%"><col style="width:10%"><col style="width:10%"></colgroup>
+    <thead><tr><th>Set</th><th>What it is</th><th>Tier</th><th>Sessions</th><th>MD5</th><th>SHA-256</th><th>Verified</th></tr></thead>
+    <tbody>
+    <tr><td><code>EVS-01</code></td><td>Integrity starter set — 4 files + signed manifest, one tampered</td><td>3 · synthesized</td><td>S1</td><td><span class="tag">unverified</span></td><td><span class="tag">unverified</span></td><td><span class="tag">Phase 3</span></td></tr>
+    <tr><td><code>EVS-02</code></td><td><strong>EVI-SRC01 disk image (E01)</strong> — the carry-through incident</td><td>1 · own lab</td><td>S2 · S3 · S4 · S5 · S6</td><td><span class="tag">unverified</span></td><td><span class="tag">unverified</span></td><td><span class="tag">Phase 3</span></td></tr>
+    <tr><td><code>EVS-03</code></td><td>EVI-SRC01 memory dump</td><td>1 · own lab</td><td>S2 · S6</td><td><span class="tag">unverified</span></td><td><span class="tag">unverified</span></td><td><span class="tag">Phase 3</span></td></tr>
+    <tr><td><code>EVS-04</code></td><td>Suspect USB image — the exfiltration medium</td><td>1 · own lab</td><td>S2 · S4 · S5</td><td><span class="tag">unverified</span></td><td><span class="tag">unverified</span></td><td><span class="tag">Phase 3</span></td></tr>
+    <tr><td><code>EVS-05</code></td><td>File-type identification set — 12 renamed / corrupted files</td><td>3 · synthesized</td><td>S3</td><td><span class="tag">unverified</span></td><td><span class="tag">unverified</span></td><td><span class="tag">Phase 3</span></td></tr>
+    <tr><td><code>EVS-06</code></td><td>The malicious document, extracted from EVS-02</td><td>1 · own lab</td><td>S3</td><td><span class="tag">unverified</span></td><td><span class="tag">unverified</span></td><td><span class="tag">Phase 3</span></td></tr>
+    <tr><td><code>EVS-07</code></td><td>Wiped-partition-table image</td><td>1 · own lab</td><td>S4</td><td><span class="tag">unverified</span></td><td><span class="tag">unverified</span></td><td><span class="tag">Phase 3</span></td></tr>
+    <tr><td><code>EVS-08</code></td><td>C2 beacon + RDP session pcap</td><td>3 · scapy, fixed seed</td><td>S6</td><td><span class="tag">unverified</span></td><td><span class="tag">unverified</span></td><td><span class="tag">Phase 3</span></td></tr>
+    <tr><td><code>EVS-09</code></td><td>KAPE triage collection from EVI-SRC01</td><td>1 · own lab</td><td>S2</td><td><span class="tag">unverified</span></td><td><span class="tag">unverified</span></td><td><span class="tag">Phase 3</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+  <h2 class="sec" style="margin-top:30px">Sourcing tiers</h2>
+  <div class="table-wrap">
+  <table>
+    <colgroup><col style="width:11%"><col style="width:30%"><col style="width:59%"></colgroup>
+    <thead><tr><th>Tier</th><th>Meaning</th><th>Rule</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Tier 1</strong></td><td>Acquired in our own lab from machines we built</td><td>Full provenance. Published as manifest + hashes + acquisition log.</td></tr>
+    <tr><td><strong>Tier 2</strong></td><td>Public forensic corpora with a clear licence</td><td>Linked, never rehosted. Students download from the source and verify against its published hash.</td></tr>
+    <tr><td><strong>Tier 3</strong></td><td>Synthesized for a specific teaching point</td><td>Generation method recorded so the set can be rebuilt identically.</td></tr>
+    </tbody>
+  </table>
+</div>
+  <p class="sec-desc">Disk images, memory dumps, event logs and registry hives are Tier 1 or Tier 2 only.
+     Nothing that a student is asked to treat as evidence is invented.</p>
+
+  <h2 class="sec" style="margin-top:30px">Chain of custody</h2>
+  <div class="coc">
+    <span class="cl-label">Six fields, every transfer</span>
+    <p><strong>Who</strong> handled it &middot; <strong>what</strong> it is &middot;
+       <strong>when</strong> &middot; <strong>from where</strong> &middot;
+       <strong>hash</strong> at the moment of transfer &middot; <strong>where stored</strong> afterwards.</p>
+  </div>
+  <p class="sec-desc">The same form is used in all six sessions and the last 15 minutes of every session
+     are spent completing it. It is not paperwork practice — an unbroken chain is what makes the rest of
+     your work usable.</p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>ITGate Academy · eCDFP Diploma · Your gate to the world</span>
+    <span class="mono">Primary reference: INE eCDFP · 6 sessions · 24 hours</span>
+  </div>
+</footer>
+
+</body>
+</html>
