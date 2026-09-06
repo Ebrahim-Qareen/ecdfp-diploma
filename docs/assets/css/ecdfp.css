@@ -1143,3 +1143,72 @@ section.rec-group.current > .rec-group-head {
 .side-cta a { font-weight: 650; font-size: .9rem; }
 .side-cta p { margin: 6px 0 0; font-size: .78rem; color: var(--text-secondary); line-height: 1.45; }
 @media print { .side-cta { display: none !important; } }
+
+/* ============================================================================
+   19 -- CONSISTENCY PASS, 2026-09-06
+   Four things the render gate could not see, because none of them is an
+   overflow, a console error or a broken link. Every one was found by looking
+   at the page at 1720 -- the width the course is actually taught at.
+   ========================================================================= */
+
+/* ---- 19.1 the sidebar may never be taller than the space it has ----------
+   .sidebar is `position: sticky; top: 62px`, but BEFORE the page is scrolled
+   it sits at its flow position: 78px (page-layout padding 16 + topbar 62).
+   `max-height: calc(100vh - 76px)` therefore put its bottom edge 2px BELOW
+   the fold -- and .side-cta is sticky to exactly that edge, so the CTA's
+   second line and its bottom border were clipped and could never be scrolled
+   into view. Size it from the larger of the two offsets, not the smaller.
+
+   Scoped to >=900px ON PURPOSE: at 899px and below the sidebar becomes a
+   static block (media query in section 15) and must have NO height cap. An
+   unscoped rule here sits later in the file at equal specificity and would
+   silently win, re-clipping the list on every phone.                       */
+@media (min-width: 900px) {
+  .sidebar { max-height: calc(100vh - 96px); }
+
+  /* the CTA is the sidebar's footer, so it spans the padding box and carries
+     a hairline -- a floating card mid-list read as a rendering fault.       */
+  .side-cta {
+    margin: 14px -14px -16px; padding: 12px 14px 14px;
+    border: 0; border-top: 1px solid var(--border); border-radius: 0;
+    background: var(--bg-secondary);
+    box-shadow: 0 -14px 16px -10px var(--bg-secondary);
+  }
+  /* keep the link tight, and never orphan the arrow onto its own line */
+  .side-cta a { display: inline-block; font-size: .86rem; line-height: 1.35; text-wrap: balance; }
+  /* the last list item must be able to clear the sticky footer */
+  .page-list { padding-bottom: 6px; }
+}
+
+/* ---- 19.2 figures in the session layer get the panel tables already have -
+   design_system.md 9.4: "Figures get the same panel as tables." The hub
+   layer had it (.hub-main .svg-wrap); the session layer did not, so all 26
+   figures across S1 and S2 floated frameless against the page ground.      */
+.page .svg-wrap {
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--bg-card); box-shadow: var(--lift);
+  padding: clamp(12px, 1.4vw, 20px);
+}
+.page .svg-wrap svg { display: block; width: 100%; height: auto; }
+
+/* ---- 19.3 one radius and one depth token for every panel -----------------
+   Session tables used --r (8px) and a hand-rolled shadow; hub tables used
+   12px and --lift. Two panel shapes on one site is the kind of thing you
+   only see when the two are open side by side.                             */
+.page .table-wrap { border-radius: 12px; box-shadow: var(--lift); }
+.page thead tr:first-child th:first-child { border-top-left-radius: 11px; }
+.page thead tr:first-child th:last-child  { border-top-right-radius: 11px; }
+
+/* ---- 19.4 prose is capped in the session layer too -----------------------
+   .hub-main caps prose at 96ch and callouts at 110ch. The session column is
+   1336px at 1720, so an uncapped paragraph ran ~150 characters -- past the
+   point where the eye reliably finds the next line.                        */
+.page > p, .page > ul, .page > ol, .page > .lede { max-width: 96ch; }
+.page .finding, .page .interpretation, .page .limitation,
+.page .caveat, .page .lab-box, .page .coc, .page .key-takeaway { max-width: 110ch; }
+
+/* the cap is a reading measure, never a layout cap: anything that carries a
+   figure, a table, a question or a grid still uses the full column.        */
+.page > .table-wrap, .page > .svg-wrap, .page > .q, .page > .vs,
+.page > .split, .page > .steps, .page > .facts, .page > .artifact,
+.page > .cheat, .page > figure { max-width: none; }
