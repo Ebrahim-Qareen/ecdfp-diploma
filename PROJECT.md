@@ -305,7 +305,7 @@ update the §7 status table + `DECISIONS.md`.
 | Folder tree (Phase 0–1 subset) | ☑ 2026-08-28 |
 | `PROJECT.md` · `DECISIONS.md` · `.gitignore` | ☑ 2026-08-28 |
 | `git init` + `gc.auto=0` + `maintenance.auto=false` | ☑ 2026-08-28 · branch `main` |
-| GitHub repo `ecdfp-diploma`, Pages = `main` / `/docs`, `.nojekyll` committed | ◪ 2026-09-06 · **first commit `59ba164` on `main`** — 167 files, 5.0 MB, `.nojekyll` included · remote and Pages still to be created (push via GitHub Desktop) |
+| GitHub repo `ecdfp-diploma`, Pages = `main` / `/docs`, `.nojekyll` committed | ☑ 2026-09-06 · **LIVE at https://ebrahim-qareen.github.io/ecdfp-diploma/** · public (D22) · `Ebrahim-Qareen/ecdfp-diploma` · first commit `59ba164`, 167 files / 5.0 MB · Pages = `main` / `/docs` · all 53 published files verified reachable |
 | The 8 `ecdfp-` skills (D4 + D33) | ◪ 2026-08-28 · all 8 delivered as .skill files; **7 saved and enabled** — `ecdfp-case` still to save. Verify with `ListSkills` keyword `ecdfp`, never from this row. |
 | `design/scope_decisions.md` (Part 12 interview) | ☑ 2026-08-28 |
 | `design/coverage_matrix.md` | ☑ 2026-08-28 |
@@ -337,3 +337,4 @@ update the §7 status table + `DECISIONS.md`.
 | 2026-08-29 | Roadmap audit — `scope_decisions.md` §7 gap register (20 rows), D50, and the register rendered on `roadmap.html#open`, all six briefs and `references.html`. **No minutes moved.** | `59ba164` |
 | 2026-09-04 | Chain-of-Custody records — `scripts/gen_session_record.py`, `docs/assets/js/record.js`, `ecdfp.css` §18, 6 × `docs/session-NN/record.html`, the `#records` hub section, a **Deliverable** section in all six briefs, and the pinned sidebar CTA on the S1 teaching page. D55. | `59ba164` |
 | 2026-09-06 | **Repository review and first commit.** Release gate re-run tree-wide (155 files / 47,297 lines — no credentials, no evidence bytes, 226 PII candidates all false positives). Four broken `session-NN/index.html` links in the S3–S6 records repointed to the brief per D48 and `gen_session_record.py` taught to choose the target; quiz answer keys split into gitignored `quiz_answer_key.md`; `.gitignore` rewritten with anchored top-level paths, the 78 GB VM/ISO set and working scratch excluded. Stale `.git/index.lock` from 2026-08-28 removed — it is why the repo had zero commits. | `59ba164` |
+| 2026-09-06 | **Repository created and site published.** `Ebrahim-Qareen/ecdfp-diploma` published public from GitHub Desktop, Pages enabled on `main` / `/docs`, and the live site checked page by page — home, roadmap, all six briefs and records, both teaching pages, lab, cases and all three `resources/` pages render with CSS, logo and JS intact. | `31a01c7` |
