@@ -305,7 +305,7 @@ update the §7 status table + `DECISIONS.md`.
 | Folder tree (Phase 0–1 subset) | ☑ 2026-08-28 |
 | `PROJECT.md` · `DECISIONS.md` · `.gitignore` | ☑ 2026-08-28 |
 | `git init` + `gc.auto=0` + `maintenance.auto=false` | ☑ 2026-08-28 · branch `main` |
-| GitHub repo `ecdfp-diploma`, Pages = `main` / `/docs`, `.nojekyll` committed | ☐ |
+| GitHub repo `ecdfp-diploma`, Pages = `main` / `/docs`, `.nojekyll` committed | ◪ 2026-09-06 · **first commit `59ba164` on `main`** — 167 files, 5.0 MB, `.nojekyll` included · remote and Pages still to be created (push via GitHub Desktop) |
 | The 8 `ecdfp-` skills (D4 + D33) | ◪ 2026-08-28 · all 8 delivered as .skill files; **7 saved and enabled** — `ecdfp-case` still to save. Verify with `ListSkills` keyword `ecdfp`, never from this row. |
 | `design/scope_decisions.md` (Part 12 interview) | ☑ 2026-08-28 |
 | `design/coverage_matrix.md` | ☑ 2026-08-28 |
@@ -329,10 +329,11 @@ update the §7 status table + `DECISIONS.md`.
 
 | Date | What shipped | Commit |
 |---|---|---|
-| 2026-08-28 | Phase 0 — tree, `PROJECT.md`, `DECISIONS.md` (D1–D14), `.gitignore`, `tools\scaffold.ps1` | pending |
-| 2026-08-28 | Phase 1 part A — `design/scope_decisions.md`, `DECISIONS.md` D15–D22 (Part 12 interview) | pending |
-| 2026-08-28 | Phase 1 part B — `design/coverage_matrix.md`, `design/topic_map.md`, `DECISIONS.md` D23–D26 | pending |
-| 2026-08-28 | Phase 1 part C — `design_system.md`, `ecdfp.css`, 4 JS files, `base_template.html`, `docs/index.html`, `testing/` gate, 2 scan scripts, D27–D32. **Part 9 gate passed.** | pending |
-| 2026-08-29 | Platform (hub layer) — `docs/index.html` rebuilt, `roadmap.html`, 6 × `session-NN/brief.html`, `lab/`, `cases/`, `resources/{evidence,report,references}.html`, `ecdfp.css` §14, `itgate-logo.jpg`, `design_system.md` §9, D45–D49 | pending |
-| 2026-08-29 | Roadmap audit — `scope_decisions.md` §7 gap register (20 rows), D50, and the register rendered on `roadmap.html#open`, all six briefs and `references.html`. **No minutes moved.** | pending |
-| 2026-09-04 | Chain-of-Custody records — `scripts/gen_session_record.py`, `docs/assets/js/record.js`, `ecdfp.css` §18, 6 × `docs/session-NN/record.html`, the `#records` hub section, a **Deliverable** section in all six briefs, and the pinned sidebar CTA on the S1 teaching page. D55. | pending |
+| 2026-08-28 | Phase 0 — tree, `PROJECT.md`, `DECISIONS.md` (D1–D14), `.gitignore`, `tools\scaffold.ps1` | `59ba164` |
+| 2026-08-28 | Phase 1 part A — `design/scope_decisions.md`, `DECISIONS.md` D15–D22 (Part 12 interview) | `59ba164` |
+| 2026-08-28 | Phase 1 part B — `design/coverage_matrix.md`, `design/topic_map.md`, `DECISIONS.md` D23–D26 | `59ba164` |
+| 2026-08-28 | Phase 1 part C — `design_system.md`, `ecdfp.css`, 4 JS files, `base_template.html`, `docs/index.html`, `testing/` gate, 2 scan scripts, D27–D32. **Part 9 gate passed.** | `59ba164` |
+| 2026-08-29 | Platform (hub layer) — `docs/index.html` rebuilt, `roadmap.html`, 6 × `session-NN/brief.html`, `lab/`, `cases/`, `resources/{evidence,report,references}.html`, `ecdfp.css` §14, `itgate-logo.jpg`, `design_system.md` §9, D45–D49 | `59ba164` |
+| 2026-08-29 | Roadmap audit — `scope_decisions.md` §7 gap register (20 rows), D50, and the register rendered on `roadmap.html#open`, all six briefs and `references.html`. **No minutes moved.** | `59ba164` |
+| 2026-09-04 | Chain-of-Custody records — `scripts/gen_session_record.py`, `docs/assets/js/record.js`, `ecdfp.css` §18, 6 × `docs/session-NN/record.html`, the `#records` hub section, a **Deliverable** section in all six briefs, and the pinned sidebar CTA on the S1 teaching page. D55. | `59ba164` |
+| 2026-09-06 | **Repository review and first commit.** Release gate re-run tree-wide (155 files / 47,297 lines — no credentials, no evidence bytes, 226 PII candidates all false positives). Four broken `session-NN/index.html` links in the S3–S6 records repointed to the brief per D48 and `gen_session_record.py` taught to choose the target; quiz answer keys split into gitignored `quiz_answer_key.md`; `.gitignore` rewritten with anchored top-level paths, the 78 GB VM/ISO set and working scratch excluded. Stale `.git/index.lock` from 2026-08-28 removed — it is why the repo had zero commits. | `59ba164` |
