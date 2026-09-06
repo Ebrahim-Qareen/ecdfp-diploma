@@ -374,3 +374,31 @@ Unbuilt hubs (`cheatsheets/`, `review/`, `resources/labs.html`, `resources/gloss
    Nothing else glows, pulses or animates.
 5. Never link to a page that does not exist (D30), and never claim a session is published.
 
+---
+
+## 10 — The consistency pass (`ecdfp.css` §19, 2026-09-06)
+
+Both layers share one panel shape and one reading measure. Four rules, each of
+which the Part 9 render gate passed clean — none of them is an overflow, a
+console error or a broken link, so **only looking at the page at 1720 found
+them**.
+
+| # | Rule | Why it exists |
+|---|---|---|
+| **10.1** | `.sidebar` is capped at `calc(100vh - 96px)`, and `.side-cta` is the sidebar's **footer** — full padding-box width, hairline above, opaque | The sidebar is sticky at `top: 62px` but sits at **78px** before the page is scrolled (layout padding 16 + topbar 62). `calc(100vh - 76px)` therefore put its bottom edge 2 px below the fold, and the CTA is sticky to exactly that edge — its second line and bottom border were clipped and **could never be scrolled into view**. Size the sidebar from the larger offset, not the smaller. |
+| **10.2** | `.page .svg-wrap` gets the same panel as `.hub-main .svg-wrap` — 1px border, 12px radius, `--lift`, `--bg-card` | §9.4 already said *"figures get the same panel as tables"*. Only the hub layer had it, so all 26 session figures rendered frameless. |
+| **10.3** | One radius (**12px**) and one depth token (**`--lift`**) for every panel in both layers | Session tables used `--r` (8px) and a hand-rolled shadow. Two panel shapes on one site. |
+| **10.4** | Session prose capped at **96ch**, callouts at **110ch** — tables, figures, questions and grids explicitly exempt | The session column is 1336px at 1720; uncapped paragraphs ran ~150 characters. The cap is a **reading measure, never a layout cap** — that exemption list is the rule. |
+
+**10.1 is scoped to `@media (min-width: 900px)` on purpose.** Below 900px the
+sidebar becomes a static block whose page list renders as a flex chip row and
+must have no height cap. An unscoped rule sits later in the file at equal
+specificity and silently wins, re-clipping the list on every phone. The same
+trap applies to anything added after §15.
+
+**How this was verified, and how to verify a change to it:** serve `docs/` over
+`http://localhost` in the container, then Playwright at **1920 / 1720 / 1400 /
+1100 / 900 / 700 / 480** — 154 page-width combinations — asserting no document
+scroll, no element outside a scroll container, no console errors and one shared
+`.wrap` left edge. Then **screenshot the sidebar scrolled to its end at 1720 and
+look at it.** The numeric gate reported the clipped CTA as passing.
