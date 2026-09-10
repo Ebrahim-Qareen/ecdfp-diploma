@@ -285,18 +285,28 @@ update the §7 status table + `DECISIONS.md`.
 
 ## §7 — Status
 
-**Phase 0 complete: 2026-08-28.** Next: Phase 0 skills, then Phase 1.
+**Course complete: 2026-09-10.** All 14 topic pages built and gated, the worked report example, and the resource pages. Pushed 2026-09-10 (commit hashes in the delivery log).
 
-### Sessions
+### Pages (the unit the site publishes — D136)
 
-| Session | Scope | Package (9 docs) | Page | Case | Evidence | Gate | Published |
-|---|---|---|---|---|---|---|---|
-| S1 Foundations & Chain of Custody | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| S2 Acquisition | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| S3 Data Representation | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| S4 Storage & File Systems | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| S5 Windows Forensics | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| S6 Network, Timelines & Capstone | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Page | Topics | Built · gated | Free lab task | Published |
+|---|---|---|---|---|
+| P01 Foundations and the deliverable | T01–T02 | ☑ | ☑ | ☑ 2026-09-10 |
+| P02 Evidence integrity | T03 | ☑ | ☑ | ☑ 2026-09-10 |
+| P03 Data at byte level | T04–T05 | ☑ | ☑ | ☑ 2026-09-10 |
+| P04 Volatile evidence | T06–T07 | ☑ | ☑ | ☑ 2026-09-10 |
+| P05 Acquisition | T08–T09 | ☑ | ☑ | ☑ 2026-09-10 |
+| P06 Hidden information | T10 | ☑ | ☑ | ☑ 2026-09-10 |
+| P07 Malicious files | T11 | ☑ | ☑ | ☑ 2026-09-10 |
+| P08 The disk | T12–T13 | ☑ | ☑ | ☑ 2026-09-10 |
+| P09 File systems | T14–T15 | ☑ | ☑ | ☑ 2026-09-10 |
+| P10 The registry | T16–T17 | ☑ | ☑ | ☑ 2026-09-10 |
+| P11 What ran, what was touched | T18–T19 | ☑ | ☑ | ☑ 2026-09-10 |
+| P12 Windows event logs | T20 | ☑ | ☑ | ☑ 2026-09-10 |
+| P13 Network evidence | T21–T23 | ☑ | ☑ | ☑ 2026-09-10 |
+| P14 Timelines and the final report | T24–T25 | ☑ | ☑ | ☑ 2026-09-10 |
+
+All 14 pass `density_gate.py` (today's limits) and `render_gate.js` (5 widths); `order_gate.py` PASS. Evidence in hand: EVS-01/05/07/08/09/10/11/12/13/14 (10 sets); EVS-02/03/04/06 pending. The sessions (S1–S6) remain the delivery containers, filled from the pages on the day.
 
 ### Foundations
 
@@ -309,7 +319,7 @@ update the §7 status table + `DECISIONS.md`.
 | The 8 `ecdfp-` skills (D4 + D33) | ◪ 2026-08-28 · all 8 delivered as .skill files; **7 saved and enabled** — `ecdfp-case` still to save. Verify with `ListSkills` keyword `ecdfp`, never from this row. |
 | `design/scope_decisions.md` (Part 12 interview) | ☑ 2026-08-28 |
 | `design/coverage_matrix.md` | ☑ 2026-08-28 |
-| `design/topic_map.md` | ☑ 2026-08-28 · 62 topics · every session 220 min |
+| `design/topic_map.md` | ☑ 2026-08-28 · re-cut to 25 topics on 14 pages (D136) · `order_gate.py` PASS |
 | `design/design_system.md` + `ecdfp.css` + `session.js` + `base_template.html` + `docs/index.html` | ☑ 2026-08-28 |
 | `docs/` platform — hub layer (D45–D49) | ☑ 2026-08-29 · 13 pages · `ecdfp.css` §14 replaced · 946 content checks + 663 render checks clean |
 | `design/scope_decisions.md` §7 — the gap register (D50) | ☑ 2026-08-29 · 20 rows · `decided` 4 · `case` 6 · `source` 10 · published on `roadmap.html#open`, every session brief and `references.html` |
@@ -318,10 +328,12 @@ update the §7 status table + `DECISIONS.md`.
 | `packages/session-01/` — the 9 documents | ☑ 2026-08-30 · 110 KB · time table sums to 205 · stage-direction scan clean |
 | `docs/session-01/index.html` — the teaching page | ☑ 2026-08-30 · 26 pages · 12 inline-SVG figures · 51 data-node/data-detail pairs · render gate PASS at 1400/1100/900/700/480 |
 | `docs/session-NN/record.html` — the Chain-of-Custody records (D55) | ☑ 2026-09-04 · **all 6 sessions** · `scripts/gen_session_record.py` + `assets/js/record.js` + `ecdfp.css` §18 · structure follows **SWGDE 18-Q-002** (report content), **SWGDE 18-F-002** (custody minimum) and **ISO/IEC 27037** (phases) · cumulative, one shared key `ecdfp-case-file`; custody log + disposition are case-level · gate PASS 6 pages × 6 widths force-expanded + carry-forward, cumulative export, clear-scope |
-| `labs/lab_design.md` + `setup_guide.md` | ☐ |
+| `labs/lab_design.md` + `setup_guide.md` | ☑ 2026-09-10 · published as one page, `docs/lab/index.html` — topology diagram, machines, Build FOR-WS01 A/B/C, snapshots, troubleshooting |
 | FOR-WS01 built + `CLEAN-TOOLS` snapshot | ☐ |
 | EVI-SRC01 built + staged compromise + first acquisition | ☐ |
-| `design/evidence_sets.md` populated and hash-verified | ☐ |
+| `design/evidence_sets.md` populated and hash-verified | ☑ 2026-09-09 · EVS-01/05/07–14 built and hash-verified (10 sets) · EVS-02/03/04/06 pending |
+| `docs/report/example.html` — worked 12-section report | ☑ 2026-09-10 · D159 |
+| `docs/resources/labs.html` + `glossary.html` | ☑ 2026-09-10 · every task a free lab with a hand-in · D159 |
 | `tools\precommit_scan.ps1` + `tools\check_links.ps1` | ☑ 2026-08-28 · mutation-tested |
 | `testing/` harness | ☑ 2026-08-28 · 8/8 mutants caught |
 
@@ -339,3 +351,7 @@ update the §7 status table + `DECISIONS.md`.
 | 2026-09-06 | **Repository review and first commit.** Release gate re-run tree-wide (155 files / 47,297 lines — no credentials, no evidence bytes, 226 PII candidates all false positives). Four broken `session-NN/index.html` links in the S3–S6 records repointed to the brief per D48 and `gen_session_record.py` taught to choose the target; quiz answer keys split into gitignored `quiz_answer_key.md`; `.gitignore` rewritten with anchored top-level paths, the 78 GB VM/ISO set and working scratch excluded. Stale `.git/index.lock` from 2026-08-28 removed — it is why the repo had zero commits. | `59ba164` |
 | 2026-09-06 | **Repository created and site published.** `Ebrahim-Qareen/ecdfp-diploma` published public from GitHub Desktop, Pages enabled on `main` / `/docs`, and the live site checked page by page — home, roadmap, all six briefs and records, both teaching pages, lab, cases and all three `resources/` pages render with CSS, logo and JS intact. | `31a01c7` |
 | 2026-09-06 | **Content validation + CSS consistency pass.** Every page re-parsed against `topic_map.md` — all 62 topic ids, titles, dependencies, minutes and domains match, every session totals 205, all 9 `EVS-` rows present and twice-marked `unverified`, zero truly-empty sections, all 105 interactive figure node/detail pairs matched. Then rendered at 7 widths in Playwright and **looked at**: fixed the clipped sidebar CTA, framed the 26 session figures, unified panel radius and depth across both layers, capped session prose at 96ch. `ecdfp.css` §19, `design_system.md` §10. | `0d75bb9` |
+| 2026-09-09 | **All fourteen topic pages built** (P01–P14), EVS-07…14 generated and hash-verified, the six session-NN teaching pages retired. D58–D142. | `cdf8420` |
+| 2026-09-10 | **Review-and-improve pass** — P01–P09 retrofitted to shape-v2, nine cheat sheets, three teaching-order bugs fixed, gates re-run course-wide; report-section numbering unified to the canonical template (D158). D143–D154, D158. | `cdf8420` |
+| 2026-09-10 | **Homepage reorganised** (pages first, dead cards replaced), **lab on one page with a topology diagram**, **worked report example**, **practice labs** and **glossary**. D157, D159. | `67e339f` |
+| 2026-09-10 | Release gate re-run on the committable set (335 files): no credentials, no evidence bytes, no stage directions, 470/470 links resolve; 139 PII candidates all classified false positives (byte counts, RFC 1918 lab addresses, the fictional EVS-08 case). `PROJECT.md` §7 brought current. History rebuilt without `instructor/` before it stood (D161). | (this commit) |
