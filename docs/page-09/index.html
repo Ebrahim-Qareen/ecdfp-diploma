@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>P09 &middot; File systems &middot; eCDFP Diploma</title>
 <meta name="description" content="FAT directory entries and cluster chains, what a delete really changes, the NTFS $MFT with resident data and alternate streams, and carving a volume with no file system — page 9 of the ITGate eCDFP diploma.">
-<link rel="stylesheet" href="../assets/css/ecdfp.css?v=c20323ae">
-<link rel="stylesheet" href="../assets/css/win-ui.css?v=7e607ee5">
+<link rel="stylesheet" href="../assets/css/ecdfp.css?v=f9ac6b6d">
+<link rel="stylesheet" href="../assets/css/win-ui.css?v=3d886664">
 <link rel="stylesheet" href="../assets/css/simscreen.css?v=a7a3cc80">
 <link rel="icon" href="../assets/img/itgate-logo.jpg">
 </head>
@@ -39,33 +39,57 @@
       <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
       <li><a href="#p3"><span class="n">03</span><span>Objectives</span></a></li>
       <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; How FAT keeps track</span></a></li>
-      <li><a href="#p5"><span class="n">05</span><span>The three structures</span></a></li>
-      <li><a href="#p6"><span class="n">06</span><span>What a directory entry holds</span></a></li>
-      <li><a href="#p7"><span class="n">07</span><span>What deleting actually does</span></a></li>
-      <li><a href="#p8"><span class="n">08</span><span>Why recovery gets harder with time</span></a></li>
-      <li class="is-part"><a href="#p9"><span class="n">09</span><span>PART 2 &mdash; How NTFS keeps track</span></a></li>
-      <li><a href="#p10"><span class="n">10</span><span>The $MFT</span></a></li>
-      <li><a href="#p11"><span class="n">11</span><span>FAT and NTFS, side by side</span></a></li>
-      <li><a href="#p12"><span class="n">12</span><span>A file that is two files</span></a></li>
-      <li class="is-part"><a href="#p13"><span class="n">13</span><span>PART 3 &mdash; When there is no file system</span></a></li>
-      <li><a href="#p14"><span class="n">14</span><span>What carving is</span></a></li>
-      <li><a href="#p15"><span class="n">15</span><span>Signatures, and where they end</span></a></li>
-      <li><a href="#p16"><span class="n">16</span><span>What a fragment does to a carve</span></a></li>
-      <li><a href="#p17"><span class="n">17</span><span>Six objects, three outcomes</span></a></li>
-      <li class="is-part"><a href="#p18"><span class="n">18</span><span>INSTRUCTOR DEMO</span></a></li>
-      <li><a href="#p19"><span class="n">19</span><span>Four MFT records</span></a></li>
-      <li class="is-part"><a href="#p20"><span class="n">20</span><span>YOUR TURN &mdash; Case 05</span></a></li>
-      <li><a href="#p21"><span class="n">21</span><span>Case 05 &mdash; the brief</span></a></li>
-      <li><a href="#p22"><span class="n">22</span><span>Carving Case 05</span></a></li>
-      <li><a href="#p23"><span class="n">23</span><span>Exercise &mdash; four carving claims</span></a></li>
-      <li><a href="#p24"><span class="n">24</span><span>Knowledge check</span></a></li>
-      <li class="is-part"><a href="#p25"><span class="n">25</span><span>CHEAT SHEET</span></a></li>
-      <li><a href="#p26"><span class="n">26</span><span>Cheat sheet</span></a></li>
-      <li class="is-part"><a href="#p27"><span class="n">27</span><span>TASK</span></a></li>
-      <li><a href="#p28"><span class="n">28</span><span>Task &mdash; carve, and document it</span></a></li>
-      <li><a href="#p29"><span class="n">29</span><span>Report &mdash; writing up a carve</span></a></li>
-      <li><a href="#p30"><span class="n">30</span><span>Summary</span></a></li>
-      <li><a href="#p31"><span class="n">31</span><span>References and what comes next</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>What is a file system?</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>The three structures</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>The FAT32 volume map</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>What a directory entry holds</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>A file’s chain, before and after</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>What deleting actually does</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>Why recovery gets harder with time</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>Three attacks on FAT32</span></a></li>
+      <li class="is-part"><a href="#p13"><span class="n">13</span><span>PART 2 &mdash; How NTFS keeps track</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>What NTFS adds</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>The NTFS system files</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>The $MFT</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>Inside an MFT record</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>FAT and NTFS, side by side</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>A file that is two files</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>Eight timestamps — MACB, twice</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>The two journals</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>$I30 — what a folder used to contain</span></a></li>
+      <li class="is-part"><a href="#p23"><span class="n">23</span><span>PART 3 &mdash; When there is no file system</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>What carving is</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>Signatures, and where they end</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>What a fragment does to a carve</span></a></li>
+      <li><a href="#p27"><span class="n">27</span><span>Six objects, three outcomes</span></a></li>
+      <li class="is-part"><a href="#p28"><span class="n">28</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p29"><span class="n">29</span><span>Four MFT records</span></a></li>
+      <li><a href="#p30"><span class="n">30</span><span>Lab — collect once, parse three times 1</span></a></li>
+      <li><a href="#p31"><span class="n">31</span><span>Lab — collect once, parse three times 2</span></a></li>
+      <li class="is-part"><a href="#p32"><span class="n">32</span><span>YOUR TURN &mdash; Case 05</span></a></li>
+      <li><a href="#p33"><span class="n">33</span><span>Case 05 &mdash; the brief</span></a></li>
+      <li><a href="#p34"><span class="n">34</span><span>Carving Case 05</span></a></li>
+      <li><a href="#p35"><span class="n">35</span><span>Lab — the same carve with PhotoRec</span></a></li>
+      <li><a href="#p36"><span class="n">36</span><span>Exercise &mdash; four carving claims</span></a></li>
+      <li class="is-part"><a href="#p37"><span class="n">37</span><span>PART 4 &mdash; ext, the Linux file system</span></a></li>
+      <li><a href="#p38"><span class="n">38</span><span>What ext is</span></a></li>
+      <li><a href="#p39"><span class="n">39</span><span>The layout — superblock and block groups</span></a></li>
+      <li><a href="#p40"><span class="n">40</span><span>Reading the superblock — three ways</span></a></li>
+      <li><a href="#p41"><span class="n">41</span><span>Inodes — the record that is not the name</span></a></li>
+      <li><a href="#p42"><span class="n">42</span><span>Five timestamps, and the one you cannot fake</span></a></li>
+      <li><a href="#p43"><span class="n">43</span><span>Deletion on ext</span></a></li>
+      <li><a href="#p44"><span class="n">44</span><span>Lab — build an ext4 volume and read it back</span></a></li>
+      <li><a href="#p45"><span class="n">45</span><span>Knowledge check 1</span></a></li>
+      <li><a href="#p46"><span class="n">46</span><span>Knowledge check 2</span></a></li>
+      <li class="is-part"><a href="#p47"><span class="n">47</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p48"><span class="n">48</span><span>Cheat sheet 1 — FAT</span></a></li>
+      <li><a href="#p49"><span class="n">49</span><span>Cheat sheet 2 — NTFS and carving</span></a></li>
+      <li><a href="#p50"><span class="n">50</span><span>Cheat sheet 3 — ext</span></a></li>
+      <li class="is-part"><a href="#p51"><span class="n">51</span><span>TASK</span></a></li>
+      <li><a href="#p52"><span class="n">52</span><span>Task &mdash; carve, and document it</span></a></li>
+      <li><a href="#p53"><span class="n">53</span><span>Report &mdash; writing up a carve</span></a></li>
+      <li><a href="#p54"><span class="n">54</span><span>Summary</span></a></li>
+      <li><a href="#p55"><span class="n">55</span><span>References and what comes next</span></a></li>
     </ol>
   </nav>
 
@@ -168,6 +192,59 @@
     </section>
 
 <section class="page" id="p5">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>What is a file system?
+  <span class="ar">ما هو نظام الملفات؟</span></h2>
+<p>A disk is sectors; a file system is the <b>bookkeeping that turns sectors into files</b>: which name goes with which clusters, in what order, with what dates. Think of a library &mdash; the books are the data, the catalogue is the file system, and a book with no catalogue card is still on the shelf.
+  <span class="ar">القرص sectors؛ و نظام الملفات هو <b>الدفاتر التي تحوّل الـ sectors إلى ملفات</b>: أي اسم يخص أي clusters، و بأي ترتيب، و بأي تواريخ. تخيّل مكتبة — الكتب هي البيانات، و الفهرس هو نظام الملفات، و الكتاب الذي لا بطاقة له في الفهرس لا يزال على الرف.</span></p>
+<figure class="dgm" id="dg-fscat" data-mode="loop" data-reveal="upto" data-interval="4000">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F0 &middot; THE CATALOGUE AND THE SHELVES</span><span class="dgm-tag">PATTERN 5 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 250" role="img" aria-labelledby="t-fscat">
+  <title id="t-fscat">A table of file names and cluster numbers on the left, pointing at clusters drawn on a disk on the right</title>
+  <g data-step="1">
+    <text class="xs mut" x="14" y="20">THE CATALOGUE &mdash; name &rarr; where</text>
+    <rect class="box key" x="14" y="30" width="330" height="150" rx="6"/>
+    <text class="xs mut" x="28" y="52">#   name          clusters</text>
+    <text class="m sm" x="28" y="76">0   file1.txt     1</text>
+    <text class="m sm" x="28" y="98">1   pic1.jpg      2</text>
+    <text class="m sm" x="28" y="120">2   doc.pdf       3, 4, 5</text>
+    <text class="m sm" x="28" y="142">3   file2.docx    6</text>
+    <text class="m sm" x="28" y="164">4   tool.exe      7, 8</text>
+  </g>
+  <g data-step="2">
+    <text class="xs mut" x="420" y="20">THE SHELVES &mdash; the clusters</text>
+    <rect class="box" x="420" y="30" width="42" height="42" rx="4"/><text class="xs" x="435" y="56">1</text>
+    <rect class="box" x="466" y="30" width="42" height="42" rx="4"/><text class="xs" x="481" y="56">2</text>
+    <rect class="box ok" x="512" y="30" width="42" height="42" rx="4"/><text class="xs" x="527" y="56">3</text>
+    <rect class="box ok" x="558" y="30" width="42" height="42" rx="4"/><text class="xs" x="573" y="56">4</text>
+    <rect class="box ok" x="604" y="30" width="42" height="42" rx="4"/><text class="xs" x="619" y="56">5</text>
+    <rect class="box" x="650" y="30" width="42" height="42" rx="4"/><text class="xs" x="665" y="56">6</text>
+    <rect class="box" x="696" y="30" width="42" height="42" rx="4"/><text class="xs" x="711" y="56">7</text>
+    <rect class="box" x="420" y="76" width="42" height="42" rx="4"/><text class="xs" x="435" y="102">8</text>
+    <rect class="box dash" x="466" y="76" width="42" height="42" rx="4"/><rect class="box dash" x="512" y="76" width="42" height="42" rx="4"/><rect class="box dash" x="558" y="76" width="42" height="42" rx="4"/><rect class="box dash" x="604" y="76" width="42" height="42" rx="4"/><rect class="box dash" x="650" y="76" width="42" height="42" rx="4"/><rect class="box dash" x="696" y="76" width="42" height="42" rx="4"/>
+    <path class="arw ok" d="M346 116 L512 52"/>
+    <text class="xs mut" x="420" y="146">doc.pdf lives in clusters 3, 4 and 5 &mdash; the catalogue says so</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="196" width="724" height="40" rx="6"/>
+    <text class="sm" x="30" y="221" fill="#00ff9d">Delete the catalogue card and the book stays on the shelf. Every recovery technique on this page is that sentence.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="table-wrap"><table style="min-width:600px;table-layout:fixed">
+  <colgroup><col style="width:18%"><col style="width:42%"><col style="width:40%"></colgroup>
+  <thead><tr><th>Family</th><th>Where you meet it</th><th>What it means for you</th></tr></thead>
+  <tbody>
+    <tr><td><b>FAT</b> 12 &middot; 16 &middot; 32 &middot; exFAT</td><td>USB sticks, cameras, the EFI partition, old Windows<span class="ar">ذواكر USB و الكاميرات و partition الـ EFI و ويندوز القديم.</span></td><td>simple, no permissions, no journal &mdash; easy to read, easy to fake<span class="ar">بسيط، بلا صلاحيات و بلا journal — سهل القراءة و سهل التزييف.</span></td></tr>
+    <tr><td><b>NTFS</b></td><td>every Windows system disk<span class="ar">كل قرص نظام في ويندوز.</span></td><td>one table, journals, streams, eight timestamps<span class="ar">جدول واحد، و journals، و streams، و ثمانية توقيتات.</span></td></tr>
+    <tr><td><b>ext</b> 2 &middot; 3 &middot; 4</td><td>Linux &mdash; servers, Android, your Kali VM<span class="ar">لينكس — الخوادم و Android و جهاز Kali الخاص بك.</span></td><td>inodes, block groups, a journal since ext3 &mdash; Part 4<span class="ar">inodes و block groups و journal منذ ext3 — الجزء الرابع.</span></td></tr>
+  </tbody>
+</table></div>
+    </section>
+
+
+<section class="page" id="p6">
 <span class="kicker">T14 &middot; Theory &middot; measured</span>
 <h2>The three structures
   <span class="ar">البنى الثلاث</span></h2>
@@ -229,7 +306,56 @@
 </div>
     </section>
 
-<section class="page" id="p6">
+<section class="page" id="p7">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>The FAT32 volume map &mdash; reserved, FATs, data
+  <span class="ar">خريطة volume الـ FAT32 — المنطقة المحجوزة و الـ FATs و البيانات</span></h2>
+<p>Three regions in a fixed order, and two numbers in the boot sector place all of them. Everything you compute on a FAT volume starts here.
+  <span class="ar">ثلاث مناطق بترتيب ثابت، و رقمان في الـ boot sector يحددان موضعها جميعًا. و كل ما تحسبه على volume من نوع FAT يبدأ من هنا.</span></p>
+<figure class="dgm" id="dg-fatmap" data-mode="loop" data-reveal="upto" data-interval="4000">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F1b &middot; THE THREE REGIONS, TO SCALE</span><span class="dgm-tag">PATTERN 5 &middot; 4</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 230" role="img" aria-labelledby="t-fatmap">
+  <title id="t-fatmap">A FAT32 volume as a horizontal strip: reserved area with boot sector, FSInfo and backup boot sector; FAT1; FAT2; data area beginning with the root directory</title>
+  <g data-step="1">
+    <rect class="box key" x="14" y="40" width="150" height="60" rx="4"/><text class="sm" x="26" y="66" fill="#00d9ff">RESERVED</text><text class="xs mut" x="26" y="86">32 sectors, usually</text>
+    <rect class="box" x="24" y="116" width="34" height="34" rx="3"/><text class="xs mut" x="28" y="138">0</text>
+    <rect class="box" x="62" y="116" width="34" height="34" rx="3"/><text class="xs mut" x="66" y="138">1</text>
+    <rect class="box" x="100" y="116" width="34" height="34" rx="3"/><text class="xs mut" x="104" y="138">6</text>
+    <text class="xs mut" x="14" y="172">0 boot sector &middot; 1 FSInfo &middot; 6 backup boot sector</text>
+  </g>
+  <g data-step="2">
+    <rect class="box warn" x="172" y="40" width="120" height="60" rx="4"/><text class="sm" x="184" y="66" fill="#ffb454">FAT 1</text><text class="xs mut" x="184" y="86">the chain</text>
+    <rect class="box warn" x="300" y="40" width="120" height="60" rx="4"/><text class="sm" x="312" y="66" fill="#ffb454">FAT 2</text><text class="xs mut" x="312" y="86">a copy of FAT 1</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="428" y="40" width="338" height="60" rx="4"/><text class="sm" x="440" y="66" fill="#00ff9d">DATA AREA</text><text class="xs mut" x="440" y="86">cluster 2 = the root directory, then everything else</text>
+  </g>
+  <g data-step="4">
+    <text class="xs" x="172" y="200" fill="#ffb454">FAT1 offset = reserved sectors &times; 512</text>
+    <text class="xs" x="172" y="220" fill="#ffb454">FAT2 offset = (reserved + sectors per FAT) &times; 512</text>
+    <text class="xs" x="470" y="200" fill="#00ff9d">data = (reserved + FATs &times; sectors per FAT) &times; 512</text>
+    <text class="xs" x="470" y="220" fill="#00ff9d">cluster N is at data + (N &minus; 2) &times; cluster size</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="table-wrap"><table class="byte-tbl" style="min-width:640px;table-layout:fixed">
+  <colgroup><col style="width:16%"><col style="width:40%"><col style="width:44%"></colgroup>
+  <thead><tr><th>Boot sector</th><th>Field</th><th>Why you read it</th></tr></thead>
+  <tbody>
+    <tr><td>0x0B&ndash;0x0C</td><td>bytes per sector<span class="ar">الـ bytes لكل sector</span></td><td>512, almost always<span class="ar">512 في الغالب الأعم.</span></td></tr>
+    <tr><td>0x0D</td><td>sectors per cluster<span class="ar">الـ sectors لكل cluster</span></td><td>the cluster size, and so the slack (P08)<span class="ar">حجم الـ cluster، و منه الـ slack (P08).</span></td></tr>
+    <tr><td>0x0E&ndash;0x0F</td><td>reserved sectors<span class="ar">الـ sectors المحجوزة</span></td><td><b>where FAT1 starts</b><span class="ar"><b>حيث يبدأ FAT1</b>.</span></td></tr>
+    <tr><td>0x10</td><td>number of FATs<span class="ar">عدد الـ FATs</span></td><td>2 &mdash; and FAT2 is your cross-check<span class="ar">2 — و FAT2 هو مرجع التحقق.</span></td></tr>
+    <tr><td>0x24&ndash;0x27</td><td>sectors per FAT<span class="ar">الـ sectors لكل FAT</span></td><td><b>where FAT2 and the data start</b><span class="ar"><b>حيث يبدأ FAT2 و البيانات</b>.</span></td></tr>
+    <tr><td>0x2C&ndash;0x2F</td><td>root directory cluster<span class="ar">cluster الـ root directory</span></td><td>usually 2<span class="ar">غالبًا 2.</span></td></tr>
+    <tr><td>0x32&ndash;0x33</td><td>backup boot sector<span class="ar">الـ boot sector الاحتياطي</span></td><td>usually 6 &mdash; the Case 04 discriminator<span class="ar">غالبًا 6 — الفاصل في القضية ٠٤.</span></td></tr>
+  </tbody>
+</table></div>
+    </section>
+
+
+<section class="page" id="p8">
 <span class="kicker">T14 &middot; Theory</span>
 <h2>What a directory entry holds
   <span class="ar">ما يحمله الـ directory entry</span></h2>
@@ -241,7 +367,10 @@
     <tr><td>0</td><td>8</td><td>name, padded with spaces<span class="ar">الاسم، مكمّلاً بمسافات</span></td></tr>
     <tr><td>8</td><td>3</td><td>extension<span class="ar">الامتداد</span></td></tr>
     <tr><td>11</td><td>1</td><td>attributes &mdash; read-only, hidden, system, volume label, directory<span class="ar">الخصائص — للقراءة فقط، مخفي، نظام، volume label، مجلد</span></td></tr>
+    <tr><td>13&ndash;17</td><td>5</td><td>creation time and date &mdash; 2-second resolution, plus tenths<span class="ar">وقت و تاريخ الإنشاء — بدقة ثانيتين، مع أعشار الثانية</span></td></tr>
+    <tr><td>18</td><td>2</td><td>last access &mdash; <b>a date only</b>, no time<span class="ar">آخر وصول — <b>تاريخ فقط</b>، بلا وقت</span></td></tr>
     <tr><td>20</td><td>2</td><td>first cluster, <b>high</b> 16 bits (FAT32 only)<span class="ar">أول cluster، الـ <b>16 bit</b> العليا (في FAT32 فقط)</span></td></tr>
+    <tr><td>22</td><td>4</td><td>last write time and date<span class="ar">وقت و تاريخ آخر كتابة</span></td></tr>
     <tr><td>26</td><td>2</td><td>first cluster, <b>low</b> 16 bits<span class="ar">أول cluster، الـ <b>16 bit</b> الدنيا</span></td></tr>
     <tr><td>28</td><td>4</td><td>size in bytes<span class="ar">الحجم بالـ bytes</span></td></tr>
   </tbody>
@@ -252,7 +381,53 @@
 </div>
     </section>
 
-<section class="page" id="p7">
+<section class="page" id="p9">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>A file&rsquo;s chain, before and after deletion
+  <span class="ar">سلسلة ملف، قبل الحذف و بعده</span></h2>
+<p>The directory entry knows only the <b>first</b> cluster. The FAT knows the rest: entry 11 says <i>next is 12</i>, entry 12 says <i>13</i>, entry 13 says <i>end</i>. Delete the file and watch which of those change.
+  <span class="ar">الـ directory entry يعرف الـ cluster <b>الأول</b> فقط. و الـ FAT يعرف الباقي: المدخل 11 يقول <i>التالي 12</i>، و 12 يقول <i>13</i>، و 13 يقول <i>النهاية</i>. احذف الملف و راقب أيها يتغيّر.</span></p>
+<figure class="dgm" id="dg-chain" data-mode="loop" data-reveal="only" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F1c &middot; PIC.JPG, BEFORE AND AFTER</span><span class="dgm-tag">PATTERN 2 &middot; 2</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 250" role="img" aria-labelledby="t-chain">
+  <title id="t-chain">Root directory entry for Pic.jpg pointing at cluster 11, the FAT chain 11 to 12 to 13 to end, and the three data clusters; then the same after deletion</title>
+  <text class="xs mut" x="14" y="20">ROOT DIRECTORY</text><text class="xs mut" x="290" y="20">THE FAT</text><text class="xs mut" x="540" y="20">DATA AREA</text>
+  <g data-step="1">
+    <rect class="box key" x="14" y="30" width="240" height="70" rx="5"/>
+    <text class="m sm" x="26" y="54">name       first cluster</text>
+    <text class="m sm" x="26" y="76" fill="#00d9ff">PIC.JPG    11</text>
+    <text class="m sm" x="26" y="94">TEST       5</text>
+    <rect class="box" x="290" y="30" width="200" height="26" rx="3"/><text class="m sm" x="300" y="48">entry 11 &rarr; 12</text>
+    <rect class="box" x="290" y="62" width="200" height="26" rx="3"/><text class="m sm" x="300" y="80">entry 12 &rarr; 13</text>
+    <rect class="box" x="290" y="94" width="200" height="26" rx="3"/><text class="m sm" x="300" y="112">entry 13 &rarr; 0FFFFFFF end</text>
+    <rect class="box ok" x="540" y="30" width="226" height="26" rx="3"/><text class="xs" x="550" y="48" fill="#00ff9d">cluster 11 &middot; FF D8 FF E0 &hellip;</text>
+    <rect class="box ok" x="540" y="62" width="226" height="26" rx="3"/><text class="xs" x="550" y="80" fill="#00ff9d">cluster 12 &middot; picture content</text>
+    <rect class="box ok" x="540" y="94" width="226" height="26" rx="3"/><text class="xs" x="550" y="112" fill="#00ff9d">cluster 13 &middot; &hellip; FF D9</text>
+    <path class="arw key" d="M256 76 L288 44"/>
+    <text class="xs mut" x="14" y="150">before: one entry, three FAT links, three clusters. The picture opens.</text>
+  </g>
+  <g data-step="2">
+    <rect class="box warn" x="14" y="30" width="240" height="70" rx="5"/>
+    <text class="m sm" x="26" y="54">name       first cluster</text>
+    <text class="m sm" x="26" y="76" fill="#ffb454">E5IC.JPG   11</text>
+    <text class="m sm" x="26" y="94">TEST       5</text>
+    <rect class="box warn" x="290" y="30" width="200" height="26" rx="3"/><text class="m sm" x="300" y="48" fill="#ffb454">entry 11 &rarr; 00000000</text>
+    <rect class="box warn" x="290" y="62" width="200" height="26" rx="3"/><text class="m sm" x="300" y="80" fill="#ffb454">entry 12 &rarr; 00000000</text>
+    <rect class="box warn" x="290" y="94" width="200" height="26" rx="3"/><text class="m sm" x="300" y="112" fill="#ffb454">entry 13 &rarr; 00000000</text>
+    <rect class="box ok" x="540" y="30" width="226" height="26" rx="3"/><text class="xs" x="550" y="48" fill="#00ff9d">cluster 11 &middot; FF D8 FF E0 &hellip;</text>
+    <rect class="box ok" x="540" y="62" width="226" height="26" rx="3"/><text class="xs" x="550" y="80" fill="#00ff9d">cluster 12 &middot; picture content</text>
+    <rect class="box ok" x="540" y="94" width="226" height="26" rx="3"/><text class="xs" x="550" y="112" fill="#00ff9d">cluster 13 &middot; &hellip; FF D9</text>
+    <text class="xs" x="14" y="150" fill="#ffb454">after: byte 0 of the name is E5, the three FAT entries are zero. First cluster and size survive in the entry.</text>
+    <text class="xs" x="14" y="170" fill="#00ff9d">the three clusters are untouched. Follow 11 for the size in the entry, and the picture is back.</text>
+    <text class="xs mut" x="14" y="200">Unless the file was fragmented: the chain is what said 11 then 12 then 13, and the chain is gone.</text>
+    <text class="xs mut" x="14" y="220">Then only the first cluster is certain &mdash; the rest is carving.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page" id="p10">
 <span class="kicker">T14 &middot; Theory &middot; measured</span>
 <h2>What deleting actually does
   <span class="ar">ما الذي يفعله الحذف فعلاً</span></h2>
@@ -303,7 +478,7 @@
 </div>
     </section>
 
-<section class="page" id="p8">
+<section class="page" id="p11">
 <span class="kicker">T14 &middot; Theory</span>
 <h2>Why recovery gets harder with time
   <span class="ar">لماذا تصعب الاستعادة مع الوقت</span></h2>
@@ -326,7 +501,31 @@
 </div>
     </section>
 
-<section class="page divider" id="p9">
+<section class="page" id="p12">
+<span class="kicker">T14 &middot; Theory &middot; ATT&amp;CK</span>
+<h2>Three things an attacker does to a FAT32 volume
+  <span class="ar">ثلاثة أشياء يفعلها المهاجم بـ volume من نوع FAT32</span></h2>
+<p>FAT32 has no permission model and no journal. That is why USB sticks are formatted with it, and why each of these takes one byte or one field.
+  <span class="ar">لا يملك FAT32 نموذج صلاحيات و لا journal. و لهذا تُهيّأ ذواكر USB به، و لهذا يحتاج كل مما يلي إلى byte واحد أو حقل واحد.</span></p>
+<div class="table-wrap"><table style="min-width:900px;table-layout:fixed">
+  <colgroup><col style="width:18%"><col style="width:34%"><col style="width:48%"></colgroup>
+  <thead><tr><th>Technique</th><th>What changes on disk</th><th>How you see it</th></tr></thead>
+  <tbody>
+    <tr><td><b>T1564.001</b> hidden files<span class="ar">إخفاء الملفات</span></td><td>bit <code>0x02</code> in the attribute byte at offset 11<span class="ar">الـ bit <code>0x02</code> في byte الخصائص عند الإزاحة 11.</span></td><td>Explorer hides it; the entry is in plain view in a hex editor and in Autopsy. A one-byte edit anyone can make.<span class="ar">يخفيه Explorer؛ و المدخل ظاهر تمامًا في محرّر hex و في Autopsy. تعديل byte واحد يستطيعه أي أحد.</span></td></tr>
+    <tr><td><b>T1070.006</b> timestomp<span class="ar">تزوير التوقيتات</span></td><td>the three timestamps in the entry, rewritten<span class="ar">التوقيتات الثلاثة في المدخل، أُعيدت كتابتها.</span></td><td>no journal, so <b>no second copy to compare</b>. Only inconsistency: created after modified, an access date with no creation before it, round numbers.<span class="ar">لا journal، فـ<b>لا نسخة ثانية للمقارنة</b>. لا يبقى إلا التناقض: إنشاء بعد التعديل، أو وصول بلا إنشاء قبله، أو أرقام مستديرة.</span></td></tr>
+    <tr><td><b>T1070.004</b> deletion<span class="ar">حذف الملفات</span></td><td>byte 0 &rarr; <code>E5</code>; chain freed<span class="ar">الـ byte 0 ← <code>E5</code>؛ و السلسلة حُرّرت.</span></td><td>the previous screen. Recovery from the entry if contiguous; carving if not.<span class="ar">الشاشة السابقة. الاستعادة من المدخل إن كان متصلاً؛ و الـ carving إن لم يكن.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="caveat"><span class="cl-label">False positive</span>
+  <p><b>Modified before created is normal.</b> Copying a folder keeps the modification time and resets creation. It is the pattern you must know before calling a timestamp faked.
+    <span class="ar"><b>التعديل قبل الإنشاء أمر طبيعي.</b> نسخ مجلد يحتفظ بوقت التعديل و يعيد ضبط وقت الإنشاء. و هذا النمط يجب أن تعرفه قبل أن تصف توقيتًا بأنه مزوَّر.</span></p></div>
+<div class="key-takeaway"><span class="cl-label">Manual first, then the tool</span>
+  <p>Each of the three is found by hand in HxD, then again in Autopsy. Knowing the bytes is what lets you decide when two tools disagree.
+    <span class="ar">كل واحد من الثلاثة يُكتشف يدويًا في HxD، ثم مرة أخرى في Autopsy. و معرفة الـ bytes هي ما يتيح لك الحكم حين تختلف أداتان.</span></p></div>
+    </section>
+
+
+<section class="page divider" id="p13">
 <div class="divider-inner">
   <span class="divider-kicker">Part 2 of 3</span>
   <h2>How NTFS keeps track<span class="ar">كيف يتعقّب الـ NTFS الملفات</span></h2>
@@ -336,7 +535,65 @@
 </div>
     </section>
 
-<section class="page" id="p10">
+<section class="page" id="p14">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>What NTFS adds
+  <span class="ar">ما الذي يضيفه NTFS</span></h2>
+<p>Every Windows system disk. One table instead of a chain, and a list of features that each become an artifact on the screens that follow.
+  <span class="ar">كل قرص نظام في ويندوز. جدول واحد بدل السلسلة، و قائمة ميزات تتحوّل كل واحدة منها إلى artifact في الشاشات التالية.</span></p>
+<figure class="dgm" id="dg-ntfsmap" data-mode="loop" data-reveal="upto" data-interval="3800">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F2b &middot; THE NTFS FEATURE MAP</span><span class="dgm-tag">PATTERN 5 &middot; 5</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 300" role="img" aria-labelledby="t-ntfsmap">
+  <title id="t-ntfsmap">NTFS in the centre with five groups of features around it: the MFT, journals, streams, security and timestamps</title>
+  <rect class="box key" x="300" y="120" width="180" height="60" rx="8"/><text class="big" x="352" y="156" fill="#00d9ff">NTFS</text>
+  <g data-step="1"><path class="arw key" d="M300 150 L200 90"/><rect class="box" x="14" y="46" width="200" height="70" rx="6"/><text class="lbl" x="26" y="70">$MFT</text><text class="xs mut" x="26" y="88">one 1 024-byte record per file</text><text class="xs mut" x="26" y="104">resident data · run lists</text></g>
+  <g data-step="2"><path class="arw key" d="M480 150 L580 90"/><rect class="box" x="566" y="46" width="200" height="70" rx="6"/><text class="lbl" x="578" y="70">journals</text><text class="xs mut" x="578" y="88">$LogFile · $UsnJrnl:$J</text><text class="xs mut" x="578" y="104">what changed, and when</text></g>
+  <g data-step="3"><path class="arw key" d="M300 160 L200 220"/><rect class="box" x="14" y="196" width="200" height="70" rx="6"/><text class="lbl" x="26" y="220">streams</text><text class="xs mut" x="26" y="238">alternate data streams</text><text class="xs mut" x="26" y="254">a file that is two files</text></g>
+  <g data-step="4"><path class="arw key" d="M480 160 L580 220"/><rect class="box" x="566" y="196" width="200" height="70" rx="6"/><text class="lbl" x="578" y="220">security</text><text class="xs mut" x="578" y="238">ACLs · EFS encryption</text><text class="xs mut" x="578" y="254">compression · quotas · sparse</text></g>
+  <g data-step="5"><path class="arw key" d="M390 180 L390 224"/><rect class="box ok" x="290" y="228" width="200" height="60" rx="6"/><text class="lbl" x="302" y="252" fill="#00ff9d">eight timestamps</text><text class="xs mut" x="302" y="272">MACB, in two attributes</text>
+    <text class="xs mut" x="240" y="30">also: hard links · reparse points · VSS · transactions · resizing</text></g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>The NTFS system files &mdash; records 0 to 11
+  <span class="ar">ملفات نظام NTFS — السجلات من 0 إلى 11</span></h2>
+<p>The first sixteen records of the $MFT are reserved for the file system itself. They start with <code>$</code> and Explorer never shows them; FTK Imager shows every one.
+  <span class="ar">السجلات الستة عشر الأولى في الـ $MFT محجوزة لنظام الملفات نفسه. تبدأ بـ<code>$</code> و لا يعرضها Explorer أبدًا؛ و يعرضها FTK Imager كلها.</span></p>
+<div class="side-by">
+<div class="boxes">
+<div class="table-wrap"><table style="min-width:520px;table-layout:fixed">
+  <colgroup><col style="width:9%"><col style="width:27%"><col style="width:64%"></colgroup>
+  <thead><tr><th>#</th><th>File</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td><code>$MFT</code></td><td>the table itself<span class="ar">الجدول نفسه.</span></td></tr>
+    <tr><td>1</td><td><code>$MFTMirr</code></td><td>a copy of the <b>first records only</b><span class="ar">نسخة من <b>السجلات الأولى فقط</b>.</span></td></tr>
+    <tr><td>2</td><td><code>$LogFile</code></td><td>the transaction journal, hours of history<span class="ar">journal العمليات، ساعات من التاريخ.</span></td></tr>
+    <tr><td>3</td><td><code>$Volume</code></td><td>label, version, dirty flag<span class="ar">الاسم و الإصدار و علامة الخلل.</span></td></tr>
+    <tr><td>4</td><td><code>$AttrDef</code></td><td>the attribute types in use<span class="ar">أنواع السمات المستخدمة.</span></td></tr>
+    <tr><td>5</td><td><code>.</code></td><td>the root directory<span class="ar">الـ root directory.</span></td></tr>
+    <tr><td>6</td><td><code>$Bitmap</code></td><td>which clusters are in use &mdash; now, not ever<span class="ar">أي clusters مستخدمة — الآن، لا في أي وقت.</span></td></tr>
+    <tr><td>7</td><td><code>$Boot</code></td><td>the boot sector<span class="ar">الـ boot sector.</span></td></tr>
+    <tr><td>8</td><td><code>$BadClus</code></td><td>bad clusters &mdash; and a classic hiding place<span class="ar">الـ clusters التالفة — و مخبأ كلاسيكي.</span></td></tr>
+    <tr><td>9</td><td><code>$Secure</code></td><td>security descriptors<span class="ar">واصفات الأمان.</span></td></tr>
+    <tr><td>10</td><td><code>$UpCase</code></td><td>the case-folding table<span class="ar">جدول تحويل الحروف.</span></td></tr>
+    <tr><td>11</td><td><code>$Extend</code></td><td>holds <code>$UsnJrnl</code>, <code>$ObjId</code>, <code>$Quota</code>, <code>$Reparse</code><span class="ar">يحوي <code>$UsnJrnl</code> و <code>$ObjId</code> و <code>$Quota</code> و <code>$Reparse</code>.</span></td></tr>
+  </tbody>
+</table></div>
+</div>
+<figure class="photo" style="flex:1 1 380px;max-width:100%"><img src="../assets/img/fs/ntfs-ftk-system-files.png" alt="FTK Imager showing the NTFS root with the $ system files listed" loading="lazy">
+  <figcaption>FTK Imager on a live drive: the root lists <code>$AttrDef</code> to <code>$Volume</code> beside <code>Users</code> and <code>Windows</code>. <code>$MFT</code> is 601 344 bytes here &mdash; 587 records&rsquo; worth of bookkeeping.
+    <span class="ar">FTK Imager على قرص حي: الجذر يعرض ملفات <code>$</code> بجوار <code>Users</code> و <code>Windows</code>.</span>
+    <span class="credit">Screenshot: TryHackMe, room <i>NTFS Analysis</i>.</span></figcaption></figure>
+</div>
+    </section>
+
+
+
+<section class="page" id="p16">
 <span class="kicker">T14 &middot; Theory &middot; measured</span>
 <h2>The $MFT
   <span class="ar">جدول الـ $MFT</span></h2>
@@ -385,7 +642,36 @@
 </div>
     </section>
 
-<section class="page" id="p11">
+<section class="page" id="p17">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>Inside an MFT record &mdash; the attributes
+  <span class="ar">داخل سجل MFT — السمات</span></h2>
+<p>A record is 1 024 bytes: a header that begins <code>FILE0</code>, then attributes, each with a type number. The file&rsquo;s name, its timestamps and its content are three attributes in one record.
+  <span class="ar">السجل 1 024 byte: header يبدأ بـ<code>FILE0</code>، ثم سمات لكل منها رقم نوع. و اسم الملف و توقيتاته و محتواه ثلاث سمات في سجل واحد.</span></p>
+<figure class="dgm" id="dg-mftrec" data-mode="loop" data-reveal="upto" data-interval="4000">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F3b &middot; ONE RECORD, FOUR ATTRIBUTES</span><span class="dgm-tag">PATTERN 5 &middot; 5</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 210" role="img" aria-labelledby="t-mftrec">
+  <title id="t-mftrec">A 1024-byte MFT record as a strip: header, $STANDARD_INFORMATION, $FILE_NAME, $DATA, unused space</title>
+  <text class="xs mut" x="14" y="20">0</text><text class="xs mut" x="740" y="20">1 024</text>
+  <g data-step="1"><rect class="box" x="14" y="30" width="70" height="56" rx="4"/><text class="xs" x="20" y="54">header</text><text class="xs mut" x="20" y="72">FILE0</text><text class="xs mut" x="14" y="118">flags: in use · directory · sequence number</text></g>
+  <g data-step="2"><rect class="box key" x="88" y="30" width="130" height="56" rx="4"/><text class="xs" x="96" y="54" fill="#00d9ff">$STANDARD_INFO</text><text class="xs mut" x="96" y="72">0x10 · 4 timestamps</text></g>
+  <g data-step="3"><rect class="box key" x="222" y="30" width="150" height="56" rx="4"/><text class="xs" x="230" y="54" fill="#00d9ff">$FILE_NAME</text><text class="xs mut" x="230" y="72">0x30 · name, parent, 4 more</text></g>
+  <g data-step="4"><rect class="box ok" x="376" y="30" width="250" height="56" rx="4"/><text class="xs" x="384" y="54" fill="#00ff9d">$DATA 0x80</text><text class="xs mut" x="384" y="72">resident: the bytes are HERE if the file is small</text>
+    <rect class="box dash" x="630" y="30" width="136" height="56" rx="4"/><text class="xs mut" x="640" y="62">unused / slack</text></g>
+  <g data-step="5"><text class="xs" x="14" y="150" fill="#00ff9d">large file: $DATA holds a run list &mdash; &ldquo;clusters 1200&ndash;1249, then 3000&ndash;3010&rdquo; &mdash; and the bytes live on the volume.</text>
+    <text class="xs mut" x="14" y="172">directory: $INDEX_ROOT 0x90 and $INDEX_ALLOCATION 0xA0 replace $DATA &mdash; that index is $I30.</text>
+    <text class="xs mut" x="14" y="192">two $DATA attributes in one record = a file with an alternate stream.</text></g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<figure class="photo wide"><img src="../assets/img/fs/ntfs-ftk-mft-hex.png" alt="FTK Imager hex view of $MFT starting with FILE0" loading="lazy">
+  <figcaption>FTK Imager, <code>$MFT</code> selected: the first record begins <code>46 49 4C 45 30</code> &mdash; <code>FILE0</code> &mdash; and <code>$MFT</code> is in it, describing itself.
+    <span class="ar">FTK Imager و <code>$MFT</code> محدد: أول سجل يبدأ بـ<code>FILE0</code> — و الـ <code>$MFT</code> نفسه بداخله، يصف نفسه.</span>
+    <span class="credit">Screenshot: TryHackMe, room <i>NTFS Analysis</i>.</span></figcaption></figure>
+    </section>
+
+
+<section class="page" id="p18">
 <span class="kicker">T14 &middot; Theory</span>
 <h2>FAT and NTFS, side by side
   <span class="ar">الـ FAT و الـ NTFS جنبًا إلى جنب</span></h2>
@@ -406,7 +692,7 @@
 </div>
     </section>
 
-<section class="page" id="p12">
+<section class="page" id="p19">
 <span class="kicker">T14 &middot; Theory &middot; measured</span>
 <h2>A file that is two files
   <span class="ar">ملف هو ملفان</span></h2>
@@ -447,7 +733,95 @@
 </div>
     </section>
 
-<section class="page divider" id="p13">
+<section class="page" id="p20">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>Eight timestamps &mdash; MACB, twice
+  <span class="ar">ثمانية توقيتات — MACB مرتين</span></h2>
+<p>Modified, Accessed, Changed (the record), Born. NTFS stores the four in <code>$STANDARD_INFORMATION</code> and again in <code>$FILE_NAME</code>. Tools show the first set; the kernel keeps the second.
+  <span class="ar">التعديل، و الوصول، و تغيّر السجل، و الإنشاء. يخزّن NTFS الأربعة في <code>$STANDARD_INFORMATION</code> و مرة أخرى في <code>$FILE_NAME</code>. الأدوات تعرض المجموعة الأولى؛ و النواة تحفظ الثانية.</span></p>
+<div class="table-wrap"><table style="min-width:700px;table-layout:fixed">
+  <colgroup><col style="width:14%"><col style="width:43%"><col style="width:43%"></colgroup>
+  <thead><tr><th></th><th>What it records</th><th>What moves it</th></tr></thead>
+  <tbody>
+    <tr><td><b>M</b>odified</td><td>last change to the content<span class="ar">آخر تغيير في المحتوى.</span></td><td>a write<span class="ar">عملية كتابة.</span></td></tr>
+    <tr><td><b>A</b>ccessed</td><td>last read &mdash; <b>often not updated</b> on modern Windows<span class="ar">آخر قراءة — <b>كثيرًا ما لا يُحدَّث</b> في ويندوز الحديث.</span></td><td>a read, if the update is enabled<span class="ar">عملية قراءة، إن كان التحديث مفعَّلاً.</span></td></tr>
+    <tr><td><b>C</b>hanged</td><td>last change to the <b>MFT record</b> &mdash; rename, permissions, attributes<span class="ar">آخر تغيير في <b>سجل الـ MFT</b> — إعادة تسمية، أو صلاحيات، أو سمات.</span></td><td>the kernel; no API sets it directly<span class="ar">النواة؛ و لا واجهة تضبطه مباشرة.</span></td></tr>
+    <tr><td><b>B</b>orn</td><td>creation on <b>this</b> volume<span class="ar">الإنشاء على <b>هذا</b> الـ volume.</span></td><td>create, or a copy (a move keeps it)<span class="ar">الإنشاء، أو النسخ (و النقل يحتفظ به).</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding"><span class="cl-label">The comparison that FAT could not make</span>
+  <p>A timestomping tool rewrites <code>$STANDARD_INFORMATION</code> through the API. <code>$FILE_NAME</code> is written by the kernel and is not reachable that way. So <code>$SI</code> created <b>earlier</b> than <code>$FN</code> created, or an <code>$SI</code> time with all-zero fractional seconds, is a finding worth a line &mdash; and <code>$UsnJrnl</code> is the third witness.
+    <span class="ar">أداة تزوير التوقيتات تعيد كتابة <code>$STANDARD_INFORMATION</code> عبر الواجهة البرمجية. أما <code>$FILE_NAME</code> فتكتبه النواة و لا يمكن الوصول إليه بتلك الطريقة. فإنشاء <code>$SI</code> <b>الأسبق</b> من إنشاء <code>$FN</code>، أو وقت <code>$SI</code> بأجزاء ثانية كلها أصفار، finding يستحق سطرًا — و <code>$UsnJrnl</code> هو الشاهد الثالث.</span></p></div>
+<div class="limitation"><span class="cl-label">Cannot prove</span>
+  <p>Who set the clock. A copy from another disk legitimately produces <i>modified before created</i>, and a tool that rewrites both attributes at the driver level leaves nothing to compare.
+    <span class="ar">من ضبط الساعة. فالنسخ من قرص آخر يُنتج بشكل مشروع <i>تعديلاً قبل الإنشاء</i>، و الأداة التي تعيد كتابة السمتين معًا على مستوى الـ driver لا تترك ما يُقارَن.</span></p></div>
+    </section>
+
+<section class="page" id="p21">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>The two journals &mdash; $LogFile and $UsnJrnl
+  <span class="ar">الـ journal الاثنان — $LogFile و $UsnJrnl</span></h2>
+<p>Two memories of the same events, with different lengths and different detail. Used together, never interchangeably.
+  <span class="ar">ذاكرتان للأحداث نفسها، بطولين مختلفين و تفصيلين مختلفين. تُستخدمان معًا، و لا تحل إحداهما محل الأخرى أبدًا.</span></p>
+<figure class="dgm" id="dg-journals" data-mode="loop" data-reveal="upto" data-interval="4200">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F4b &middot; THE SAME EVENT, TWO MEMORIES</span><span class="dgm-tag">PATTERN 1 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 190" role="img" aria-labelledby="t-journals">
+  <title id="t-journals">A time axis with a short high-detail band for $LogFile and a long thin band for the USN journal</title>
+  <path class="arw" d="M14 150 L766 150"/><text class="xs mut" x="14" y="172">weeks ago</text><text class="xs mut" x="720" y="172">now</text>
+  <g data-step="1"><rect class="box key" x="640" y="40" width="126" height="44" rx="4"/><text class="xs" x="648" y="58" fill="#00d9ff">$LogFile</text><text class="xs mut" x="648" y="76">hours · before/after</text></g>
+  <g data-step="2"><rect class="box ok" x="60" y="98" width="706" height="30" rx="4"/><text class="xs" x="70" y="118" fill="#00ff9d">$UsnJrnl:$J &mdash; days to weeks · which file, what kind of change, when &mdash; never the content</text></g>
+  <g data-step="3"><path class="arw warn" d="M420 140 L420 100"/><text class="xs" x="240" y="30" fill="#ffb454">deleted ten days ago: in $J as FILE_DELETE; in $LogFile, gone.</text></g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="table-wrap"><table style="min-width:640px;table-layout:fixed">
+  <colgroup><col style="width:44%"><col style="width:56%"></colgroup>
+  <thead><tr><th>$J reason code</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>FILE_CREATE</code> &middot; <code>FILE_DELETE</code></td><td>the file appeared, the file went<span class="ar">ظهر الملف، ذهب الملف.</span></td></tr>
+    <tr><td><code>RENAME_OLD_NAME</code> &middot; <code>RENAME_NEW_NAME</code></td><td>a rename, with <b>both names</b> &mdash; follow a file through its aliases<span class="ar">إعادة تسمية <b>بالاسمين</b> — تتبّع الملف عبر أسمائه.</span></td></tr>
+    <tr><td><code>DATA_OVERWRITE</code> &middot; <code>DATA_EXTEND</code> &middot; <code>DATA_TRUNCATION</code></td><td>content written, grown, shrunk<span class="ar">المحتوى كُتب، أو كبر، أو صغر.</span></td></tr>
+    <tr><td><code>NAMED_DATA_OVERWRITE</code> &middot; <code>NAMED_DATA_EXTEND</code></td><td>an <b>alternate data stream</b> was written<span class="ar">كُتبت <b>alternate data stream</b>.</span></td></tr>
+    <tr><td><code>CLOSE</code></td><td>the handle closed after the changes above<span class="ar">أُغلق الـ handle بعد التغييرات أعلاه.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="caveat"><span class="cl-label">The tool caveat you must state</span>
+  <p><code>MFTECmd</code> parses <code>$MFT</code>, <code>$J</code>, <code>$Boot</code>, <code>$SDS</code> and <code>$I30</code>. It does <b>not</b> parse <code>$LogFile</code>, whatever its README says &mdash; export it anyway, and read it with <code>dfir_ntfs</code> or NTFS Log Tracker.
+    <span class="ar">يحلّل <code>MFTECmd</code> الملفات <code>$MFT</code> و <code>$J</code> و <code>$Boot</code> و <code>$SDS</code> و <code>$I30</code>. و <b>لا</b> يحلّل <code>$LogFile</code> مهما قال ملف README الخاص به — صدّره على أي حال، و اقرأه بأداة <code>dfir_ntfs</code> أو NTFS Log Tracker.</span></p></div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">T14 &middot; Theory &middot; a real folder</span>
+<h2>$I30 &mdash; what a folder used to contain
+  <span class="ar">$I30 — ما كان يحويه المجلد</span></h2>
+<p>A directory&rsquo;s MFT record holds an index of its children &mdash; the <code>$I30</code> attribute. Entries for files that were deleted, renamed or moved away linger in the index&rsquo;s slack until overwritten.
+  <span class="ar">يحمل سجل المجلد في الـ MFT فهرسًا بأبنائه — السمة <code>$I30</code>. و مدخلات الملفات التي حُذفت أو أُعيدت تسميتها أو نُقلت تبقى في slack الفهرس حتى يُكتب فوقها.</span></p>
+<div class="photo-row">
+<figure class="photo"><img src="../assets/img/fs/ntfs-explorer-metasploit.png" alt="Explorer showing a metasploit folder with four subfolders" loading="lazy">
+  <figcaption>Explorer: the folder holds four subfolders today.
+    <span class="ar">Explorer: المجلد يحوي أربعة مجلدات فرعية اليوم.</span>
+    <span class="credit">Screenshot: TryHackMe, room <i>NTFS Analysis</i>.</span></figcaption></figure>
+<figure class="photo"><img src="../assets/img/fs/ntfs-tle-i30-slack.png" alt="Timeline Explorer showing the parsed $I30 index with a From Slack column" loading="lazy">
+  <figcaption>The same folder&rsquo;s <code>$I30</code>, parsed: <b>From Slack = True</b> rows are entries the folder no longer lists &mdash; installer files that came and went.
+    <span class="ar">الـ <code>$I30</code> للمجلد نفسه بعد التحليل: الصفوف التي فيها <b>From Slack = True</b> مدخلات لم يعد المجلد يعرضها.</span>
+    <span class="credit">Screenshot: TryHackMe, room <i>NTFS Analysis</i>.</span></figcaption></figure>
+</div>
+<div class="wu">
+  <div class="wu-tb"><span class="t">Windows PowerShell</span></div>
+  <div class="wu-term"><span class="p">PS C:\Forensics\Tools\EZTools&gt;</span> <span class="k">.\MFTECmd.exe -f ..\..\Cases\P09\Evidence\$I30 --csv ..\..\Cases\P09\Evidence --csvf i30.csv</span>
+File type: <span class="w">I30</span>
+$I30 contains <span class="w">8</span> active and <span class="w">1</span> slack entries
+<span class="d"># then Timeline Explorer, and filter the From Slack column.</span></div>
+</div>
+<div class="limitation"><span class="cl-label">Cannot prove</span>
+  <p>Where the file went, or that it still exists anywhere. A busy folder overwrites its slack quickly, a quiet one keeps it for years &mdash; the amount of evidence measures the folder&rsquo;s activity, not the attacker&rsquo;s care.
+    <span class="ar">أين ذهب الملف، أو أنه لا يزال موجودًا في أي مكان. فالمجلد النشط يكتب فوق الـ slack بسرعة، و الهادئ يحتفظ به لسنوات — و كمية الدليل تقيس نشاط المجلد لا حرص المهاجم.</span></p></div>
+    </section>
+
+
+
+
+<section class="page divider" id="p23">
 <div class="divider-inner">
   <span class="divider-kicker">Part 3 of 3</span>
   <h2>When there is no file system<span class="ar">حين لا يوجد نظام ملفات</span></h2>
@@ -457,7 +831,7 @@
 </div>
     </section>
 
-<section class="page" id="p14">
+<section class="page" id="p24">
 <span class="kicker">T15 &middot; Theory</span>
 <h2>What carving is
   <span class="ar">ما هو الـ carving</span></h2>
@@ -478,7 +852,7 @@
 </div>
     </section>
 
-<section class="page" id="p15">
+<section class="page" id="p25">
 <span class="kicker">T15 &middot; Theory &middot; measured</span>
 <h2>Signatures, and where they end
   <span class="ar">التوقيعات، و أين تنتهي</span></h2>
@@ -504,7 +878,7 @@
 </div>
     </section>
 
-<section class="page" id="p16">
+<section class="page" id="p26">
 <span class="kicker">T15 &middot; Theory &middot; measured</span>
 <h2>What a fragment does to a carve
   <span class="ar">ما تفعله التجزئة بالاستخراج</span></h2>
@@ -552,7 +926,7 @@
 </figure>
     </section>
 
-<section class="page" id="p17">
+<section class="page" id="p27">
 <span class="kicker">T15 &middot; Theory &middot; measured</span>
 <h2>Six objects, three outcomes
   <span class="ar">ستة أشياء، ثلاث نتائج</span></h2>
@@ -616,7 +990,7 @@
 </div>
     </section>
 
-<section class="page divider" id="p18">
+<section class="page divider" id="p28">
 <div class="divider-inner">
   <span class="divider-kicker">Instructor demo</span>
   <h2>Reading a deleted file out of the $MFT<span class="ar">المعمل — قراءة ملف محذوف من الـ $MFT</span></h2>
@@ -626,7 +1000,7 @@
 </div>
     </section>
 
-<section class="page" id="p19">
+<section class="page" id="p29">
 <span class="kicker">T14 &middot; Instructor demo</span>
 <h2>Lab &mdash; four MFT records
   <span class="ar">المعمل — أربعة سجلات MFT</span></h2>
@@ -720,7 +1094,62 @@
 </div>
     </section>
 
-<section class="page divider" id="p20">
+<section class="page" id="p30">
+<span class="kicker">T14 &middot; Instructor demo &middot; the workstation itself</span>
+<h2>Lab &mdash; collect once, parse three times, 1 of 2
+  <span class="ar">المعمل — اجمع مرة، و حلّل ثلاث مرات، الجزء الأول</span></h2>
+<p>Triage on <code>FOR-WS01</code>&rsquo;s own disk &mdash; not an exhibit, so no blocker and no custody line, and say so in the notes. FTK Imager exports the four metadata files; MFTECmd parses three of them with one command shape.
+  <span class="ar">فرز على قرص <code>FOR-WS01</code> نفسه — ليس exhibit، فلا write blocker و لا سطر chain of custody، و اذكر ذلك في الملاحظات. يصدّر FTK Imager ملفات الـ metadata الأربعة؛ و يحلّل MFTECmd ثلاثة منها بأمر واحد الشكل.</span></p>
+<div class="photo-row">
+<figure class="photo"><img src="../assets/img/fs/ntfs-ftk-physicaldrive-root.png" alt="FTK Imager evidence tree: PHYSICALDRIVE0, Partition 1, NONAME NTFS, root" loading="lazy">
+  <figcaption><b>File &rarr; Add Evidence Item &rarr; Physical Drive</b>, then <code>Partition 1 &rarr; NONAME [NTFS] &rarr; [root]</code>. The <code>$</code> files are at the bottom of the list.
+    <span class="ar"><b>File ← Add Evidence Item ← Physical Drive</b>، ثم الجذر. و ملفات <code>$</code> في أسفل القائمة.</span>
+    <span class="credit">Screenshot: TryHackMe, room <i>NTFS Analysis</i>.</span></figcaption></figure>
+<figure class="photo"><img src="../assets/img/fs/ntfs-ftk-export-files.png" alt="FTK Imager with $I30, $LogFile and $MFT selected and the Export Files context menu open" loading="lazy">
+  <figcaption>Select <code>$MFT</code>, <code>$LogFile</code>, <code>$I30</code> and <code>$Extend\$UsnJrnl:$J</code> &rarr; right-click &rarr; <b>Export Files</b> into <code>C:\Forensics\Cases\P09\Evidence</code>.
+    <span class="ar">حدّد الملفات الأربعة ← الزر الأيمن ← <b>Export Files</b> إلى مجلد الأدلة.</span>
+    <span class="credit">Screenshot: TryHackMe, room <i>NTFS Analysis</i>.</span></figcaption></figure>
+</div>
+<div class="wu">
+  <div class="wu-tb"><span class="t">Windows PowerShell</span></div>
+  <div class="wu-term"><span class="p">PS C:\Forensics\Cases\P09\Evidence&gt;</span> <span class="k">Get-FileHash $MFT,$LogFile,$J,$I30 -Algorithm SHA256 | Tee-Object exports.sha256</span>
+<span class="d"># hash the exports before parsing anything. The CSVs you make are derived; these four are what you cite.</span></div>
+</div>
+    </section>
+
+<section class="page" id="p31">
+<span class="kicker">T14 &middot; Instructor demo &middot; MFTECmd</span>
+<h2>Lab &mdash; collect once, parse three times, 2 of 2
+  <span class="ar">المعمل — اجمع مرة، و حلّل ثلاث مرات، الجزء الثاني</span></h2>
+<div class="wu">
+  <div class="wu-tb"><span class="t">Windows PowerShell</span></div>
+  <div class="wu-term"><span class="p">PS C:\Forensics\Tools\EZTools&gt;</span> <span class="k">.\MFTECmd.exe -f C:\Forensics\Cases\P09\Evidence\$MFT --csv C:\Forensics\Cases\P09\Evidence --csvf MFT_record.csv</span>
+File type: <span class="w">Mft</span>
+Processed ...\$MFT in 14.6278 seconds
+...\$MFT: FILE records found: <span class="w">559,445</span> (Free records: 41,828) File size: 587.2MB
+
+<span class="p">PS&gt;</span> <span class="k">.\MFTECmd.exe -f ...\Evidence\$J -m ...\Evidence\$MFT --csv ...\Evidence --csvf USNJrnl.csv</span>
+File type: <span class="w">UsnJournal</span>
+Usn entries found in ...\$J: <span class="w">413,347</span>
+<span class="d"># -m gives every $J line its full parent path. Without it the CSV has names and no folders.</span>
+
+<span class="p">PS&gt;</span> <span class="k">.\MFTECmd.exe -f ...\Evidence\$I30 --csv ...\Evidence --csvf i30.csv</span>
+File type: <span class="w">I30</span>
+$I30 contains 8 active and 1 slack entries
+<span class="d"># --csv is the FOLDER, --csvf is the file NAME. One tool, three inputs, the type detected each time.</span></div>
+</div>
+<figure class="photo wide"><img src="../assets/img/fs/ntfs-tle-mft-csv.png" alt="Timeline Explorer showing MFT_record.csv with Entry Number, Sequence Number, Parent Entry, In Use and File Name columns" loading="lazy">
+  <figcaption>Timeline Explorer on <code>MFT_record.csv</code>: records 0&ndash;11 are the system files from the table earlier; <b>In Use</b> is the column that says whether the file still exists; <b>Sequence Number</b> says whether the record was reused.
+    <span class="ar">Timeline Explorer على <code>MFT_record.csv</code>: السجلات من 0 إلى 11 هي ملفات النظام من الجدول السابق؛ و عمود <b>In Use</b> يقول هل الملف لا يزال موجودًا؛ و <b>Sequence Number</b> يقول هل أُعيد استخدام السجل.</span>
+    <span class="credit">Screenshot: TryHackMe, room <i>NTFS Analysis</i>.</span></figcaption></figure>
+<div class="limitation"><span class="cl-label">Cannot prove</span>
+  <p><b>In Use = False</b> means the record persists, not that the data does. And a record reused &mdash; a higher sequence number &mdash; means the previous occupant is gone from the table: absence of a record is not absence of a file.
+    <span class="ar"><b>In Use = False</b> تعني أن السجل باقٍ، لا أن البيانات باقية. و السجل المعاد استخدامه — برقم تسلسلي أعلى — يعني أن الساكن السابق ذهب من الجدول: و غياب السجل ليس غياب الملف.</span></p></div>
+    </section>
+
+
+
+<section class="page divider" id="p32">
 <div class="divider-inner">
   <span class="divider-kicker">Your turn</span>
   <h2>Case 05 &mdash; a volume with no file system<span class="ar">القضية ٠٥ — volume بلا نظام ملفات</span></h2>
@@ -730,7 +1159,7 @@
 </div>
     </section>
 
-<section class="page" id="p21">
+<section class="page" id="p33">
 <span class="kicker">T15 &middot; Case 05 &middot; the brief</span>
 <h2>Case 05 &mdash; the brief
   <span class="ar">القضية ٠٥ — الملف</span></h2>
@@ -750,7 +1179,7 @@
 </div>
     </section>
 
-<section class="page" id="p22">
+<section class="page" id="p34">
 <span class="kicker">T15 &middot; Your turn &middot; Case 05</span>
 <h2>Lab &mdash; carving Case 05
   <span class="ar">المعمل — استخراج القضية ٠٥</span></h2>
@@ -832,7 +1261,52 @@
 </div>
     </section>
 
-<section class="page" id="p23">
+<section class="page" id="p35">
+<span class="kicker">T15 &middot; Your turn &middot; the automated carver</span>
+<h2>Lab &mdash; the same carve with PhotoRec
+  <span class="ar">المعمل — الـ carving نفسه بأداة PhotoRec</span></h2>
+<p>PhotoRec ships with TestDisk and does what you did by hand: reads every sector, matches signatures, writes each object out under a generated name. It opens the source read-only &mdash; the <code>(RO)</code> in the disk list is the thing to look for.
+  <span class="ar">تأتي PhotoRec مع TestDisk و تفعل ما فعلته يدويًا: تقرأ كل sector، و تطابق الـ signatures، و تكتب كل عنصر باسم مولَّد. و تفتح المصدر للقراءة فقط — و علامة <code>(RO)</code> في قائمة الأقراص هي ما تبحث عنه.</span></p>
+<div class="wu">
+  <div class="wu-tb"><span class="t">C:\Forensics\Tools\testdisk-7.2\photorec_win.exe</span></div>
+  <div class="wu-term">PhotoRec 7.2, Data Recovery Utility, February 2024
+Select a media and choose 'Proceed' using arrow keys:
+ Disk \\.\PhysicalDrive0 - 1000 GB / 931 GiB (RO) - TOSHIBA MQ04ABF100
+&gt;<span class="w">Disk \\.\PhysicalDrive4 - 40 MB / 40 MiB (RO) - Arsenal Virtual Disk</span>
+&gt;<span class="p">[Proceed ]</span>  [  Quit  ]
+
+Disk \\.\PhysicalDrive4 - 40 MB / 40 MiB (RO) - Arsenal Virtual Disk
+     Partition                  Start        End    Size in sectors
+&gt;<span class="w">   Unknown                        0      81919      81920 [Whole disk]</span>
+<span class="d"># Case 05 has no file system, so: Whole disk, then File Opt (keep the defaults), then Search, then a folder for the output.</span>
+
+<span class="w">6 files saved</span> in C:\Forensics\Cases\P09\recup_dir.1 directory.
+Recovery completed.</div>
+</div>
+<div class="wu" style="margin-top:14px">
+  <div class="wu-tb"><span class="t">recup_dir.1</span></div>
+  <div class="wu-body" style="padding:10px 12px 12px">
+    <div class="wu-path">&#128193; &nbsp;This PC &rsaquo; Local Disk (C:) &rsaquo; Forensics &rsaquo; Cases &rsaquo; P09 &rsaquo; recup_dir.1</div>
+    <div class="wu-cols">
+      <div class="h">Name</div><div class="h">Type</div><div class="h">Size</div><div class="h">&nbsp;</div>
+      <div class="c">&#128444; f0011328.jpg</div><div class="c">JPG File</div><div class="c">74 KB</div><div class="c"></div>
+      <div class="c">&#128444; f0011784.jpg</div><div class="c">JPG File</div><div class="c">110 KB</div><div class="c"></div>
+      <div class="c">&#128196; f0012904.docx</div><div class="c">DOCX File</div><div class="c">18 KB</div><div class="c"></div>
+      <div class="c">&#128196; f0014480.pdf</div><div class="c">PDF File</div><div class="c">3 KB</div><div class="c"></div>
+      <div class="c">&#127909; f0014960.mp4</div><div class="c">MP4 File</div><div class="c">5 010 KB</div><div class="c"></div>
+      <div class="c">&#128444; f0030632.jpg</div><div class="c">JPG File</div><div class="c">208 KB</div><div class="c"></div>
+      <div class="c">&#128196; report.xml</div><div class="c">XML File</div><div class="c">2 KB</div><div class="c"></div>
+    </div>
+    <div class="wu-sb"><span>7 items</span></div>
+  </div>
+</div>
+<div class="finding"><span class="cl-label">Read the names</span>
+  <p><code>f0011328.jpg</code>: <b>f</b> for file, then the <b>sector</b> where the signature was found. That number is the offset you cite &mdash; 11 328 &times; 512 &mdash; and <code>report.xml</code> is the tool&rsquo;s own log of what it did. Neither knows the original name, and every object still gets hashed against the source.
+    <span class="ar"><code>f0011328.jpg</code>: <b>f</b> لكلمة file، ثم رقم الـ <b>sector</b> الذي وُجدت فيه الـ signature. و هذا الرقم هو الإزاحة التي تذكرها — 11 328 × 512 — و <code>report.xml</code> هو سجل الأداة لما فعلته. و لا يعرف أي منهما الاسم الأصلي، و كل عنصر يُحسب له hash و يُقارن بالمصدر.</span></p></div>
+    </section>
+
+
+<section class="page" id="p36">
 <span class="kicker">T15 &middot; On your own &middot; 10 min</span>
 <h2>Exercise &mdash; four carving claims
   <span class="ar">تمرين — أربعة ادّعاءات عن الـ carving</span></h2>
@@ -853,10 +1327,242 @@
 </div>
     </section>
 
-<section class="page" id="p24">
+<section class="page divider" id="p37">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 4 of 4</span>
+  <h2>ext &mdash; the Linux file system<span class="ar">ext — نظام ملفات لينكس</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Inodes instead of records, block groups instead of one table, and a timestamp the attacker cannot set. Read on your Kali machine.<span class="ar">inodes بدل السجلات، و block groups بدل جدول واحد، و توقيت لا يستطيع المهاجم ضبطه. تُقرأ على جهاز Kali الخاص بك.</span></p>
+  <p class="divider-meta">7 screens &middot; 30 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p38">
+<span class="kicker">T14 &middot; Theory &middot; Linux</span>
+<h2>What ext is, and where it came from
+  <span class="ar">ما هو ext، و من أين جاء</span></h2>
+<p>The <b>ext</b>ended file system arrived with Linux in 1992. ext2 is the shape; ext3 added a <b>journal</b>; ext4 added extents, larger limits and a <b>creation time</b>. Your Kali VM, most servers and every Android phone run one of them.
+  <span class="ar">ظهر نظام الملفات <b>ext</b> مع لينكس عام 1992. الـ ext2 هو الشكل الأساسي؛ و أضاف ext3 الـ <b>journal</b>؛ و أضاف ext4 الـ extents و حدودًا أكبر و <b>وقت الإنشاء</b>. و جهاز Kali الخاص بك و معظم الخوادم و كل هاتف Android تعمل بواحد منها.</span></p>
+<div class="table-wrap"><table style="min-width:640px;table-layout:fixed">
+  <colgroup><col style="width:28%"><col style="width:24%"><col style="width:24%"><col style="width:24%"></colgroup>
+  <thead><tr><th></th><th>ext2</th><th>ext3</th><th>ext4</th></tr></thead>
+  <tbody>
+    <tr><td>journal<span class="ar">الـ journal</span></td><td>none</td><td>yes &mdash; metadata, optionally data</td><td>yes, with checksums</td></tr>
+    <tr><td>maximum file<span class="ar">أقصى حجم ملف</span></td><td>2 TiB</td><td>2 TiB</td><td>16 TiB</td></tr>
+    <tr><td>maximum volume<span class="ar">أقصى حجم volume</span></td><td>32 TiB</td><td>32 TiB</td><td>1 EiB</td></tr>
+    <tr><td>block pointers<span class="ar">مؤشرات الـ blocks</span></td><td>direct + indirect</td><td>direct + indirect</td><td><b>extents</b> &mdash; ranges</td></tr>
+    <tr><td>creation time<span class="ar">وقت الإنشاء</span></td><td>no</td><td>no</td><td><b>crtime</b></td></tr>
+    <tr><td>what deletion clears<span class="ar">ما يمسحه الحذف</span></td><td>only the directory link</td><td>the block pointers too</td><td>the extent tree too</td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The five parts every ext version shares</span>
+  <p><b>Superblock</b> (the volume&rsquo;s own description) &middot; <b>block groups</b> (the disk cut into equal regions) &middot; <b>inodes</b> (one record per file, without its name) &middot; <b>directory entries</b> (name &rarr; inode number) &middot; <b>bitmaps</b> (which blocks and inodes are in use).
+    <span class="ar"><b>الـ superblock</b> (وصف الـ volume لنفسه) · <b>الـ block groups</b> (القرص مقطّعًا إلى مناطق متساوية) · <b>الـ inodes</b> (سجل لكل ملف، بلا اسمه) · <b>الـ directory entries</b> (اسم ← رقم inode) · <b>الـ bitmaps</b> (أي blocks و inodes مستخدمة).</span></p></div>
+    </section>
+
+<section class="page" id="p39">
+<span class="kicker">T14 &middot; Theory &middot; Linux</span>
+<h2>The layout &mdash; superblock and block groups
+  <span class="ar">التخطيط — الـ superblock و الـ block groups</span></h2>
+<p>An ext volume is cut into <b>blocks</b> of 1 024, 2 048 or 4 096 bytes, and the blocks are gathered into equal <b>block groups</b>. Each group carries its own copy of the bookkeeping, so the volume has no single point of failure.
+  <span class="ar">يُقطَّع volume الـ ext إلى <b>blocks</b> بحجم 1 024 أو 2 048 أو 4 096 byte، و تُجمع الـ blocks في <b>block groups</b> متساوية. و كل مجموعة تحمل نسختها من الدفاتر، فلا توجد نقطة فشل واحدة في الـ volume.</span></p>
+<figure class="dgm" id="dg-extlayout" data-mode="loop" data-reveal="upto" data-interval="4000">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F7 &middot; THE EXT VOLUME, AND ONE BLOCK GROUP</span><span class="dgm-tag">PATTERN 5 &middot; 4</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 230" role="img" aria-labelledby="t-extlayout">
+  <title id="t-extlayout">A partition as boot block plus block groups; one block group expanded into superblock, group descriptors, block bitmap, inode bitmap, inode table and data blocks</title>
+  <g data-step="1">
+    <rect class="box" x="14" y="30" width="60" height="44" rx="4"/><text class="xs mut" x="20" y="56">boot</text>
+    <rect class="box key" x="80" y="30" width="160" height="44" rx="4"/><text class="sm" x="92" y="56">block group 0</text>
+    <rect class="box key" x="246" y="30" width="160" height="44" rx="4"/><text class="sm" x="258" y="56">block group 1</text>
+    <rect class="box" x="412" y="30" width="60" height="44" rx="4"/><text class="sm mut" x="430" y="56">&hellip;</text>
+    <rect class="box key" x="478" y="30" width="160" height="44" rx="4"/><text class="sm" x="490" y="56">block group N</text>
+    <rect class="box dash" x="644" y="30" width="122" height="44" rx="4"/><text class="xs mut" x="654" y="56">unused sectors</text>
+    <text class="xs mut" x="14" y="92">bytes 0&ndash;1023: reserved for a boot loader. The superblock starts at byte 1 024, whatever the block size.</text>
+  </g>
+  <g data-step="2">
+    <path class="arw key" d="M160 76 L120 116"/><path class="arw key" d="M240 76 L740 116"/>
+    <rect class="box key" x="14" y="118" width="110" height="44" rx="4"/><text class="xs" x="22" y="136" fill="#00d9ff">superblock</text><text class="xs mut" x="22" y="152">1 024 bytes</text>
+    <rect class="box" x="130" y="118" width="110" height="44" rx="4"/><text class="xs" x="138" y="136">group descriptors</text><text class="xs mut" x="138" y="152">where each part is</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="246" y="118" width="100" height="44" rx="4"/><text class="xs" x="254" y="136">block bitmap</text><text class="xs mut" x="254" y="152">1 bit per block</text>
+    <rect class="box" x="352" y="118" width="100" height="44" rx="4"/><text class="xs" x="360" y="136">inode bitmap</text><text class="xs mut" x="360" y="152">1 bit per inode</text>
+    <rect class="box warn" x="458" y="118" width="120" height="44" rx="4"/><text class="xs" x="466" y="136" fill="#ffb454">inode table</text><text class="xs mut" x="466" y="152">256 bytes each</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="584" y="118" width="182" height="44" rx="4"/><text class="xs" x="592" y="136" fill="#00ff9d">data blocks</text><text class="xs mut" x="592" y="152">content and directories</text>
+    <text class="xs mut" x="14" y="192">superblock copies live in groups 0, 1 and the powers of 3, 5 and 7 &mdash; dumpe2fs lists them as &ldquo;Backup superblock at &hellip;&rdquo;.</text>
+    <text class="xs mut" x="14" y="212">a wiped primary superblock is not fatal: e2fsck -b &lt;backup&gt; rebuilds from a copy.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page" id="p40">
+<span class="kicker">T14 &middot; Theory &middot; on Kali</span>
+<h2>Reading the superblock &mdash; three ways
+  <span class="ar">قراءة الـ superblock — بثلاث طرق</span></h2>
+<p>Raw bytes with <code>dd</code> and <code>hexdump</code>; decoded with <code>dumpe2fs</code>; walked with <code>debugfs</code>. Same volume, one value confirmed three times &mdash; that is the habit.
+  <span class="ar">الـ bytes الخام بأداتي <code>dd</code> و <code>hexdump</code>؛ و مفكوكة بأداة <code>dumpe2fs</code>؛ و مستعرَضة بأداة <code>debugfs</code>. الـ volume نفسه، و قيمة واحدة تُؤكَّد ثلاث مرات — و هذه هي العادة.</span></p>
+<div class="wu">
+  <div class="wu-tb"><span class="t">kali &mdash; the raw superblock</span></div>
+  <div class="wu-term"><span class="p">$</span> <span class="k">sudo dd if=/dev/loop0 bs=1024 count=1 skip=1 2&gt;/dev/null | hexdump -C | head -8</span>
+00000000  <span class="w">00 64 00 00</span> 00 64 00 00  00 05 00 00 a8 59 00 00  |.d...d.......Y..|
+00000010  f3 63 00 00 00 00 00 00  <span class="w">02 00 00 00</span> 02 00 00 00  |.c..............|
+00000020  00 80 00 00 00 80 00 00  00 64 00 00 2c 86 57 67  |.........d..,.Wg|
+00000030  2c 86 57 67 03 00 ff ff  <span class="w">53 ef</span> 01 00 01 00 00 00  |,.Wg....S.......|
+<span class="d"># 0x00 inode count 0x6400 = 25 600 · 0x18 s_log_block_size = 2 -> 2^(10+2) = 4096 · 0x38 magic 53 EF = 0xEF53 little-endian</span></div>
+</div>
+<div class="wu" style="margin-top:12px">
+  <div class="wu-tb"><span class="t">kali &mdash; decoded</span></div>
+  <div class="wu-term"><span class="p">$</span> <span class="k">sudo dumpe2fs -h /dev/loop0 2&gt;/dev/null | grep -E 'magic|Block size|Inode size|Block count|Inode count|created|Last mounted|Journal inode|Backup'</span>
+Filesystem magic number:  <span class="w">0xEF53</span>
+Last mounted on:          /mnt/ext4_partition
+Inode count:              25600
+Block count:              25600
+Block size:               <span class="w">4096</span>
+Inode size:               256
+Filesystem created:       Fri Nov 29 00:04:22 2024
+Journal inode:            8
+
+<span class="p">$</span> <span class="k">sudo debugfs -R 'stat &lt;2&gt;' /dev/loop0</span>
+Inode: 2   Type: directory    Mode:  0755   Flags: 0x80000
+Links: 3   Blockcount: 8
+ctime: 0x675789e1 -- Tue Dec 10 00:22:57 2024
+EXTENTS:
+(0):15
+<span class="d"># inode 2 is always the root directory; its data is one 4 KiB block at block 15.</span></div>
+</div>
+    </section>
+
+<section class="page" id="p41">
+<span class="kicker">T14 &middot; Theory &middot; Linux</span>
+<h2>Inodes &mdash; the record that is not the name
+  <span class="ar">الـ inodes — السجل الذي ليس هو الاسم</span></h2>
+<p>Every file and directory has an <b>inode</b>: 256 bytes holding mode and permissions, owner, size, link count, five timestamps and the extents that say which blocks hold the content. The <b>name is not in it</b> &mdash; names live in directory blocks, as <i>name &rarr; inode number</i>.
+  <span class="ar">لكل ملف و مجلد <b>inode</b>: 256 byte تحمل النوع و الصلاحيات و المالك و الحجم و عدد الروابط و خمسة توقيتات و الـ extents التي تقول أي blocks تحمل المحتوى. و <b>الاسم ليس فيه</b> — الأسماء تعيش في blocks المجلدات على شكل <i>اسم ← رقم inode</i>.</span></p>
+<figure class="dgm" id="dg-inode" data-mode="loop" data-reveal="upto" data-interval="4000">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F8 &middot; NAME, INODE, BLOCKS</span><span class="dgm-tag">PATTERN 5 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 200" role="img" aria-labelledby="t-inode">
+  <title id="t-inode">A directory entry mapping a name to inode 11, the inode with its fields, and the data block it points to</title>
+  <g data-step="1"><rect class="box" x="14" y="40" width="200" height="90" rx="6"/><text class="xs mut" x="26" y="60">directory block (inode 2)</text><text class="m sm" x="26" y="84">.           2</text><text class="m sm" x="26" y="102">test_dir    12</text><text class="m sm" x="26" y="120" fill="#00d9ff">notes.txt   11</text></g>
+  <g data-step="2"><path class="arw key" d="M216 112 L250 100"/><rect class="box key" x="252" y="30" width="270" height="140" rx="6"/><text class="xs" x="264" y="50" fill="#00d9ff">inode 11 &mdash; 256 bytes in the inode table</text><text class="m xs" x="264" y="70">i_mode 0644  uid 1001  size 9</text><text class="m xs" x="264" y="88">links 1   blocks 8   flags 0x80000</text><text class="m xs" x="264" y="106">atime mtime ctime crtime (+ dtime)</text><text class="m xs" x="264" y="124">EXTENTS: (0):24577</text><text class="xs mut" x="264" y="156">no name anywhere in here</text></g>
+  <g data-step="3"><path class="arw ok" d="M524 124 L560 100"/><rect class="box ok" x="562" y="60" width="204" height="70" rx="6"/><text class="xs" x="574" y="82" fill="#00ff9d">block 24577</text><text class="m xs" x="574" y="102">AAAAAAAA</text><text class="xs mut" x="574" y="120">byte 24577 &times; 4096</text>
+    <text class="xs mut" x="14" y="190">inode 2 = root · 8 = the journal · 11 = the first ordinary file. debugfs: stat &lt;11&gt;, with the angle brackets.</text></g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding"><span class="cl-label">What changed when you changed the mode</span>
+  <p><code>chmod 755</code> on the file moved exactly three things in the inode: <code>i_mode</code>, <code>ctime</code>, and the inode checksum. <code>atime</code>, <code>mtime</code> and <code>crtime</code> did not move. Predict which timestamp changes, then check &mdash; that is the exercise.
+    <span class="ar">تغيير الصلاحيات بأمر <code>chmod 755</code> حرّك ثلاثة أشياء بالضبط في الـ inode: <code>i_mode</code> و <code>ctime</code> و checksum الـ inode. و لم يتحرك <code>atime</code> و لا <code>mtime</code> و لا <code>crtime</code>. توقّع أي توقيت يتغير، ثم تحقق — هذا هو التمرين.</span></p></div>
+    </section>
+
+<section class="page" id="p42">
+<span class="kicker">T14 &middot; Theory &middot; Linux</span>
+<h2>Five timestamps, and the one you cannot fake
+  <span class="ar">خمسة توقيتات، و الواحد الذي لا يمكن تزييفه</span></h2>
+<div class="table-wrap"><table style="min-width:640px;table-layout:fixed">
+  <colgroup><col style="width:14%"><col style="width:46%"><col style="width:40%"></colgroup>
+  <thead><tr><th></th><th>Records</th><th>Set by</th></tr></thead>
+  <tbody>
+    <tr><td><b>atime</b></td><td>last read &mdash; often frozen by <code>relatime</code>/<code>noatime</code><span class="ar">آخر قراءة — كثيرًا ما تجمّده خيارات الـ mount.</span></td><td>a read; anyone with <code>touch -a</code><span class="ar">قراءة؛ أو أي شخص بأمر <code>touch -a</code>.</span></td></tr>
+    <tr><td><b>mtime</b></td><td>last change to the content<span class="ar">آخر تغيير في المحتوى.</span></td><td>a write; anyone with <code>touch -d</code><span class="ar">كتابة؛ أو أي شخص بأمر <code>touch -d</code>.</span></td></tr>
+    <tr><td><b>ctime</b></td><td>last change to the <b>inode</b> &mdash; mode, owner, links, and any touch<span class="ar">آخر تغيير في <b>الـ inode</b> — النوع أو المالك أو الروابط أو أي touch.</span></td><td><b>the kernel only</b>, to the current clock<span class="ar"><b>النواة فقط</b>، بالساعة الحالية.</span></td></tr>
+    <tr><td><b>crtime</b></td><td>creation &mdash; ext4 only; <code>stat</code> calls it Birth<span class="ar">الإنشاء — في ext4 فقط؛ و يسمّيه <code>stat</code> باسم Birth.</span></td><td>the kernel, at creation<span class="ar">النواة، عند الإنشاء.</span></td></tr>
+    <tr><td><b>dtime</b></td><td>deletion, on a deleted inode<span class="ar">الحذف، في inode محذوف.</span></td><td>the kernel, at unlink<span class="ar">النواة، عند الحذف.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="wu">
+  <div class="wu-tb"><span class="t">kali &mdash; a timestomped file</span></div>
+  <div class="wu-term"><span class="p">$</span> <span class="k">stat timestomped_file.txt | grep -E 'Access: 2|Modify|Change|Birth'</span>
+Access: <span class="w">2016-01-01 12:00:00.000000000</span> +0000
+Modify: <span class="w">2016-01-01 12:00:00.000000000</span> +0000
+Change: 2025-01-05 06:33:55.001578638 +0000
+ Birth: 2025-01-05 06:33:42.401109261 +0000
+<span class="d"># atime and mtime say 2016 with zero nanoseconds; ctime and crtime say 2025. The file was made in 2025 and back-dated.</span>
+<span class="p">$</span> <span class="k">sudo find /mnt/ext4_time -newerct "2025-01-01" ! -newerct "2025-01-06" -ls</span>
+<span class="d"># every inode CHANGED in that window, whatever its displayed date -- the hunting query.</span></div>
+</div>
+<div class="limitation"><span class="cl-label">Cannot prove</span>
+  <p>The kernel sets <code>ctime</code> to the system clock &mdash; so an attacker who moves the clock, or edits the inode on the raw device with <code>debugfs set_inode_field</code>, defeats the check. A 2016 <code>mtime</code> is also what <code>cp -p</code>, <code>tar</code> and <code>rsync -a</code> legitimately preserve.
+    <span class="ar">تضبط النواة <code>ctime</code> بساعة النظام — فالمهاجم الذي يغيّر الساعة، أو يعدّل الـ inode على الجهاز الخام بأمر <code>debugfs set_inode_field</code>، يتجاوز الفحص. و <code>mtime</code> من 2016 هو أيضًا ما تحفظه <code>cp -p</code> و <code>tar</code> و <code>rsync -a</code> بشكل مشروع.</span></p></div>
+    </section>
+
+<section class="page" id="p43">
+<span class="kicker">T15 &middot; Theory &middot; Linux</span>
+<h2>Deletion on ext &mdash; why ext4 needs carving
+  <span class="ar">الحذف في ext — لماذا يحتاج ext4 إلى الـ carving</span></h2>
+<p>On ext2 an unlinked inode kept its block pointers, so <code>debugfs lsdel</code> and <code>icat</code> could bring a file back by number. ext3 and ext4 <b>zero the pointers</b> at unlink, set <code>dtime</code>, and drop the link count to 0. The inode no longer points anywhere &mdash; the blocks still hold the bytes.
+  <span class="ar">في ext2 كان الـ inode المحذوف يحتفظ بمؤشرات الـ blocks، فتستطيع <code>debugfs lsdel</code> و <code>icat</code> إعادة الملف برقمه. أما ext3 و ext4 فـ<b>يصفّران المؤشرات</b> عند الحذف، و يضبطان <code>dtime</code>، و ينزلان بعدد الروابط إلى 0. فلا يعود الـ inode يشير إلى أي مكان — و الـ blocks لا تزال تحمل الـ bytes.</span></p>
+<div class="wu">
+  <div class="wu-tb"><span class="t">kali &mdash; recovery by content</span></div>
+  <div class="wu-term"><span class="p">$</span> <span class="k">sudo strings -t d /dev/loop0 | grep -i "AAAAAAAA"</span>
+<span class="w">100671488</span> AAAAAAAA
+<span class="p">$</span> <span class="k">echo $((100671488 / 4096))</span>
+<span class="w">24578</span>
+<span class="p">$</span> <span class="k">sudo dd if=/dev/loop0 bs=4096 skip=24578 count=1 of=/tmp/recovered_block</span>
+1+0 records in
+1+0 records out
+<span class="p">$</span> <span class="k">cat /tmp/recovered_block</span>
+AAAAAAAA
+BBBBBBBB
+ZZZZZZZZ
+You find the content!
+<span class="d"># byte offset / block size = block number. Works for one contiguous block; a fragmented file needs count>1 and may not be contiguous.</span></div>
+</div>
+<div class="table-wrap"><table style="min-width:620px;table-layout:fixed">
+  <colgroup><col style="width:34%"><col style="width:66%"></colgroup>
+  <thead><tr><th>Route</th><th>When it works</th></tr></thead>
+  <tbody>
+    <tr><td>by inode &mdash; <code>icat</code>, <code>debugfs</code><span class="ar">بالـ inode</span></td><td>ext2, or ext4 before the extent tree was zeroed &mdash; rarely<span class="ar">ext2، أو ext4 قبل تصفير شجرة الـ extents — نادرًا.</span></td></tr>
+    <tr><td>from the journal &mdash; <code>ext4magic</code>, <code>debugfs logdump</code><span class="ar">من الـ journal</span></td><td>the journal still holds an old copy of the inode table block &mdash; hours to days<span class="ar">الـ journal لا يزال يحمل نسخة قديمة من block جدول الـ inodes — ساعات إلى أيام.</span></td></tr>
+    <tr><td>by content &mdash; <code>strings</code>, <code>dd</code>, PhotoRec, Autopsy <code>$Unalloc</code><span class="ar">بالمحتوى</span></td><td>always, until overwritten &mdash; and the result has no name, owner or timestamps<span class="ar">دائمًا، حتى يُكتب فوقه — و النتيجة بلا اسم و لا مالك و لا توقيتات.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="caveat"><span class="cl-label">Tool currency</span>
+  <p><code>extundelete</code> is still recommended in tutorials and has not been maintained since 2013; on extent-based ext4 it mostly fails. Name <code>ext4magic</code> or The Sleuth Kit instead.
+    <span class="ar">لا تزال الشروح توصي بـ<code>extundelete</code> و لم تُصَن منذ 2013؛ و على ext4 القائم على الـ extents تفشل غالبًا. سمِّ <code>ext4magic</code> أو The Sleuth Kit بدلاً منها.</span></p></div>
+    </section>
+
+<section class="page" id="p44">
+<span class="kicker">T14 &middot; Your turn &middot; Kali &middot; 20 min</span>
+<h2>Lab &mdash; build an ext4 volume and read it back
+  <span class="ar">المعمل — ابنِ volume من نوع ext4 و اقرأه</span></h2>
+<p>No image to download: you make the evidence, so you know the truth to check your reading against. Every command runs on Kali as <code>root</code>.
+  <span class="ar">لا صورة للتنزيل: أنت تصنع الدليل، فتعرف الحقيقة التي تقارن قراءتك بها. و كل أمر يعمل على Kali بصلاحيات <code>root</code>.</span></p>
+<div class="wu">
+  <div class="wu-tb"><span class="t">kali &mdash; make it, plant it, delete it</span></div>
+  <div class="wu-term"><span class="p">#</span> <span class="k">dd if=/dev/zero of=lab.img bs=1M count=32 &amp;&amp; mkfs.ext4 -b 4096 -L ecdfp lab.img &amp;&amp; mkdir -p /mnt/lab &amp;&amp; mount -o loop lab.img /mnt/lab</span>
+<span class="p">#</span> <span class="k">echo normal &gt; /mnt/lab/normal.txt; printf 'MARKER-7731 the memo that will be deleted\n' &gt; /mnt/lab/memo.txt</span>
+<span class="p">#</span> <span class="k">touch -d '2016-01-01 12:00' /mnt/lab/normal.txt; sync; rm /mnt/lab/memo.txt; umount /mnt/lab</span>
+<span class="p">#</span> <span class="k">sha256sum lab.img | tee lab.img.sha256</span>          <span class="d"># from here on, the image is read-only evidence</span></div>
+</div>
+<div class="wu" style="margin-top:12px">
+  <div class="wu-tb"><span class="t">kali &mdash; read it back, without mounting</span></div>
+  <div class="wu-term"><span class="p">#</span> <span class="k">dumpe2fs -h lab.img | grep -E 'magic|Block size|Inode count|created'</span>
+<span class="p">#</span> <span class="k">fls -r lab.img</span>                       <span class="d"># Sleuth Kit: names and inode numbers; deleted names show with an asterisk</span>
+<span class="p">#</span> <span class="k">istat lab.img 12</span>                     <span class="d"># inode 12 = normal.txt (first file made): five timestamps -- which two say 2016, which two say today?</span>
+<span class="p">#</span> <span class="k">strings -t d lab.img | grep MARKER-7731</span>   <span class="d"># the deleted memo: offset -> block -> dd bs=4096 skip=N count=1</span>
+<span class="p">#</span> <span class="k">debugfs -R 'lsdel' lab.img</span>          <span class="d"># and see what ext4 left of the deleted inode: dtime set, size 0, no blocks</span>
+<span class="p">#</span> <span class="k">sha256sum -c lab.img.sha256</span>          <span class="d"># still OK: nothing above wrote to the image</span></div>
+</div>
+<div class="limitation"><span class="cl-label">Deliverable</span>
+  <p>Four findings: the block size and magic from the superblock; the inode number and the two kernel timestamps of <code>normal.txt</code>; the block number the memo was recovered from; and one sentence on what <code>lsdel</code> could and could not give you.
+    <span class="ar">أربع findings: حجم الـ block و الرقم السحري من الـ superblock؛ و رقم الـ inode و توقيتا النواة لملف <code>normal.txt</code>؛ و رقم الـ block الذي استُعيدت منه المذكرة؛ و جملة واحدة عمّا استطاع <code>lsdel</code> أن يعطيك و ما لم يستطع.</span></p></div>
+    </section>
+
+
+
+
+
+
+
+
+<section class="page" id="p45">
 <span class="kicker">Knowledge check</span>
-<h2>Knowledge check
-  <span class="ar">اختبار سريع</span></h2>
+<h2>Knowledge check &mdash; 1 of 2
+  <span class="ar">اختبار سريع — الجزء الأول</span></h2>
 <div class="q mcq" data-correct="b">
   <p class="qtext">A 300-byte file on an NTFS volume is deleted, and its MFT record has not been reused. What can you recover?
     <span class="ar">حُذف ملف حجمه ٣٠٠ byte من volume نوعه NTFS، و لم يُعَد استخدام سجل الـ MFT الخاص به. فما الذي تستطيع استعادته؟</span></p>
@@ -869,19 +1575,44 @@
 </div>
     </section>
 
-<section class="page divider" id="p25">
+<section class="page" id="p46">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check &mdash; 2 of 2
+  <span class="ar">اختبار سريع — الجزء الثاني</span></h2>
+<div class="q mcq" data-correct="c">
+  <p class="qtext">On a FAT32 volume, file B occupies clusters 15, 16 and 17 in that order. What does the FAT entry for cluster 16 hold?
+    <span class="ar">على volume من نوع FAT32، يشغل الملف B الـ clusters 15 و 16 و 17 بهذا الترتيب. ماذا يحمل مدخل الـ FAT الخاص بالـ cluster 16؟</span></p>
+  <label><input type="radio" name="q2" value="a"> 15 &mdash; the previous cluster</label>
+  <label><input type="radio" name="q2" value="b"> 0FFFFFFF &mdash; end of chain</label>
+  <label><input type="radio" name="q2" value="c"> 17 &mdash; the next cluster</label>
+  <label><input type="radio" name="q2" value="d"> The size of the file</label>
+  <div class="feedback">Each FAT entry is a <i>next</i> pointer; only the last cluster&rsquo;s entry holds the end marker, and the size lives in the directory entry.<span class="ar">كل مدخل FAT مؤشر إلى <i>التالي</i>؛ و مدخل الـ cluster الأخير وحده يحمل علامة النهاية، و الحجم يعيش في الـ directory entry.</span></div>
+</div>
+<div class="q mcq" data-correct="b">
+  <p class="qtext">On ext4, <code>stat</code> shows Modify 2016-01-01 00:00:00.000000000 and Change 2025-01-05 06:33:55. What is the <b>finding</b>?
+    <span class="ar">على ext4 يعرض <code>stat</code> وقت تعديل في 2016 بأجزاء ثانية كلها أصفار، و وقت تغيير في 2025. ما هي الـ <b>finding</b>؟</span></p>
+  <label><input type="radio" name="q3" value="a"> The file was created in 2016</label>
+  <label><input type="radio" name="q3" value="b"> The inode&rsquo;s mtime is 2016-01-01 00:00:00 with zero fractional seconds; its ctime is 2025-01-05 06:33:55</label>
+  <label><input type="radio" name="q3" value="c"> The attacker timestomped the file on 2025-01-05</label>
+  <label><input type="radio" name="q3" value="d"> The system clock is wrong</label>
+  <div class="feedback">The values are the finding. That they are consistent with back-dating is the interpretation &mdash; and <code>cp -p</code> or a moved clock are the alternatives it has to name.<span class="ar">القيم هي الـ finding. أما اتساقها مع التأريخ الرجعي فهو interpretation — و <code>cp -p</code> أو ساعة مغيَّرة هما البديلان اللذان يجب أن تسمّيهما.</span></div>
+</div>
+    </section>
+
+
+<section class="page divider" id="p47">
 <div class="divider-inner">
   <span class="divider-kicker">Cheat sheet</span>
   <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
   <div class="divider-rule"></div>
   <p class="lede">How FAT and NTFS hold a file, what deleting really does, and what carving can and cannot recover &mdash; in the form you reach for at the keyboard.<span class="ar">كيف يحمل FAT و NTFS الملف، و ما يفعله الحذف فعلاً، و ما يستعيده الـ carving و ما لا يستعيده — بالشكل الذي ستحتاجه على الجهاز.</span></p>
-  <p class="divider-meta">1 screen &middot; print it</p>
+  <p class="divider-meta">3 screens &middot; print them</p>
 </div>
     </section>
 
-<section class="page" id="p26">
+<section class="page" id="p48">
 <span class="kicker">Cheat sheet &middot; keep this open</span>
-<h2>Cheat sheet &mdash; FAT, NTFS, and carving
+<h2>Cheat sheet 1 &mdash; FAT
   <span class="ar">ورقة المراجعة — FAT و NTFS و الـ carving</span></h2>
 <p>The page condensed to what you use when you read a file system, or a volume that has none.
   <span class="ar">الصفحة مختصرة فيما تستعمله وقت قراءة نظام ملفات، أو volume بلا نظام.</span></p>
@@ -889,17 +1620,57 @@
   <ul>
     <li><b>FAT = three structures</b> &mdash; the boot sector/BPB, the FAT (the cluster chain), and the directory (name + first cluster + size).<span class="ar">FAT ثلاث بنى: boot sector/BPB، و الـ FAT (سلسلة الـ clusters)، و الـ directory (الاسم + أول cluster + الحجم).</span></li>
     <li><b>Deleting in FAT</b> sets the name&rsquo;s first byte to <code>0xE5</code> and frees the chain &mdash; the data stays until overwritten.<span class="ar">الحذف في FAT يجعل أول byte من الاسم <code>0xE5</code> و يحرّر السلسلة — و البيانات تبقى حتى يُكتب فوقها.</span></li>
-    <li><b>NTFS = one $MFT record per file.</b> A small file&rsquo;s <code>$DATA</code> is <b>resident</b> (inside the record), so deleting it does not remove it from anywhere.<span class="ar">NTFS: سجل <code>$MFT</code> لكل ملف. و <code>$DATA</code> الملف الصغير <b>resident</b> داخل السجل، فحذفه لا يزيله من أي مكان.</span></li>
-    <li><b>Resident vs non-resident</b> &mdash; small data lives in the MFT record; large data points out to clusters. Delete marks the record free, not wiped.<span class="ar">resident مقابل non-resident: البيانات الصغيرة داخل سجل الـ MFT، و الكبيرة تشير إلى clusters. و الحذف يعلّم السجل حرًّا لا ممسوحًا.</span></li>
-    <li><b>Recovery gets harder with time</b> &mdash; every write is a chance to reuse the freed clusters.<span class="ar">الاستعادة تصعب مع الوقت — فكل كتابة فرصة لإعادة استعمال الـ clusters المحرَّرة.</span></li>
-    <li><b>Carving ignores the file system</b> &mdash; it searches header-to-footer signatures across raw bytes. It recovers a deleted file with <b>no name and no timestamp</b>.<span class="ar">الـ carving يتجاهل نظام الملفات — يبحث عن signatures من الـ header للـ footer عبر الـ bytes الخام. يستعيد ملفًا محذوفًا <b>بلا اسم و بلا زمن</b>.</span></li>
-    <li><b>A fragmented file carves wrong</b> &mdash; header-to-footer grabs whatever lies between, so the result is too long or too short &mdash; and may still open.<span class="ar">الملف المجزّأ يُستخرَج غلط — من الـ header للـ footer يلتقط ما بينهما، فيخرج أطول أو أقصر — و قد يفتح رغم ذلك.</span></li>
+    <li><b>Volume map</b> &mdash; reserved (boot 0 &middot; FSInfo 1 &middot; backup boot 6) &rarr; FAT1 &rarr; FAT2 &rarr; data from cluster 2. FAT1 = reserved &times; 512; FAT2 = (reserved + sectors per FAT) &times; 512.<span class="ar">المناطق الثلاث، و معادلتا الإزاحة.</span></li>
+    <li><b>FAT entry</b> &mdash; <code>00000000</code> free &middot; N = next cluster &middot; <code>0FFFFFF7</code> bad &middot; <code>0FFFFFF8&ndash;F</code> end of chain.<span class="ar">قيم مدخل الـ FAT.</span></li>
+    <li><b>Attribute byte</b> at offset 11 &mdash; <code>0x02</code> hidden, <code>0x10</code> directory, <code>0x0F</code> = a long-name entry. Timestamps: 2-second resolution, access is a date only, no journal to compare.<span class="ar">byte الخصائص، و حدود التوقيتات.</span></li>
   </ul>
   <p><button class="btn" type="button" onclick="window.print()">&#128424; Print the cheat sheet</button></p>
 </div>
     </section>
 
-<section class="page divider" id="p27">
+<section class="page" id="p49">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet 2 &mdash; NTFS and carving
+  <span class="ar">ورقة المراجعة — FAT و NTFS و الـ carving</span></h2>
+<p>The page condensed to what you use when you read a file system, or a volume that has none.
+  <span class="ar">الصفحة مختصرة فيما تستعمله وقت قراءة نظام ملفات، أو volume بلا نظام.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b>NTFS = one $MFT record per file.</b> A small file&rsquo;s <code>$DATA</code> is <b>resident</b> (inside the record), so deleting it does not remove it from anywhere.<span class="ar">NTFS: سجل <code>$MFT</code> لكل ملف. و <code>$DATA</code> الملف الصغير <b>resident</b> داخل السجل، فحذفه لا يزيله من أي مكان.</span></li>
+    <li><b>Resident vs non-resident</b> &mdash; small data lives in the MFT record; large data points out to clusters. Delete marks the record free, not wiped.<span class="ar">resident مقابل non-resident: البيانات الصغيرة داخل سجل الـ MFT، و الكبيرة تشير إلى clusters. و الحذف يعلّم السجل حرًّا لا ممسوحًا.</span></li>
+    <li><b>Recovery gets harder with time</b> &mdash; every write is a chance to reuse the freed clusters.<span class="ar">الاستعادة تصعب مع الوقت — فكل كتابة فرصة لإعادة استعمال الـ clusters المحرَّرة.</span></li>
+    <li><b>Carving ignores the file system</b> &mdash; it searches header-to-footer signatures across raw bytes. It recovers a deleted file with <b>no name and no timestamp</b>.<span class="ar">الـ carving يتجاهل نظام الملفات — يبحث عن signatures من الـ header للـ footer عبر الـ bytes الخام. يستعيد ملفًا محذوفًا <b>بلا اسم و بلا زمن</b>.</span></li>
+    <li><b>A fragmented file carves wrong</b> &mdash; header-to-footer grabs whatever lies between, so the result is too long or too short &mdash; and may still open.<span class="ar">الملف المجزّأ يُستخرَج غلط — من الـ header للـ footer يلتقط ما بينهما، فيخرج أطول أو أقصر — و قد يفتح رغم ذلك.</span></li>
+    <li><b>System files</b> &mdash; 0 $MFT &middot; 1 $MFTMirr (first records only) &middot; 2 $LogFile (hours) &middot; 6 $Bitmap &middot; 7 $Boot &middot; 8 $BadClus &middot; 11 $Extend &rarr; $UsnJrnl:$J (days&ndash;weeks).<span class="ar">أرقام السجلات المحجوزة.</span></li>
+    <li><b>Record</b> &mdash; <code>FILE0</code> header &middot; $STANDARD_INFORMATION 0x10 &middot; $FILE_NAME 0x30 &middot; $DATA 0x80 &middot; $I30 for directories. $SI vs $FN timestamps = the timestomp check.<span class="ar">بنية السجل، و مقارنة التوقيتات.</span></li>
+    <li><b>MFTECmd</b> &mdash; <code>-f &lt;$MFT | $J | $I30&gt; --csv &lt;folder&gt; --csvf &lt;name&gt;.csv</code>; add <code>-m $MFT</code> for $J paths. It does not parse $LogFile.<span class="ar">شكل الأمر الواحد، و ما لا يحلّله.</span></li>
+  </ul>
+  <p><button class="btn" type="button" onclick="window.print()">&#128424; Print the cheat sheet</button></p>
+</div>
+    </section>
+
+<section class="page" id="p50">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet 3 &mdash; ext
+  <span class="ar">ورقة المراجعة — FAT و NTFS و الـ carving</span></h2>
+<p>The page condensed to what you use when you read a file system, or a volume that has none.
+  <span class="ar">الصفحة مختصرة فيما تستعمله وقت قراءة نظام ملفات، أو volume بلا نظام.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b>Superblock</b> at byte 1 024 &mdash; magic <code>0xEF53</code> at 0x38 (<code>53 EF</code>), block size = 2^(10 + byte 0x18), inode 256 B, copies in groups 0, 1, 3ⁿ, 5ⁿ, 7ⁿ.<span class="ar">الـ superblock و نسخه.</span></li>
+    <li><b>Block group</b> &mdash; superblock &middot; descriptors &middot; block bitmap &middot; inode bitmap &middot; inode table &middot; data. 32 768 blocks per group.<span class="ar">أجزاء كل block group.</span></li>
+    <li><b>Inodes</b> &mdash; 2 root &middot; 8 journal &middot; 11 first file. Name lives in the directory, not the inode. Extents = block ranges.<span class="ar">أرقام inodes الثابتة، و أين يعيش الاسم.</span></li>
+    <li><b>Timestamps</b> &mdash; atime, mtime (anyone: <code>touch</code>) &middot; ctime, crtime (kernel) &middot; dtime. Hunt: <code>find -newerct A ! -newerct B -ls</code>. Bypass: the system clock, or <code>debugfs set_inode_field</code>.<span class="ar">أي التوقيتات يضبطها المستخدم و أيها النواة.</span></li>
+    <li><b>Deleted on ext4</b> &mdash; extents zeroed, dtime set, links 0. Recover by content: <code>strings -t d | grep</code> &rarr; offset &divide; block size &rarr; <code>dd bs=4096 skip=N count=1</code>. Journal copies: <code>ext4magic</code>.<span class="ar">طريق الاستعادة على ext4.</span></li>
+    <li><b>Tools</b> &mdash; <code>dumpe2fs -h</code> &middot; <code>debugfs -R 'stat &lt;N&gt;'</code> &middot; Sleuth Kit <code>fls -r</code>, <code>istat</code>, <code>icat</code>, <code>blkcat</code> &middot; Autopsy on the image.<span class="ar">الأدوات.</span></li>
+  </ul>
+  <p><button class="btn" type="button" onclick="window.print()">&#128424; Print the cheat sheet</button></p>
+</div>
+    </section>
+
+
+
+<section class="page divider" id="p51">
 <div class="divider-inner">
   <span class="divider-kicker">Task</span>
   <h2>Handed in before P10<span class="ar">يُسلَّم قبل P10</span></h2>
@@ -909,7 +1680,7 @@
 </div>
     </section>
 
-<section class="page" id="p28">
+<section class="page" id="p52">
 <span class="kicker">Task &middot; handed in before P10</span>
 <h2>Task &mdash; carve a volume, and document it
   <span class="ar">الـ task — استخرج من volume، و وثّقه</span></h2>
@@ -930,7 +1701,7 @@
 </div>
     </section>
 
-<section class="page" id="p29">
+<section class="page" id="p53">
 <span class="kicker">T15 &middot; Report stage &middot; 6 min</span>
 <h2>Report &mdash; writing up a carve
   <span class="ar">التقرير — كتابة نتائج الـ carving</span></h2>
@@ -952,7 +1723,7 @@
 </div>
     </section>
 
-<section class="page" id="p30">
+<section class="page" id="p54">
 <span class="kicker">Summary</span>
 <h2>Summary &mdash; what you can now state
   <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
@@ -978,7 +1749,7 @@
 </div>
     </section>
 
-<section class="page" id="p31">
+<section class="page" id="p55">
 <span class="kicker">References</span>
 <h2>References and what comes next
   <span class="ar">المراجع و ما يأتي بعد</span></h2>
@@ -988,12 +1759,15 @@
     <tr><td><b><code>scripts/make_evs11.py</code></b> &mdash; in this repository<span class="ar">ملف <code>scripts/make_evs11.py</code> في هذا المستودع</span></td><td>the three images, and every offset, size and cluster number on this page<span class="ar">الصور الثلاث، و كل إزاحة و حجم و رقم cluster على هذه الصفحة</span></td></tr>
     <tr><td><b>Microsoft FAT specification</b> &mdash; directory entry layout<span class="ar">مواصفة FAT من Microsoft و بنية الـ directory entry</span></td><td>the 32-byte fields, and <code>0xE5</code> as the deleted marker<span class="ar">الحقول الاثنين و الثلاثين byte، و <code>0xE5</code> بوصفه علامة الحذف</span></td></tr>
     <tr><td><b>ntfs-3g</b> 2022.10.3 &mdash; <code>mkntfs</code>, <code>ntfscp</code>, <code>ntfsinfo</code><span class="ar">أدوات ntfs-3g 2022.10.3</span></td><td>the NTFS volume, and the record layout it produced<span class="ar">الـ volume من نوع NTFS، و بنية السجلات التي أنتجها</span></td></tr>
+    <tr><td><b>TryHackMe</b> &mdash; <a href="https://tryhackme.com/room/fat32analysis" target="_blank" rel="noopener"><i>FAT32 Analysis</i></a> &middot; <a href="https://tryhackme.com/room/ntfsanalysis" target="_blank" rel="noopener"><i>NTFS Analysis</i></a> &middot; <a href="https://tryhackme.com/room/extanalysis" target="_blank" rel="noopener"><i>EXT Analysis</i></a><span class="ar">غرف TryHackMe الثلاث عن FAT32 و NTFS و ext</span></td><td>the structure walks, the MFTECmd lab and its screenshots, the ext demo<span class="ar">شرح البنى، و lab أداة MFTECmd و لقطاته، و عرض ext</span></td></tr>
+    <tr><td><b>Andrea Fortuna</b> &mdash; <a href="https://andreafortuna.org/2017/10/06/macb-times-in-windows-forensic-analysis/" target="_blank" rel="noopener">MACB times in Windows forensic analysis</a><span class="ar">مقال MACB في التحليل الجنائي لويندوز</span></td><td>which operation moves which timestamp<span class="ar">أي عملية تحرّك أي توقيت</span></td></tr>
+    <tr><td><b>Tools</b> &mdash; MFTECmd, Timeline Explorer, Sleuth Kit, e2fsprogs, PhotoRec 7.2<span class="ar">الأدوات</span></td><td>every command on the lab screens<span class="ar">كل أمر في شاشات الـ lab</span></td></tr>
     <tr><td><b>INE eCDFP</b> module 3<span class="ar">وحدة INE eCDFP الثالثة</span></td><td>FAT and NTFS structures, and the carving section<span class="ar">بنى الـ FAT و الـ NTFS، و قسم الـ carving</span></td></tr>
   </tbody>
 </table></div>
 <div class="note">
-  <p><b>Evidence note.</b> <code>EVS-11</code> was <b>built, not downloaded</b>. The FAT and carve images are <b>byte-reproducible</b>: two builds to two paths are identical. The NTFS image is <b>not</b>, and the manifest says so &mdash; <code>mkntfs</code> writes a journal and index entries carrying timestamps, and pinning those would mean forging a <code>$LogFile</code> that does not match what happened. So the manifest also carries the <b>four MFT records this page reads</b>, which are stable across builds. <b>A student checks those.</b>
-    <span class="ar"><b>ملاحظة عن الدليل.</b> جرى <b>بناء</b> <code>EVS-11</code> لا تنزيله. و صورتا الـ FAT و الـ carve <b>قابلتان لإعادة الإنتاج byte بـ byte</b>: بناءان إلى مسارين مختلفين يخرجان متطابقين. أما صورة الـ NTFS <b>فلا</b>، و الـ manifest يقول ذلك — إذ يكتب <code>mkntfs</code> سجلاً journal و مدخلات فهرسة تحمل أزمنة، و تثبيتها يعني تزوير <code>$LogFile</code> لا يطابق ما حدث. لذلك يحمل الـ manifest أيضًا <b>سجلات الـ MFT الأربعة التي تقرؤها هذه الصفحة</b>، و هي ثابتة عبر البناءات. <b>و الطالب يتحقّق منها.</b></span></p>
+  <p><b>Evidence note.</b> <code>EVS-11</code> was <b>built, not downloaded</b>. The FAT and carve images are byte-reproducible; the NTFS image is not, and the manifest says so &mdash; <code>mkntfs</code> writes a journal with timestamps, and pinning those would mean forging a <code>$LogFile</code>. So the manifest carries the <b>four MFT records this page reads</b>, which are stable across builds.
+    <span class="ar"><b>ملاحظة عن الدليل.</b> جرى <b>بناء</b> <code>EVS-11</code> لا تنزيله. صورتا FAT و الـ carving قابلتان لإعادة الإنتاج byte بعد byte؛ أما صورة NTFS فلا، و البيان يقول ذلك — فأداة <code>mkntfs</code> تكتب journal فيه توقيتات، و تثبيتها يعني تزوير <code>$LogFile</code>. و لهذا يحمل البيان <b>سجلات MFT الأربعة التي تقرؤها هذه الصفحة</b>، و هي ثابتة عبر البناءات.</span></p>
 </div>
 <p><b>Next: `P10` &mdash; The registry.</b> Three pages have read <b>files</b>. `T16` and `T17` open the database Windows keeps about itself &mdash; what was configured, what was attached, and when.
   <span class="ar"><b>التالي: `P10` — الـ registry.</b> قرأت ثلاث صفحات <b>الملفات</b>. و يفتح `T16` و `T17` قاعدة البيانات التي يحتفظ بها ويندوز عن نفسه — ما الذي جرى ضبطه، و ما الذي وُصِّل، و متى.</span></p>
@@ -1005,7 +1779,7 @@
 <nav class="page-nav">
   <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
   <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
-  <span class="counter">1 / 31</span>
+  <span class="counter">1 / 55</span>
   <button class="btn" type="button" data-nav="next">Next &rarr;</button>
 </nav>
 
@@ -1014,8 +1788,8 @@
      <code>packages/page-09/</code> &middot; <a href="../roadmap.html">the map</a></p>
 </footer>
 
-<script src="../assets/js/session.js?v=529500a2"></script>
-<script src="../assets/js/quiz.js?v=30913c77"></script>
+<script src="../assets/js/session.js?v=3f0c8728"></script>
+<script src="../assets/js/quiz.js?v=a00a6b86"></script>
 <script src="../assets/js/homework.js?v=bf5cba29"></script>
 <script src="../assets/js/task-creator.js?v=eaede87b"></script>
 <script src="../assets/js/simscreen.js?v=797ca22c"></script>
@@ -1108,5 +1882,52 @@ Dgm.init('#dg9-f6', [
 ]);
 </script>
 
+<script>
+Dgm.init('#dg-fscat', [
+ {en:'<b>The catalogue.</b> A file system is a list: a name, and the clusters that hold the content. FAT keeps this list in a directory plus the FAT; NTFS keeps it in the $MFT; ext keeps it in inodes.', ar:'<b>الفهرس.</b> نظام الملفات قائمة: اسم، و الـ clusters التي تحمل المحتوى. الـ FAT يحفظ هذه القائمة في directory مع الـ FAT؛ و NTFS في الـ $MFT؛ و ext في الـ inodes.'},
+ {en:'<b>The shelves.</b> The content itself sits in clusters that know nothing about names. doc.pdf is three clusters only because the catalogue says which three.', ar:'<b>الرفوف.</b> المحتوى نفسه يقع في clusters لا تعرف شيئًا عن الأسماء. و doc.pdf ثلاثة clusters فقط لأن الفهرس يقول أيها الثلاثة.'},
+ {en:'<b>Deletion edits the catalogue, not the shelf.</b> FAT marks the card; NTFS flags the record; ext clears the inode&rsquo;s pointers. The bytes wait to be overwritten &mdash; and that gap is where this page works.', ar:'<b>الحذف يعدّل الفهرس لا الرف.</b> الـ FAT يعلّم البطاقة؛ و NTFS يضع علامة على السجل؛ و ext يمسح مؤشرات الـ inode. و الـ bytes تنتظر أن يُكتب فوقها — و في تلك الفجوة تعمل هذه الصفحة كلها.', key:true}
+]);
+Dgm.init('#dg-fatmap', [
+ {en:'<b>Reserved area.</b> Sector 0 is the boot sector with the BIOS Parameter Block; sector 1 is FSInfo (a hint, never a finding); sector 6 is a copy of the boot sector.', ar:'<b>المنطقة المحجوزة.</b> الـ sector 0 هو الـ boot sector مع الـ BIOS Parameter Block؛ و الـ sector 1 هو FSInfo (تلميح لا finding)؛ و الـ sector 6 نسخة من الـ boot sector.'},
+ {en:'<b>Two FATs.</b> The chain, then a mirror of it. FAT1 and FAT2 that disagree are a tampering lead.', ar:'<b>FAT اثنان.</b> السلسلة، ثم مرآة لها. و اختلاف FAT1 عن FAT2 خيط يقود إلى عبث.'},
+ {en:'<b>The data area</b> starts at cluster 2 &mdash; there is no cluster 0 or 1 &mdash; and the root directory sits there first.', ar:'<b>منطقة البيانات</b> تبدأ عند الـ cluster 2 — لا يوجد cluster 0 أو 1 — و الـ root directory يقع فيها أولاً.'},
+ {en:'<b>Four formulas</b> from three boot-sector fields. Compute them once per volume and every offset on the disk follows. The task on this page asks you to.', ar:'<b>أربع معادلات</b> من ثلاثة حقول في الـ boot sector. احسبها مرة لكل volume و ستتبعها كل إزاحة على القرص. و الـ task في هذه الصفحة يطلب منك ذلك.', key:true}
+]);
+Dgm.init('#dg-chain', [
+ {en:'<b>Before.</b> The directory entry names the file and its first cluster, 11. The FAT carries the order: 11 &rarr; 12 &rarr; 13 &rarr; end. The data area holds the bytes.', ar:'<b>قبل الحذف.</b> يسمّي الـ directory entry الملف و الـ cluster الأول، 11. و يحمل الـ FAT الترتيب: 11 ← 12 ← 13 ← النهاية. و منطقة البيانات تحمل الـ bytes.'},
+ {en:'<b>After.</b> Two edits only: the first byte of the name becomes <code>E5</code>, and the three FAT entries become zero &mdash; free. The first cluster, the size, the dates and every byte of the picture are still there. A contiguous file recovers from its entry alone; a fragmented one has lost its map.', ar:'<b>بعد الحذف.</b> تعديلان فقط: أول byte في الاسم يصبح <code>E5</code>، و مدخلات الـ FAT الثلاثة تصبح صفرًا — أي حرة. و الـ cluster الأول و الحجم و التواريخ و كل byte من الصورة لا تزال موجودة. الملف المتصل يُستعاد من مدخله وحده؛ أما المجزّأ فقد فقد خريطته.', key:true}
+]);
+Dgm.init('#dg-ntfsmap', [
+ {en:'<b>The $MFT.</b> Everything is a record in one table &mdash; files, directories, and the table itself. Small files live inside their record.', ar:'<b>الـ $MFT.</b> كل شيء سجل في جدول واحد — الملفات و المجلدات و الجدول نفسه. و الملفات الصغيرة تعيش داخل سجلها.'},
+ {en:'<b>Two journals.</b> $LogFile records metadata operations before they commit; $UsnJrnl records what changed to which file. Neither exists on FAT.', ar:'<b>journal اثنان.</b> يسجّل $LogFile عمليات الـ metadata قبل تثبيتها؛ و يسجّل $UsnJrnl ما تغيّر و في أي ملف. و لا يوجد أي منهما في FAT.'},
+ {en:'<b>Alternate data streams.</b> One file can carry several named data streams; a directory listing counts one.', ar:'<b>الـ alternate data streams.</b> يستطيع ملف واحد أن يحمل عدة streams مسمّاة؛ و قائمة المجلد تعدّ واحدًا فقط.'},
+ {en:'<b>Security.</b> ACLs decide who may read; EFS encrypts; compression and sparse files change how bytes map to clusters. Each one changes what a tool shows you.', ar:'<b>الأمان.</b> تقرّر الـ ACLs من يقرأ؛ و يشفّر EFS؛ و الضغط و الملفات المتناثرة تغيّر كيف تُربط الـ bytes بالـ clusters. و كل منها يغيّر ما تعرضه لك الأداة.'},
+ {en:'<b>Eight timestamps.</b> Four in $STANDARD_INFORMATION, four in $FILE_NAME &mdash; the pair that makes timestomping detectable, which FAT never could.', ar:'<b>ثمانية توقيتات.</b> أربعة في $STANDARD_INFORMATION و أربعة في $FILE_NAME — الزوج الذي يجعل تزوير التوقيتات قابلاً للكشف، و هو ما لم يستطعه FAT قط.', key:true}
+]);
+Dgm.init('#dg-mftrec', [
+ {en:'<b>The header.</b> <code>FILE0</code>, the flags &mdash; in use, directory &mdash; and a sequence number that goes up every time the record is reused.', ar:'<b>الـ header.</b> <code>FILE0</code>، و العلامات — مستخدم، مجلد — و رقم تسلسلي يزيد كلما أُعيد استخدام السجل.'},
+ {en:'<b>$STANDARD_INFORMATION.</b> Created, modified, MFT-changed, accessed &mdash; the four the tools show you, and the four a timestomping tool rewrites.', ar:'<b>$STANDARD_INFORMATION.</b> الإنشاء و التعديل و تغيّر السجل و الوصول — الأربعة التي تعرضها الأدوات، و الأربعة التي تعيد أداة التزوير كتابتها.'},
+ {en:'<b>$FILE_NAME.</b> The name, the parent directory, and four timestamps of its own, set by the kernel. The pair to compare.', ar:'<b>$FILE_NAME.</b> الاسم، و المجلد الأب، و أربعة توقيتات خاصة به يضبطها النواة. و هذا هو الزوج الذي يُقارَن.'},
+ {en:'<b>$DATA.</b> Under roughly 700 bytes the content is resident, inside these 1 024 bytes. Deleting the record deletes nothing.', ar:'<b>$DATA.</b> تحت نحو 700 byte يكون المحتوى مقيمًا داخل هذه الـ 1 024 byte. و حذف السجل لا يحذف شيئًا.'},
+ {en:'<b>Non-resident, directories, streams.</b> A run list points at clusters; a directory carries an index instead; a second $DATA is an alternate stream. Same record shape every time.', ar:'<b>غير المقيم، و المجلدات، و الـ streams.</b> قائمة runs تشير إلى clusters؛ و المجلد يحمل فهرسًا بدلاً من ذلك؛ و $DATA ثانية هي stream بديلة. و شكل السجل واحد في كل مرة.', key:true}
+]);
+Dgm.init('#dg-journals', [
+ {en:'<b>$LogFile</b> is small and circular: it records each metadata operation before it commits, with the state before and after &mdash; and it wraps in a few hours of normal use.', ar:'<b>$LogFile</b> صغير و دائري: يسجّل كل عملية metadata قبل تثبيتها، بالحالة قبلها و بعدها — و يدور على نفسه خلال ساعات من الاستخدام العادي.'},
+ {en:'<b>$UsnJrnl:$J</b> is long and thin: one line per change, naming the file and the kind of change, never the data. Itself an alternate data stream under $Extend.', ar:'<b>$UsnJrnl:$J</b> طويل و رفيع: سطر لكل تغيير، يسمّي الملف و نوع التغيير، و لا يحمل البيانات أبدًا. و هو نفسه alternate data stream تحت $Extend.'},
+ {en:'<b>The division of labour.</b> Ask $J <i>what</i> happened to which file over the last weeks; ask $LogFile <i>how</i>, for the last few hours. Nothing in $LogFile does not mean nothing happened.', ar:'<b>توزيع العمل.</b> اسأل $J <i>ماذا</i> حدث و لأي ملف خلال الأسابيع الأخيرة؛ و اسأل $LogFile <i>كيف</i> حدث خلال الساعات الأخيرة. و خلوّ $LogFile لا يعني أن شيئًا لم يحدث.', key:true}
+]);
+Dgm.init('#dg-extlayout', [
+ {en:'<b>The whole volume.</b> A boot area of 1 024 bytes, then block groups of equal size &mdash; 32 768 blocks each with 4 KiB blocks, so 128 MiB per group. A 100 MiB volume has one group.', ar:'<b>الـ volume كله.</b> منطقة إقلاع بحجم 1 024 byte، ثم block groups متساوية الحجم — 32 768 block لكل منها بحجم 4 KiB، أي 128 MiB لكل مجموعة. و volume بحجم 100 MiB فيه مجموعة واحدة.'},
+ {en:'<b>The superblock and the group descriptors.</b> The superblock says block size, block count, inode count and size, magic 0xEF53, UUID, label, and the mount times. The descriptors say where each group&rsquo;s parts begin.', ar:'<b>الـ superblock و الواصفات.</b> يقول الـ superblock حجم الـ block و عددها و عدد الـ inodes و حجمها و الرقم السحري 0xEF53 و الـ UUID و الاسم و أوقات الـ mount. و تقول الواصفات أين يبدأ كل جزء في كل مجموعة.'},
+ {en:'<b>Two bitmaps and the inode table.</b> A bit per block and a bit per inode say in-use or free &mdash; free is never empty. The inode table is the group&rsquo;s share of the file records.', ar:'<b>الـ bitmaps الاثنان و جدول الـ inodes.</b> bit لكل block و bit لكل inode يقولان مستخدم أو حر — و الحر ليس فارغًا أبدًا. و جدول الـ inodes هو نصيب المجموعة من سجلات الملفات.'},
+ {en:'<b>Data blocks</b> hold content and directories. Because every group repeats the structure, a damaged front of the disk is recoverable from the copies deeper in.', ar:'<b>الـ data blocks</b> تحمل المحتوى و المجلدات. و لأن كل مجموعة تكرر البنية، فمقدمة القرص التالفة تُستعاد من النسخ الأعمق فيه.', key:true}
+]);
+Dgm.init('#dg-inode', [
+ {en:'<b>The directory</b> is just a data block of the directory&rsquo;s own inode: pairs of name and inode number. Delete a name and the pair is unlinked; the inode may still be there.', ar:'<b>المجلد</b> مجرد data block يخص inode المجلد نفسه: أزواج من اسم و رقم inode. احذف اسمًا فيُفصل الزوج؛ و قد يظل الـ inode موجودًا.'},
+ {en:'<b>The inode</b> carries everything except the name: type, permissions, owner, size, link count, timestamps, and the extents. Two names can point at one inode &mdash; a hard link.', ar:'<b>الـ inode</b> يحمل كل شيء إلا الاسم: النوع و الصلاحيات و المالك و الحجم و عدد الروابط و التوقيتات و الـ extents. و قد يشير اسمان إلى inode واحد — الـ hard link.'},
+ {en:'<b>The extents</b> are ranges of blocks: (0):24577 means logical block 0 lives at physical block 24577. Multiply by the block size and dd reads it back.', ar:'<b>الـ extents</b> نطاقات من الـ blocks: القيمة (0):24577 تعني أن الـ block المنطقي 0 يعيش في الـ block الفعلي 24577. اضرب في حجم الـ block و سيقرأه dd.', key:true}
+]);
+</script>
 </body>
 </html>

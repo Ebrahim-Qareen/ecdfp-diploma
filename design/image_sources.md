@@ -88,3 +88,44 @@ allowed) and carries the provisional line.
 | 4 | The completed chain-of-custody form | anywhere |
 | 5 | The hypervisor snapshot list showing `CLEAN-TOOLS` | VMware |
 | 6 | FTK Imager's `.txt` verification log, MD5 + SHA-1 lines visible | Windows VM |
+
+---
+
+## Instructor-supplied images and TryHackMe screenshots (2026-09-10 · `D166`)
+
+Supplied by Ebrahim on 2026-09-10 for the Session 2 / Session 3 rebuild of `P03`, `P08` and `P09`.
+The screenshots are captures of real tools (FTK Imager, HxD, Disk Management, `msinfo32`, MFTECmd,
+Timeline Explorer, Explorer) taken by TryHackMe for their rooms; they are used here **as teaching
+screenshots with an attribution line on every figure**, in a course sold to a class of ~5. **TryHackMe's
+own diagrams (mind maps, structure charts, the boot-process SVGs) were NOT copied** — every diagram on
+the three pages is our own inline SVG, per `design_system.md` §5. The raw download folder
+`docs/assets/img/File system photos/` stays **untracked**; only the files below are published, renamed
+and reduced (≤1400 px, 256 colours).
+
+| File | Shows | Used on | Source | Attribution line |
+|---|---|---|---|---|
+| `photos/48684.gif` | DEC / HEX / BIN reference table, 0–127 | `P03` | previous ITGate course deck (Session 2) — a standard reference table | none required |
+| `photos/DSCN0012.jpg` (kept locally, untracked — shipped only as `file02` inside `downloads/p03-task.zip`) | Nikon COOLPIX P6000 test photograph with EXIF + GPS (Arezzo, IT) | `P03` task pack (`file02`) | [ianare/exif-samples](https://github.com/ianare/exif-samples), CC BY-SA 4.0 | credited on the References screen |
+| `fs/disk-management-three-volumes.png` | Disk Management: one disk, three NTFS volumes, unallocated space | `P08` | TryHackMe, *MBR and GPT Analysis* | Screenshot: TryHackMe, room *MBR and GPT Analysis* |
+| `fs/boot-msinfo32-bios-mode.png` | `msinfo32`, BIOS Mode = Legacy | `P08` | same room | same |
+| `fs/mbr-hex-colour-coded.png` | 512-byte MBR, boot code / table / 55 AA coloured | `P08` | same room | same |
+| `fs/mbr-hxd-data-inspector.png` | HxD Data Inspector reading the starting LBA as Int32 | `P08` | same room | same |
+| `fs/mbr-hxd-goto-offset.png` | HxD Search → Go to 1048576 | `P08` | same room | same |
+| `fs/gpt-protective-mbr-full.png` | A protective MBR: zeros, one EE entry, 55 AA | `P08` | same room | same |
+| `fs/gpt-header-colour-coded.png` | The 92-byte GPT header, field by field | `P08` | same room | same |
+| `fs/gpt-entries-six.png` | Six GPT partition entries with UTF-16 names | `P08` | same room | same |
+| `fs/gpt-entry-fields.png` | One GPT entry, fields coloured | `P08` | same room | same |
+| `fs/ntfs-ftk-system-files.png` | FTK Imager root with the `$` system files | `P09` | TryHackMe, *NTFS Analysis* | Screenshot: TryHackMe, room *NTFS Analysis* |
+| `fs/ntfs-ftk-mft-hex.png` | FTK Imager hex view of `$MFT`, `FILE0` | `P09` | same room | same |
+| `fs/ntfs-ftk-physicaldrive-root.png` | FTK Imager evidence tree to `[root]` | `P09` | same room | same |
+| `fs/ntfs-ftk-export-files.png` | Export Files on `$I30`, `$LogFile`, `$MFT` | `P09` | same room | same |
+| `fs/ntfs-tle-mft-csv.png` | Timeline Explorer on `MFT_record.csv` (one frame of the room's GIF) | `P09` | same room | same |
+| `fs/ntfs-explorer-metasploit.png` | Explorer: the folder as it is today | `P09` | same room | same |
+| `fs/ntfs-tle-i30-slack.png` | Timeline Explorer on `i30.csv`, From Slack column | `P09` | same room | same |
+
+Thirteen further captures from the same three rooms (the remaining FTK Imager, MFTECmd and Timeline Explorer screens, the EE byte alone, a USB stick opened) are **not published**: they live in `instructor/assets/img/` for the instructor guides only, so the public site carries no image it does not use.
+
+**Licence note, stated plainly.** TryHackMe's terms do not grant a redistribution licence for room
+content. The screenshots are used as classroom teaching material with attribution, at Ebrahim's
+instruction (2026-09-10); if that ever becomes a problem, every one of them can be replaced by a
+capture taken on `FOR-WS01`, and the pages already say what each capture must show.

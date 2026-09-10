@@ -291,15 +291,15 @@ update the §7 status table + `DECISIONS.md`.
 
 | Page | Topics | Built · gated | Free lab task | Published |
 |---|---|---|---|---|
-| P01 Foundations and the deliverable | T01–T02 | ☑ | ☑ | ☑ 2026-09-10 |
-| P02 Evidence integrity | T03 | ☑ | ☑ | ☑ 2026-09-10 |
-| P03 Data at byte level | T04–T05 | ☑ | ☑ | ☑ 2026-09-10 |
+| P01 Foundations and the deliverable | T01–T02 | ☑ · rebuilt 09-10 (30 screens) | ☑ | ☑ 2026-09-10 |
+| P02 Evidence integrity | T03 | ☑ · rebuilt 09-10 (31) | ☑ | ☑ 2026-09-10 |
+| P03 Data at byte level | T04–T05 | ☑ · rebuilt 09-10 (40) | ☑ | ☑ 2026-09-10 |
 | P04 Volatile evidence | T06–T07 | ☑ | ☑ | ☑ 2026-09-10 |
 | P05 Acquisition | T08–T09 | ☑ | ☑ | ☑ 2026-09-10 |
 | P06 Hidden information | T10 | ☑ | ☑ | ☑ 2026-09-10 |
 | P07 Malicious files | T11 | ☑ | ☑ | ☑ 2026-09-10 |
-| P08 The disk | T12–T13 | ☑ | ☑ | ☑ 2026-09-10 |
-| P09 File systems | T14–T15 | ☑ | ☑ | ☑ 2026-09-10 |
+| P08 The disk | T12–T13 | ☑ · rebuilt 09-10 (40) | ☑ | ☑ 2026-09-10 |
+| P09 File systems | T14–T15 | ☑ · rebuilt 09-10 (55, + ext) | ☑ | ☑ 2026-09-10 |
 | P10 The registry | T16–T17 | ☑ | ☑ | ☑ 2026-09-10 |
 | P11 What ran, what was touched | T18–T19 | ☑ | ☑ | ☑ 2026-09-10 |
 | P12 Windows event logs | T20 | ☑ | ☑ | ☑ 2026-09-10 |
@@ -356,3 +356,4 @@ All 14 pass `density_gate.py` (today's limits) and `render_gate.js` (5 widths); 
 | 2026-09-10 | **Homepage reorganised** (pages first, dead cards replaced), **lab on one page with a topology diagram**, **worked report example**, **practice labs** and **glossary**. D157, D159. | `67e339f` |
 | 2026-09-10 | Release gate re-run on the committable set (335 files): no credentials, no evidence bytes, no stage directions, 470/470 links resolve; 139 PII candidates all classified false positives (byte counts, RFC 1918 lab addresses, the fictional EVS-08 case). `PROJECT.md` §7 brought current. History rebuilt without `instructor/` before it stood (D161). | (this commit) |
 | 2026-09-10 | **Cache-busting** — `scripts/stamp_assets.py` stamps every CSS/JS reference under `docs/` with a content hash (155 refs, 30 pages); fixes the stale-stylesheet rendering seen right after the push. D162. | (this commit) |
+| 2026-09-10 | **Review-driven rebuild of P01/P02/P03/P08/P09** — MCQ knowledge checks that work, one-screen printing, task packs published under `docs/downloads/` with SHA-256, Session 2/3 content and four THM rooms folded into P03/P08/P09 (40/40/55 screens), P09 PART 4 ext with a Kali lab, 16 attributed tool screenshots, gates green on all five; instructor guides extended privately. D163–D168. | (this commit) |

@@ -1,6 +1,6 @@
 # thm/ — TryHackMe room notes
 
-**32 rooms from TryHackMe's *Advanced Endpoint Investigations* path, plus one module-arc
+**33 rooms from TryHackMe's *Advanced Endpoint Investigations* path, plus one module-arc
 analysis.** Extracted 2026-08-28/29 by `ecdfp-web-extract` through the logged-in Chrome session
 (`D34` — premium rooms return a marketing shell to `WebFetch`, so the browser tools are used
 directly). Moved here from `Resources/THM/` on 2026-08-29 so they are tracked rather than sitting
@@ -42,6 +42,7 @@ Grouped by the THM module each room belongs to. The **Feeds** column is the note
 | [MBR and GPT Analysis](mbr-and-gpt-analysis.md) | `S4-04` MBR · `S4-05` GPT — both direct hits. **Task 5 is essentially our `S4-10` Case 04, already designed, including the proof step** | Medium · 80 min | 8 |
 | [FAT32 Analysis](fat32-analysis.md) | `S4-06` FAT (direct, far deeper than the row allows) · `S4-03` slack · `S4-09` carving. Gives the MITRE mapping pattern and **a Tier 1 evidence route we had not considered** | Hard · 90 min | 7 |
 | [NTFS Analysis](ntfs-analysis.md) | `S4-07` NTFS · `S4-08` MFTECmd/Timeline Explorer — both direct hits. Carries the **MFT column reference** and the **USN reason-code table** our rows only gesture at | Medium · 90 min | 8 |
+| [EXT Analysis](ext-analysis.md) | `T14` ext (new PART 4 on P09, D167) — superblock at byte 1024, `s_log_block_size`, inodes, the five timestamps and `ctime` as the one a user cannot set, content recovery by `strings -t d` → block → `dd`. Extracted 2026-09-10 through the logged-in Chrome session; premium room, read in full | Medium · 60 min | 7 |
 | [File Carving](file-carving.md) | `S4-09` carving (direct) · `S4-03` slack. **Most serious safety finding of the batch — CVE-2022-4510** | Medium · 90 min | 6 |
 | [Diskrupt](diskrupt.md) · *challenge* | **`S4` capstone, already built.** Its four prerequisites are our four S4 teaching rows and its question chain is our session in order | Hard · 120 min | 8 |
 

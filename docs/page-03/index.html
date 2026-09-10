@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>P03 &middot; Data at byte level &middot; eCDFP Diploma</title>
 <meta name="description" content="Hex, magic bytes and what a rename really changes; endianness; and reading metadata as a claim &mdash; page 3 of the ITGate eCDFP diploma.">
-<link rel="stylesheet" href="../assets/css/ecdfp.css?v=c20323ae">
-<link rel="stylesheet" href="../assets/css/win-ui.css?v=7e607ee5">
+<link rel="stylesheet" href="../assets/css/ecdfp.css?v=f9ac6b6d">
+<link rel="stylesheet" href="../assets/css/win-ui.css?v=3d886664">
 <link rel="stylesheet" href="../assets/css/simscreen.css?v=a7a3cc80">
 <link rel="icon" href="../assets/img/itgate-logo.jpg">
 </head>
@@ -45,30 +45,36 @@
       <li><a href="#p8"><span class="n">08</span><span>File structure</span></a></li>
       <li><a href="#p9"><span class="n">09</span><span>What are magic bytes?</span></a></li>
       <li><a href="#p10"><span class="n">10</span><span>What a rename changes</span></a></li>
-      <li class="is-part"><a href="#p11"><span class="n">11</span><span>PART 2 &mdash; What a file says about itself</span></a></li>
-      <li><a href="#p12"><span class="n">12</span><span>Three questions about a file</span></a></li>
-      <li><a href="#p13"><span class="n">13</span><span>How a number is stored &mdash; endianness</span></a></li>
-      <li><a href="#p14"><span class="n">14</span><span>The two EXIF timestamps</span></a></li>
-      <li><a href="#p15"><span class="n">15</span><span>What metadata does not prove</span></a></li>
-      <li><a href="#p16"><span class="n">16</span><span>When there is no metadata</span></a></li>
-      <li class="is-part"><a href="#p17"><span class="n">17</span><span>INSTRUCTOR DEMO</span></a></li>
-      <li><a href="#p18"><span class="n">18</span><span>Signature sweep</span></a></li>
-      <li><a href="#p19"><span class="n">19</span><span>The sweep result</span></a></li>
-      <li><a href="#p20"><span class="n">20</span><span>The limits of signatures</span></a></li>
-      <li><a href="#p21"><span class="n">21</span><span>Analysing file metadata</span></a></li>
-      <li class="is-part"><a href="#p22"><span class="n">22</span><span>YOUR TURN &mdash; Case 01</span></a></li>
-      <li><a href="#p23"><span class="n">23</span><span>Case 01 &mdash; the brief</span></a></li>
-      <li><a href="#p24"><span class="n">24</span><span>Reading a split result</span></a></li>
-      <li><a href="#p25"><span class="n">25</span><span>Integrity and identity</span></a></li>
-      <li><a href="#p26"><span class="n">26</span><span>Knowledge check</span></a></li>
-      <li class="is-part"><a href="#p27"><span class="n">27</span><span>CHEAT SHEET</span></a></li>
-      <li><a href="#p28"><span class="n">28</span><span>Cheat sheet</span></a></li>
-      <li class="is-part"><a href="#p29"><span class="n">29</span><span>TASK</span></a></li>
-      <li><a href="#p30"><span class="n">30</span><span>Task &mdash; identify, write findings</span></a></li>
-      <li><a href="#p31"><span class="n">31</span><span>Report &mdash; Section 6</span></a></li>
-      <li><a href="#p32"><span class="n">32</span><span>Report &mdash; Section 8</span></a></li>
-      <li><a href="#p33"><span class="n">33</span><span>Summary</span></a></li>
-      <li><a href="#p34"><span class="n">34</span><span>References and what comes next</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>What happens when you delete a file?</span></a></li>
+      <li class="is-part"><a href="#p12"><span class="n">12</span><span>PART 2 &mdash; What a file says about itself</span></a></li>
+      <li><a href="#p13"><span class="n">13</span><span>Three questions about a file</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>What a document says about itself</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>How a number is stored &mdash; endianness</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>The two EXIF timestamps</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>A real camera file, and its two clocks</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>What metadata does not prove</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>When there is no metadata</span></a></li>
+      <li class="is-part"><a href="#p20"><span class="n">20</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>Signature sweep</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Demo — four files in a hex editor</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>Demo — reading all four</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>The sweep result</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>The limits of signatures</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Analysing file metadata</span></a></li>
+      <li class="is-part"><a href="#p27"><span class="n">27</span><span>YOUR TURN &mdash; Case 01</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>Case 01 &mdash; the brief</span></a></li>
+      <li><a href="#p29"><span class="n">29</span><span>Reading a split result</span></a></li>
+      <li><a href="#p30"><span class="n">30</span><span>Integrity and identity</span></a></li>
+      <li><a href="#p31"><span class="n">31</span><span>Knowledge check 1</span></a></li>
+      <li><a href="#p32"><span class="n">32</span><span>Knowledge check 2</span></a></li>
+      <li class="is-part"><a href="#p33"><span class="n">33</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p34"><span class="n">34</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p35"><span class="n">35</span><span>TASK</span></a></li>
+      <li><a href="#p36"><span class="n">36</span><span>Task &mdash; identify, write findings</span></a></li>
+      <li><a href="#p37"><span class="n">37</span><span>Report &mdash; Section 6</span></a></li>
+      <li><a href="#p38"><span class="n">38</span><span>Report &mdash; Section 8</span></a></li>
+      <li><a href="#p39"><span class="n">39</span><span>Summary</span></a></li>
+      <li><a href="#p40"><span class="n">40</span><span>References and what comes next</span></a></li>
     </ol>
   </nav>
   <main class="main">
@@ -163,7 +169,7 @@
   <h2>How data is stored, and how a file says what it is<span class="ar">كيف تُخزَّن البيانات، و كيف يُعلن الملف عن نوعه</span></h2>
   <div class="divider-rule"></div>
   <p class="lede">Everything on a disk is bits. This part builds from that to the four bytes that let you identify a file without trusting its name.<span class="ar">كل ما على القرص bits. و يبني هذا الجزء من تلك الحقيقة وصولاً إلى الـ bytes الأربع التي تتيح لك تحديد الملف دون الوثوق باسمه.</span></p>
-  <p class="divider-meta">5 screens &middot; about 20 minutes</p>
+  <p class="divider-meta">7 screens &middot; about 28 minutes</p>
 </div>
     </section>
 
@@ -225,38 +231,99 @@
 <span class="kicker">Part 1 &middot; #2</span>
 <h2>Reading a byte &mdash; binary, decimal and hex
   <span class="ar">قراءة الـ byte — ثنائي و عشري و ست عشري</span></h2>
-<p>Eight bits make a <b>byte</b>, which holds a value from 0 to 255. The same byte can be written
-  three ways, and forensic tools show one of them for a reason.
-  <span class="ar">ثمانية bits تصنع <b>byte</b> يحمل قيمة من صفر إلى ٢٥٥. و يمكن كتابة الـ byte نفسه بثلاث طرق، و أدوات التحليل تعرض إحداها لسبب.</span></p>
-<figure class="dgm" id="dg-whyhex" data-mode="loop" data-reveal="upto" data-interval="3800">
-  <div class="dgm-head"><span class="dgm-id">FIG P03-D0b &middot; WHY HEX AND NOT BINARY</span><span class="dgm-tag">PATTERN 1 &middot; 6</span></div>
-  <div class="dgm-body"><svg viewBox="0 0 780 228" role="img" aria-labelledby="t-whyhex">
-  <title id="t-whyhex">One byte written three ways: binary, decimal and hexadecimal</title>
-  <text class="xs mut" x="14" y="20">ONE BYTE &mdash; eight bits &mdash; written three ways</text>
-
+<p>Five layers, and each one is built from the one below it. A <b>bit</b> is a switch. Four bits are one hex digit. Eight bits are a <b>byte</b>, which can be read as a number or as a character &mdash; and sixteen bytes in a row are one line of every hex viewer you will ever open.
+  <span class="ar">خمس طبقات، كل واحدة مبنية على التي تحتها. الـ bit مفتاح. و أربع bits تساوي خانة hex واحدة. و ثماني bits تساوي byte، يُقرأ رقمًا أو حرفًا — و ستة عشر byte في صف واحد هي سطر واحد في كل عارض hex ستفتحه.</span></p>
+<figure class="dgm" id="dg-ladder" data-mode="loop" data-reveal="upto" data-interval="4200">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D0b &middot; FROM ONE BIT TO A LINE OF HEX</span><span class="dgm-tag">PATTERN 1 &middot; 5 LAYERS</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 566" role="img" aria-labelledby="t-ladder">
+  <title id="t-ladder">Bit, nibble, byte, character and hex-dump line: each layer built from the one before</title>
+  <!-- layer 1 -->
   <g data-step="1">
-    <rect class="box" x="14" y="34" width="752" height="48" rx="6"/>
-    <text class="xs mut" x="30" y="54">BINARY</text>
-    <text class="m sm" x="180" y="66">0 1 0 0 0 0 0 1</text>
-    <text class="xs mut" x="520" y="66">exact, and unreadable at length</text>
+    <text class="xs mut" x="14" y="22">1 &middot; ONE BIT &mdash; a switch</text>
+    <rect class="box key" x="14" y="30" width="60" height="44" rx="6"/>
+    <text class="m big" x="36" y="60">0</text>
+    <rect class="box key" x="84" y="30" width="60" height="44" rx="6"/>
+    <text class="m big" x="106" y="60">1</text>
+    <text class="sm mut" x="160" y="50">off &middot; on</text>
+    <text class="sm mut" x="160" y="68">two states, nothing else &mdash; the whole disk is made of these</text>
   </g>
+  <!-- layer 2 -->
   <g data-step="2">
-    <rect class="box" x="14" y="94" width="752" height="48" rx="6"/>
-    <text class="xs mut" x="30" y="114">DECIMAL</text>
-    <text class="m sm" x="180" y="126">65</text>
-    <text class="xs mut" x="520" y="126">readable, but 1 to 3 digits &mdash; ragged</text>
+    <text class="xs mut" x="14" y="106">2 &middot; FOUR BITS = ONE NIBBLE = ONE HEX DIGIT (0&ndash;F)</text>
+    <g class="m">
+      <rect class="box" x="14" y="114" width="88" height="40" rx="5"/><text class="xs mut" x="22" y="130">0000</text><text class="sm" x="80" y="146">0</text>
+      <rect class="box" x="108" y="114" width="88" height="40" rx="5"/><text class="xs mut" x="116" y="130">0001</text><text class="sm" x="174" y="146">1</text>
+      <rect class="box" x="202" y="114" width="88" height="40" rx="5"/><text class="xs mut" x="210" y="130">0010</text><text class="sm" x="268" y="146">2</text>
+      <rect class="box" x="296" y="114" width="88" height="40" rx="5"/><text class="xs mut" x="304" y="130">0011</text><text class="sm" x="362" y="146">3</text>
+      <rect class="box" x="390" y="114" width="88" height="40" rx="5"/><text class="xs mut" x="398" y="130">0100</text><text class="sm" x="456" y="146">4</text>
+      <rect class="box" x="484" y="114" width="88" height="40" rx="5"/><text class="xs mut" x="492" y="130">0101</text><text class="sm" x="550" y="146">5</text>
+      <rect class="box" x="578" y="114" width="88" height="40" rx="5"/><text class="xs mut" x="586" y="130">0110</text><text class="sm" x="644" y="146">6</text>
+      <rect class="box" x="672" y="114" width="88" height="40" rx="5"/><text class="xs mut" x="680" y="130">0111</text><text class="sm" x="738" y="146">7</text>
+      <rect class="box" x="14" y="160" width="88" height="40" rx="5"/><text class="xs mut" x="22" y="176">1000</text><text class="sm" x="80" y="192">8</text>
+      <rect class="box" x="108" y="160" width="88" height="40" rx="5"/><text class="xs mut" x="116" y="176">1001</text><text class="sm" x="174" y="192">9</text>
+      <rect class="box warn" x="202" y="160" width="88" height="40" rx="5"/><text class="xs mut" x="210" y="176">1010</text><text class="sm" x="268" y="192" fill="#ffb454">A</text>
+      <rect class="box warn" x="296" y="160" width="88" height="40" rx="5"/><text class="xs mut" x="304" y="176">1011</text><text class="sm" x="362" y="192" fill="#ffb454">B</text>
+      <rect class="box warn" x="390" y="160" width="88" height="40" rx="5"/><text class="xs mut" x="398" y="176">1100</text><text class="sm" x="456" y="192" fill="#ffb454">C</text>
+      <rect class="box warn" x="484" y="160" width="88" height="40" rx="5"/><text class="xs mut" x="492" y="176">1101</text><text class="sm" x="550" y="192" fill="#ffb454">D</text>
+      <rect class="box warn" x="578" y="160" width="88" height="40" rx="5"/><text class="xs mut" x="586" y="176">1110</text><text class="sm" x="644" y="192" fill="#ffb454">E</text>
+      <rect class="box warn" x="672" y="160" width="88" height="40" rx="5"/><text class="xs mut" x="680" y="176">1111</text><text class="sm" x="738" y="192" fill="#ffb454">F</text>
+    </g>
   </g>
+  <!-- layer 3 -->
   <g data-step="3">
-    <rect class="box ok" x="14" y="154" width="752" height="48" rx="6"/>
-    <text class="xs mut" x="30" y="174">HEXADECIMAL</text>
-    <text class="m sm" x="180" y="186" fill="#00ff9d">41</text>
-    <text class="xs" x="520" y="186" fill="#00ff9d">always exactly two digits per byte</text>
-    <text class="xs mut" x="14" y="222">That is the whole reason forensic tools display hex: one byte, one column, every time.</text>
+    <text class="xs mut" x="14" y="232">3 &middot; EIGHT BITS = ONE BYTE = TWO HEX DIGITS = A NUMBER 0&ndash;255</text>
+    <rect class="box key" x="14" y="240" width="200" height="50" rx="6"/>
+    <text class="xs mut" x="26" y="257">binary</text>
+    <text class="m lbl" x="26" y="280">0100 0001</text>
+    <path class="arw key" d="M222 265 L256 265"/><path class="arw key" d="M250 259 L258 265 L250 271"/>
+    <rect class="box key" x="264" y="240" width="150" height="50" rx="6"/>
+    <text class="xs mut" x="276" y="257">hex, one digit per nibble</text>
+    <text class="m lbl" x="276" y="280">4  1</text>
+    <path class="arw key" d="M422 265 L456 265"/><path class="arw key" d="M450 259 L458 265 L450 271"/>
+    <rect class="box ok" x="464" y="240" width="130" height="50" rx="6"/>
+    <text class="xs mut" x="476" y="257">written as</text>
+    <text class="m lbl" x="476" y="280" fill="#00ff9d">0x41</text>
+    <path class="arw" d="M602 265 L636 265"/><path class="arw" d="M630 259 L638 265 L630 271"/>
+    <rect class="box" x="644" y="240" width="122" height="50" rx="6"/>
+    <text class="xs mut" x="656" y="257">decimal</text>
+    <text class="m lbl" x="656" y="280">65</text>
+    <text class="xs mut" x="14" y="310">4&times;16 + 1 = 65. Hex is not a different value &mdash; it is the same eight bits, two digits wide, every time.</text>
+  </g>
+  <!-- layer 4 -->
+  <g data-step="4">
+    <text class="xs mut" x="14" y="340">4 &middot; A BYTE CAN ALSO BE A CHARACTER &mdash; the ASCII table decides which</text>
+    <g class="m">
+      <rect class="box ok" x="14" y="348" width="140" height="44" rx="6"/><text class="sm" x="26" y="368">0x41 &rarr; A</text><text class="xs mut" x="26" y="385">65</text>
+      <rect class="box" x="164" y="348" width="140" height="44" rx="6"/><text class="sm" x="176" y="368">0x61 &rarr; a</text><text class="xs mut" x="176" y="385">97</text>
+      <rect class="box" x="314" y="348" width="140" height="44" rx="6"/><text class="sm" x="326" y="368">0x30 &rarr; 0</text><text class="xs mut" x="326" y="385">48 (the digit)</text>
+      <rect class="box" x="464" y="348" width="140" height="44" rx="6"/><text class="sm" x="476" y="368">0x20 &rarr; space</text><text class="xs mut" x="476" y="385">32</text>
+      <rect class="box" x="614" y="348" width="152" height="44" rx="6"/><text class="sm" x="626" y="368">0x0A &rarr; newline</text><text class="xs mut" x="626" y="385">10, not printable</text>
+    </g>
+    <text class="xs mut" x="14" y="412">Same byte, two readings. 0x41 is 65 and it is the letter A &mdash; which one you mean depends on the file.</text>
+  </g>
+  <!-- layer 5 -->
+  <g data-step="5">
+    <text class="xs mut" x="14" y="442">5 &middot; SIXTEEN BYTES IN A ROW = ONE LINE OF A HEX DUMP</text>
+    <rect class="box key" x="14" y="450" width="752" height="66" rx="6"/>
+    <text class="xs mut" x="26" y="468">offset</text>
+    <text class="xs mut" x="120" y="468">the sixteen bytes, in hex</text>
+    <text class="xs mut" x="606" y="468">as characters</text>
+    <text class="m sm" x="26" y="494">00000000</text>
+    <text class="m sm" x="120" y="494">65 43 44 46 50 20 44 69 70 6C 6F 6D 61 20 32 36</text>
+    <text class="m sm" x="606" y="494" fill="#00ff9d">eCDFP Diploma 26</text>
+    <text class="xs mut" x="14" y="540">Left and right pane are one row of data: 65 is e, 43 is C, 20 is space. Nothing was converted &mdash; only read twice.</text>
+    <text class="xs mut" x="14" y="558">The whole of this page, and of carving in P09, is reading that line.</text>
   </g>
  </svg></div>
   <div class="dgm-cap"><p></p></div>
 </figure>
+<figure class="photo wide">
+  <img src="../assets/img/photos/48684.gif" alt="Reference table: decimal, hexadecimal and binary values from 0 to 127" loading="lazy">
+  <figcaption>The full ladder for 0&ndash;127 &mdash; decimal, hex and binary side by side. Find <b>65</b>: it reads <code>41</code> and <code>01000001</code>, exactly as the figure above built it. Keep it open in the next lab.
+    <span class="ar">السلّم كاملاً من صفر إلى ١٢٧ — عشري و hex و ثنائي جنبًا إلى جنب. ابحث عن <b>65</b>: تجدها <code>41</code> و <code>01000001</code>، كما بناها الشكل أعلاه تمامًا. أبقِ الجدول مفتوحًا في الـ lab القادم.</span></figcaption>
+</figure>
     </section>
+
 
 <section class="page" id="p7">
 <span class="kicker">Part 1 &middot; #3</span>
@@ -355,30 +422,33 @@
 <section class="page" id="p9">
 <span class="kicker">Part 1 &middot; #5</span>
 <h2>What are magic bytes?
-  <span class="ar">ما هي الـ bytes السحرية؟</span></h2>
-<div class="table-wrap"><table>
-  <thead><tr><th>Bytes</th><th>Format</th></tr></thead>
+  <span class="ar">ما هي الـ magic bytes؟</span></h2>
+<p>The first bytes declare the format; many formats end with a fixed footer too, and a carver (<b>P09</b>) needs both.
+  <span class="ar">أوائل الـ bytes تعلن الصيغة؛ و كثير من الصيغ تنتهي أيضًا بعلامة footer ثابتة، و أداة الـ carving في <b>P09</b> تحتاج الاثنين.</span></p>
+<div class="table-wrap"><table class="byte-tbl" style="min-width:900px;table-layout:fixed">
+  <colgroup><col style="width:10%"><col style="width:27%"><col style="width:19%"><col style="width:44%"></colgroup>
+  <thead><tr><th>Format</th><th>Header &mdash; first bytes</th><th>Footer &mdash; end marker</th><th>Note</th></tr></thead>
   <tbody>
-  <tr><td><code>25 50 44 46</code><span class="ar">تُقرأ <code>%PDF</code></span></td>
-      <td>PDF &mdash; the signature is literally the characters <code>%PDF</code>
-        <span class="ar">مستند PDF — و الـ signature هي حرفيًا حروف <code>%PDF</code>.</span></td></tr>
-  <tr><td><code>89 50 4E 47 0D 0A 1A 0A</code><span class="ar">ثماني bytes</span></td>
-      <td>PNG &mdash; eight bytes, and the longest of the four
-        <span class="ar">صورة PNG — ثمانية bytes، و هي أطول الأربع.</span></td></tr>
-  <tr><td><code>FF D8 FF</code><span class="ar">ثلاث bytes</span></td>
-      <td>JPEG
-        <span class="ar">صورة JPEG.</span></td></tr>
-  <tr><td><code>50 4B 03 04</code><span class="ar">تُقرأ <code>PK</code></span></td>
-      <td>ZIP &mdash; <b>and therefore <code>.docx</code>, <code>.xlsx</code>, <code>.pptx</code>,
-        <code>.odt</code>, <code>.jar</code>, <code>.apk</code></b>
-        <span class="ar">أرشيف ZIP — <b>و بالتالي <code>.docx</code> و <code>.xlsx</code> و <code>.pptx</code> و <code>.odt</code> و <code>.jar</code> و <code>.apk</code></b>.</span></td></tr>
+  <tr><td>JPEG</td><td>FF D8 FF</td><td>FF D9</td><td>4th byte: E0 JFIF, E1 EXIF<span class="ar">الـ byte الرابع: E0 لصيغة JFIF و E1 لصيغة EXIF.</span></td></tr>
+  <tr><td>PNG</td><td>89 50 4E 47 0D 0A 1A 0A</td><td>49 45 4E 44 AE 42 60 82</td><td>reads <code>.PNG</code>; ends <code>IEND</code><span class="ar">تُقرأ <code>.PNG</code> و تنتهي بـ<code>IEND</code>.</span></td></tr>
+  <tr><td>GIF</td><td>47 49 46 38 39 61</td><td>00 3B</td><td>reads <code>GIF89a</code><span class="ar">تُقرأ <code>GIF89a</code>.</span></td></tr>
+  <tr><td>PDF</td><td>25 50 44 46</td><td>25 25 45 4F 46</td><td><code>%PDF</code> &hellip; <code>%%EOF</code> + newline<span class="ar"><code>%PDF</code> … <code>%%EOF</code> ثم سطر جديد.</span></td></tr>
+  <tr><td>ZIP</td><td>50 4B 03 04</td><td>50 4B 05 06 &hellip;</td><td><code>PK</code> &mdash; so <b><code>.docx</code> <code>.xlsx</code> <code>.pptx</code> <code>.apk</code></b><span class="ar"><code>PK</code> — و بالتالي <b><code>.docx</code> و <code>.xlsx</code> و <code>.pptx</code> و <code>.apk</code></b>.</span></td></tr>
+  <tr><td>Old Office</td><td>D0 CF 11 E0 A1 B1 1A E1</td><td>&mdash;</td><td><code>.doc</code> <code>.xls</code> before 2007 (OLE)<span class="ar"><code>.doc</code> و <code>.xls</code> قبل 2007 (OLE).</span></td></tr>
+  <tr><td>RAR</td><td>52 61 72 21 1A 07</td><td>&mdash;</td><td><code>Rar!</code><span class="ar">تُقرأ <code>Rar!</code>.</span></td></tr>
+  <tr><td>EXE / DLL</td><td>4D 5A</td><td>&mdash;</td><td><code>MZ</code> &mdash; Windows executables<span class="ar"><code>MZ</code> — الملفات التنفيذية في ويندوز.</span></td></tr>
+  <tr><td>MP4</td><td>&hellip; 66 74 79 70 at offset 4</td><td>&mdash;</td><td><code>ftyp</code> &mdash; bytes 0&ndash;3 are a length<span class="ar"><code>ftyp</code> — الـ bytes من 0 إلى 3 طول لا signature.</span></td></tr>
+  <tr><td>MKV</td><td>1A 45 DF A3</td><td>&mdash;</td><td>Matroska<span class="ar">صيغة Matroska.</span></td></tr>
+  <tr><td>AVI / WAV</td><td>52 49 46 46 &hellip; 41 56 49 20</td><td>&mdash;</td><td><code>RIFF</code>; <code>AVI </code> or <code>WAVE</code> at offset 8<span class="ar"><code>RIFF</code>؛ ثم <code>AVI </code> أو <code>WAVE</code> عند الإزاحة 8.</span></td></tr>
+  <tr><td>Text formats</td><td>none</td><td>&mdash;</td><td>XML, SVG, HTML, CSV: readable text, e.g. <code>&lt;?xml</code> = <code>3C 3F 78 6D 6C</code><span class="ar">XML و SVG و HTML و CSV: نص مقروء، مثل <code>&lt;?xml</code> = <code>3C 3F 78 6D 6C</code>.</span></td></tr>
   </tbody>
 </table></div>
+<p class="note-line">Full reference: Gary Kessler&rsquo;s <a href="https://www.garykessler.net/library/file_sigs.html" target="_blank" rel="noopener">File Signatures Table</a>.
+  <span class="ar">المرجع الكامل: <a href="https://www.garykessler.net/library/file_sigs.html" target="_blank" rel="noopener">جدول File Signatures</a> لـ Gary Kessler.</span></p>
 <div class="warn">
-  <span class="cl-label">Learn the last row properly</span>
-  <p>A Word document <b>is</b> a ZIP archive with a particular structure inside it. When you meet
-    OOXML later in the course, you should already expect <code>50 4B</code>.
-    <span class="ar">مستند Word <b>هو</b> أرشيف ZIP بداخله بنية معيّنة. فحين تلقى OOXML لاحقًا في الدبلومة، ينبغي أن تكون متوقعًا <code>50 4B</code> سلفًا.</span></p>
+  <span class="cl-label">Learn the ZIP row properly</span>
+  <p>A Word document <b>is</b> a ZIP archive &mdash; expect <code>50 4B</code>, and expect files inside it with their own signatures.
+    <span class="ar">مستند Word <b>هو</b> أرشيف ZIP بداخله بنية معيّنة — توقّع <code>50 4B</code>، و توقّع أن يحمل ملفٌ بداخله signature خاصة به.</span></p>
 </div>
     </section>
 
@@ -440,17 +510,63 @@
 </div>
     </section>
 
-<section class="page divider" id="p11">
+<section class="page" id="p11">
+<span class="kicker">Part 1 &middot; #7 &middot; preview</span>
+<h2>What happens when you delete a file? (a preview)
+  <span class="ar">ماذا يحدث عند حذف ملف؟ (نظرة أولى)</span></h2>
+<p>A disk is a grid of fixed-size boxes. A file is written into free boxes &mdash; not always next to each other. Deleting a file marks its boxes free. <b>It does not empty them.</b>
+  <span class="ar">القرص شبكة من صناديق ثابتة الحجم. يُكتب الملف في صناديق فارغة — و ليست دائمًا متجاورة. و حذف الملف يعلّم صناديقه فارغة. <b>لكنه لا يفرغها.</b></span></p>
+<figure class="dgm" id="dg-delprev" data-mode="loop" data-reveal="only" data-interval="4200">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D2b &middot; ALLOCATE, DELETE, OVERWRITE</span><span class="dgm-tag">PATTERN 2 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 250" role="img" aria-labelledby="t-delprev">
+  <title id="t-delprev">A grid of clusters: files allocated, one deleted and still present, then overwritten by a new file</title>
+  <text class="xs mut" x="14" y="18">the disk, as a grid of clusters</text>
+  <g data-step="1">
+    <rect class="box key" x="14" y="30" width="88" height="70" rx="5"/><text class="sm" x="34" y="70">file 1</text>
+    <rect class="box key" x="108" y="30" width="182" height="70" rx="5"/><text class="lbl" x="170" y="70">file 2</text>
+    <rect class="box key" x="296" y="30" width="88" height="70" rx="5"/><text class="sm" x="316" y="70">file 3</text>
+    <rect class="box key" x="390" y="30" width="88" height="70" rx="5"/><text class="xs" x="400" y="70">file 5 &middot; part 2</text>
+    <rect class="box" x="484" y="30" width="88" height="70" rx="5"/><rect class="box" x="578" y="30" width="88" height="70" rx="5"/><rect class="box" x="672" y="30" width="94" height="70" rx="5"/>
+    <rect class="box" x="14" y="106" width="88" height="70" rx="5"/>
+    <rect class="box key" x="108" y="106" width="88" height="70" rx="5"/><text class="sm" x="128" y="146">file 4</text>
+    <rect class="box key" x="202" y="106" width="88" height="70" rx="5"/><text class="xs" x="210" y="146">file 5 &middot; part 1</text>
+    <rect class="box key" x="296" y="106" width="88" height="70" rx="5"/><text class="sm" x="316" y="146">file 8</text>
+    <rect class="box" x="390" y="106" width="88" height="70" rx="5"/><rect class="box" x="484" y="106" width="88" height="70" rx="5"/><rect class="box" x="578" y="106" width="88" height="70" rx="5"/><rect class="box" x="672" y="106" width="94" height="70" rx="5"/>
+    <text class="xs mut" x="14" y="204">file 5 did not fit in one place, so it sits in two &mdash; that is fragmentation, and it matters in P09.</text>
+  </g>
+  <g data-step="2">
+    <rect class="box warn" x="296" y="30" width="88" height="70" rx="5"/>
+    <text class="sm" x="316" y="70" fill="#ffb454">file 3</text>
+    <path class="arw no" d="M306 40 L374 90"/><path class="arw no" d="M374 40 L306 90"/>
+    <text class="xs" x="14" y="228" fill="#ffb454">delete file 3: the entry is marked, the box is called free &mdash; the bytes of file 3 are still inside it.</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="296" y="30" width="88" height="70" rx="5"/>
+    <text class="sm" x="308" y="70" fill="#ff4d5e">new file</text>
+    <path class="arw no" d="M340 4 L340 24"/><path class="arw no" d="M334 18 L340 26 L346 18"/>
+    <text class="xs" x="14" y="246" fill="#ff4d5e">a new file lands in the free box: now file 3 is gone. Deletion is not erasure &mdash; overwriting is.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="note">
+  <p>This is a preview so the rest of this page makes sense. Clusters and slack are measured properly in <b>P08</b>; what deletion changes, byte by byte, and how a deleted file is recovered, in <b>P09</b>.
+    <span class="ar">هذه نظرة أولى حتى يُفهم باقي هذه الصفحة. الـ clusters و الـ slack تُقاس بحقها في <b>P08</b>؛ و ما يغيّره الحذف byte بعد byte، و كيف يُستعاد الملف المحذوف، في <b>P09</b>.</span></p>
+</div>
+    </section>
+
+
+<section class="page divider" id="p12">
 <div class="divider-inner">
   <span class="divider-kicker">Part 2 of 2</span>
   <h2>What a file says about itself<span class="ar">ماذا يقول الملف عن نفسه</span></h2>
   <div class="divider-rule"></div>
   <p class="lede">The header carries more than a type. It carries dates, a camera, sometimes a location — all written by software, and all editable.<span class="ar">تحمل الـ header أكثر من النوع. تحمل تواريخ، و كاميرا، و أحيانًا موقعًا — و كلها تكتبها البرامج، و كلها قابلة للتعديل.</span></p>
-  <p class="divider-meta">5 screens &middot; about 30 minutes</p>
+  <p class="divider-meta">7 screens &middot; about 36 minutes</p>
 </div>
     </section>
 
-<section class="page" id="p12">
+<section class="page" id="p13">
 <span class="kicker">Part 2 &middot; #1</span>
 <h2>Three questions about a file
   <span class="ar">ثلاثة أسئلة عن الملف</span></h2>
@@ -490,7 +606,47 @@
 </figure>
     </section>
 
-<section class="page" id="p13">
+<section class="page" id="p14">
+<span class="kicker">Part 2 &middot; #2</span>
+<h2>What a document says about itself
+  <span class="ar">ماذا يقول المستند عن نفسه</span></h2>
+<p>Right-click a Word file, <b>Properties &rarr; Details</b>. Everything in that dialog was written by the application that saved the file &mdash; and it lives inside the ZIP, in <code>docProps/core.xml</code> and <code>docProps/app.xml</code>.
+  <span class="ar">اضغط بالزر الأيمن على ملف Word ثم <b>Properties ← Details</b>. كل ما في هذه النافذة كتبه التطبيق الذي حفظ الملف — و يعيش داخل الـ ZIP، في <code>docProps/core.xml</code> و <code>docProps/app.xml</code>.</span></p>
+<div class="side-by">
+<div class="wu">
+  <div class="wu-tb"><span class="t">template for KBS.dotx Properties</span><span class="sp"><span class="b x">&#10005;</span></span></div>
+  <div class="wu-body" style="padding:8px 12px 12px">
+    <div class="wu-tabs"><span>General</span><span>Security</span><span class="on">Details</span><span>Previous Versions</span></div>
+    <div class="wu-cols" style="grid-template-columns:150px 1fr">
+      <div class="h">Property</div><div class="h">Value</div>
+      <div class="c">Authors</div><div class="c">First Year</div>
+      <div class="c">Last saved by</div><div class="c">First Year</div>
+      <div class="c">Revision number</div><div class="c">2</div>
+      <div class="c">Program name</div><div class="c">Microsoft Office Word</div>
+      <div class="c">Company</div><div class="c"></div>
+      <div class="c sel">Content created</div><div class="c sel">2/15/2024 10:38 AM</div>
+      <div class="c">Date last saved</div><div class="c">2/15/2024 10:38 AM</div>
+      <div class="c">Last printed</div><div class="c"></div>
+      <div class="c">Total editing time</div><div class="c">00:01:00</div>
+      <div class="c">Pages</div><div class="c">1</div>
+      <div class="c">Word count</div><div class="c">0</div>
+    </div>
+    <div class="wu-btns"><span class="wu-bt def">OK</span><span class="wu-bt">Cancel</span><span class="wu-bt">Apply</span></div>
+  </div>
+</div>
+<div class="boxes">
+<div class="finding"><span class="cl-label">Finding &middot; what the dialog is</span>
+  <p><code>docProps/core.xml</code> records <code>dc:creator</code>, <code>cp:lastModifiedBy</code>, <code>revision</code>, <code>created</code> and <code>modified</code>; <code>app.xml</code> records the application, the company field and the editing time. The same values print from <code>exiftool file.docx</code>.
+    <span class="ar">يسجّل <code>docProps/core.xml</code> المنشئ و آخر من حفظ و رقم المراجعة و وقتَي الإنشاء و التعديل؛ و يسجّل <code>app.xml</code> التطبيق و حقل الشركة و زمن التحرير. و القيم نفسها يطبعها <code>exiftool file.docx</code>.</span></p></div>
+<div class="limitation"><span class="cl-label">Cannot prove</span>
+  <p>Who the person was. <i>Authors</i> is the Office user name on the machine that saved it, typed by whoever set that machine up. And every value is plain text inside a ZIP: unzip, edit, rezip.
+    <span class="ar">مَن كان الشخص. فحقل <i>Authors</i> هو اسم مستخدم Office على الجهاز الذي حفظ الملف، كتبه من جهّز ذلك الجهاز. و كل قيمة نص عادي داخل ZIP: افتحه و عدّل و أعد ضغطه.</span></p></div>
+</div>
+</div>
+    </section>
+
+
+<section class="page" id="p15">
 <span class="kicker">Part 2 &middot; #2</span>
 <h2>How a number is stored &mdash; endianness
   <span class="ar">كيف يُخزَّن الرقم — ترتيب الـ bytes</span></h2>
@@ -532,7 +688,7 @@
 </div>
     </section>
 
-<section class="page" id="p14">
+<section class="page" id="p16">
 <span class="kicker">Part 2 &middot; #4</span>
 <h2>The two EXIF timestamps
   <span class="ar">توقيتا EXIF</span></h2>
@@ -580,7 +736,37 @@
 </div>
     </section>
 
-<section class="page" id="p15">
+<section class="page" id="p17">
+<span class="kicker">Part 2 &middot; #5 &middot; a real file</span>
+<h2>A real camera file, and its two clocks
+  <span class="ar">ملف كاميرا حقيقي، و ساعتاه</span></h2>
+<p>This is <code>file02</code> from your task pack &mdash; a 640&times;480 photograph written by a Nikon compact camera in 2008. Every value below is read from the file with <code>exiftool</code>, and two of them disagree.
+  <span class="ar">هذا هو <code>file02</code> من حزمة الـ task — صورة 640×480 كتبتها كاميرا Nikon صغيرة عام 2008. كل قيمة أدناه مقروءة من الملف بأداة <code>exiftool</code>، و اثنتان منها متعارضتان.</span></p>
+<div class="wu">
+  <div class="wu-tb"><span class="t">Windows PowerShell</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+  <div class="wu-term"><span class="p">PS C:\Forensics\Cases\P03&gt;</span> <span class="k">exiftool -Make -Model -Software -DateTimeOriginal -ModifyDate -GPSDateStamp -GPSTimeStamp .\file02</span>
+Make                : NIKON
+Camera Model Name   : COOLPIX P6000
+Software            : Nikon Transfer 1.1 W
+Date/Time Original  : <span class="w">2008:10:22 16:29:49</span>
+Modify Date         : 2008:11:01 21:15:07
+GPS Date Stamp      : <span class="w">2008:10:23</span>
+GPS Time Stamp      : <span class="w">14:28:17.24</span>
+<span class="d"># three clocks: the camera's own, the transfer software's, and the satellites'.</span></div>
+</div>
+<div class="finding"><span class="cl-label">Finding</span>
+  <p><code>DateTimeOriginal</code> records <code>2008:10:22 16:29:49</code>; the GPS block records <code>2008:10:23 14:28:17 UTC</code>. The two differ by about 22 hours. <code>Software</code> reads <i>Nikon Transfer 1.1 W</i> and <code>ModifyDate</code> is ten days later.
+    <span class="ar">يسجّل <code>DateTimeOriginal</code> القيمة <code>2008:10:22 16:29:49</code>؛ و تسجّل كتلة GPS القيمة <code>2008:10:23 14:28:17 UTC</code>. و الفرق بينهما نحو 22 ساعة. و حقل <code>Software</code> يقرأ <i>Nikon Transfer 1.1 W</i> و <code>ModifyDate</code> بعده بعشرة أيام.</span></p></div>
+<div class="interpretation"><span class="cl-label">Interpretation</span>
+  <p>The GPS time is set by satellites; the camera time is set by a person. Assessed with <b>moderate</b> confidence that the camera clock was wrong &mdash; a day behind. Considered and not excluded: a GPS date field written badly by the firmware.
+    <span class="ar">وقت GPS تضبطه الأقمار الصناعية؛ و وقت الكاميرا يضبطه إنسان. يُقدَّر بثقة <b>متوسطة</b> أن ساعة الكاميرا كانت خاطئة — متأخرة يومًا. و اعتُبر و لم يُستبعد: حقل تاريخ GPS كتبه البرنامج الثابت خطأً.</span></p></div>
+<div class="limitation"><span class="cl-label">Cannot prove</span>
+  <p>Which clock was right, from the file alone. And the block also holds latitude and longitude &mdash; reading them, and saying where the camera was, is your task on this page.
+    <span class="ar">أي الساعتين كانت صحيحة، من الملف وحده. و تحمل الكتلة أيضًا خط الطول و خط العرض — قراءتهما، و تحديد موضع الكاميرا، هو الـ task في هذه الصفحة.</span></p></div>
+    </section>
+
+
+<section class="page" id="p18">
 <span class="kicker">Part 2 &middot; #5</span>
 <h2>What metadata does not prove
   <span class="ar">ما الذي لا تُثبته الـ metadata</span></h2>
@@ -603,7 +789,7 @@
 </div>
     </section>
 
-<section class="page" id="p16">
+<section class="page" id="p19">
 <span class="kicker">Part 2 &middot; #6</span>
 <h2>When there is no metadata
   <span class="ar">حين لا توجد metadata</span></h2>
@@ -640,17 +826,17 @@ File Type    : JPEG
 </div>
     </section>
 
-<section class="page divider" id="p17">
+<section class="page divider" id="p20">
 <div class="divider-inner">
   <span class="divider-kicker">Instructor demo</span>
   <h2>Reading the bytes: signatures, then metadata<span class="ar">قراءة الـ bytes: الـ signatures، ثم الـ metadata</span></h2>
   <div class="divider-rule"></div>
   <p class="lede">Watch two tools run on real files: the signature sweep that catches five liars in twelve, then the metadata read that refuses to name a cause. You repeat both on your own in the task.<span class="ar">شاهد أداتين تعملان على ملفات حقيقية: مسح الـ signatures الذي يكشف خمسة كاذبين من اثني عشر، ثم قراءة الـ metadata التي ترفض تسمية سبب. و تعيد الاثنين بنفسك في الـ task.</span></p>
-  <p class="divider-meta">4 screens &middot; the instructor drives</p>
+  <p class="divider-meta">6 screens &middot; the instructor drives</p>
 </div>
     </section>
 
-<section class="page" id="p18">
+<section class="page" id="p21">
 <span class="kicker">Instructor demo &middot; signature sweep</span>
 <h2>Lab objectives
   <span class="ar">أهداف المعمل</span></h2>
@@ -704,12 +890,70 @@ policy_v2.docx:     <span class="e">PNG image data</span>
  </div></div>
 </div>
 <div class="note">
-  <p>Full steps, each with its verification line, in <code>guided_lab.md</code>.
-    <span class="ar">الخطوات كاملة، و مع كل خطوة سطر التحقق منها، في <code>guided_lab.md</code>.</span></p>
+  <p>Every step above has a verification line &mdash; the command, and what it must print before you move on. Keep those lines: they are the Section 6 method, written as you work.
+    <span class="ar">لكل خطوة أعلاه سطر تحقق — الأمر، و ما يجب أن يطبعه قبل أن تنتقل. احتفظ بهذه الأسطر: فهي منهج القسم السادس، مكتوبًا و أنت تعمل.</span></p>
 </div>
     </section>
 
-<section class="page" id="p19">
+<section class="page" id="p22">
+<span class="kicker">Instructor demo &middot; the practice set</span>
+<h2>Demo &mdash; four files in a hex editor
+  <span class="ar">الـ demo — أربعة ملفات في محرّر hex</span></h2>
+<p>Four files from the previous course. Three carry an extension; one carries none. In <b>HxD</b>: <b>File &rarr; Open</b>, and read the first line before you read anything else.
+  <span class="ar">أربعة ملفات من الدورة السابقة. ثلاثة منها تحمل امتدادًا و واحد لا يحمل شيئًا. في <b>HxD</b>: <b>File ← Open</b>، و اقرأ السطر الأول قبل أي شيء آخر.</span></p>
+<div class="dl-card"><b>p03-practice.zip</b> &middot; 5.1 MB &middot; <code>File09</code> &middot; <code>File10.png</code> &middot; <code>File11.docx</code> &middot; <code>File12.mp4</code> &middot; <code>SHA256SUMS.txt</code>
+  <span class="ar">أربعة ملفات مع بيان قيم SHA-256 لكل منها — تحقق منها قبل أن تفتح أي شيء.</span>
+  <div class="dl-row"><a class="btn" href="../downloads/p03-practice.zip" download>&#11015; p03-practice.zip</a><span class="dl-meta">SHA-256 <code class="h">7a79c76548c49727202a6996131469def66ed2ff0396cdc15b196d6e2814b8eb</code></span></div>
+</div>
+<div class="wu">
+  <div class="wu-tb"><span class="t">HxD &mdash; [C:\Forensics\Cases\P03\p03-practice\File11.docx]</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+  <div class="wu-mb"><span>File</span><span>Edit</span><span>Search</span><span>View</span><span>Analysis</span><span>Tools</span><span>Window</span><span>Help</span></div>
+  <div class="wu-body" style="padding:8px 10px">
+<div class="hexpane"><span class="off">Offset(h)  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  Decoded text</span>
+<span class="off">00000000</span>   <span class="hi">50 4B 03 04</span> 14 00 06 00 08 00 00 00 21 00 9E 3C  <span class="hi">PK</span>..........!.&lt;
+<span class="off">00000010</span>   9C 4D 84 01 00 00 8F 05 00 00 13 00 08 02 5B 43  .M............[C
+<span class="off">00000020</span>   6F 6E 74 65 6E 74 5F 54 79 70 65 73 5D 2E 78 6D  ontent_Types].xm
+<span class="off">00000030</span>   6C 20 A2 04 02 28 A0 00 02 00 00 00 00 00 00 00  l ...(..........</div>
+    <div class="wu-sb" style="margin-top:6px"><span>Offset(h): 0</span><span>Block(h): 0-3</span><span>Length(h): 4</span><span>Overwrite</span></div>
+  </div>
+</div>
+<div class="finding"><span class="cl-label">Finding</span>
+  <p><code>File11.docx</code> begins <code>50 4B 03 04</code> &mdash; the ZIP signature &mdash; and the decoded text shows <code>[Content_Types].xml</code>, the first member of every OOXML document. The extension and the bytes agree.
+    <span class="ar">يبدأ <code>File11.docx</code> بالقيمة <code>50 4B 03 04</code> — signature الـ ZIP — و يُظهر النص المفكوك <code>[Content_Types].xml</code>، أول عضو في كل مستند OOXML. الامتداد و الـ bytes متفقان.</span></p></div>
+    </section>
+
+<section class="page" id="p23">
+<span class="kicker">Instructor demo &middot; the practice set</span>
+<h2>Demo &mdash; reading all four, and one file inside another
+  <span class="ar">الـ demo — قراءة الأربعة، و ملف داخل ملف</span></h2>
+<p>The same first sixteen bytes for each file, from PowerShell this time &mdash; the tool changes, the bytes do not.
+  <span class="ar">أول ستة عشر byte لكل ملف، من PowerShell هذه المرة — الأداة تتغير و الـ bytes لا تتغير.</span></p>
+<div class="wu">
+  <div class="wu-tb"><span class="t">Windows PowerShell</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+  <div class="wu-term"><span class="p">PS C:\Forensics\Cases\P03\p03-practice&gt;</span> <span class="k">Get-ChildItem File* | % { "{0,-12} {1}" -f $_.Name, ((Format-Hex $_ -Count 16).Bytes | % { $_.ToString('X2') }) -join ' ' }</span>
+File09       <span class="w">52 61 72 21 1A 07</span> 00 CF 90 73 00 00 0D 00 00 00
+File10.png   <span class="w">89 50 4E 47 0D 0A 1A 0A</span> 00 00 00 0D 49 48 44 52
+File11.docx  <span class="w">50 4B 03 04</span> 14 00 06 00 08 00 00 00 21 00 9E 3C
+File12.mp4   00 00 00 18 <span class="w">66 74 79 70</span> 6D 70 34 32 00 00 00 00</div>
+</div>
+<div class="table-wrap"><table class="byte-tbl" style="min-width:820px;table-layout:fixed">
+  <colgroup><col style="width:14%"><col style="width:30%"><col style="width:16%"><col style="width:40%"></colgroup>
+  <thead><tr><th>File</th><th>First bytes</th><th>Signature says</th><th>Verdict</th></tr></thead>
+  <tbody>
+    <tr><td>File09</td><td>52 61 72 21 1A 07 &middot; <code>Rar!</code></td><td>RAR archive</td><td>no extension &mdash; it is a <code>.rar</code><span class="ar">بلا امتداد — و هو <code>.rar</code>.</span></td></tr>
+    <tr><td>File10.png</td><td>89 50 4E 47 0D 0A 1A 0A</td><td>PNG</td><td>agree<span class="ar">متفقان.</span></td></tr>
+    <tr><td>File11.docx</td><td>50 4B 03 04 &middot; <code>PK</code></td><td>ZIP &rarr; OOXML</td><td>agree<span class="ar">متفقان.</span></td></tr>
+    <tr><td>File12.mp4</td><td>&hellip; 66 74 79 70 &middot; <code>ftyp</code> at 4</td><td>MP4</td><td>agree &mdash; the signature is not at offset 0<span class="ar">متفقان — و الـ signature ليست عند الإزاحة 0.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">A file inside a file</span>
+  <p>Unzip <code>File11.docx</code> and look in <code>word/embeddings/</code>: a <code>.doc</code> that begins <code>D0 CF 11 E0</code>. The container&rsquo;s signature is what you see first; what it carries has signatures of its own. That is why a sweep of the disk is not the end of the question.
+    <span class="ar">فكّ ضغط <code>File11.docx</code> و انظر في <code>word/embeddings/</code>: ملف <code>.doc</code> يبدأ بـ<code>D0 CF 11 E0</code>. فالـ signature التي تراها أولاً هي signature الـ container؛ و ما تحمله له signatures خاصة به. و لهذا لا يكون مسح القرص نهاية السؤال.</span></p></div>
+    </section>
+
+
+
+<section class="page" id="p24">
 <span class="kicker">Instructor demo &middot; result</span>
 <h2>File signature analysis &mdash; the sweep result
   <span class="ar">تحليل signatures الملفات — النتيجة</span></h2>
@@ -765,7 +1009,7 @@ policy_v2.docx:     <span class="e">PNG image data</span>
 </div>
     </section>
 
-<section class="page" id="p20">
+<section class="page" id="p25">
 <span class="kicker">Instructor demo &middot; limits</span>
 <h2>The limits of signature analysis
   <span class="ar">حدود تحليل الـ signatures</span></h2>
@@ -808,7 +1052,7 @@ policy_v2.docx:     <span class="e">PNG image data</span>
 </div>
     </section>
 
-<section class="page" id="p21">
+<section class="page" id="p26">
 <span class="kicker">Instructor demo &middot; metadata</span>
 <h2>Analysing file metadata
   <span class="ar">تحليل الـ metadata للملف</span></h2>
@@ -853,7 +1097,7 @@ File Type    : JPEG
 </div>
     </section>
 
-<section class="page divider" id="p22">
+<section class="page divider" id="p27">
 <div class="divider-inner">
   <span class="divider-kicker">Your turn &middot; Case 01</span>
   <h2>The verification challenge<span class="ar">تحدّي التحقق</span></h2>
@@ -863,7 +1107,7 @@ File Type    : JPEG
 </div>
     </section>
 
-<section class="page" id="p23">
+<section class="page" id="p28">
 <span class="kicker">Case 01 &middot; the brief</span>
 <h2>Case 01 &mdash; the brief
   <span class="ar">القضية الأولى — التكليف</span></h2>
@@ -900,7 +1144,7 @@ File Type    : JPEG
 </div>
     </section>
 
-<section class="page" id="p24">
+<section class="page" id="p29">
 <span class="kicker">Case 01 &middot; step 1</span>
 <h2>Case 01 &mdash; reading a split result
   <span class="ar">القضية الأولى — قراءة نتيجة منقسمة</span></h2>
@@ -950,7 +1194,7 @@ File Type    : JPEG
   <span class="ar">و هذه ليست معلومة تُحفظ، بل <b>استدلال</b> — و هو أثمن ما في هذه الصفحة.</span></p>
     </section>
 
-<section class="page" id="p25">
+<section class="page" id="p30">
 <span class="kicker">Case 01 &middot; step 3</span>
 <h2>Integrity and identity
   <span class="ar">الـ integrity و الـ identity</span></h2>
@@ -988,10 +1232,10 @@ File Type    : JPEG
 </div>
     </section>
 
-<section class="page" id="p26">
+<section class="page" id="p31">
 <span class="kicker">Knowledge check</span>
-<h2>Knowledge check
-  <span class="ar">ملف واحد، إجابتان</span></h2>
+<h2>Knowledge check &mdash; 1 of 2
+  <span class="ar">اختبار الفهم — الجزء الأول</span></h2>
 <div class="q mcq" data-correct="c">
   <p class="qtext">A file <b>passes</b> verification against the SHA-256 manifest and <b>fails</b>
     against the MD5 manifest. What follows?
@@ -1010,12 +1254,35 @@ File Type    : JPEG
     precisely, without inventing a reason for it, is the skill.
     <span class="ar">أن الملف <b>لا يحتوي كتلة بيانات EXIF</b>، و أن هذا الغياب يحتمل كاميرا لا تكتبها، أو برنامجًا أزالها، أو إعادة ترميز — و أن أيّها الواقع <b>لا يمكن تحديده من الملف وحده</b>. و المهارة هي تسمية الغياب بدقة دون اختراع سبب له.</span></p>
 </details>
-<p>Full quiz in <code>quiz.md</code> &mdash; twelve questions. Q5 and Q8 are the two that separate
-  the class, and both punish the instinct to name a cause.
-  <span class="ar">الاختبار الكامل في <code>quiz.md</code> — اثنا عشر سؤالاً. و السؤالان الخامس و الثامن هما ما يفصلان بين الطلاب، و كلاهما يعاقب نزعة تسمية السبب.</span></p>
+
     </section>
 
-<section class="page divider" id="p27">
+<section class="page" id="p32">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check &mdash; 2 of 2
+  <span class="ar">اختبار الفهم — الجزء الثاني</span></h2>
+<div class="q mcq" data-correct="b">
+  <p class="qtext">Why is a matching signature <i>evidence</i> of a file type and not <i>proof</i>?
+    <span class="ar">لماذا تكون الـ signature المطابقة <i>دليلاً</i> على نوع الملف لا <i>إثباتًا</i>؟</span></p>
+  <label><input type="radio" name="q2" value="a"> Signature tables are incomplete</label>
+  <label><input type="radio" name="q2" value="b"> A few bytes are trivially forged, and some formats have no signature at all</label>
+  <label><input type="radio" name="q2" value="c"> <code>file</code> is unreliable on Windows</label>
+  <label><input type="radio" name="q2" value="d"> Signatures change between versions of a format</label>
+  <div class="feedback">Text formats have none, and anyone can write <code>FF D8 FF</code> at the front of anything. The signature is the first question, never the last.<span class="ar">صيغ النصوص لا signature لها، و أي شخص يستطيع كتابة <code>FF D8 FF</code> في مقدمة أي شيء. الـ signature أول سؤال، و ليست آخره أبدًا.</span></div>
+</div>
+<div class="q mcq" data-correct="b">
+  <p class="qtext">A photograph&rsquo;s EXIF carries GPS coordinates. What is the <b>finding</b>?
+    <span class="ar">تحمل بيانات EXIF لصورة إحداثيات GPS. فما هي الـ <b>finding</b>؟</span></p>
+  <label><input type="radio" name="q3" value="a"> The photograph was taken at those coordinates</label>
+  <label><input type="radio" name="q3" value="b"> The file records GPS coordinates of that value</label>
+  <label><input type="radio" name="q3" value="c"> The camera was at those coordinates when the shutter fired</label>
+  <label><input type="radio" name="q3" value="d"> The photographer was at those coordinates</label>
+  <div class="feedback">The file records a value. Where the camera was, and who held it, are interpretations that need corroboration.<span class="ar">الملف يسجّل قيمة. أما أين كانت الكاميرا و من حملها فتفسيرات تحتاج إلى ما يعضدها.</span></div>
+</div>
+    </section>
+
+
+<section class="page divider" id="p33">
 <div class="divider-inner">
   <span class="divider-kicker">Cheat sheet</span>
   <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
@@ -1025,7 +1292,7 @@ File Type    : JPEG
 </div>
     </section>
 
-<section class="page" id="p28">
+<section class="page" id="p34">
 <span class="kicker">Cheat sheet &middot; keep this open</span>
 <h2>Cheat sheet &mdash; signatures, split results, metadata
   <span class="ar">ورقة المراجعة — الـ signatures و النتائج المنقسمة و الـ metadata</span></h2>
@@ -1048,6 +1315,8 @@ File Type    : JPEG
     <li><b>EXIF</b> &mdash; a claim by the camera. <code>DateTimeOriginal</code> is the shutter,
       <code>ModifyDate</code> is the last write.
       <span class="ar">EXIF ادعاء من الكاميرا. <code>DateTimeOriginal</code> لحظة المغلاق، و <code>ModifyDate</code> آخر كتابة.</span></li>
+    <li><b>More signatures</b> &mdash; <code>Rar!</code> RAR &middot; <code>D0 CF 11 E0</code> old Office &middot; <code>MZ</code> EXE &middot; <code>ftyp</code> at offset 4 = MP4 &middot; <code>1A 45 DF A3</code> MKV &middot; <code>RIFF</code> AVI/WAV &middot; text formats have none.<span class="ar">signatures أخرى — و صيغ النصوص لا signature لها.</span></li>
+    <li><b>A document&rsquo;s properties</b> live in <code>docProps/core.xml</code> inside the ZIP &mdash; an application wrote them, a person can edit them.<span class="ar">خصائص المستند داخل الـ ZIP — كتبها تطبيق، و يستطيع إنسان تعديلها.</span></li>
     <li><b>An empty result is a result.</b> Report the absence; do not invent a reason.
       <span class="ar">النتيجة الفارغة نتيجة. سجّل الغياب، و لا تخترع له سببًا.</span></li>
   </ul>
@@ -1055,7 +1324,7 @@ File Type    : JPEG
 </div>
     </section>
 
-<section class="page divider" id="p29">
+<section class="page divider" id="p35">
 <div class="divider-inner">
   <span class="divider-kicker">Task</span>
   <h2>Handed in before P04<span class="ar">يُسلَّم قبل P04</span></h2>
@@ -1065,20 +1334,35 @@ File Type    : JPEG
 </div>
     </section>
 
-<section class="page" id="p30">
+<section class="page" id="p36">
 <span class="kicker">Task &middot; handed in before P04</span>
 <h2>Task &mdash; identify, and write your first findings
   <span class="ar">الـ task — حدِّد الـ identity، و اكتب أول findings لك</span></h2>
-<p>You watched two analyses run. Now you run them on your own set &mdash; and this is the first page that produces real findings, so criterion 3 carries the most weight.<span class="ar">شاهدت تحليلين يعملان. الآن تُشغّلهما على مجموعتك أنت — و هذه أول صفحة تُنتج findings حقيقية، فالمعيار الثالث هو الأعلى وزنًا.</span></p>
+<p>You watched two analyses run. Now you run them on a set of your own &mdash; five files, no extensions, one question about a place. This is the first page that produces real findings, so criterion 3 carries the most weight.<span class="ar">شاهدت تحليلين يعملان. الآن تُشغّلهما على مجموعتك أنت — و هذه أول صفحة تُنتج findings حقيقية، فالمعيار الثالث هو الأعلى وزنًا.</span></p>
 <ul id="taskList"></ul>
-<p>Four tasks in <code>homework.md</code>, due before <b>P04</b>. <b>Criterion 3 (Findings)</b>
-  weighted heaviest this week &mdash; this is the first page that produces real ones.
-  <span class="ar">أربع مهام في <code>homework.md</code>، تُسلَّم قبل <b>P04</b>. و <b>المعيار الثالث (الـ findings)</b> هو الأثقل هذا الأسبوع — فهذه أول صفحة تُنتج findings حقيقية.</span></p>
+<div class="dl-card"><b>p03-task.zip</b> &middot; 1.7 MB &middot; five files with no extension: <code>file02</code> <code>file05</code> <code>file09</code> <code>file13</code> <code>file14</code>, plus <code>README.txt</code> and <code>SHA256SUMS.txt</code>
+  <span class="ar">خمسة ملفات بلا امتداد، مع الملف README و بيان قيم SHA-256.</span>
+  <div class="dl-row"><a class="btn" href="../downloads/p03-task.zip" download>&#11015; p03-task.zip</a><span class="dl-meta">SHA-256 <code class="h">421444937a64e4fb2379ea169e824f4efd6e76ff5489ac1103f9a7f4512b39ee</code></span></div>
+  <div class="wu" style="margin-top:10px"><div class="wu-tb"><span class="t">Windows PowerShell</span></div>
+  <div class="wu-term"><span class="p">PS&gt;</span> <span class="k">Invoke-WebRequest https://ebrahim-qareen.github.io/ecdfp-diploma/downloads/p03-task.zip -OutFile C:\Forensics\Cases\P03\p03-task.zip</span>
+<span class="p">PS&gt;</span> <span class="k">Get-FileHash C:\Forensics\Cases\P03\p03-task.zip -Algorithm SHA256</span>   <span class="d"># must equal the value above</span>
+<span class="p">PS&gt;</span> <span class="k">Expand-Archive C:\Forensics\Cases\P03\p03-task.zip C:\Forensics\Cases\P03</span></div></div>
+</div>
+<ol>
+  <li><b>Identify every file.</b> For each of the five: the first 16 bytes, the signature you matched and where you looked it up, the real format, and the extension it should carry.
+      <span class="ar"><b>حدّد هوية كل ملف.</b> لكل واحد من الخمسة: أول 16 byte، و الـ signature التي طابقتها و أين بحثت عنها، و الصيغة الحقيقية، و الامتداد الذي يجب أن يحمله.</span></li>
+  <li><b>Find the city.</b> <code>file02</code> carries EXIF. Read the GPS fields and name the city where the camera was &mdash; and write which two fields you used and how you resolved them to a place.
+      <span class="ar"><b>اعثر على المدينة.</b> يحمل <code>file02</code> بيانات EXIF. اقرأ حقول GPS و سمِّ المدينة التي كانت فيها الكاميرا — و اكتب أي حقلين استخدمت و كيف حوّلتهما إلى مكان.</span></li>
+  <li><b>Write five findings</b>, <code>F-01</code> to <code>F-05</code>, one per file, in the fixed format &mdash; and for <code>file02</code>, one <b>cannot prove</b> line about the coordinates.
+      <span class="ar"><b>اكتب خمس findings</b>، من <code>F-01</code> إلى <code>F-05</code>، واحدة لكل ملف، بالصيغة الثابتة — و لملف <code>file02</code> سطر <b>cannot prove</b> واحد عن الإحداثيات.</span></li>
+  <li><b>The report.</b> Section 6: one row per tool <b>with its version</b> (HxD, exiftool, TrID if you used it). Section 8: the five findings.
+      <span class="ar"><b>التقرير.</b> القسم السادس: صف لكل أداة <b>مع رقم إصدارها</b>. و القسم الثامن: الـ findings الخمس.</span></li>
+</ol>
 <div class="limitation"><span class="cl-label">How it is graded</span>
   <p>Criterion 3 asks whether each finding names an artifact at an exact path, states a measurement in the tool&rsquo;s own form, and <b>stops where your knowledge stops</b> &mdash; no action, no intention, no invented cause for an absence.<span class="ar">المعيار الثالث يسأل: هل يسمّي كل finding الـ artifact بمساره الدقيق، و يذكر قياسًا بصيغة الأداة، و <b>يقف حيث تقف معرفتك</b>؟ بلا فعل و لا نية و لا سبب مخترَع لغياب.</span></p></div>
     </section>
 
-<section class="page" id="p31">
+<section class="page" id="p37">
 <span class="kicker">Report &middot; Section 6</span>
 <h2>Report &mdash; Section 6, tools and method
   <span class="ar">التقرير — القسم السادس، الأدوات و المنهج</span></h2>
@@ -1107,7 +1391,7 @@ File Type    : JPEG
 </div>
     </section>
 
-<section class="page" id="p32">
+<section class="page" id="p38">
 <span class="kicker">Report &middot; Section 8</span>
 <h2>Report &mdash; Section 8, findings
   <span class="ar">التقرير — القسم الثامن، الـ findings</span></h2>
@@ -1137,7 +1421,7 @@ File Type    : JPEG
 <p><a class="btn" href="../report/index.html">Open the report template &rarr;</a></p>
     </section>
 
-<section class="page" id="p33">
+<section class="page" id="p39">
 <span class="kicker">Summary</span>
 <h2>Summary &mdash; what you can now state
   <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
@@ -1156,13 +1440,14 @@ File Type    : JPEG
 </div>
     </section>
 
-<section class="page" id="p34">
+<section class="page" id="p40">
 <span class="kicker">References</span>
 <h2>References and what comes next
   <span class="ar">المراجع و ما يأتي بعد</span></h2>
 <ul>
   <li>INE eCDFP &mdash; <b>Module 3</b>, data representation and files examination: bytes, hex, file structure, signatures and metadata.<span class="ar">الـ bytes و الـ hex و بنية الملف و الـ signatures و الـ metadata.</span></li>
   <li>Gary Kessler &mdash; <b>File Signatures</b> table, the standard reference for magic bytes.<span class="ar">المرجع القياسي لقيم الـ magic bytes.</span></li>
+  <li>The photograph in the task pack is <code>DSCN0012.jpg</code> from the <a href="https://github.com/ianare/exif-samples" target="_blank" rel="noopener">exif-samples</a> collection (CC BY-SA 4.0) &mdash; a public test image, not a case exhibit. The reference table on screen 6 and the practice set come from the previous ITGate course.<span class="ar">صورة الـ task من مجموعة exif-samples العامة — ملف اختبار، لا exhibit من قضية. و جدول المرجع و ملفات التدريب من دورة ITGate السابقة.</span></li>
   <li>SWGDE <b>18-F-002</b> &mdash; findings and reporting; the standard Section 8 follows.<span class="ar">المعيار الذي يلتزم به القسم الثامن.</span></li>
 </ul>
 <div class="note">
@@ -1179,7 +1464,7 @@ File Type    : JPEG
 <nav class="page-nav">
   <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
   <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
-  <span class="counter">1 / 34</span>
+  <span class="counter">1 / 40</span>
   <button class="btn" type="button" data-nav="next">Next &rarr;</button>
 </nav>
 
@@ -1188,8 +1473,8 @@ File Type    : JPEG
      <code>packages/page-03/</code> &middot; <a href="../roadmap.html">the map</a></p>
 </footer>
 
-<script src="../assets/js/session.js?v=529500a2"></script>
-<script src="../assets/js/quiz.js?v=30913c77"></script>
+<script src="../assets/js/session.js?v=3f0c8728"></script>
+<script src="../assets/js/quiz.js?v=a00a6b86"></script>
 <script src="../assets/js/homework.js?v=bf5cba29"></script>
 <script src="../assets/js/task-creator.js?v=eaede87b"></script>
 <script src="../assets/js/simscreen.js?v=797ca22c"></script>
@@ -1284,7 +1569,7 @@ Dgm.init('#dg-bits', [
  {en:'Video: a sequence of images, refreshed fast enough to look continuous.', ar:'الفيديو: سلسلة صور تُحدَّث بسرعة كافية لتبدو متصلة.'},
  {en:'So the disk holds <b>one kind of thing</b>. Everything you will examine this year is bits &mdash; and the job is knowing how to read them.', ar:'إذن القرص يحوي <b>نوعًا واحدًا</b> من الأشياء. فكل ما ستفحصه هذا العام bits — و العمل هو أن تعرف كيف تقرؤها.', key:true}
 ]);
-Dgm.init('#dg-whyhex', [
+Dgm.init('#dg-whyhex-REMOVED', [
  {en:'A byte is eight bits. Written in binary it is exact &mdash; and a page of it is unreadable.', ar:'الـ byte ثمانية bits. و كتابته ثنائيًا دقيقة — و صفحة منها غير قابلة للقراءة.'},
  {en:'In decimal it is short, but a byte needs one, two or three digits, so columns never line up.', ar:'و بالعشري تكون قصيرة، لكن الـ byte يحتاج رقمًا أو رقمين أو ثلاثة، فلا تستقيم الأعمدة أبدًا.'},
  {en:'In hexadecimal every byte is <b>exactly two digits</b>, <code>00</code> to <code>FF</code>. That is why every forensic tool shows hex: one byte, one column, every time.', ar:'و بالست عشري يكون كل byte <b>رقمين بالضبط</b>، من <code>00</code> إلى <code>FF</code>. و لهذا تعرض كل أدوات التحليل الجنائي الـ hex: byte واحد، عمود واحد، في كل مرة.', key:true}
@@ -1305,5 +1590,21 @@ Dgm.init('#dg-lc-p03', [
 ]);
 </script>
 
+<script>
+Dgm.init('#dg-ladder', [
+ {en:'<b>One bit.</b> A switch: off or on, 0 or 1. Every disk, every packet, every file is made of nothing else.', ar:'<b>bit واحد.</b> مفتاح: مغلق أو مفتوح، صفر أو واحد. و كل قرص و كل حزمة و كل ملف مصنوع من هذا فقط.'},
+ {en:'<b>Four bits</b> have sixteen patterns, and one hex digit names each pattern: 0 to 9, then A to F. That is all hex is &mdash; a short name for four bits.', ar:'<b>أربع bits</b> لها ستة عشر نمطًا، و خانة hex واحدة تسمّي كل نمط: من 0 إلى 9 ثم من A إلى F. هذا كل ما في الـ hex — اسم قصير لأربع bits.'},
+ {en:'<b>Eight bits are a byte.</b> Two hex digits, one per nibble, always exactly two &mdash; which is why every forensic tool shows hex and not binary or decimal.', ar:'<b>ثماني bits تساوي byte.</b> خانتا hex، واحدة لكل نصف، دائمًا خانتان بالضبط — و لهذا تعرض كل أدوات التحليل الـ hex لا الثنائي و لا العشري.'},
+ {en:'<b>The same byte can be a character.</b> The ASCII table maps 0x41 to A. A file of text is bytes read through that table; a JPEG is the same bytes read another way.', ar:'<b>الـ byte نفسه قد يكون حرفًا.</b> جدول ASCII يربط 0x41 بالحرف A. فملف النص bytes تُقرأ عبر هذا الجدول، و صورة JPEG هي الـ bytes نفسها تُقرأ بطريقة أخرى.'},
+ {en:'<b>Sixteen bytes make one line</b> of a hex dump: the offset, the bytes, the characters. Every screen after this one is you reading lines like this.', ar:'<b>ستة عشر byte تصنع سطرًا واحدًا</b> في مُخرَج الـ hex: الإزاحة، ثم الـ bytes، ثم الحروف. و كل شاشة بعد هذه هي أنت تقرأ أسطرًا كهذا.', key:true}
+]);
+</script>
+<script>
+Dgm.init('#dg-delprev', [
+ {en:'<b>Allocation.</b> When a file is saved, the file system finds free clusters that fit it and writes it there. file 5 was split into two places.', ar:'<b>التخصيص.</b> عند حفظ ملف، يبحث نظام الملفات عن clusters فارغة تناسبه و يكتبه فيها. و الملف 5 انقسم إلى موضعين.'},
+ {en:'<b>Deletion.</b> file 3 is marked deleted, so the file system stops showing it and calls its cluster free. Its bytes are untouched.', ar:'<b>الحذف.</b> يُعلَّم الملف 3 محذوفًا، فيتوقف نظام الملفات عن عرضه و يعدّ الـ cluster الخاص به فارغًا. و الـ bytes الخاصة به لم تُمسّ.'},
+ {en:'<b>Overwrite.</b> Only when a new file takes that cluster is file 3 really gone. Until then it is recoverable &mdash; and the longer the disk is used, the less of it survives.', ar:'<b>الكتابة فوقه.</b> لا يضيع الملف 3 فعلاً إلا حين يأخذ ملف جديد ذلك الـ cluster. و إلى أن يحدث ذلك يمكن استعادته — و كلما طال استخدام القرص قلّ ما يبقى منه.', key:true}
+]);
+</script>
 </body>
 </html>

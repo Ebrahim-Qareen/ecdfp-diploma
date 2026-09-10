@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>P02 &middot; Evidence integrity &middot; eCDFP Diploma</title>
 <meta name="description" content="What a matching hash proves and what it does not, the chain of custody, and how the use of a write blocker is evidenced &mdash; page 2 of the ITGate eCDFP diploma.">
-<link rel="stylesheet" href="../assets/css/ecdfp.css?v=c20323ae">
-<link rel="stylesheet" href="../assets/css/win-ui.css?v=7e607ee5">
+<link rel="stylesheet" href="../assets/css/ecdfp.css?v=f9ac6b6d">
+<link rel="stylesheet" href="../assets/css/win-ui.css?v=3d886664">
 <link rel="stylesheet" href="../assets/css/simscreen.css?v=a7a3cc80">
 <link rel="icon" href="../assets/img/itgate-logo.jpg">
 </head>
@@ -57,14 +57,16 @@
       <li><a href="#p19"><span class="n">19</span><span>Verify a set you did not create</span></a></li>
       <li class="is-part"><a href="#p20"><span class="n">20</span><span>YOUR TURN</span></a></li>
       <li><a href="#p21"><span class="n">21</span><span>Exercises &mdash; sorting and a defect hunt</span></a></li>
-      <li><a href="#p22"><span class="n">22</span><span>Knowledge check</span></a></li>
-      <li class="is-part"><a href="#p23"><span class="n">23</span><span>CHEAT SHEET</span></a></li>
-      <li><a href="#p24"><span class="n">24</span><span>Cheat sheet</span></a></li>
-      <li class="is-part"><a href="#p25"><span class="n">25</span><span>TASK</span></a></li>
-      <li><a href="#p26"><span class="n">26</span><span>Task &mdash; prove integrity you did not create</span></a></li>
-      <li><a href="#p27"><span class="n">27</span><span>Report &mdash; Sections 4 and 5</span></a></li>
-      <li><a href="#p28"><span class="n">28</span><span>Summary</span></a></li>
-      <li><a href="#p29"><span class="n">29</span><span>References and what comes next</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Knowledge check 1</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>Knowledge check 2</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Knowledge check 3</span></a></li>
+      <li class="is-part"><a href="#p25"><span class="n">25</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p27"><span class="n">27</span><span>TASK</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>Task &mdash; prove integrity you did not create</span></a></li>
+      <li><a href="#p29"><span class="n">29</span><span>Report &mdash; Sections 4 and 5</span></a></li>
+      <li><a href="#p30"><span class="n">30</span><span>Summary</span></a></li>
+      <li><a href="#p31"><span class="n">31</span><span>References and what comes next</span></a></li>
     </ol>
   </nav>
 
@@ -1037,8 +1039,8 @@ evidence_inventory.csv: <span class="p">OK</span>
  </div></div>
 </div>
 <div class="note">
-  <p>Full steps, each with its verification line, in <code>guided_lab.md</code>.
-    <span class="ar">الخطوات كاملة، و مع كل خطوة سطر التحقق منها، في <code>guided_lab.md</code>.</span></p>
+  <p>Every step above has a verification line &mdash; the command, and what it must print before you move on. Keep those lines: they are the Section 6 method, written as you work.
+    <span class="ar">لكل خطوة أعلاه سطر تحقق — الأمر، و ما يجب أن يطبعه قبل أن تنتقل. احتفظ بهذه الأسطر: فهي منهج القسم السادس، مكتوبًا و أنت تعمل.</span></p>
 </div>
     </section>
 
@@ -1048,7 +1050,7 @@ evidence_inventory.csv: <span class="p">OK</span>
   <h2>Sorting results, and one defect hunt<span class="ar">ترتيب النتائج، و البحث عن خلل</span></h2>
   <div class="divider-rule"></div>
   <p class="lede">You classify four results with no help, then find the integrity defect in a public training room that thousands of people have finished without noticing it.<span class="ar">تُصنّف أربع نتائج دون مساعدة، ثم تبحث عن خلل في الـ integrity داخل غرفة تدريب عامّة أنهاها آلاف المتدربين دون أن ينتبهوا إليه.</span></p>
-  <p class="divider-meta">2 screens &middot; 9 minutes</p>
+  <p class="divider-meta">4 screens &middot; 12 minutes</p>
 </div>
     </section>
 
@@ -1091,8 +1093,8 @@ evidence_inventory.csv: <span class="p">OK</span>
 
 <section class="page" id="p22">
 <span class="kicker">Knowledge check</span>
-<h2>Knowledge check
-  <span class="ar">اختبار الفهم</span></h2>
+<h2>Knowledge check &mdash; 1 of 3
+  <span class="ar">اختبار الفهم — الجزء الأول من ثلاثة</span></h2>
 <div class="q mcq" data-correct="b">
   <p class="qtext">An imager&rsquo;s log reads <code>MD5 checksum: … : verified</code>. Which two things
     did the tool compare?
@@ -1112,13 +1114,51 @@ evidence_inventory.csv: <span class="p">OK</span>
     recover it.
     <span class="ar"><b>لا تستطيع أي hash الإجابة.</b> فالـ hash لا تحمل معلومات عن المصدر. و الإجابة كان يجب أن توجد لحظة الضبط — بطاقة أو صورة أو ملاحظة — و لم تُنشأ قط. و لهذا تُصنَّف الـ exhibits غير المعلَّمة تحت <i>الاختلاط</i>: فبعد تلك اللحظة لا توجد استمارة على وجه الأرض تستطيع استرجاعها.</span></p>
 </details>
-<p>Full quiz in <code>quiz.md</code>, with the answer key. Two of them &mdash; Q3 and Q10 &mdash;
-  are the same idea at different depths: Q3 asks you to state a mismatch without over-claiming, Q10
-  asks you to notice a <i>match</i> that has quietly stopped being true.
-  <span class="ar">الاختبار الكامل في <code>quiz.md</code> و معه نموذج الإجابة. و سؤالان منه — الثالث و العاشر — يقيسان الفكرة نفسها بعمقين: الثالث يطلب وصف عدم التطابق دون تجاوز، و العاشر يطلب ملاحظة تطابقٍ لم يعد صحيحًا في صمت.</span></p>
+
     </section>
 
-<section class="page divider" id="p23">
+<section class="page" id="p23">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check &mdash; 2 of 3
+  <span class="ar">اختبار الفهم — الجزء الثاني من ثلاثة</span></h2>
+<div class="q mcq" data-correct="b">
+  <p class="qtext"><code>sha256sum -c</code> reports <code>FAILED</code> on one file in a set of four. Which is the only statement you can put in <b>Findings</b>?
+    <span class="ar">يطبع <code>sha256sum -c</code> كلمة <code>FAILED</code> لملف واحد من أربعة. أي عبارة هي الوحيدة التي تصلح لقسم الـ findings؟</span></p>
+  <label><input type="radio" name="q2" value="a"> The file was tampered with after the manifest was created</label>
+  <label><input type="radio" name="q2" value="b"> The file&rsquo;s computed digest does not match the digest recorded in the manifest</label>
+  <label><input type="radio" name="q2" value="c"> The manifest is corrupt</label>
+  <label><input type="radio" name="q2" value="d"> The file was modified by an unauthorised user</label>
+  <div class="feedback">A mismatch is a measurement. <i>Tampered</i>, <i>corrupt</i> and <i>unauthorised</i> each name a cause the hash does not carry &mdash; they belong in Section 9, if anywhere.<span class="ar">عدم التطابق قياس. أما <i>العبث</i> و <i>التلف</i> و <i>غير المصرَّح</i> فكل منها يسمّي سببًا لا تحمله الـ hash — و موضعها القسم التاسع، إن كان لها موضع.</span></div>
+</div>
+<div class="q mcq" data-correct="c">
+  <p class="qtext">Two examiners image the same drive. One used a hardware write blocker; one did not. Comparing <b>only the two image files</b>, which is true?
+    <span class="ar">فاحصان صوّرا القرص نفسه. أحدهما استخدم write blocker عتاديًا و الآخر لم يستخدمه. بمقارنة <b>ملفَي الصورة فقط</b>، أي العبارات صحيح؟</span></p>
+  <label><input type="radio" name="q3" value="a"> The blocked image contains a flag recording the blocker</label>
+  <label><input type="radio" name="q3" value="b"> The unblocked image will be larger</label>
+  <label><input type="radio" name="q3" value="c"> The two images can be byte-identical, and neither records how it was made</label>
+  <label><input type="radio" name="q3" value="d"> The unblocked image will fail verification</label>
+  <div class="feedback">The proof that a blocker was in the path lives outside the image &mdash; in the blocker&rsquo;s log, the photograph of the rig, the custody line and the notes.<span class="ar">إثبات وجود الـ write blocker يعيش خارج الصورة — في سجل الجهاز، و صورة التوصيل، و سطر الـ chain of custody، و الملاحظات.</span></div>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check &mdash; 3 of 3
+  <span class="ar">اختبار الفهم — الجزء الثالث</span></h2>
+<div class="q mcq" data-correct="c">
+  <p class="qtext">An attacker has write access to both the evidence server holding an image <b>and</b> the file holding its hash. What is that hash worth?
+    <span class="ar">مهاجم يملك صلاحية الكتابة على خادم الأدلة الذي يحمل الصورة <b>و</b> على الملف الذي يحمل الـ hash الخاصة بها. فما قيمة تلك الـ hash؟</span></p>
+  <label><input type="radio" name="q4" value="a"> It still proves integrity, because a hash is one-way</label>
+  <label><input type="radio" name="q4" value="b"> It proves integrity only if SHA-256 is used rather than MD5</label>
+  <label><input type="radio" name="q4" value="c"> Nothing &mdash; whoever can alter the image can recompute and replace the hash</label>
+  <label><input type="radio" name="q4" value="d"> It proves integrity as long as the image is larger than the hash file</label>
+  <div class="feedback">Where the digest is stored decides what it is worth &mdash; the fourth thing a hash cannot tell you, from screen 9.<span class="ar">موضع حفظ الـ hash هو ما يقرّر قيمتها — و هذا هو الأمر الرابع الذي لا تخبرك به الـ hash، من الشاشة التاسعة.</span></div>
+</div>
+    </section>
+
+
+
+<section class="page divider" id="p25">
 <div class="divider-inner">
   <span class="divider-kicker">Cheat sheet</span>
   <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
@@ -1128,7 +1168,7 @@ evidence_inventory.csv: <span class="p">OK</span>
 </div>
     </section>
 
-<section class="page" id="p24">
+<section class="page" id="p26">
 <span class="kicker">Cheat sheet &middot; keep this open</span>
 <h2>Cheat sheet &mdash; hashes, custody, the write blocker
   <span class="ar">ورقة المراجعة — الـ hash و الحيازة و الـ write blocker</span></h2>
@@ -1152,7 +1192,7 @@ evidence_inventory.csv: <span class="p">OK</span>
 </div>
     </section>
 
-<section class="page divider" id="p25">
+<section class="page divider" id="p27">
 <div class="divider-inner">
   <span class="divider-kicker">Task</span>
   <h2>Handed in before P03<span class="ar">يُسلَّم قبل P03</span></h2>
@@ -1162,20 +1202,29 @@ evidence_inventory.csv: <span class="p">OK</span>
 </div>
     </section>
 
-<section class="page" id="p26">
+<section class="page" id="p28">
 <span class="kicker">Task &middot; handed in before P03</span>
 <h2>Task &mdash; prove integrity you did not create
   <span class="ar">الـ task — أثبت integrity لم تُنشئها أنت</span></h2>
 <p>You watched one set verified. Now you verify four on your own &mdash; and this week criterion 1 (integrity) carries the most weight.<span class="ar">شاهدت التحقق من مجموعة واحدة. الآن تتحقق من أربعة بنفسك — و هذا الأسبوع المعيار الأول (الـ integrity) هو الأعلى وزنًا.</span></p>
 <ul id="taskList"></ul>
-<p>Four tasks in <code>homework.md</code>, due before <b>P03</b>. Graded on the same rubric, with
-  <b>criterion 1 (Integrity)</b> weighted heaviest this week.
-  <span class="ar">أربع مهام في <code>homework.md</code>، تُسلَّم قبل <b>P03</b>. و تُقيَّم بالمعايير نفسها، مع ترجيح <b>المعيار الأول (الـ integrity)</b> هذا الأسبوع.</span></p>
+<p>Four tasks, due before <b>P03</b>. Graded on the same rubric, with <b>criterion 1 (Integrity)</b> weighted heaviest this week.
+  <span class="ar">أربع مهام تُسلَّم قبل <b>P03</b>. و تُقيَّم بالمعايير نفسها، مع ترجيح <b>المعيار الأول (الـ integrity)</b> هذا الأسبوع.</span></p>
+<ol>
+  <li><b>Verify a set and report it honestly</b> &middot; ~25 min. Download <code>EVS-01</code> into a <b>fresh folder</b> and verify it with <b>both</b> manifests. For the file that fails, locate the difference by inspection. Deliverable: the <i>Verified?</i> cell for all four files, as measurements.
+      <span class="ar"><b>تحقق من مجموعة و اكتب النتيجة بأمانة.</b> حمّل <code>EVS-01</code> مرة أخرى في مجلد جديد، و تحقق منها بالبيانين معًا. و للملف الذي يُخفق، حدّد الفرق بالفحص. المطلوب: خانة <i>Verified?</i> للملفات الأربعة، مكتوبة كقياسات.</span></li>
+  <li><b>The report</b> &middot; ~30 min. Fill <b>Section 4</b> and <b>Section 5</b>: both digests on every row, whether any transfer is unaccounted for, <b>where the source hash was stored</b> and why that matters, and one sentence on what your verification does <b>not</b> establish.
+      <span class="ar"><b>التقرير.</b> املأ القسمين الرابع و الخامس: القيمتان في كل صف، و هل هناك تسليم غير موثَّق، و <b>أين حُفظت hash المصدر</b> و لماذا يهم ذلك، و جملة واحدة عمّا <b>لا</b> يُثبته تحققك.</span></li>
+  <li><b>One paragraph, written for a lawyer</b> &middot; ~15 min. You are asked: <i>&ldquo;The image matches the hash you took. So the evidence is genuine, correct?&rdquo;</i> One paragraph &mdash; <i>&ldquo;yes&rdquo;</i> fails, and so does <i>&ldquo;it&rsquo;s complicated&rdquo;</i>.
+      <span class="ar"><b>فقرة واحدة لمحامٍ.</b> يُسأل: «الصورة تطابق الـ hash التي أخذتها، إذن الدليل أصلي، صحيح؟». أجب في فقرة واحدة — «نعم» تسقط، و «الأمر معقّد» تسقط أيضًا.</span></li>
+  <li><b>The correction</b> &middot; ~10 min. From the defect hunt, the three-line correction you would send the author: the defect, the corrected command with every option justified, and <i>why</i>.
+      <span class="ar"><b>التصحيح.</b> من تمرين صيد الخلل: التصحيح في ثلاثة أسطر — الخلل في جملة، و الأمر المصحَّح مع تبرير كل خيار، و الجملة التي تشرح <i>لماذا</i>.</span></li>
+</ol>
 <div class="limitation"><span class="cl-label">How it is graded</span>
   <p>Criterion 1 asks whether Sections 4 and 5 read as <b>measurements, not claims</b>: two matching source hashes across the run, both digests on every row, and no unaccounted transfer on the custody line.<span class="ar">المعيار الأول يسأل: هل كُتب القسمان الرابع و الخامس كـ<b>قياسات لا ادعاءات</b>؟ تطابق hash المصدر قبل و بعد، القيمتان في كل سطر، و لا تسليم غير موثَّق في سطر الحيازة.</span></p></div>
     </section>
 
-<section class="page" id="p27">
+<section class="page" id="p29">
 <span class="kicker">T03 &middot; Report stage &middot; 4 min</span>
 <h2>Report &mdash; Sections 4 and 5
   <span class="ar">التقرير — القسمان الرابع و الخامس</span></h2>
@@ -1251,7 +1300,7 @@ evidence_inventory.csv: <span class="p">OK</span>
 <p><a class="btn" href="../report/index.html">Open the report template &rarr;</a></p>
     </section>
 
-<section class="page" id="p28">
+<section class="page" id="p30">
 <span class="kicker">Summary</span>
 <h2>Summary &mdash; what you can now state
   <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
@@ -1271,7 +1320,7 @@ evidence_inventory.csv: <span class="p">OK</span>
 </div>
     </section>
 
-<section class="page" id="p29">
+<section class="page" id="p31">
 <span class="kicker">References</span>
 <h2>References and what comes next
   <span class="ar">المراجع و ما يأتي بعد</span></h2>
@@ -1295,7 +1344,7 @@ evidence_inventory.csv: <span class="p">OK</span>
 <nav class="page-nav">
   <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
   <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
-  <span class="counter">1 / 29</span>
+  <span class="counter">1 / 31</span>
   <button class="btn" type="button" data-nav="next">Next &rarr;</button>
 </nav>
 
@@ -1304,8 +1353,8 @@ evidence_inventory.csv: <span class="p">OK</span>
      <code>packages/page-02/</code> &middot; <a href="../roadmap.html">the map</a></p>
 </footer>
 
-<script src="../assets/js/session.js?v=529500a2"></script>
-<script src="../assets/js/quiz.js?v=30913c77"></script>
+<script src="../assets/js/session.js?v=3f0c8728"></script>
+<script src="../assets/js/quiz.js?v=a00a6b86"></script>
 <script src="../assets/js/homework.js?v=bf5cba29"></script>
 <script src="../assets/js/task-creator.js?v=eaede87b"></script>
 <script src="../assets/js/simscreen.js?v=797ca22c"></script>
