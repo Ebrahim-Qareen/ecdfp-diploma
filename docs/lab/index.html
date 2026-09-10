@@ -4,9 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The lab &middot; eCDFP &middot; ITGate Academy</title>
-<meta name="description" content="The eCDFP forensic lab — three VMware VMs on a host-only network, the machine specs, the host requirements and the snapshot policy.">
+<meta name="description" content="The eCDFP forensic lab in one page — the three VMware VMs and how evidence flows between them, what to have ready before your first session, the step-by-step build of the FOR-WS01 workstation with its tool set, and the snapshot policy.">
 <link rel="stylesheet" href="../assets/css/ecdfp.css">
 <link rel="icon" href="../assets/img/itgate-logo.jpg">
+<style>
+  .topo-wrap{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:14px 12px 8px;margin:6px 0 10px;overflow-x:auto}
+  .topo-wrap svg{width:100%;height:auto;min-width:760px;display:block}
+  .flow-legend{display:flex;flex-wrap:wrap;gap:10px 22px;margin:8px 4px 0;font-size:.9rem;color:var(--text-secondary)}
+  .flow-legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+  .flow-legend .l-an::before{background:var(--accent-cyan)} .flow-legend .l-vi::before{background:var(--accent-red)} .flow-legend .l-tb::before{background:var(--accent-green)} .flow-legend .l-net::before{background:transparent;border:2px solid var(--accent-green)}
+  .build-intro{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0 18px}
+  .build-intro .bi{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+  .build-intro .bi b{display:block;color:var(--accent-cyan);font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+  .build-intro .bi span{color:var(--text-secondary);font-size:.93rem}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+  .toc a{font-size:.85rem;border:1px solid var(--border);background:var(--bg-card);color:var(--text-primary);text-decoration:none;padding:5px 11px;border-radius:999px}
+  .toc a:hover{border-color:var(--accent-cyan)}
+  @media (max-width:760px){.build-intro{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
@@ -20,12 +35,12 @@
       </span>
     </a>
     <nav class="topnav">
-      <a href="../index.html#sessions">Sessions</a>
+      <a href="../index.html#pages">Pages</a>
       <a href="../roadmap.html">Roadmap</a>
       <a href="../lab/index.html" class="active">Lab</a>
       <a href="../resources/evidence.html">Evidence</a>
-      <a href="../index.html#records">Records</a>
-      <a href="../index.html#resources">Resources</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
       <a href="../index.html#about">About</a>
     </nav>
   </div>
@@ -35,95 +50,320 @@
   <div class="wrap">
     <div class="eyebrow">Three machines &middot; one host &middot; no network</div>
     <h1>The <span>lab</span></h1>
-    <p class="lede">VMware Workstation only. No cloud, no SIEM, no internet. Evidence is handled on machines that cannot reach anything, which is what makes the handling defensible.</p>
+    <p class="lede">VMware Workstation only. No cloud, no SIEM, no internet. Evidence is handled on machines that cannot reach anything, which is what makes the handling defensible. Everything about the lab is on this one page: the topology, the machines, what to have ready, the workstation build, and the snapshots.</p>
     <div class="stats">
       <div class="stat"><b>3</b><span>Virtual machines</span></div>
       <div class="stat"><b>250 GB</b><span>Free disk needed</span></div>
-      <div class="stat"><b>8 GB</b><span>Largest VM</span></div>
-      <div class="stat"><b>6</b><span>Snapshots kept</span></div>
+      <div class="stat"><b>25</b><span>Tools on FOR-WS01</span></div>
+      <div class="stat"><b>~90m</b><span>Build time</span></div>
       <div class="stat"><b>0</b><span>Cloud services</span></div>
+    </div>
+    <div class="toc">
+      <a href="#topology">Topology</a><a href="#machines">The machines</a><a href="#before">Before your first session</a><a href="#build">Build FOR-WS01</a><a href="#snapshots">Snapshot policy</a><a href="#fails">If a command fails</a>
     </div>
   </div>
 </section>
 
 <main class="wrap section hub-main">
-  <h2 class="sec">Topology</h2>
-  <p class="sec-desc">One host-only network. EVI-SRC01 is compromised and imaged; the image is examined
-     on FOR-WS01; Kali carries the acquisition and timeline tooling.</p>
-  <div class="svg-wrap">
-<svg viewBox="0 0 1500 340" role="img" preserveAspectRatio="xMidYMid meet">
-  <title>The eCDFP lab - three VMs on one host-only network, with evidence flowing one way</title>
-  <rect x="20" y="24" width="440" height="132" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
-  <rect x="20" y="24" width="4" height="132" rx="2" fill="var(--accent-cyan)"/>
-  <text x="44" y="62" font-size="23" font-weight="600" fill="var(--accent-cyan)" font-family="monospace">FOR-WS01</text>
-  <text x="44" y="92" font-size="18" fill="var(--text-primary)">Windows 11 analyst workstation</text>
-  <text x="44" y="118" font-size="16" fill="var(--text-secondary)">4 vCPU &#183; 8 GB &#183; 120 GB</text>
-  <text x="44" y="142" font-size="15" fill="var(--text-secondary)">where every examination happens</text>
-  <path d="M 240 156 L 240 206" stroke="var(--border)" stroke-width="2"/>
-  <rect x="530" y="24" width="440" height="132" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
-  <rect x="530" y="24" width="4" height="132" rx="2" fill="var(--accent-cyan)"/>
-  <text x="554" y="62" font-size="23" font-weight="600" fill="var(--accent-cyan)" font-family="monospace">EVI-SRC01</text>
-  <text x="554" y="92" font-size="18" fill="var(--text-primary)">Windows 10 Pro victim</text>
-  <text x="554" y="118" font-size="16" fill="var(--text-secondary)">2 vCPU &#183; 4 GB &#183; 60 GB</text>
-  <text x="554" y="142" font-size="15" fill="var(--text-secondary)">compromised, then imaged &#8212; the evidence factory</text>
-  <path d="M 750 156 L 750 206" stroke="var(--border)" stroke-width="2"/>
-  <rect x="1040" y="24" width="440" height="132" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
-  <rect x="1040" y="24" width="4" height="132" rx="2" fill="var(--accent-cyan)"/>
-  <text x="1064" y="62" font-size="23" font-weight="600" fill="var(--accent-cyan)" font-family="monospace">Kali</text>
-  <text x="1064" y="92" font-size="18" fill="var(--text-primary)">Ubuntu / Kali toolbox</text>
-  <text x="1064" y="118" font-size="16" fill="var(--text-secondary)">2 vCPU &#183; 4 GB &#183; 60 GB</text>
-  <text x="1064" y="142" font-size="15" fill="var(--text-secondary)">acquisition and timeline tooling</text>
-  <path d="M 1260 156 L 1260 206" stroke="var(--border)" stroke-width="2"/>
-  <rect x="20" y="206" width="1460" height="48" rx="10" fill="var(--bg-secondary)" stroke="var(--accent-green)" stroke-width="1.5"/>
-  <text x="750" y="236" text-anchor="middle" font-size="18" fill="var(--text-primary)">VMware host-only network &#183; no NAT &#183; no internet &#183; nothing leaves the host</text>
-  <path d="M 700 292 L 268 292" stroke="var(--accent-cyan)" stroke-width="2"/>
-  <path d="M 258 292 l 10 -6 v 12 z" fill="var(--accent-cyan)"/>
-  <text x="480" y="322" text-anchor="middle" font-size="16" fill="var(--text-secondary)">imaged, hashed, then examined on the workstation</text>
-  <text x="1260" y="322" text-anchor="middle" font-size="16" fill="var(--text-secondary)">dc3dd &#183; Sleuthkit &#183; plaso &#183; foremost &#183; tcpdump</text>
-</svg>
-</div>
 
-  <h2 class="sec" style="margin-top:30px">The machines</h2>
+  <!-- ============ TOPOLOGY ============ -->
+  <section class="s-block" id="topology">
+  <h2 class="sec">Topology</h2>
+  <p class="sec-desc">One host-only network inside one VMware host. <code>EVI-SRC01</code> is compromised and then
+     imaged; Kali takes and hashes the image; the verified image is examined on <code>FOR-WS01</code>.
+     Evidence flows <strong>one way</strong>, and nothing on this network can reach the internet.</p>
+
+  <div class="topo-wrap">
+<svg viewBox="0 0 1500 600" role="img" preserveAspectRatio="xMidYMid meet" aria-labelledby="topo-title">
+  <title id="topo-title">The eCDFP lab: three VMs on one host-only network inside a VMware host, with evidence flowing one way from the victim through Kali to the analyst workstation. The internet is blocked.</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--text-secondary)"/>
+    </marker>
+    <marker id="arrc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-cyan)"/>
+    </marker>
+  </defs>
+
+  <!-- internet, outside the host, blocked -->
+  <g>
+    <rect x="1230" y="14" width="250" height="52" rx="10" fill="var(--bg-card)" stroke="var(--border)" stroke-dasharray="6 5"/>
+    <text x="1355" y="38" text-anchor="middle" font-size="17" fill="var(--text-secondary)" style="font-family:var(--font-body)">&#127760; Internet / cloud</text>
+    <text x="1355" y="57" text-anchor="middle" font-size="13" fill="var(--text-secondary)" style="font-family:var(--font-body)">not reachable from any VM</text>
+    <path d="M1355 66 L1355 96" stroke="var(--accent-red)" stroke-width="3"/>
+    <line x1="1338" y1="72" x2="1372" y2="90" stroke="var(--accent-red)" stroke-width="4" stroke-linecap="round"/>
+    <line x1="1372" y1="72" x2="1338" y2="90" stroke="var(--accent-red)" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- host boundary -->
+  <rect x="20" y="96" width="1460" height="404" rx="16" fill="none" stroke="var(--text-secondary)" stroke-width="1.5" stroke-dasharray="9 7"/>
+  <rect x="34" y="82" width="520" height="28" rx="7" fill="var(--bg-secondary)"/>
+  <text x="46" y="102" font-size="15" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-mono);letter-spacing:.06em">VMWARE WORKSTATION &#183; YOUR HOST &#183; NOTHING LEAVES IT</text>
+
+  <!-- ===== VM cards ===== -->
+  <!-- FOR-WS01 -->
+  <g>
+    <rect x="60" y="136" width="400" height="150" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+    <rect x="60" y="136" width="5" height="150" rx="2" fill="var(--accent-cyan)"/>
+    <!-- monitor icon -->
+    <rect x="86" y="158" width="34" height="24" rx="3" fill="none" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+    <path d="M96 190 h14 M103 182 v8" stroke="var(--accent-cyan)" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="132" y="176" font-size="23" font-weight="700" fill="var(--accent-cyan)" style="font-family:var(--font-mono)">FOR-WS01</text>
+    <text x="86" y="212" font-size="17" fill="var(--text-primary)" style="font-family:var(--font-body)">Windows 11 &#183; analyst workstation</text>
+    <text x="86" y="236" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">4 vCPU &#183; 8 GB RAM &#183; 120 GB disk</text>
+    <text x="86" y="260" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">where every examination happens</text>
+    <rect x="322" y="150" width="124" height="22" rx="11" fill="rgba(0,217,255,.12)" stroke="var(--accent-cyan)"/>
+    <text x="384" y="165" text-anchor="middle" font-size="12" font-weight="700" fill="var(--accent-cyan)" style="font-family:var(--font-mono)">CLEAN-TOOLS</text>
+  </g>
+  <!-- EVI-SRC01 -->
+  <g>
+    <rect x="550" y="136" width="400" height="150" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+    <rect x="550" y="136" width="5" height="150" rx="2" fill="var(--accent-red)"/>
+    <!-- warning icon -->
+    <path d="M593 158 L611 190 L575 190 z" fill="none" stroke="var(--accent-red)" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M593 168 v11 M593 184 v1.5" stroke="var(--accent-red)" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="622" y="176" font-size="23" font-weight="700" fill="var(--accent-red)" style="font-family:var(--font-mono)">EVI-SRC01</text>
+    <text x="576" y="212" font-size="17" fill="var(--text-primary)" style="font-family:var(--font-body)">Windows 10 Pro &#183; the victim</text>
+    <text x="576" y="236" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">2 vCPU &#183; 4 GB RAM &#183; 60 GB disk</text>
+    <text x="576" y="260" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">compromised, then imaged &#8212; the evidence factory</text>
+    <rect x="800" y="150" width="136" height="22" rx="11" fill="rgba(255,77,94,.12)" stroke="var(--accent-red)"/>
+    <text x="868" y="165" text-anchor="middle" font-size="12" font-weight="700" fill="var(--accent-red)" style="font-family:var(--font-mono)">RE-RUNNABLE</text>
+  </g>
+  <!-- Kali -->
+  <g>
+    <rect x="1040" y="136" width="400" height="150" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+    <rect x="1040" y="136" width="5" height="150" rx="2" fill="var(--accent-green)"/>
+    <!-- terminal icon -->
+    <rect x="1066" y="158" width="34" height="28" rx="4" fill="none" stroke="var(--accent-green)" stroke-width="2.5"/>
+    <text x="1073" y="180" font-size="15" font-weight="700" fill="var(--accent-green)" style="font-family:var(--font-mono)">&gt;_</text>
+    <text x="1112" y="176" font-size="23" font-weight="700" fill="var(--accent-green)" style="font-family:var(--font-mono)">Kali</text>
+    <text x="1066" y="212" font-size="17" fill="var(--text-primary)" style="font-family:var(--font-body)">Kali Linux &#183; the toolbox</text>
+    <text x="1066" y="236" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">2 vCPU &#183; 4 GB RAM &#183; 60 GB disk</text>
+    <text x="1066" y="260" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">dc3dd &#183; Sleuth Kit &#183; plaso &#183; foremost &#183; tcpdump</text>
+  </g>
+
+  <!-- drop lines to the network -->
+  <path d="M260 286 V330" stroke="var(--accent-green)" stroke-width="2.5"/>
+  <path d="M750 286 V330" stroke="var(--accent-green)" stroke-width="2.5"/>
+  <path d="M1240 286 V330" stroke="var(--accent-green)" stroke-width="2.5"/>
+  <circle cx="260" cy="330" r="5" fill="var(--accent-green)"/>
+  <circle cx="750" cy="330" r="5" fill="var(--accent-green)"/>
+  <circle cx="1240" cy="330" r="5" fill="var(--accent-green)"/>
+
+  <!-- network bus -->
+  <rect x="60" y="330" width="1380" height="46" rx="10" fill="var(--bg-secondary)" stroke="var(--accent-green)" stroke-width="2"/>
+  <text x="750" y="359" text-anchor="middle" font-size="17" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-body)">VMware host-only network &#183; no NAT &#183; no internet &#183; the three VMs see only each other</text>
+
+  <!-- ===== evidence pipeline (one way) ===== -->
+  <text x="60" y="414" font-size="13" font-weight="700" fill="var(--text-secondary)" style="font-family:var(--font-mono);letter-spacing:.12em">EVIDENCE FLOWS ONE WAY</text>
+  <!-- step 1 -->
+  <rect x="60" y="428" width="324" height="54" rx="10" fill="rgba(255,77,94,.10)" stroke="var(--accent-red)" stroke-width="1.5"/>
+  <circle cx="86" cy="455" r="13" fill="var(--accent-red)"/><text x="86" y="460" text-anchor="middle" font-size="14" font-weight="800" fill="#0a0e14" style="font-family:var(--font-mono)">1</text>
+  <text x="106" y="450" font-size="15" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-body)">Compromise happens</text>
+  <text x="106" y="470" font-size="13" fill="var(--text-secondary)" style="font-family:var(--font-body)">EVI-SRC01 &#183; staged by the instructor</text>
+  <path d="M386 455 H408" stroke="var(--text-secondary)" stroke-width="2.5" marker-end="url(#arr)"/>
+  <!-- step 2 -->
+  <rect x="412" y="428" width="324" height="54" rx="10" fill="rgba(0,255,157,.08)" stroke="var(--accent-green)" stroke-width="1.5"/>
+  <circle cx="438" cy="455" r="13" fill="var(--accent-green)"/><text x="438" y="460" text-anchor="middle" font-size="14" font-weight="800" fill="#0a0e14" style="font-family:var(--font-mono)">2</text>
+  <text x="458" y="450" font-size="15" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-body)">Image + hash</text>
+  <text x="458" y="470" font-size="13" fill="var(--text-secondary)" style="font-family:var(--font-body)">Kali &#183; dc3dd &#183; MD5 + SHA-256 recorded</text>
+  <path d="M738 455 H760" stroke="var(--text-secondary)" stroke-width="2.5" marker-end="url(#arr)"/>
+  <!-- step 3 -->
+  <rect x="764" y="428" width="324" height="54" rx="10" fill="rgba(0,255,157,.08)" stroke="var(--accent-green)" stroke-width="1.5"/>
+  <circle cx="790" cy="455" r="13" fill="var(--accent-green)"/><text x="790" y="460" text-anchor="middle" font-size="14" font-weight="800" fill="#0a0e14" style="font-family:var(--font-mono)">3</text>
+  <text x="810" y="450" font-size="15" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-body)">Verify the copy</text>
+  <text x="810" y="470" font-size="13" fill="var(--text-secondary)" style="font-family:var(--font-body)">hash matches &#183; work only on the copy</text>
+  <path d="M1090 455 H1112" stroke="var(--accent-cyan)" stroke-width="2.5" marker-end="url(#arrc)"/>
+  <!-- step 4 -->
+  <rect x="1116" y="428" width="324" height="54" rx="10" fill="rgba(0,217,255,.10)" stroke="var(--accent-cyan)" stroke-width="1.5"/>
+  <circle cx="1142" cy="455" r="13" fill="var(--accent-cyan)"/><text x="1142" y="460" text-anchor="middle" font-size="14" font-weight="800" fill="#0a0e14" style="font-family:var(--font-mono)">4</text>
+  <text x="1162" y="450" font-size="15" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-body)">Examine &#183; write the report</text>
+  <text x="1162" y="470" font-size="13" fill="var(--text-secondary)" style="font-family:var(--font-body)">FOR-WS01 &#183; snapshot per session</text>
+
+  <!-- footer notes -->
+  <text x="60" y="540" font-size="14" fill="var(--text-secondary)" style="font-family:var(--font-body)"><tspan fill="var(--accent-cyan)" font-weight="700">CLEAN-TOOLS</tspan>  the FOR-WS01 snapshot every session rolls back to &#8212; never delete it.</text>
+  <text x="60" y="566" font-size="14" fill="var(--text-secondary)" style="font-family:var(--font-body)"><tspan fill="var(--accent-red)" font-weight="700">RE-RUNNABLE</tspan>  EVI-SRC01 is snapshotted before staging, so the compromise can be replayed for every cohort.</text>
+  <text x="1440" y="540" text-anchor="end" font-size="14" fill="var(--text-secondary)" style="font-family:var(--font-body)">A snapshot protects the <tspan font-weight="700" fill="var(--text-primary)">machine</tspan>. Hashes protect the <tspan font-weight="700" fill="var(--text-primary)">evidence</tspan>.</text>
+</svg>
+  </div>
+  <div class="flow-legend">
+    <span class="l-an">Analyst workstation</span><span class="l-vi">Victim / evidence source</span><span class="l-tb">Acquisition &amp; timeline toolbox</span><span class="l-net">Host-only network</span>
+  </div>
+  </section>
+
+  <!-- ============ MACHINES ============ -->
+  <section class="s-block" id="machines">
+  <h2 class="sec">The machines</h2>
   <div class="table-wrap">
   <table>
     <colgroup><col style="width:12%"><col style="width:23%"><col style="width:20%"><col style="width:45%"></colgroup>
     <thead><tr><th>VM</th><th>What it is</th><th>Spec</th><th>Job</th></tr></thead>
     <tbody>
-    <tr><td><code>FOR-WS01</code></td><td>Windows 11 analyst workstation</td><td>4 vCPU · 8 GB · 120 GB</td><td>Where all analysis happens. Snapshot per session.</td></tr>
-    <tr><td><code>EVI-SRC01</code></td><td>Windows 10 Pro victim</td><td>2 vCPU · 4 GB · 60 GB</td><td>Gets compromised, then imaged — the evidence factory.</td></tr>
-    <tr><td><code>Kali</code></td><td>Kali Linux</td><td>2 vCPU · 4 GB · 60 GB</td><td><code>dd</code>/<code>dc3dd</code>, Sleuthkit, plaso, foremost, bulk_extractor, tcpdump.</td></tr>
+    <tr><td><code>FOR-WS01</code></td><td>Windows 11 analyst workstation</td><td>4 vCPU · 8 GB · 120 GB</td><td>Where all analysis happens. Snapshot per session. Built once by you (<a href="#build">below</a>).</td></tr>
+    <tr><td><code>EVI-SRC01</code></td><td>Windows 10 Pro victim</td><td>2 vCPU · 4 GB · 60 GB</td><td>Gets compromised, then imaged — the evidence factory. Built and staged by the instructor.</td></tr>
+    <tr><td><code>Kali</code></td><td>Kali Linux</td><td>2 vCPU · 4 GB · 60 GB</td><td><code>dd</code>/<code>dc3dd</code>, Sleuth Kit, plaso, foremost, bulk_extractor, tcpdump. Standard Kali image; add <code>plaso</code> (see Part B).</td></tr>
     </tbody>
   </table>
-</div>
+  </div>
+  </section>
 
+  <!-- ============ BEFORE FIRST SESSION ============ -->
   <section class="s-block" id="before">
     <h2 class="sec">Before your first session</h2>
     <div class="lab-box">
-      <span class="cl-label">Setup</span>
+      <span class="cl-label">Have these ready</span>
       <ul>
         <li><strong>250 GB free on the host</strong>, and VMware Workstation installed.</li>
-        <li><strong>FOR-WS01 ships pre-built</strong> — a clean Windows with no tools. You install the
-            tool set in S1 and take the <code>CLEAN-TOOLS</code> snapshot yourself. Building the
-            workstation is not a use of class time; using it is.</li>
-        <li>The session's evidence downloaded <strong>and hash-verified before class</strong>.</li>
+        <li><strong><code>FOR-WS01</code> built and snapshotted</strong> — the build below takes about 90 minutes and is done
+            <em>before</em> class, not during it. Building the workstation is not a use of class time; using it is.</li>
+        <li>The session's evidence downloaded <strong>and hash-verified before class</strong> — the page for each
+            topic tells you which set and gives you the hash.</li>
       </ul>
-    </div>
-    <div class="note">
-      <p><strong>The full build guide is live.</strong> The step-by-step build of <code>FOR-WS01</code> &mdash;
-         the Windows 11 VM, the tool set installed session by session, verification and snapshots &mdash; is at
-         <a href="setup.html"><strong>Workstation setup &rarr;</strong></a>. Machine specs, the host requirement
-         and the snapshot policy above are settled.</p>
     </div>
   </section>
 
+  <!-- ============ BUILD FOR-WS01 ============ -->
+  <section class="s-block" id="build">
+    <h2 class="sec">Build FOR-WS01 — the analyst workstation</h2>
+    <p class="sec-desc">Three parts, in order. Build the Windows VM, install the tool set by script, verify and snapshot.
+       The victim <code>EVI-SRC01</code> and Kali are not yours to build.</p>
+    <div class="build-intro">
+      <div class="bi"><b>Part A · ~40 min</b><span>The Windows 11 VM — install, update, harden, first snapshot.</span></div>
+      <div class="bi"><b>Part B · ~40 min</b><span>The 25 tools, installed by one script (or session by session).</span></div>
+      <div class="bi"><b>Part C · ~10 min</b><span>Verify, shortcuts, isolate the network, the <code>CLEAN-TOOLS</code> snapshot.</span></div>
+    </div>
+
+    <div class="note">
+      <p><strong>About the network setting.</strong> The build needs internet (Windows Update and the tool downloads),
+         so Part A sets the adapter to <strong>NAT</strong>. Evidence handling must <em>not</em> have internet,
+         so Part C switches it to <strong>Host-only</strong> before the final snapshot. From that point on the
+         topology above is true: nothing leaves the host.</p>
+    </div>
+
+    <!-- PART A -->
+    <h3 id="part-a">Part A · the Windows 11 VM</h3>
+    <ol class="steps">
+      <li><span><b>Get the ISO</b> &mdash; <a href="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-11-enterprise">Windows 11 Enterprise Evaluation</a> (free, 90-day, ~6&nbsp;GB).</span></li>
+      <li><span><b>New VM in VMware</b> &mdash; point to the ISO, guest <em>Windows 11 x64</em>, name <code>FOR-WS01</code>. Encrypt <em>&ldquo;only the files needed for a TPM&rdquo;</em>.</span></li>
+      <li><span><b>Hardware</b> &mdash; <strong>8&nbsp;GB</strong> RAM, <strong>4</strong> CPU, disk <strong>120&nbsp;GB</strong>, network <strong>NAT</strong> <em>(for the build only &mdash; switched to Host-only in Part C)</em>.</span></li>
+      <li><span><b>Install Windows</b> &mdash; boot the ISO, <em>Custom</em>, pick the 120&nbsp;GB disk. No product key needed.</span></li>
+      <li><span><b>VMware Tools</b> &mdash; <em>VM &rarr; Install VMware Tools</em>, run <code>setup64.exe</code>, reboot.</span></li>
+      <li><span><b>Update &amp; harden</b> &mdash; Windows Update until clean; then Device encryption <strong>OFF</strong>, OneDrive sync off, sleep <strong>Never</strong>.</span></li>
+      <li><span><b>Snapshot <code>CLEAN-BASE</code></b> &mdash; shut down, take a snapshot before any tools. Cheap insurance.</span></li>
+    </ol>
+
+    <!-- PART B -->
+    <h3 id="part-b">Part B · install the tools</h3>
+    <p class="sec-desc"><a href="scripts/ecdfp-forws01-scripts.zip" download><strong>&#8681; Download all (.zip)</strong></a>
+       &mdash; or grab a single session below. Click any box to download that script. Run in an
+       <strong>elevated</strong> PowerShell; if Windows blocks them: <code>Get-ChildItem .\*.ps1 | Unblock-File</code>.</p>
+
+    <div class="grid">
+      <a class="card" download href="scripts/install_all.ps1">
+        <div class="card-top"><span class="snum">&#9656;</span><h3>One-shot install</h3></div>
+        <p>Runs bootstrap &rarr; S2&hellip;S6 &rarr; verify in one elevated session. The fastest path.</p>
+        <div class="chips"><span class="tag">install_all.ps1</span></div>
+      </a>
+      <a class="card" download href="scripts/00_bootstrap.ps1">
+        <div class="card-top"><span class="snum">0</span><h3>Prerequisites</h3></div>
+        <p>Chocolatey, Git, Python, 7-Zip and the kit folders. Run this first.</p>
+        <div class="chips"><span class="tag">00_bootstrap.ps1</span></div>
+      </a>
+      <a class="card" download href="scripts/s2_acquisition.ps1">
+        <div class="card-top"><span class="snum">S2</span><h3>Acquisition</h3></div>
+        <p>OSFMount, Arsenal Image Mounter, Volatility 3. FTK Imager is a manual download.</p>
+        <div class="chips"><span class="tag">s2_acquisition.ps1</span></div>
+      </a>
+      <a class="card" download href="scripts/s3_files.ps1">
+        <div class="card-top"><span class="snum">S3</span><h3>File examination</h3></div>
+        <p>HxD, ExifTool, oletools, oledump, TrID, CyberChef (offline).</p>
+        <div class="chips"><span class="tag">s3_files.ps1</span></div>
+      </a>
+      <a class="card" download href="scripts/s4_storage.ps1">
+        <div class="card-top"><span class="snum">S4</span><h3>Storage &amp; file systems</h3></div>
+        <p>Autopsy, TestDisk/PhotoRec 7.2, Sleuth Kit, Eric Zimmerman tools (covers S5 too).</p>
+        <div class="chips"><span class="tag">s4_storage.ps1</span></div>
+      </a>
+      <a class="card" download href="scripts/s5_windows.ps1">
+        <div class="card-top"><span class="snum">S5</span><h3>Windows forensics</h3></div>
+        <p>RegRipper 3.0. Registry / Prefetch / ShellBags / Timeline tools came with S4.</p>
+        <div class="chips"><span class="tag">s5_windows.ps1</span></div>
+      </a>
+      <a class="card" download href="scripts/s6_network.ps1">
+        <div class="card-top"><span class="snum">S6</span><h3>Network forensics</h3></div>
+        <p>Wireshark, NetworkMiner. Volatility already in S2; plaso runs on Kali.</p>
+        <div class="chips"><span class="tag">s6_network.ps1</span></div>
+      </a>
+      <a class="card" download href="scripts/verify_tools.ps1">
+        <div class="card-top"><span class="snum">&#10003;</span><h3>Verify</h3></div>
+        <p>PASS / MISSING checklist for all 25 tools. Expect 0 missing after FTK Imager.</p>
+        <div class="chips"><span class="tag">verify_tools.ps1</span></div>
+      </a>
+    </div>
+
+    <div class="lab-box">
+      <span class="cl-label">Run it</span>
+      <p>Right-click Windows PowerShell &rarr; <strong>Run as administrator</strong>, <code>cd</code> into the unzipped folder, then:</p>
+<pre><code>Set-ExecutionPolicy Bypass -Scope Process -Force
+.\install_all.ps1          # everything at once
+# ...or run in order: 00_bootstrap, s2, s3, s4, s5, s6, verify_tools</code></pre>
+    </div>
+
+    <div class="caveat">
+      <span class="cl-label">Two manual bits</span>
+      <p><strong>FTK Imager 8.3</strong> &mdash; download by hand from
+         <a href="https://www.exterro.com/ftk-product-downloads">Exterro</a> (the free one, not &ldquo;Pro&rdquo;).
+         <strong>plaso</strong> &mdash; on Kali: <code>sudo apt install -y plaso</code>.</p>
+    </div>
+
+    <h3>Prefer to install by hand? Official tool sites</h3>
+    <p class="sec-desc">Every tool the scripts install, with its pinned version and the vendor's own download page.</p>
+    <div class="table-wrap">
+    <table>
+      <colgroup><col style="width:9%"><col style="width:31%"><col style="width:16%"><col style="width:44%"></colgroup>
+      <thead><tr><th>Session</th><th>Tool</th><th>Version</th><th>Official download</th></tr></thead>
+      <tbody>
+      <tr><td><code>S2</code></td><td>FTK Imager</td><td>8.3</td><td><a href="https://www.exterro.com/ftk-product-downloads">exterro.com/ftk-product-downloads</a></td></tr>
+      <tr><td><code>S2</code></td><td>OSFMount</td><td>3.3</td><td><a href="https://www.osforensics.com/tools/mount-disk-images.html">osforensics.com</a></td></tr>
+      <tr><td><code>S2</code></td><td>Arsenal Image Mounter</td><td>3.13.368</td><td><a href="https://arsenalrecon.com/products/arsenal-image-mounter">arsenalrecon.com</a></td></tr>
+      <tr><td><code>S2</code></td><td>Volatility 3</td><td>2.28.2</td><td><a href="https://github.com/volatilityfoundation/volatility3">github.com/volatilityfoundation/volatility3</a></td></tr>
+      <tr><td><code>S3</code></td><td>HxD</td><td>2.5.0.0</td><td><a href="https://mh-nexus.de/en/hxd/">mh-nexus.de/en/hxd</a></td></tr>
+      <tr><td><code>S3</code></td><td>ExifTool</td><td>13.59</td><td><a href="https://exiftool.org/">exiftool.org</a></td></tr>
+      <tr><td><code>S3</code></td><td>oletools (olevba)</td><td>latest</td><td><a href="https://github.com/decalage2/oletools">github.com/decalage2/oletools</a></td></tr>
+      <tr><td><code>S3</code></td><td>oledump</td><td>latest</td><td><a href="https://blog.didierstevens.com/programs/oledump-py/">blog.didierstevens.com</a></td></tr>
+      <tr><td><code>S3</code></td><td>TrID</td><td>2.x</td><td><a href="https://mark0.net/soft-trid-e.html">mark0.net/soft-trid-e.html</a></td></tr>
+      <tr><td><code>S3</code></td><td>CyberChef</td><td>latest</td><td><a href="https://github.com/gchq/CyberChef/releases">github.com/gchq/CyberChef</a></td></tr>
+      <tr><td><code>S4</code></td><td>Autopsy</td><td>4.23</td><td><a href="https://www.autopsy.com/download/">autopsy.com/download</a></td></tr>
+      <tr><td><code>S4</code></td><td>TestDisk / PhotoRec</td><td>7.2 stable</td><td><a href="https://www.cgsecurity.org/wiki/TestDisk_Download">cgsecurity.org</a></td></tr>
+      <tr><td><code>S4</code></td><td>The Sleuth Kit</td><td>current</td><td><a href="https://www.sleuthkit.org/sleuthkit/download.php">sleuthkit.org</a></td></tr>
+      <tr><td><code>S4</code></td><td>Eric Zimmerman tools</td><td>current</td><td><a href="https://ericzimmerman.github.io/">ericzimmerman.github.io</a></td></tr>
+      <tr><td><code>S5</code></td><td>RegRipper 3.0 <em>(not 4.0)</em></td><td>3.0</td><td><a href="https://github.com/keydet89/RegRipper3.0">github.com/keydet89/RegRipper3.0</a></td></tr>
+      <tr><td><code>S6</code></td><td>Wireshark</td><td>4.6.8</td><td><a href="https://www.wireshark.org/download.html">wireshark.org/download</a></td></tr>
+      <tr><td><code>S6</code></td><td>NetworkMiner</td><td>3.1</td><td><a href="https://www.netresec.com/?page=NetworkMiner">netresec.com</a></td></tr>
+      <tr><td><code>S6</code></td><td>plaso <em>(Kali)</em></td><td>current</td><td><a href="https://plaso.readthedocs.io/">plaso.readthedocs.io</a></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <!-- PART C -->
+    <h3 id="part-c">Part C · finish</h3>
+    <ol class="steps">
+      <li><span><b>Verify</b> &mdash; run <code>verify_tools.ps1</code>. Every row should read <strong>PASS</strong> (0 missing).</span></li>
+      <li><span><b>Shortcuts</b> &mdash; run <code>create_shortcuts.ps1</code> to put the GUI tools on the desktop.</span></li>
+      <li><span><b>Isolate the network</b> &mdash; shut down; <em>VM &rarr; Settings &rarr; Network Adapter &rarr;</em> <strong>Host-only</strong>. The build needed internet; evidence handling must not. This is what makes the topology above true.</span></li>
+      <li><span><b>Snapshot <code>CLEAN-TOOLS</code></b> &mdash; take the snapshot now, on the isolated machine. Never delete it &mdash; every session rolls back here.</span></li>
+    </ol>
+  </section>
+
+  <!-- ============ SNAPSHOTS ============ -->
   <section class="s-block" id="snapshots">
     <h2 class="sec">Snapshot policy</h2>
     <p class="sec-desc">One snapshot per session on FOR-WS01, taken before you touch evidence.</p>
     <ul>
-      <li><code>CLEAN-TOOLS</code> — taken in S1 once the tool set is installed and verified.
+      <li><code>CLEAN-TOOLS</code> — taken once the tool set is installed, verified, and the network is host-only.
           <strong>Never delete this one.</strong> Every later session is recoverable from it.</li>
       <li><code>S0N-START</code> — taken at the start of each session, before any evidence is mounted.</li>
-      <li>EVI-SRC01 is snapshotted by the instructor before staging, so the compromise can be re-run.</li>
+      <li><code>EVI-SRC01</code> is snapshotted by the instructor before staging, so the compromise can be re-run.</li>
     </ul>
     <div class="caveat">
       <span class="cl-label">Caveat</span>
@@ -132,12 +372,32 @@
          on a copy.</p>
     </div>
   </section>
+
+  <!-- ============ TROUBLESHOOTING ============ -->
+  <section class="s-block" id="fails">
+    <h2 class="sec">If a command fails</h2>
+    <p class="sec-desc">The scripts already handle all of these &mdash; only relevant if you run commands by hand.</p>
+    <div class="table-wrap">
+    <table>
+      <colgroup><col style="width:38%"><col style="width:62%"></colgroup>
+      <thead><tr><th>Message</th><th>Fix</th></tr></thead>
+      <tbody>
+      <tr><td>Chocolatey &ldquo;requires Administrative permissions&rdquo;</td><td>Run PowerShell as administrator.</td></tr>
+      <tr><td><code>python</code> opens the Store</td><td>Use <code>C:\Python314\python.exe</code>.</td></tr>
+      <tr><td><code>choco</code> / <code>git</code> not recognized</td><td>Close and reopen the shell (PATH refresh).</td></tr>
+      <tr><td>TrID opens an installer</td><td>Use <code>trid_w32.zip</code> (the real <code>trid.exe</code>).</td></tr>
+      <tr><td>Tools cannot download after Part C</td><td>Expected &mdash; the adapter is Host-only now. Switch to NAT only to install, then back to Host-only before any evidence.</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
     <span>ITGate Academy · eCDFP Diploma · Your gate to the world</span>
-    <span class="mono">Primary reference: INE eCDFP · 6 sessions · 24 hours</span>
+    <span class="mono">3 VMs · host-only · FOR-WS01 · 25 tools</span>
   </div>
 </footer>
 

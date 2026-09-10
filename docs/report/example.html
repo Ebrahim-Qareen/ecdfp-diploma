@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worked report example &middot; eCDFP &middot; ITGate Academy</title>
+<meta name="description" content="A complete forensic report written the way the course grades it — all twelve sections, on a realistic departing-employee USB case, with a teaching note on every section explaining why it is there, what makes it pass, and the classic mistake.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+<style>
+  .case-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 6px}
+  .case-strip .cs{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:10px 13px}
+  .case-strip .cs b{display:block;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:3px}
+  .case-strip .cs span{color:var(--text-primary);font-size:.95rem}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px}
+  .legend span{font-size:.85rem;padding:5px 11px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-secondary)}
+  .legend .lf{border-left:4px solid var(--finding)} .legend .li{border-left:4px dashed var(--interpretation)} .legend .ll{border-left:4px dotted var(--limitation)} .legend .lt{border-left:4px solid var(--accent-amber)}
+  .rsec{margin:34px 0 0;padding-top:22px;border-top:1px solid var(--border)}
+  .rsec h2.sec{display:flex;align-items:center;gap:12px}
+  .rsec h2.sec .n{font-family:var(--font-mono);font-size:.8em;color:var(--accent-cyan);background:rgba(0,217,255,.1);border:1px solid rgba(0,217,255,.35);border-radius:8px;padding:2px 10px}
+  .rep{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin:10px 0}
+  .rep p{margin:.45em 0}
+  .rep .kv{display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;margin:.3em 0}
+  .rep .kv b{color:var(--text-secondary);font-weight:600}
+  .tn{background:rgba(255,180,84,.07);border:1px solid rgba(255,180,84,.35);border-left:4px solid var(--accent-amber);border-radius:0 10px 10px 0;padding:13px 16px;margin:12px 0 4px}
+  .tn > b:first-child{display:block;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-amber);margin-bottom:6px}
+  .tn p{margin:.35em 0;font-size:.95rem}
+  .tn .ar{direction:rtl;text-align:right;font-family:var(--ar-font);color:var(--text-primary);border-top:1px dashed rgba(255,180,84,.35);margin-top:8px;padding-top:8px}
+  .tn .ar code{direction:ltr;unicode-bidi:isolate}
+  .fl .finding,.fl .interpretation,.fl .limitation{margin:8px 0;padding:10px 14px}
+  .fl .cl-label{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em}
+  .fl p{margin:.3em 0;font-size:.95rem}
+  table.tl td:first-child{font-family:var(--font-mono);white-space:nowrap;color:var(--accent-cyan)}
+  .hash{font-family:var(--font-mono);font-size:.78rem;word-break:break-all;color:var(--text-secondary)}
+  .score{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+  .score .sc{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+  .score .sc b{display:block;color:var(--accent-green);font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+  .score .sc span{font-size:.92rem;color:var(--text-secondary)}
+  .banned{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+  .banned span{font-family:var(--font-mono);font-size:.8rem;color:var(--accent-red);border:1px solid rgba(255,77,94,.4);background:rgba(255,77,94,.08);border-radius:6px;padding:2px 8px;text-decoration:line-through}
+  @media (max-width:820px){.case-strip,.score{grid-template-columns:1fr 1fr}}
+  @media (max-width:520px){.case-strip,.score{grid-template-columns:1fr}.rep .kv{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text">
+        <span class="hb-name">ITGate Academy</span>
+        <span class="hb-sub">eCDFP &middot; Worked report</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="../index.html#pages">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <div class="eyebrow">Worked example &middot; all twelve sections &middot; fictional case</div>
+    <h1>A complete report, <span>section by section</span></h1>
+    <p class="lede">This is the report the course grades, written in full for a realistic case — the kind that lands on a corporate forensics desk every month: a departing employee, a client list, and a USB drive. Every section is real report text. After each one, a <strong>teaching note</strong> says why the section exists, what makes it pass the <a href="index.html">rubric</a>, and the mistake students make there. Read the report; then read the notes; then write yours.</p>
+    <div class="stats">
+      <div class="stat"><b>12</b><span>Sections</span></div>
+      <div class="stat"><b>10</b><span>Findings</span></div>
+      <div class="stat"><b>4</b><span>Interpretations</span></div>
+      <div class="stat"><b>8</b><span>Limitations</span></div>
+      <div class="stat"><b>1</b><span>Declared custody gap</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap section hub-main">
+
+  <h2 class="sec">The case at a glance</h2>
+  <p class="sec-desc">Everything here is <strong>fictional and purpose-built</strong> — company, people, serials, hashes. The
+     artifact chain is not: it is the standard Windows USB-and-file-activity chain, exactly as it appears in real
+     casework. One thing makes this case worth studying: <strong>the USB drive was never recovered</strong>, so the
+     report has to say what that leaves unproven — which is the whole skill.</p>
+  <div class="case-strip">
+    <div class="cs"><b>Organisation</b><span>NileBridge Logistics (fictional)</span></div>
+    <div class="cs"><b>Trigger</b><span>Departing Senior Sales Manager; client master list opened in his last week</span></div>
+    <div class="cs"><b>Exhibits</b><span>EXH-01 workstation SSD image &middot; EXH-02 USB drive (not recovered)</span></div>
+    <div class="cs"><b>Window examined</b><span>2026-05-11 &rarr; 2026-05-25, all times UTC</span></div>
+  </div>
+  <div class="legend">
+    <span class="lf">Finding — fact, one artifact, exact path</span>
+    <span class="li">Interpretation — cites findings, gives confidence</span>
+    <span class="ll">Limitation — what cannot be shown</span>
+    <span class="lt">Teaching note — how to read the section</span>
+  </div>
+
+  <!-- ========================= §1 ========================= -->
+  <section class="rsec" id="s1">
+    <h2 class="sec"><span class="n">&sect;1</span>Case identification</h2>
+    <div class="rep">
+      <div class="kv">
+        <b>Case ID</b><span>NBL-2026-014</span>
+        <b>Requesting reference</b><span>HR-2026-071 (Human Resources) &middot; instruction from Legal, 2026-05-27</span>
+        <b>Subject system</b><span>Workstation <code>NBL-WS-117</code>, asset tag NBL-A-0917, Windows 10 Pro 22H2, Sales floor 3</span>
+        <b>Examiner</b><span>A. Hassan, Digital Forensics Analyst, NileBridge IT Security</span>
+        <b>Technical reviewer</b><span>K. Mostafa, Senior Analyst</span>
+        <b>Examination dates</b><span>2026-05-27 to 2026-06-03</span>
+        <b>Report version / date</b><span>1.0 &middot; 2026-06-04</span>
+        <b>Examination location</b><span><code>FOR-WS01</code>, isolated analyst workstation, IT Security lab</span>
+        <b>Classification</b><span>Confidential &mdash; prepared at the request of Legal</span>
+      </div>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> Every other section can be argued with; this one cannot. It is the only section with no judgement in it, which is exactly why a gap here is unforgivable — it says the examiner was careless before the analysis even started.</p>
+      <p><strong>What passes.</strong> A unique case ID, who asked and under what reference, which machine (with an asset tag, not just a name), who examined and who reviewed, dates, a version number.</p>
+      <p><strong>The mistake.</strong> No version number. A report that is corrected later with no version is two contradictory documents with the same title. Version 1.0 today; 1.1 the moment one word changes.</p>
+      <p class="ar">القسم الوحيد اللي مفيش فيه رأي — فمفيش عذر لأي نقص فيه. رقم الإصدار (version) إلزامي: أي تعديل بعدين = إصدار جديد، مش نفس الملف.</p>
+    </div>
+  </section>
+
+  <!-- ========================= §2 ========================= -->
+  <section class="rsec" id="s2">
+    <h2 class="sec"><span class="n">&sect;2</span>Executive summary</h2>
+    <div class="rep">
+      <p>Legal asked whether client data was taken from the workstation assigned to a Senior Sales Manager during his notice period (11&ndash;25 May 2026). The workstation&rsquo;s disk was imaged and examined; the USB drive in question was not available.</p>
+      <p>The examination establishes, with high confidence, that a Kingston DataTraveler USB drive was connected to the workstation on 19 May and again on 22 May 2026, and that on 22 May, during the logged-in session of the account assigned to the employee, the Sales client master list was opened from the network share, an archive was created on the desktop and deleted twenty minutes later, and a file carrying the client list&rsquo;s name was opened from the USB drive&rsquo;s drive letter. All of this happened inside a forty-minute window.</p>
+      <p>The examination does <strong>not</strong> establish that the client list was copied to the USB drive. The drive was never recovered, and without it the copy cannot be proven from the workstation alone. The evidence is <strong>consistent with</strong> a copy; it is not proof of one. Nor can the workstation evidence show which person was at the keyboard, only which account was logged in.</p>
+      <p>Two weaknesses are declared: the workstation was powered down and left at the desk overnight before it was sealed, and its memory was therefore not captured. Neither affects the integrity of the disk image, which verified. No view on intent is offered; that question is outside scope.</p>
+      <p><em>Recommended:</em> recover the USB drive through lawful means if the matter proceeds; the questions this report cannot answer are answerable from the drive.</p>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> Half a page for the one reader who will not read the rest — the lawyer, the HR director, the judge. Written <em>last</em>, read <em>first</em>.</p>
+      <p><strong>What passes.</strong> Plain language, no tool names, no paths. It says what was established, at what confidence, what was <em>not</em> established and why, and it declares the weaknesses itself rather than waiting for the other side to find them. Notice it never says the employee did anything — it says what the account and the device did.</p>
+      <p><strong>The mistake.</strong> Writing it first, from what you expect to find. Then the analysis disagrees with it and the summary quietly oversells. Write it after §11, from §11.</p>
+      <p class="ar">نص صفحة لقارئ مش تقني، بتتكتب <b>آخر</b> حاجة و بتتقري <b>أول</b> حاجة. من غير أسماء أدوات ولا مسارات. و لاحظ: عمرها ما بتقول «الموظف عمل» — بتقول «الحساب» و «الجهاز».</p>
+    </div>
+  </section>
+
+  <!-- ========================= §3 ========================= -->
+  <section class="rsec" id="s3">
+    <h2 class="sec"><span class="n">&sect;3</span>Authorisation &amp; scope</h2>
+    <div class="rep">
+      <p><strong>Instruction.</strong> This examination was instructed by the Head of Legal, NileBridge Logistics, on 2026-05-27 under HR case reference HR-2026-071, following an HR report of 2026-05-26 that the Sales client master list had been opened from workstation <code>NBL-WS-117</code> during the notice period of its assigned user. Authority to examine company-owned equipment is under the Acceptable Use Policy (AUP-2024 &sect;7.3) signed by all staff.</p>
+      <p><strong>Questions this examination answers:</strong></p>
+      <ol>
+        <li>Was a removable storage device connected to <code>NBL-WS-117</code> between 2026-05-11 and 2026-05-25?</li>
+        <li>Were files from the Sales client master list accessed from <code>NBL-WS-117</code> in that period?</li>
+        <li>Is there evidence that any such file was copied to a removable storage device?</li>
+      </ol>
+      <p><strong>Outside scope, on the instruction of Legal:</strong> the user&rsquo;s personal devices; the corporate mailbox and cloud storage (subject to a separate legal process); any question of the user&rsquo;s intent or knowledge; any device other than <code>NBL-WS-117</code>.</p>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> §11 is only allowed to answer the questions written here. If the questions are vague, the conclusions will be vague, and the report will drift into things nobody asked for and nobody authorised.</p>
+      <p><strong>What passes.</strong> Who instructed you, under what authority, and a numbered list of questions specific enough that each one can be answered <em>yes / no / not established</em>. The out-of-scope list is as important as the in-scope one — it is what stops you being asked &ldquo;why didn&rsquo;t you look at his phone?&rdquo;</p>
+      <p><strong>The mistake.</strong> One question: &ldquo;investigate whether the employee stole data&rdquo;. That is not a question a workstation can answer, so the report answers something else and calls it that.</p>
+      <p class="ar">الأسئلة هنا لازم تبقى محدّدة لدرجة إن كل واحد يتجاوب بـ نعم / لا / لم يثبت. و «خارج النطاق» مهم زي «داخل النطاق» — ده اللي بيحميك من «ليه ما بصّيتش على موبايله؟».</p>
+    </div>
+  </section>
+
+  <!-- ========================= §4 ========================= -->
+  <section class="rsec" id="s4">
+    <h2 class="sec"><span class="n">&sect;4</span>Chain of custody</h2>
+    <div class="rep">
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Who released</th><th>Who received</th><th>Exhibit</th><th>When (UTC)</th><th>From where</th><th>Purpose</th><th>Hash re-verified</th><th>Signatures</th></tr></thead>
+        <tbody>
+        <tr><td>&mdash;</td><td>M. Adel (IT Support)</td><td>NBL-WS-117 (whole unit)</td><td>2026-05-26 14:40</td><td>Desk 3-22, Sales floor</td><td>Powered down at HR request; <strong>left at the desk</strong></td><td>n/a</td><td>M. Adel</td></tr>
+        <tr style="background:rgba(255,180,84,.07)"><td colspan="8"><strong>Declared gap:</strong> 2026-05-26 14:40 &rarr; 2026-05-27 06:15 UTC. The unit remained at desk 3-22 overnight, powered off. The floor was locked at 16:00 local; cleaning staff hold a key. No one is recorded as taking possession. Consequence assessed in &sect;10 (L-04).</td></tr>
+        <tr><td>M. Adel (IT Support)</td><td>M. Adel (IT Support)</td><td>SSD, Samsung 870 EVO 500 GB, S/N S6PXNZ0T812204F, removed from NBL-WS-117</td><td>2026-05-27 06:15</td><td>Desk 3-22</td><td>Removal and sealing, evidence bag <code>EB-0412</code></td><td>n/a</td><td>M. Adel; witness S. Nabil (HR)</td></tr>
+        <tr><td>M. Adel (IT Support)</td><td>A. Hassan (Examiner)</td><td><code>EB-0412</code> (SSD)</td><td>2026-05-27 07:05</td><td>IT Support office</td><td>Handover for imaging; seal intact</td><td>n/a (not yet imaged)</td><td>M. Adel; A. Hassan</td></tr>
+        <tr><td>A. Hassan</td><td>A. Hassan</td><td>SSD &rarr; <code>EXH-01</code> (image)</td><td>2026-05-27 07:30&ndash;08:52</td><td>IT Security lab, write-blocked</td><td>Acquisition (&sect;7)</td><td>Yes &mdash; acquisition hashes recorded (&sect;5)</td><td>A. Hassan</td></tr>
+        <tr><td>A. Hassan</td><td>Evidence locker L-03</td><td>SSD resealed as <code>EB-0413</code></td><td>2026-05-27 09:10</td><td>IT Security lab</td><td>Storage after imaging</td><td>n/a (physical exhibit)</td><td>A. Hassan; witness K. Mostafa</td></tr>
+        <tr><td>&mdash;</td><td>&mdash;</td><td><code>EXH-02</code> Kingston DataTraveler 3.0 USB drive</td><td>&mdash;</td><td>&mdash;</td><td><strong>Not recovered.</strong> Not among returned company property; no authority to search personal effects (&sect;3)</td><td>&mdash;</td><td>&mdash;</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> This is the section the other side reads first, looking for one hole. Every transfer, two names, a time, a reason. It is the minimum SWGDE sets, and it is its own section because it is not a formality — it is the exhibit&rsquo;s biography.</p>
+      <p><strong>What passes.</strong> One line per transfer; the exhibit tracked through its transformations (unit &rarr; SSD &rarr; image &rarr; resealed); and the honest row — the <strong>declared gap</strong>. Look at how it is written: the two times either side, what is known about the gap, and a pointer to where its consequence is assessed. That row is the strongest thing in this table, not the weakest.</p>
+      <p><strong>The mistake.</strong> Hiding the gap, or writing the table as if the examiner had the machine from the first minute. A gap you declare costs you a paragraph in §10. A gap they find costs you the exhibit.</p>
+      <p class="ar">كل نقل = سطر، اسمين، وقت، سبب. و الـ <b>gap</b> (الفترة اللي الجهاز كان فيها من غير حد مسؤول) <b>بتتكتب</b> بالوقتين اللي حواليها — مش بتتخبّى. اللي تعلنه انت بيكلّفك فقرة في قسم ١٠؛ اللي يكتشفوه هما بيكلّفك الدليل كله.</p>
+    </div>
+  </section>
+
+  <!-- ========================= §5 ========================= -->
+  <section class="rsec" id="s5">
+    <h2 class="sec"><span class="n">&sect;5</span>Evidence inventory and hashes</h2>
+    <div class="rep">
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Exhibit ID</th><th>Description</th><th>Size</th><th>MD5</th><th>SHA-256</th><th>Received from</th><th>When (UTC)</th><th>Custody ref</th></tr></thead>
+        <tbody>
+        <tr><td><code>EXH-01</code></td><td>Physical image of SSD S/N S6PXNZ0T812204F from NBL-WS-117; E01, 4 segments</td><td>500,107,862,016 B (976,773,168 sectors)</td><td class="hash">9f2c4b7e1a0d6c3f8b5e2a7d4c1f9e63</td><td class="hash">4a7d1e9c2b8f0a3e6c5d9b2f7e1a4c8d0b3f6e9a2c5d8b1f4e7a0c3d6b9f2e5a</td><td>Acquired by A. Hassan (&sect;7)</td><td>2026-05-27 08:52</td><td>&sect;4 row 4</td></tr>
+        <tr><td><code>EXH-01-raw</code></td><td>Raw (dd) export of EXH-01 used for mounting; derived, not a new exhibit</td><td>500,107,862,016 B</td><td class="hash">9f2c4b7e1a0d6c3f8b5e2a7d4c1f9e63</td><td class="hash">4a7d1e9c2b8f0a3e6c5d9b2f7e1a4c8d0b3f6e9a2c5d8b1f4e7a0c3d6b9f2e5a</td><td>Exported from EXH-01</td><td>2026-05-27 09:40</td><td>&mdash;</td></tr>
+        <tr><td><code>EXH-02</code></td><td>Kingston DataTraveler 3.0, serial 0019E06B4F27B2C1A34D0091 (serial from registry, F-01)</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td><strong>Not recovered</strong></td><td>&mdash;</td><td>&sect;4 last row</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><strong>Per exhibit &mdash; EXH-01:</strong></p>
+      <div class="kv">
+        <b>Hash at acquisition</b><span>as computed by FTK Imager 8.3 during acquisition, 2026-05-27 08:52 UTC (values above)</span>
+        <b>Independent check of the source</b><span><code>dc3dd if=/dev/sdb hash=sha256</code> on Kali against the write-blocked SSD, 2026-05-27 09:05 UTC &rarr; SHA-256 identical to the E01 stored hash</span>
+        <b>Re-verified at analysis</b><span><code>Get-FileHash -Algorithm SHA256 EXH-01-raw.dd</code> on FOR-WS01, 2026-06-03 11:20 UTC &rarr; <code>4a7d1e9c&hellip;2e5a</code></span>
+        <b>Result</b><span><strong>MATCH</strong> (acquisition = independent source hash = re-verification)</span>
+      </div>
+      <p class="sec-desc" style="margin-top:8px">SHA-256 is the value defended. MD5 is recorded as a lookup key only. Hash values in this fictional example are illustrative.</p>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> Criterion 1, Integrity, is graded here and in §4. This table is your proof that what you examined is what was seized, and that nothing changed between seizure and the last day of analysis.</p>
+      <p><strong>What passes.</strong> Both algorithms, every time. Three moments of hashing, not one: <em>at acquisition</em> (the tool&rsquo;s round trip), <em>an independent check of the source</em> (the P05 lesson &mdash; the tool&rsquo;s &ldquo;verified&rdquo; never read the disk twice; <code>dc3dd</code> did), and <em>re-verified at analysis</em> with the command you ran. Note the derived raw export is listed but flagged as derived, and the missing device has a row — its absence is recorded, not omitted.</p>
+      <p><strong>The mistake.</strong> One hash, computed once, from the tool&rsquo;s own dialog. And omitting the exhibit you don&rsquo;t have. A missing exhibit is a fact about the case; leave it out and the reader assumes you never thought about it.</p>
+      <p class="ar">الخوارزميتين، كل مرة. و تلات لحظات hash مش واحدة: عند الاقتناء، فحص مستقل للمصدر بأداة تانية (درس P05: كلمة verified ما قرتش القرص تاني)، و إعادة تحقق وقت التحليل بالأمر اللي شغّلته. و الجهاز الناقص <b>ليه سطر</b> — غيابه حقيقة بتتسجّل.</p>
+    </div>
+  </section>
+
+  <!-- ========================= §6 ========================= -->
+  <section class="rsec" id="s6">
+    <h2 class="sec"><span class="n">&sect;6</span>Tools and method</h2>
+    <div class="rep">
+      <p><strong>Environment.</strong> All analysis on <code>FOR-WS01</code> (Windows 11, isolated host-only network, snapshot <code>S-NBL014-START</code> taken 2026-05-27 09:30 UTC before any exhibit was mounted). Tool versions as recorded by <code>verify_tools.ps1</code> on 2026-05-27 (Appendix G).</p>
+      <p><strong>Time handling.</strong> The subject system&rsquo;s registry records <code>TimeZoneKeyName = Egypt Standard Time</code>; on the dates examined Egypt observed daylight time (UTC+3). Every timestamp in this report is stated in <strong>UTC</strong>; artifacts natively in local time were converted (&minus;3 h) and the conversion is noted where it applies.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Step</th><th>Tool &amp; version</th><th>Input</th><th>Output (Appendix)</th></tr></thead>
+        <tbody>
+        <tr><td>1</td><td>Acquire SSD to E01; verify</td><td>FTK Imager 8.3 (Exterro) via Tableau T8u bridge, firmware 3.0.2</td><td>SSD S6PXNZ0T812204F</td><td>EXH-01; log (A)</td></tr>
+        <tr><td>2</td><td>Independent source hash</td><td>dc3dd 7.3.1 (Kali)</td><td>SSD via T8u</td><td>&sect;5</td></tr>
+        <tr><td>3</td><td>Mount image read-only</td><td>Arsenal Image Mounter 3.13.368</td><td>EXH-01-raw</td><td>mounted as <code>M:</code></td></tr>
+        <tr><td>4</td><td>System configuration &amp; device history</td><td>RegRipper 3.0 &mdash; plugins <code>compname</code>, <code>timezone</code>, <code>usbstor</code>, <code>mountdev</code>, <code>mp2</code></td><td><code>M:\Windows\System32\config\SYSTEM</code>, <code>SOFTWARE</code>; <code>M:\Users\hossam.farid\NTUSER.DAT</code></td><td>(B)</td></tr>
+        <tr><td>5</td><td>Verify USB device property timestamps</td><td>Registry Explorer 2.1.0 (E. Zimmerman)</td><td>SYSTEM hive</td><td>(B)</td></tr>
+        <tr><td>6</td><td>Recent files</td><td>LECmd 1.5.1</td><td><code>M:\Users\hossam.farid\AppData\Roaming\Microsoft\Windows\Recent\*.lnk</code></td><td>(C)</td></tr>
+        <tr><td>7</td><td>Jump lists</td><td>JLECmd 1.5.1</td><td><code>&hellip;\Recent\AutomaticDestinations\*</code></td><td>(C)</td></tr>
+        <tr><td>8</td><td>Program execution</td><td>PECmd 1.5.1</td><td><code>M:\Windows\Prefetch\*.pf</code></td><td>(D)</td></tr>
+        <tr><td>9</td><td>File-system records</td><td>MFTECmd 1.2.4</td><td><code>M:\$MFT</code>, <code>M:\$Extend\$UsnJrnl:$J</code></td><td>(D)</td></tr>
+        <tr><td>10</td><td>Recycle Bin</td><td>RBCmd 1.5.1</td><td><code>M:\$Recycle.Bin\S-1-5-21-&hellip;-1104\</code></td><td>(D)</td></tr>
+        <tr><td>11</td><td>Logon sessions; log-clear check</td><td>EvtxECmd 1.5.2</td><td><code>M:\Windows\System32\winevt\Logs\Security.evtx</code>, <code>System.evtx</code>, <code>Microsoft-Windows-Partition%4Diagnostic.evtx</code></td><td>(D)</td></tr>
+        <tr><td>12</td><td>Correlate on one clock</td><td>Timeline Explorer 2.1.0</td><td>outputs of 4&ndash;11</td><td>(F)</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> Criterion 2, Method: another analyst, with your image and this table, gets your result. If they cannot, your findings are your word, not evidence.</p>
+      <p><strong>What passes.</strong> Every tool with a version. Steps in the order performed. The input path for each step (so the reader knows which hive, which user, which log). The environment stated — including the snapshot taken <em>before</em> mounting. And the timezone paragraph: one sentence that prevents every timestamp in §8 being wrong by three hours.</p>
+      <p><strong>The mistake.</strong> &ldquo;Used RegRipper and Eric Zimmerman&rsquo;s tools.&rdquo; Which plugins? Which version? On which hive? A tool without a version is not a method; it is a brand name.</p>
+      <p class="ar">كل أداة <b>بإصدارها</b>، الخطوات <b>بترتيبها</b>، و مسار الـ input لكل خطوة. و فقرة الـ timezone دي هي اللي بتمنع كل توقيت في قسم ٨ يبقى غلط بـ ٣ ساعات. «استخدمت RegRipper» من غير إصدار ولا plugin = اسم ماركة، مش منهج.</p>
+    </div>
+  </section>
+
+  <!-- ========================= §7 ========================= -->
+  <section class="rsec" id="s7">
+    <h2 class="sec"><span class="n">&sect;7</span>Acquisition details</h2>
+    <div class="rep">
+      <p><strong>EXH-01 (workstation SSD).</strong> The SSD was received sealed in <code>EB-0412</code> (&sect;4). It was connected through a Tableau T8u forensic bridge (write-blocked; blocker log in Appendix A) to <code>FOR-WS01</code>. Before imaging, the device&rsquo;s reported capacity was checked from Kali: <code>hdparm --dco-identify</code> reported no Device Configuration Overlay, and <code>hdparm -N</code> reported <code>max sectors = 976773168/976773168, HPA is disabled</code>. The image therefore covers the full native capacity.</p>
+      <p>Imaging: FTK Imager 8.3, <em>Physical Drive</em> source, E01 format, compression level 6, 2 GB segments (4 files), evidence number <code>EXH-01</code>, examiner A. Hassan, 2026-05-27 07:30&ndash;08:52 UTC. FTK Imager&rsquo;s post-write verification reported matching MD5 and SHA-256. Independently of FTK Imager, the source device was then hashed from Kali with <code>dc3dd</code> (&sect;5), and the two SHA-256 values are identical. A raw export was made for mounting; it carries the same hashes.</p>
+      <p><strong>Memory.</strong> No memory image exists. <code>NBL-WS-117</code> was powered down by IT Support on 2026-05-26 at HR&rsquo;s request, before an examiner was engaged (&sect;4, row 1). Volatile data from the running system is therefore unavailable (&sect;10, L-03).</p>
+      <p><strong>EXH-02 (USB drive).</strong> Not acquired &mdash; the device was not recovered (&sect;4). Its identity in this report comes only from the workstation&rsquo;s own records of it (F-01).</p>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists</strong>, separately from §6: acquisition <em>cannot be repeated</em>. Method can be re-run tomorrow on the image; the moment of taking the image happened once, under conditions only you saw. So it gets its own record.</p>
+      <p><strong>What passes.</strong> Write blocker named and logged. The capacity check <em>before</em> imaging (DCO then HPA — the P05 order), so the reader knows the image is complete and not 16% of a disk. The tool&rsquo;s own verification <em>and</em> the independent hash, described as two different things. And the honest paragraphs about what was <em>not</em> acquired — memory, and the device — each pointing to the limitation it creates.</p>
+      <p><strong>The mistake.</strong> &ldquo;The disk was imaged and verified.&rdquo; Verified by what? Against what? Covering how much of the disk? Behind what blocker? Four questions, and a defence expert will ask all of them.</p>
+      <p class="ar">الاقتناء <b>ما بيتعادش</b> — عشان كده ليه قسم لوحده. اكتب: الـ write blocker، فحص السعة قبل التصوير (DCO ثم HPA — ترتيب P05)، تحقق الأداة <b>و</b> الـ hash المستقل كحاجتين مختلفتين، و اللي <b>ما اتاخدش</b> (الذاكرة، الجهاز) مع الـ limitation اللي بيسببه.</p>
+    </div>
+  </section>
+
+  <!-- ========================= §8 ========================= -->
+  <section class="rsec" id="s8">
+    <h2 class="sec"><span class="n">&sect;8</span>Findings</h2>
+    <p class="sec-desc">Fact only. One artifact, an exact location, a UTC time, the tool. In the order that supports the reader, not the order found. Words that do not appear in this section:</p>
+    <div class="banned"><span>clearly</span><span>obviously</span><span>proves that</span><span>the attacker</span><span>malicious</span><span>unauthorised</span><span>he / she / the employee</span><span>because</span></div>
+    <div class="rep fl">
+      <div class="finding"><span class="cl-label">F-01</span>
+        <p><code>SYSTEM</code> hive of <code>NBL-WS-117</code> (<code>M:\Windows\System32\config\SYSTEM</code>), key <code>ControlSet001\Enum\USBSTOR\Disk&amp;Ven_Kingston&amp;Prod_DataTraveler_3.0&amp;Rev_PMAP\0019E06B4F27B2C1A34D0091&amp;0</code> existed, with <code>FriendlyName = "Kingston DataTraveler 3.0 USB Device"</code>. Parsed with RegRipper 3.0 (<code>usbstor</code>).</p></div>
+      <div class="finding"><span class="cl-label">F-02</span>
+        <p>Under the key in F-01, <code>Properties\{83da6326-97a6-4088-9453-a1923f573b29}</code> held value <code>0064</code> (first install) = <code>2026-05-19 08:47:12 UTC</code>, <code>0066</code> (last arrival) = <code>2026-05-22 14:03:55 UTC</code>, and <code>0067</code> (last removal) = <code>2026-05-22 14:41:08 UTC</code>. Read in Registry Explorer 2.1.0 as 64-bit FILETIME.</p></div>
+      <div class="finding"><span class="cl-label">F-03</span>
+        <p><code>SYSTEM\MountedDevices</code> contained value <code>\DosDevices\E:</code> whose binary data included the string <code>0019E06B4F27B2C1A34D0091</code>, and value <code>\??\Volume{5c2a9e1d-3b7f-4a81-9c0e-71f2d4a6b3e8}</code> with the same data. RegRipper 3.0 (<code>mountdev</code>).</p></div>
+      <div class="finding"><span class="cl-label">F-04</span>
+        <p><code>M:\Users\hossam.farid\NTUSER.DAT</code>, key <code>Software\Microsoft\Windows\CurrentVersion\Explorer\MountPoints2\{5c2a9e1d-3b7f-4a81-9c0e-71f2d4a6b3e8}</code> existed; key LastWrite <code>2026-05-22 14:03:57 UTC</code>. RegRipper 3.0 (<code>mp2</code>).</p></div>
+      <div class="finding"><span class="cl-label">F-05</span>
+        <p><code>M:\Users\hossam.farid\AppData\Roaming\Microsoft\Windows\Recent\Clients_Master_2026.lnk</code>: target path <code>\\NBL-FS01\Sales\Master\Clients_Master_2026.xlsx</code>, target size 2,081,792 bytes, target modified <code>2026-05-20 09:02:11 UTC</code>; LNK file created <code>2026-05-22 14:12:30 UTC</code>. LECmd 1.5.1.</p></div>
+      <div class="finding"><span class="cl-label">F-06</span>
+        <p><code>&hellip;\Recent\AutomaticDestinations\f01b4d95cf55d32a.automaticDestinations-ms</code> (Windows Explorer), entry 14: path <code>E:\Clients_Master_2026.xlsx</code>, entry modified <code>2026-05-22 14:19:44 UTC</code>. JLECmd 1.5.1.</p></div>
+      <div class="finding"><span class="cl-label">F-07</span>
+        <p><code>M:\Windows\Prefetch\7ZG.EXE-7C3A1B22.pf</code>: executable <code>7ZG.EXE</code>, run count 1, last run <code>2026-05-22 14:17:02 UTC</code>; referenced files included <code>\USERS\HOSSAM.FARID\DESKTOP\CLIENTS.7Z</code>. PECmd 1.5.1.</p></div>
+      <div class="finding"><span class="cl-label">F-08</span>
+        <p><code>M:\$MFT</code> record 118,472: <code>\Users\hossam.farid\Desktop\clients.7z</code>, <code>$STANDARD_INFORMATION</code> created <code>2026-05-22 14:17:40 UTC</code>, logical size 2,063,884 bytes, record not in use (deleted). <code>M:\$Recycle.Bin\S-1-5-21-2274196741-1163925590-3082514012-1104\$IX3K2P9.7z</code> recorded original path <code>C:\Users\hossam.farid\Desktop\clients.7z</code>, deleted <code>2026-05-22 14:38:12 UTC</code>. MFTECmd 1.2.4; RBCmd 1.5.1.</p></div>
+      <div class="finding"><span class="cl-label">F-09</span>
+        <p><code>Security.evtx</code>: Event ID 4624, <code>LogonType 2</code>, <code>TargetUserName hossam.farid</code>, <code>2026-05-22 08:31:05 UTC</code>, LogonId <code>0x1A3F52</code>; Event ID 4634 for LogonId <code>0x1A3F52</code> at <code>2026-05-22 16:02:47 UTC</code>. No other Event ID 4624 with LogonType 2 or 10 was recorded on 2026-05-22. EvtxECmd 1.5.2.</p></div>
+      <div class="finding"><span class="cl-label">F-10</span>
+        <p><code>System.evtx</code> and <code>Security.evtx</code> contained no Event ID 104 or 1102 between 2026-05-11 and 2026-05-27. <code>Microsoft-Windows-Partition%4Diagnostic.evtx</code> was present with 0 records. <code>SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate</code> recorded a cumulative update installed <code>2026-05-14 02:11:39 UTC</code>. EvtxECmd 1.5.2; RegRipper 3.0.</p></div>
+    </div>
+    <p class="sec-desc" style="margin-top:12px"><strong>The 22 May window, from the findings above</strong> (full timeline in Appendix F):</p>
+    <div class="table-wrap">
+    <table class="tl">
+      <thead><tr><th>UTC</th><th>What the artifact recorded</th><th>Finding</th></tr></thead>
+      <tbody>
+      <tr><td>08:31:05</td><td>Interactive logon, account <code>hossam.farid</code></td><td>F-09</td></tr>
+      <tr><td>14:03:55</td><td>USB device serial &hellip;0091 arrived</td><td>F-02</td></tr>
+      <tr><td>14:03:57</td><td>Volume GUID written to <code>MountPoints2</code> of <code>hossam.farid</code></td><td>F-04</td></tr>
+      <tr><td>14:12:30</td><td>LNK created for <code>\\NBL-FS01\Sales\Master\Clients_Master_2026.xlsx</code></td><td>F-05</td></tr>
+      <tr><td>14:17:02</td><td><code>7ZG.EXE</code> ran (run count 1)</td><td>F-07</td></tr>
+      <tr><td>14:17:40</td><td><code>Desktop\clients.7z</code> created, 2,063,884 B</td><td>F-08</td></tr>
+      <tr><td>14:19:44</td><td>Jump list entry <code>E:\Clients_Master_2026.xlsx</code></td><td>F-06</td></tr>
+      <tr><td>14:38:12</td><td><code>clients.7z</code> moved to Recycle Bin</td><td>F-08</td></tr>
+      <tr><td>14:41:08</td><td>USB device serial &hellip;0091 removed</td><td>F-02</td></tr>
+      <tr><td>16:02:47</td><td>Logoff, LogonId <code>0x1A3F52</code></td><td>F-09</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> Criterion 3. This is the only part of the report that is <em>evidence</em>. Everything after it is you.</p>
+      <p><strong>What passes.</strong> Read F-06 again. It does not say &ldquo;the file was copied to the USB drive&rdquo;. It says a jump-list entry with an <code>E:\</code> path existed, with a time. That is all the artifact recorded; that is all the finding says. Read F-09: it names an <em>account</em>, never a person — artifacts record accounts, processes and devices, and this section keeps that rule absolutely. Read F-10: it records the <em>absence</em> of log-clearing, and the Windows update date — two facts you will need in §9 and §10, put here so they are on the record as facts. Every finding names its tool; every finding has an exact path; every time is UTC.</p>
+      <p><strong>The mistake.</strong> The adjective. &ldquo;A <em>suspicious</em> archive was created.&rdquo; &ldquo;The employee opened the client list <em>from the USB</em>.&rdquo; Each is a finding with one word of §9 smuggled in. The test from the template: if the sentence needs <em>because</em>, it is not a finding. If it names a person, it is not a finding.</p>
+      <p class="ar">القسم الوحيد اللي هو <b>دليل</b> — كل اللي بعده رأيك. لاحظ F-06: ما بتقولش «الملف اتنسخ على الـ USB»، بتقول «فيه entry في الـ jump list بمسار <code>E:\</code> و وقت». و F-09 بتسمّي <b>حساب</b>، عمرها ما بتسمّي شخص. الغلطة الكلاسيكية: صفة واحدة («أرشيف <b>مشبوه</b>») — دي جملة من قسم ٩ متلبّسة لبس قسم ٨.</p>
+    </div>
+  </section>
+
+  <!-- ========================= §9 ========================= -->
+  <section class="rsec" id="s9">
+    <h2 class="sec"><span class="n">&sect;9</span>Interpretation</h2>
+    <p class="sec-desc">What the findings mean, each citing the findings it rests on, with a stated confidence and the alternative that could not be excluded.</p>
+    <div class="rep fl">
+      <div class="interpretation"><span class="cl-label">I-01 &middot; answers Q1</span>
+        <p>A Kingston DataTraveler 3.0 USB drive with serial <code>0019E06B4F27B2C1A34D0091</code> was connected to <code>NBL-WS-117</code> on 2026-05-19 and again on 2026-05-22, the later session running from 14:03:55 to 14:41:08 UTC [F-01, F-02]. <strong>Confidence: high.</strong> The property timestamps are written by the operating system on device events; there is no indication of clock tampering (no log clears, F-10; consistent timezone, &sect;6). <em>Alternative not excluded:</em> earlier connections of the same device before 2026-05-14 may have been removed from the registry by the cumulative update of that date [F-10] &mdash; the 19 May date is the earliest surviving record, not necessarily the first connection.</p></div>
+      <div class="interpretation"><span class="cl-label">I-02</span>
+        <p>During the 22 May session the device was assigned drive letter <code>E:</code>, and its volume GUID was written into the profile of the account <code>hossam.farid</code> two seconds after arrival, while that account&rsquo;s interactive session (08:31&ndash;16:02 UTC) was the only one open [F-03, F-04, F-09]. <strong>Confidence: high</strong> that the device was used under that profile. This does not establish which person was at the keyboard; <code>MountPoints2</code> attributes a device to a logged-in profile, not to a person. <em>Alternative not excluded:</em> another person using the unlocked session (&sect;10, L-02).</p></div>
+      <div class="interpretation"><span class="cl-label">I-03 &middot; answers Q2</span>
+        <p>The Sales client master list was opened from the network share at 14:12 UTC, and a file with the same name was opened from <code>E:\</code> seven minutes later [F-05, F-06]. <strong>Confidence: high</strong> that both accesses occurred. The sequence &mdash; share, then 7-Zip, then an archive, then the file at <code>E:\</code> &mdash; is <em>consistent with</em> the file being copied to the device in this session. <em>Alternative not excluded:</em> a file of that name was already on the device and was opened from it, without a copy occurring on this workstation.</p></div>
+      <div class="interpretation"><span class="cl-label">I-04 &middot; bears on Q3</span>
+        <p>An archive <code>clients.7z</code> of 2,063,884 bytes was created on the desktop 38 seconds after 7-Zip ran, and was moved to the Recycle Bin twenty minutes later, three minutes before the device was removed [F-07, F-08, F-02]. Its size is consistent with the 2,081,792-byte spreadsheet after 7-Zip compression (an already-compressed <code>.xlsx</code> shrinks by about 1%). <strong>Confidence: medium</strong> that the archive contained the client list &mdash; the size fits, the name fits, the timing fits, but the archive&rsquo;s contents could not be recovered (&sect;10, L-07). <em>Alternative not excluded:</em> an archive made for a legitimate handover of the same file, deleted when no longer needed.</p></div>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> Criterion 4, Separation. This is where you are finally allowed to think out loud &mdash; and every sentence has to show which findings it stands on.</p>
+      <p><strong>What passes.</strong> The three parts, every time: the claim, <em>citing</em> findings in brackets; a <em>confidence</em> in words you would defend; and the <em>alternative you could not exclude</em>. Look at I-03: the phrase is &ldquo;consistent with&rdquo;, and it is followed immediately by the alternative. That phrase is the most useful in forensic writing, because it is honest about the gap between what was seen and what it means. Notice the italics and the dashed border: the course marks interpretation visually so no reader mistakes it for §8.</p>
+      <p><strong>The mistake.</strong> An interpretation with no bracketed finding under it &mdash; opinion floating free. Or a confidence stated as &ldquo;certain&rdquo;. Or no alternative, which tells the reader you did not look for one.</p>
+      <p class="ar">هنا مسموح تفكّر بصوت عالي — بس كل جملة لازم تبيّن واقفة على أنهي findings. التلات أجزاء كل مرة: الادّعاء [مع أرقام الـ F]، درجة الثقة، و البديل اللي ما قدرتش تستبعده. أهم عبارة: «<b>consistent with</b>» — و بعدها البديل على طول.</p>
+    </div>
+  </section>
+
+  <!-- ========================= §10 ========================= -->
+  <section class="rsec" id="s10">
+    <h2 class="sec"><span class="n">&sect;10</span>Limitations and what could not be determined</h2>
+    <div class="rep fl">
+      <div class="limitation"><span class="cl-label">L-01 &middot; the device</span><p><code>EXH-02</code> was not recovered. Nothing on <code>EXH-01</code> can show that a file was <em>written to</em> the device. F-06 shows a file was <em>opened from</em> <code>E:\</code>; that is consistent with a copy in this session and equally consistent with a file already present. Question 3 cannot be answered from the workstation alone.</p></div>
+      <div class="limitation"><span class="cl-label">L-02 &middot; the person</span><p>The evidence attributes activity to the account <code>hossam.farid</code> and its open session, not to a person. Screen-lock and unlock events were not audited on this system, so use of the unlocked session by someone else between 08:31 and 16:02 UTC cannot be excluded.</p></div>
+      <div class="limitation"><span class="cl-label">L-03 &middot; memory</span><p>No memory image exists (&sect;7). Any evidence that existed only in RAM &mdash; open windows, clipboard content, the 7-Zip process and its arguments &mdash; is lost.</p></div>
+      <div class="limitation"><span class="cl-label">L-04 &middot; the custody gap</span><p>The unit was unattended at the desk overnight (&sect;4). The disk image verified against an independent source hash, so the <em>data</em> examined is what was on the disk on 27 May; but physical access to the machine during the gap, including powering it on, cannot be excluded. No logon or power event was recorded in that window (F-09, F-10), which reduces but does not remove this concern.</p></div>
+      <div class="limitation"><span class="cl-label">L-05 &middot; registry completeness</span><p>Windows can remove USB device records during cumulative updates; one was applied on 2026-05-14 (F-10). Device connections before that date may not be reflected in <code>USBSTOR</code>. The window before 14 May is therefore weaker than the window after it.</p></div>
+      <div class="limitation"><span class="cl-label">L-06 &middot; no partition events</span><p><code>Microsoft-Windows-Partition%4Diagnostic.evtx</code> held no records (F-10), so no partition-level insertion events corroborate the registry timestamps in F-02.</p></div>
+      <div class="limitation"><span class="cl-label">L-07 &middot; the archive</span><p>The contents of <code>clients.7z</code> could not be recovered: its MFT record is not in use and its data clusters were reallocated to other files (MFTECmd, Appendix D). Its size and name are known; its contents are not.</p></div>
+      <div class="limitation"><span class="cl-label">L-08 &middot; intent</span><p>Whether any action was deliberate, authorised, or for what purpose is not something these artifacts can show, and it is outside scope (&sect;3).</p></div>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> Graded, and the section most new examiners leave thin. A report with no limitations reads as one that did not look. A report with honest limitations reads as one you can trust on everything else.</p>
+      <p><strong>What passes.</strong> Each limitation says <em>what</em> could not be determined, <em>why</em> (which artifact was missing or ambiguous), and <em>what it does to the conclusions</em>. L-01 is the most important line in this report: it is the reason §11 answers question 3 with &ldquo;not established&rdquo;. L-04 shows how to handle the declared custody gap &mdash; it neither dismisses it nor lets it swallow the case; it says exactly what the hash does and does not protect against.</p>
+      <p><strong>The mistake.</strong> One generic line &mdash; &ldquo;further analysis may reveal more&rdquo;. That is not a limitation; it is a shrug. And the opposite mistake: burying a limitation in §9 as a subordinate clause, hoping it reads as a detail rather than a gap.</p>
+      <p class="ar">القسم اللي المبتدئين بيسيبوه فاضي، و هو اللي بيخلّي الباقي يتصدّق. كل limitation: <b>إيه</b> اللي ما اتحددش، <b>ليه</b> (أنهي artifact ناقص أو غامض)، و <b>أثره</b> على الاستنتاج. L-01 هي أهم سطر في التقرير كله — هي سبب إن سؤال ٣ إجابته «لم يثبت».</p>
+    </div>
+  </section>
+
+  <!-- ========================= §11 ========================= -->
+  <section class="rsec" id="s11">
+    <h2 class="sec"><span class="n">&sect;11</span>Conclusions</h2>
+    <div class="rep">
+      <p><strong>Question 1 &mdash; Was a removable storage device connected to NBL-WS-117 between 2026-05-11 and 2026-05-25?</strong><br>
+         <strong>Yes.</strong> A Kingston DataTraveler 3.0 with serial <code>0019E06B4F27B2C1A34D0091</code> was connected on 2026-05-19 and on 2026-05-22 from 14:03 to 14:41 UTC (I-01). Connections before 14 May cannot be ruled out or in (L-05).</p>
+      <p><strong>Question 2 &mdash; Were files from the Sales client master list accessed from NBL-WS-117 in that period?</strong><br>
+         <strong>Yes.</strong> <code>Clients_Master_2026.xlsx</code> was opened from <code>\\NBL-FS01\Sales\Master</code> at 14:12 UTC on 2026-05-22, and a file of that name was opened from drive <code>E:</code> at 14:19 UTC, under the account <code>hossam.farid</code> during its open session (I-02, I-03). Which person performed these actions is not established (L-02).</p>
+      <p><strong>Question 3 &mdash; Is there evidence that any such file was copied to a removable storage device?</strong><br>
+         <strong>Not established.</strong> The evidence is consistent with a copy of the client list to the USB drive during the 22 May session &mdash; the file was opened from the device&rsquo;s drive letter seven minutes after being opened from the share, and an archive of matching size was created and deleted in the same window (I-03, I-04). Without the device (L-01) the copy cannot be proven from the workstation, and the alternative explanations in I-03 and I-04 remain open.</p>
+      <p>No conclusion is offered on intent (L-08). No finding in this report attributes an action to a named person.</p>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> To answer §3 &mdash; and nothing else. No new facts, no new opinions. If it is not in §8 or §9 already, it cannot appear here.</p>
+      <p><strong>What passes.</strong> The questions restated word for word, each answered <em>yes / no / not established</em>, each answer pointing back to the interpretations and limitations it rests on. Question 3 is the one to study: the honest answer is not &ldquo;no&rdquo; and not &ldquo;yes&rdquo;. It is &ldquo;not established&rdquo;, with the evidence for it laid out and the reason it falls short named. That answer is <em>stronger</em> in front of a lawyer than a confident &ldquo;yes&rdquo; would be, because it cannot be knocked down.</p>
+      <p><strong>The mistake.</strong> &ldquo;It is concluded that the employee exfiltrated the client list.&rdquo; Three failures in one sentence: a person named, a verb the evidence does not support, and a conclusion to a question nobody asked. You are not the judge.</p>
+      <p class="ar">بيجاوب على أسئلة قسم ٣ <b>و بس</b> — مفيش حقايق جديدة ولا آراء جديدة. سؤال ٣ هو اللي تتعلّم منه: الإجابة الصادقة مش «نعم» و مش «لا» — هي «<b>لم يثبت</b>»، مع الدليل اللي معاك و السبب اللي بيخلّيه ناقص. الإجابة دي <b>أقوى</b> قدام محامي من «نعم» واثقة، لأنها ما بتتهدّش.</p>
+    </div>
+  </section>
+
+  <!-- ========================= §12 ========================= -->
+  <section class="rsec" id="s12">
+    <h2 class="sec"><span class="n">&sect;12</span>Appendices</h2>
+    <div class="rep">
+      <div class="kv">
+        <b>A</b><span>FTK Imager acquisition log for EXH-01; Tableau T8u blocker log &mdash; 3 pages</span>
+        <b>B</b><span>RegRipper 3.0 output: <code>SYSTEM</code> (<code>compname</code>, <code>timezone</code>, <code>usbstor</code>, <code>mountdev</code>), <code>NTUSER.DAT</code> (<code>mp2</code>); Registry Explorer export of the USBSTOR Properties key &mdash; 7 pages</span>
+        <b>C</b><span>LECmd and JLECmd CSV exports (all LNK and jump-list entries, not only those cited) &mdash; 2 files</span>
+        <b>D</b><span>PECmd, MFTECmd (<code>$MFT</code>, <code>$J</code>), RBCmd and EvtxECmd CSV exports &mdash; 6 files</span>
+        <b>E</b><span>Photographs: NBL-WS-117 at desk 3-22 before removal; SSD label; seals of <code>EB-0412</code> and <code>EB-0413</code> &mdash; 6 images</span>
+        <b>F</b><span>Timeline Explorer export, 2026-05-11 to 2026-05-25, 1,912 rows; the 22 May 14:00&ndash;14:45 UTC window, 47 rows &mdash; 1 file</span>
+        <b>G</b><span><code>verify_tools.ps1</code> output on FOR-WS01, 2026-05-27, listing every tool and version used &mdash; 1 page</span>
+      </div>
+    </div>
+    <div class="tn"><b>Teaching note</b>
+      <p><strong>Why it exists.</strong> The bulky material the reader may need to check you, kept out of the body so the body stays readable. Every appendix is referenced from a section above; nothing lives only here.</p>
+      <p><strong>What passes.</strong> The <em>complete</em> tool outputs, not just the rows you cited (Appendix C says so explicitly) &mdash; a reader who suspects you cherry-picked can look. Photographs of the seals. The full timeline, and the narrow window separately. The tool-version listing that backs §6.</p>
+      <p><strong>The mistake.</strong> Pasting tool output into §8 to look thorough &mdash; the &ldquo;link dumping&rdquo; that report-writing guides warn about. Forty pages of RegRipper output is not evidence of care; it is evidence you could not tell what mattered.</p>
+      <p class="ar">المواد التقيلة اللي القارئ ممكن يحتاجها عشان يراجعك — برّه المتن عشان المتن يفضل مقروء. المخرجات <b>الكاملة</b> مش السطور اللي استشهدت بيها بس، عشان اللي شاكك إنك اخترت اللي يريحك يقدر يبص. و متلزّقش output في قسم ٨ عشان تبان شغّال — ده دليل إنك ما عرفتش إيه المهم.</p>
+    </div>
+  </section>
+
+  <!-- ========================= SCORECARD ========================= -->
+  <section class="rsec" id="score">
+    <h2 class="sec">How this report scores on the rubric</h2>
+    <div class="score">
+      <div class="sc"><b>1 &middot; Integrity &middot; pass</b><span>Both algorithms, three hashing moments, independent source check, complete chain with a declared gap. (&sect;4, &sect;5)</span></div>
+      <div class="sc"><b>2 &middot; Method &middot; pass</b><span>Twelve steps in order, every tool versioned, every input path named, timezone handled once. (&sect;6, &sect;7)</span></div>
+      <div class="sc"><b>3 &middot; Findings &middot; pass</b><span>Ten findings, each one artifact, exact path, UTC, tool. No inference verb, no adjective, no person. (&sect;8)</span></div>
+      <div class="sc"><b>4 &middot; Separation &middot; pass</b><span>Every interpretation cites findings, states confidence, names an alternative; eight limitations, one of which decides question 3. (&sect;9, &sect;10)</span></div>
+    </div>
+    <div class="note">
+      <p><strong>Now write yours.</strong> Your carry-through case has more findings than this one and a different shape &mdash; a phish, a beacon, a log clear. The structure does not change. Open the <a href="index.html">rubric</a> in one tab and this page in another, and for every section ask the same question this report was written against: <em>is any claim one adjective past its evidence?</em></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>ITGate Academy · eCDFP Diploma · Your gate to the world</span>
+    <span class="mono">Worked example · fictional case NBL-2026-014 · 12 sections</span>
+  </div>
+</footer>
+
+</body>
+</html>

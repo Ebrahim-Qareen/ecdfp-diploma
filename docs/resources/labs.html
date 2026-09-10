@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practice labs &middot; eCDFP &middot; ITGate Academy</title>
+<meta name="description" content="One free practice lab for every page of the eCDFP diploma — TryHackMe and CyberDefenders rooms verified free, picoCTF, and hands-on exercises on evidence you already hold — each with the report you hand in.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+<style>
+  .labgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:14px 0}
+  .lab{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+  .lab .top{display:flex;align-items:baseline;gap:10px}
+  .lab .pn{font-family:var(--font-mono);font-weight:700;color:#0a0e14;background:var(--accent-cyan);border-radius:7px;padding:2px 9px;font-size:.8rem}
+  .lab .top a{color:var(--text-primary);text-decoration:none;font-weight:650;font-size:1.02rem}
+  .lab .top a:hover{color:var(--accent-cyan)}
+  .lab .row{display:grid;grid-template-columns:82px 1fr;gap:8px;font-size:.92rem}
+  .lab .row b{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);padding-top:3px}
+  .lab .row span{color:var(--text-primary)}
+  .lab .row.rep span{color:var(--text-secondary)}
+  .lab a.ext{color:var(--accent-cyan);text-decoration:none}
+  .lab a.ext:hover{text-decoration:underline}
+  .pf{display:inline-block;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;border-radius:5px;padding:1px 7px;margin-right:6px;vertical-align:1px}
+  .pf.thm{background:rgba(199,146,234,.15);color:var(--interpretation);border:1px solid rgba(199,146,234,.4)}
+  .pf.cd{background:rgba(0,255,157,.12);color:var(--accent-green);border:1px solid rgba(0,255,157,.35)}
+  .pf.pico{background:rgba(255,180,84,.12);color:var(--accent-amber);border:1px solid rgba(255,180,84,.4)}
+  .pf.own{background:rgba(0,217,255,.12);color:var(--accent-cyan);border:1px solid rgba(0,217,255,.35)}
+  .pf.read{background:rgba(122,162,247,.12);color:var(--finding);border:1px solid rgba(122,162,247,.4)}
+  .cav{border-left:3px solid var(--accent-amber);background:rgba(255,180,84,.07);border-radius:0 8px 8px 0;padding:8px 12px;font-size:.88rem;color:var(--text-secondary)}
+  @media (max-width:820px){.labgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text">
+        <span class="hb-name">ITGate Academy</span>
+        <span class="hb-sub">eCDFP &middot; Practice labs</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="../index.html#pages">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <div class="eyebrow">Fourteen pages &middot; fourteen free labs &middot; every one hands in a report</div>
+    <h1>Practice <span>labs</span></h1>
+    <p class="lede">One lab per page, and every one is free — a room verified free on TryHackMe or CyberDefenders, a picoCTF challenge, a free reference to read, or an exercise on evidence you already hold. Each is the task on that page; each ends in something you write. Where a room is premium, the course says so and gives you the free route instead.</p>
+    <div class="stats">
+      <div class="stat"><b>14</b><span>Labs</span></div>
+      <div class="stat"><b>0</b><span>Paid rooms</span></div>
+      <div class="stat"><b>7</b><span>TryHackMe rooms</span></div>
+      <div class="stat"><b>4</b><span>CyberDefenders labs</span></div>
+      <div class="stat"><b>10</b><span>Evidence sets in hand</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap section hub-main">
+  <p class="sec-desc" style="margin-bottom:4px">
+    <span class="pf own">own</span> on your machine or the course evidence &nbsp;
+    <span class="pf thm">THM</span> TryHackMe, free room &nbsp;
+    <span class="pf cd">CD</span> CyberDefenders, free lab &nbsp;
+    <span class="pf pico">pico</span> picoCTF &nbsp;
+    <span class="pf read">read</span> free reference
+  </p>
+
+  <div class="labgrid">
+
+    <div class="lab">
+      <div class="top"><span class="pn">P01</span><a href="../page-01/index.html">Foundations &amp; the deliverable</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span>Hash two tools from <code>C:\Forensics\Tools\</code>, compare to <code>TOOLS.sha256</code>, record the tool version from the file, not the folder name.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf read">read</span><a class="ext" href="https://csrc.nist.gov/pubs/sp/800/86/final" target="_blank" rel="noopener">NIST SP 800-86</a>, section 3 &mdash; one line on what it adds to the page.</span></div>
+      <div class="row rep"><b>Hand in</b><span>Report &sect;1, &sect;3, &sect;6 &mdash; and one F-01 / I-01 / cannot-prove line. &sect;6 is what is graded.</span></div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P02</span><a href="../page-02/index.html">Evidence integrity</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf thm">THM</span><a class="ext" href="https://tryhackme.com/room/forensicimaging" target="_blank" rel="noopener">Forensic Imaging</a> &mdash; Easy &middot; 45 min. The mount tasks: mount read-only (<code>ro,noload</code>), hash before and after.</span></div>
+      <div class="row rep"><b>Hand in</b><span>Report &sect;4 and &sect;5 for the room&rsquo;s image &mdash; both algorithms, the FAILED line explained.</span></div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P03</span><a href="../page-03/index.html">Data at byte level</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span>Six to eight files of your own: <code>xxd -l 16</code> + <code>file</code> + <code>exiftool</code> on each. At least one must come back &ldquo;no metadata&rdquo;.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf read">read</span><a class="ext" href="https://www.garykessler.net/library/file_sigs.html" target="_blank" rel="noopener">Gary Kessler &middot; File Signatures</a> and the <a class="ext" href="https://exiftool.org/" target="_blank" rel="noopener">ExifTool docs</a>.</span></div>
+      <div class="row rep"><b>Hand in</b><span>Report &sect;8 findings &mdash; each with its artifact, exact path, and the measurement in the tool&rsquo;s own words.</span></div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P04</span><a href="../page-04/index.html">Volatile evidence</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf thm">THM</span><a class="ext" href="https://tryhackme.com/room/volatilityessentials" target="_blank" rel="noopener">Volatility Essentials</a> &mdash; Volatility 3, no profiles.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf cd">CD</span><a class="ext" href="https://cyberdefenders.org/blueteam-ctf-challenges/reveal/" target="_blank" rel="noopener">Reveal</a> &mdash; Easy &middot; 45 min, a Windows memory image.</span></div>
+      <div class="row rep"><b>Hand in</b><span>Report &sect;4 and &sect;6 for the capture, plus the four memory questions answered.</span></div>
+      <div class="cav">Caveat you must write: <code>windows.cmdline</code> reads the PEB, which the process itself can rewrite &mdash; a command line is a lead, not proof.</div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P05</span><a href="../page-05/index.html">Acquisition</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span>Image a USB stick <em>you own</em> with FTK Imager 8.3, then step 8: <code>sha256sum</code> on the source device itself, compared to the image.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf thm">THM</span><a class="ext" href="https://tryhackme.com/room/forensicimaging" target="_blank" rel="noopener">Forensic Imaging</a> &mdash; the imaging vocabulary and formats.</span></div>
+      <div class="row rep"><b>Hand in</b><span>Report &sect;5 filled, plus one paragraph: what a defence expert would say about your log. That paragraph is the assessment.</span></div>
+      <div class="cav">No free lab anywhere teaches acquisition as a decision &mdash; every one starts &ldquo;you have been provided with an image&rdquo;. That is why you image your own device: you know the ground truth.</div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P06</span><a href="../page-06/index.html">Hidden information</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span>The seven <code>EVS-10</code> files: the four checks in cost order. Then a photo from your own phone, opened and re-saved &mdash; compare the three timestamps before and after.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf pico">pico</span><a class="ext" href="https://play.picoctf.org/practice?category=4" target="_blank" rel="noopener">picoCTF &middot; Forensics</a> &mdash; one metadata or stego challenge, in the browser.</span></div>
+      <div class="row rep"><b>Hand in</b><span>Report &sect;8 (what is present) and &sect;9 (what you assess) &mdash; without one word on <em>why</em> it is there.</span></div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P07</span><a href="../page-07/index.html">Malicious files</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span>Any <code>.docx</code> renamed to <code>.zip</code> and listed; any ordinary <code>.exe</code> walked from <code>e_lfanew</code> to its imports. Nothing downloaded, nothing run.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf cd">CD</span><a class="ext" href="https://cyberdefenders.org/blueteam-ctf-challenges/obfuscated/" target="_blank" rel="noopener">Obfuscated</a> &mdash; Medium &middot; 1h30. VBA/JavaScript in a Word document with <code>oledump</code> and <code>olevba</code>.</span></div>
+      <div class="row rep"><b>Hand in</b><span>One finding written as fact beside the sentence you were tempted to write and could not support; the IOC report from the room.</span></div>
+      <div class="cav">Obfuscated contains a real sample. Isolated VM, static tools only &mdash; never open it in Word, never run it.</div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P08</span><a href="../page-08/index.html">The disk</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span>Your own cluster size (<code>fsutil fsinfo ntfsinfo C:</code> / <code>stat -f .</code>); then <code>EVS-07-wiped.dd</code>: scan for boot sectors, discard the third candidate <em>with</em> the <code>BPB_BkBootSec</code> evidence, rebuild the table.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf thm">THM</span><a class="ext" href="https://tryhackme.com/room/mbrandgptanalysis" target="_blank" rel="noopener">MBR and GPT Analysis</a> &mdash; Medium &middot; 80 min. Stretch: <a class="ext" href="https://tryhackme.com/room/fat32analysis" target="_blank" rel="noopener">FAT32 Analysis</a>, Hard &middot; 90 min.</span></div>
+      <div class="row rep"><b>Hand in</b><span>The recovered table, and the candidate you discarded and why &mdash; the line that separates a forensic recovery from an IT one.</span></div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P09</span><a href="../page-09/index.html">File systems</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span><code>EVS-11</code>: read deleted MFT record 67; recover the <code>0xE5</code> FAT entry from its first cluster; carve <code>EVS-11-carve.dd</code> with <code>foremost</code> or <code>photorec</code>.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf thm">THM</span><a class="ext" href="https://tryhackme.com/room/fat32analysis" target="_blank" rel="noopener">FAT32 Analysis</a> &mdash; allocation, directory entries, deletion semantics.</span></div>
+      <div class="row rep"><b>Hand in</b><span>A carve table: each file exact / short / over, and why &mdash; the limits of carving written as facts, not hidden.</span></div>
+      <div class="cav">TryHackMe&rsquo;s File Carving and NTFS Analysis rooms are premium; carving is practised with free tools on the image you hold, which is better anyway &mdash; you know the ground truth.</div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P10</span><a href="../page-10/index.html">The registry</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span>Export your own <code>SYSTEM</code> hive (<code>reg save HKLM\SYSTEM C:\temp\SYSTEM.hiv</code>) and run <code>compname</code>, <code>timezone</code>, <code>usbstor</code>; then one device in <code>EVS-12</code>, its full chain serial &rarr; letter &rarr; GUID &rarr; user.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf thm">THM</span><a class="ext" href="https://tryhackme.com/room/windowsforensics1" target="_blank" rel="noopener">Windows Forensics 1</a> &mdash; Medium &middot; 60 min, the registry as an evidence source.</span></div>
+      <div class="row rep"><b>Hand in</b><span>Four timestamps on one timeline, timezone-corrected &mdash; and which of them is actually the earliest.</span></div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P11</span><a href="../page-11/index.html">What ran, what was touched</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span><code>EVS-13</code>: PECmd on <code>CHROME</code> vs <code>CALC</code>; the ShimCache line for <code>PowerShell.exe</code> and <em>why</em> its date is not a run time.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf cd">CD</span><a class="ext" href="https://cyberdefenders.org/blueteam-ctf-challenges/sysinternals/" target="_blank" rel="noopener">Sysinternals</a> &mdash; Medium &middot; 1h, ShimCache with AppCompatCacheParser.</span></div>
+      <div class="row rep"><b>Hand in</b><span>The artifact &rarr; one-verb table for everything you opened, and every upgrade you refused.</span></div>
+      <div class="cav">The Sysinternals lab treats ShimCache as execution evidence and never says otherwise. ShimCache records presence, not execution. Correct the lab&rsquo;s claim in your report &mdash; that is the exercise.</div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P12</span><a href="../page-12/index.html">Windows event logs</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span><code>EVS-14</code>: filter each <code>.evtx</code> to the EventID that matters (never scroll), write each event as EventID + Provider + UTC + the one field, map to MITRE.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf thm">THM</span><a class="ext" href="https://tryhackme.com/room/compromisedwindowsanalysis" target="_blank" rel="noopener">Compromised Windows Analysis</a> &mdash; Easy &middot; 75 min; the attacker clears every log, exactly as in the page.</span></div>
+      <div class="row rep"><b>Hand in</b><span>The six events on one timeline with MITRE techniques, fact separated from inference.</span></div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P13</span><a href="../page-13/index.html">Network evidence</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span><code>EVS-08.pcap</code> with tshark: prove the 30-second beacon, decode the DNS TXT tunnel, find the POST; read the email header; tie the one IP across both.</span></div>
+      <div class="row"><b>Plus</b><span><span class="pf cd">CD</span><a class="ext" href="https://cyberdefenders.org/blueteam-ctf-challenges/packetmaze/" target="_blank" rel="noopener">PacketMaze</a> &mdash; Medium &middot; 45 min, multi-protocol traffic in Wireshark, NetworkMiner and Brim.</span></div>
+      <div class="row rep"><b>Hand in</b><span>The intrusion as one story &mdash; delivery &rarr; C2 &rarr; exfil &mdash; each claim tied to a packet or header field, mapped to MITRE.</span></div>
+    </div>
+
+    <div class="lab">
+      <div class="top"><span class="pn">P14</span><a href="../page-14/index.html">Timelines &amp; the final report</a></div>
+      <div class="row"><b>Lab</b><span><span class="pf own">own</span>The capstone: from the <code>EVS-09</code> super-timeline, write &sect;8 Findings and &sect;10 Limitations of the report, then review a classmate&rsquo;s against one question &mdash; <em>is any claim one adjective past its evidence?</em></span></div>
+      <div class="row"><b>Plus</b><span><span class="pf thm">THM</span><a class="ext" href="https://tryhackme.com/room/dfirtimelineanalysis" target="_blank" rel="noopener">IR Timeline Analysis</a> &mdash; Medium &middot; 60 min, best done <em>before</em> the capstone.</span></div>
+      <div class="row rep"><b>Hand in</b><span>&sect;8 and &sect;10, plus the peer review. Model it on the <a class="ext" href="../report/example.html">worked report example</a>.</span></div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <p><strong>How &ldquo;free&rdquo; was checked.</strong> Every TryHackMe and CyberDefenders room here was verified against the platform&rsquo;s own free/premium status when the course was built (the working lists are in the course&rsquo;s <code>Resources/LABS</code> notes). Platforms change their tiers; if a room asks you to pay, tell the instructor and use the <em>own</em> exercise on that page &mdash; it is never optional, the room is.</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>ITGate Academy · eCDFP Diploma · Your gate to the world</span>
+    <span class="mono">14 labs · 0 paid · every one hands in a report</span>
+  </div>
+</footer>
+
+</body>
+</html>

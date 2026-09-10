@@ -7,6 +7,10 @@
 <meta name="description" content="ITGate Academy eCDFP diploma — practical Windows digital forensics in six sessions: integrity, acquisition, file examination, file systems, Windows artifacts, timelines and reporting.">
 <link rel="stylesheet" href="assets/css/ecdfp.css">
 <link rel="icon" href="assets/img/itgate-logo.jpg">
+<style>
+  .topo-wrap{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:12px 10px 6px;margin:6px 0 14px;overflow-x:auto}
+  .topo-wrap svg{width:100%;height:auto;min-width:760px;display:block}
+</style>
 </head>
 <body>
 
@@ -20,12 +24,12 @@
       </span>
     </a>
     <nav class="topnav">
-      <a href="index.html#sessions" class="active">Sessions</a>
+      <a href="index.html#pages">Pages</a>
       <a href="roadmap.html">Roadmap</a>
       <a href="lab/index.html">Lab</a>
       <a href="resources/evidence.html">Evidence</a>
-      <a href="index.html#records">Records</a>
-      <a href="index.html#resources">Resources</a>
+      <a href="record.html">Record</a>
+      <a href="beyond/index.html">Beyond</a>
       <a href="index.html#about">About</a>
     </nav>
   </div>
@@ -39,12 +43,121 @@
     <div class="stats">
       <div class="stat"><b>6</b><span>Sessions</span></div>
       <div class="stat"><b>24</b><span>Hours</span></div>
-      <div class="stat"><b>62</b><span>Topics</span></div>
+      <div class="stat"><b>25</b><span>Topics</span></div>
       <div class="stat"><b>83%</b><span>Hands-on</span></div>
-      <div class="stat"><b>9</b><span>Evidence sets</span></div>
+      <div class="stat"><b>10</b><span>Evidence sets</span></div>
     </div>
   </div>
 </section>
+
+<section class="wrap section" id="pages">
+  <h2 class="sec">The fourteen pages</h2>
+  <p class="sec-desc">The diploma is an ordered chain of <b>25 topics</b> on <b>14 pages</b>. A session is a
+     container filled on the day, so pages — not sessions — are what the site publishes.
+     <b>All fourteen are built.</b> Every card is a live page &mdash; start at P01 and go in order.
+     <a href="roadmap.html">See the full map &rarr;</a></p>
+  <div class="grid">
+    <a class="card live" href="page-01/index.html">
+      <div class="card-top"><span class="snum">P01</span><h3>Foundations and the deliverable</h3></div>
+      <ul class="plist"><li><code>T01</code> Foundations &amp; Forensic Principles <span class="mut">45 min</span></li><li><code>T02</code> The Forensic Report <span class="mut">25 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:57%"></span></div>
+        <span class="hands-label">Hands-on 40 of 70 topic minutes &middot; 57%</span></div>
+      <div class="chips"><span class="tag">F 55</span><span class="tag">T 15</span><span class="tag">INE M1 intro · M5 §2</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-02/index.html">
+      <div class="card-top"><span class="snum">P02</span><h3>Evidence integrity</h3></div>
+      <ul class="plist"><li><code>T03</code> Evidence Integrity — Hashing, Chain of Custody, Write Blocking <span class="mut">38 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 38 of 38 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">P 20</span><span class="tag">T 18</span><span class="tag evs">EVS-01 &middot; ready</span><span class="tag">INE M1</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-03/index.html">
+      <div class="card-top"><span class="snum">P03</span><h3>Data at byte level</h3></div>
+      <ul class="plist"><li><code>T04</code> Inside a File — Hex, Magic Bytes &amp; Signatures <span class="mut">82 min</span></li><li><code>T05</code> Data Representation &amp; Metadata <span class="mut">35 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:91%"></span></div>
+        <span class="hands-label">Hands-on 107 of 117 topic minutes &middot; 91%</span></div>
+      <div class="chips"><span class="tag">P 60</span><span class="tag">F 57</span><span class="tag evs">EVS-01 &middot; ready</span><span class="tag evs">EVS-05 &middot; ready</span><span class="tag evs">EVS-10 &middot; ready</span><span class="tag">INE M2 · M1</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-04/index.html">
+      <div class="card-top"><span class="snum">P04</span><h3>Volatile evidence</h3></div>
+      <ul class="plist"><li><code>T06</code> Live Response — Order of Volatility <span class="mut">25 min</span></li><li><code>T07</code> Memory Forensics — Acquire and Analyse <span class="mut">35 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 60 of 60 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">P 45</span><span class="tag">T 15</span><span class="tag evs">EVS-03 &middot; pending</span><span class="tag">INE M1 &middot; M4</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-05/index.html">
+      <div class="card-top"><span class="snum">P05</span><h3>Acquisition</h3></div>
+      <ul class="plist"><li><code>T08</code> Imaging Scope &amp; Formats <span class="mut">33 min</span></li><li><code>T09</code> Imaging Tools — FTK Imager &amp; dc3dd <span class="mut">112 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:83%"></span></div>
+        <span class="hands-label">Hands-on 120 of 145 topic minutes &middot; 83%</span></div>
+      <div class="chips"><span class="tag">S 58</span><span class="tag">P 35</span><span class="tag">T 32</span><span class="tag">F 20</span><span class="tag evs">EVS-02 &middot; pending</span><span class="tag evs">EVS-04 &middot; pending</span><span class="tag evs">EVS-05 &middot; ready</span><span class="tag evs">EVS-09 &middot; pending</span><span class="tag">INE M1 · M3 §4.4.3 · M2</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-06/index.html">
+      <div class="card-top"><span class="snum">P06</span><h3>Hidden information</h3></div>
+      <ul class="plist"><li><code>T10</code> Hidden Data &amp; Image Forensics <span class="mut">80 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 80 of 80 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">T 68</span><span class="tag">F 12</span><span class="tag evs">EVS-05 &middot; ready</span><span class="tag evs">EVS-10 &middot; ready</span><span class="tag">INE M2 · M4 §6.3.2</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-07/index.html">
+      <div class="card-top"><span class="snum">P07</span><h3>Malicious files</h3></div>
+      <ul class="plist"><li><code>T11</code> Malicious Documents &amp; Executables <span class="mut">75 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 75 of 75 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">F 50</span><span class="tag">T 25</span><span class="tag evs">EVS-06 &middot; pending</span><span class="tag">INE M2 · M2 §3.7.4</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-08/index.html">
+      <div class="card-top"><span class="snum">P08</span><h3>The disk</h3></div>
+      <ul class="plist"><li><code>T12</code> Storage Internals &amp; Slack <span class="mut">45 min</span></li><li><code>T13</code> Partitioning — MBR &amp; GPT <span class="mut">68 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 113 of 113 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">S 113</span><span class="tag evs">EVS-07 &middot; ready</span><span class="tag">INE M3</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-09/index.html">
+      <div class="card-top"><span class="snum">P09</span><h3>File systems</h3></div>
+      <ul class="plist"><li><code>T14</code> File Systems — FAT &amp; NTFS <span class="mut">52 min</span></li><li><code>T15</code> Carving &amp; Deleted Data <span class="mut">25 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 77 of 77 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">S 77</span><span class="tag evs">EVS-11 &middot; ready</span><span class="tag">INE M3</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-10/index.html">
+      <div class="card-top"><span class="snum">P10</span><h3>The registry</h3></div>
+      <ul class="plist"><li><code>T16</code> Registry Structure &amp; System Configuration <span class="mut">28 min</span></li><li><code>T17</code> USB &amp; Device History <span class="mut">35 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 63 of 63 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">F 63</span><span class="tag evs">EVS-12 &middot; ready</span><span class="tag">INE M4</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-11/index.html">
+      <div class="card-top"><span class="snum">P11</span><h3>What ran, what was touched</h3></div>
+      <ul class="plist"><li><code>T18</code> Evidence of Execution <span class="mut">40 min</span></li><li><code>T19</code> User Activity — Shellbags, Recycle Bin, VSS <span class="mut">38 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 78 of 78 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">F 78</span><span class="tag evs">EVS-13 &middot; ready</span><span class="tag">INE M4</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-12/index.html">
+      <div class="card-top"><span class="snum">P12</span><h3>Windows logs</h3></div>
+      <ul class="plist"><li><code>T20</code> Windows Event Logs <span class="mut">49 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 49 of 49 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">T 35</span><span class="tag">F 14</span><span class="tag evs">EVS-14 &middot; ready</span><span class="tag evs">EVS-04 &middot; pending</span><span class="tag">INE M5 · M4</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-13/index.html">
+      <div class="card-top"><span class="snum">P13</span><h3>Network and internet activity</h3></div>
+      <ul class="plist"><li><code>T21</code> Network Evidence &amp; Traffic Analysis <span class="mut">42 min</span></li><li><code>T22</code> C2 &amp; Attack Patterns in Traffic <span class="mut">28 min</span></li><li><code>T23</code> Internet &amp; Email Artifacts <span class="mut">20 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 90 of 90 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">T 60</span><span class="tag">F 30</span><span class="tag evs">EVS-02 &middot; pending</span><span class="tag evs">EVS-08 &middot; ready</span><span class="tag">INE M4 §7.8 · M4 · M4 §7.6.4</span><span class="status live">Page live</span></div>
+    </a>
+    <a class="card live" href="page-14/index.html">
+      <div class="card-top"><span class="snum">P14</span><h3>Timeline and report</h3></div>
+      <ul class="plist"><li><code>T24</code> Logs &amp; Super-Timelines <span class="mut">45 min</span></li><li><code>T25</code> Final Report &amp; Capstone <span class="mut">40 min</span></li></ul>
+      <div class="hands"><div class="hands-track"><span class="hands-fill" style="width:100%"></span></div>
+        <span class="hands-label">Hands-on 85 of 85 topic minutes &middot; 100%</span></div>
+      <div class="chips"><span class="tag">T 65</span><span class="tag">F 20</span><span class="tag evs">EVS-08 &middot; ready</span><span class="tag">INE M5 · M5 §8.2/§8.4/§8.6 · M5 §10.6</span><span class="status live">Page live</span></div>
+    </a>
+  </div>
+</section>
+
 
 <section class="wrap section-sm" id="legend">
   <h2 class="sec">The distinction this course is built on</h2>
@@ -68,112 +181,127 @@
   </div>
 </section>
 
-<main class="wrap section" id="sessions">
-  <h2 class="sec">Course roadmap</h2>
-  <p class="sec-desc">Six sessions in a fixed order — integrity before acquisition, acquisition before
-     analysis, file systems before Windows artifacts, timelines and reporting last. Each card opens the
-     session brief: what it covers, the evidence you verify beforehand, and what you hand in.
-     The teaching pages publish one session at a time, and a card becomes a link to its teaching page
-     the day that session ships. <a href="roadmap.html">See the full roadmap &rarr;</a></p>
-  <div class="grid">
-    <a class="card live" href="session-01/index.html">
-      <div class="card-top"><span class="snum">S01</span><h3>Forensic Foundations, Evidence Integrity &amp; Chain of Custody</h3></div>
-      <p>Hashing, write-blocking, the chain-of-custody form, and the report template that every later session reuses.</p>
-      <div class="hands">
-        <div class="hands-track"><span class="hands-fill" style="width:77%"></span></div>
-        <span class="hands-label">Hands-on 158 of 205 topic minutes · 77%</span>
-      </div>
-      <div class="chips">
-        <span class="tag">Tier A</span><span class="tag">INE M1 intro</span><span class="tag">F 72</span><span class="tag">T 38</span><span class="tag">P 95</span>
-        <span class="tag evs">EVS-01 · verified</span>
-        <span class="status live">Teaching page live</span>
-      </div>
-    </a>
-    <a class="card live" href="session-02/index.html">
-      <div class="card-top"><span class="snum">S02</span><h3>Acquisition — Disk, Memory &amp; Live Response</h3></div>
-      <p>Order of volatility, memory capture, FTK Imager and <code>dc3dd</code>, E01 vs raw vs AD1. The carry-through case is born here.</p>
-      <div class="hands">
-        <div class="hands-track"><span class="hands-fill" style="width:76%"></span></div>
-        <span class="hands-label">Hands-on 155 of 205 topic minutes · 76%</span>
-      </div>
-      <div class="chips">
-        <span class="tag">Tier A</span><span class="tag">INE M1</span><span class="tag">T 35</span><span class="tag">P 110</span><span class="tag">S 60</span>
-        <span class="tag evs">EVS-02/03/04/09 &middot; pending acquisition</span>
-        <span class="status live">Teaching page live</span>
-      </div>
-    </a>
-    <a class="card" href="session-03/brief.html">
-      <div class="card-top"><span class="snum">S03</span><h3>Data Representation &amp; File Examination</h3></div>
-      <p>Hex, magic bytes, headers and footers, EXIF and metadata, malicious documents, signature versus extension.</p>
-      <div class="hands">
-        <div class="hands-track"><span class="hands-fill" style="width:83%"></span></div>
-        <span class="hands-label">Hands-on 170 of 205 topic minutes · 83%</span>
-      </div>
-      <div class="chips">
-        <span class="tag">Tier A</span><span class="tag">INE M2</span><span class="tag">F 130</span><span class="tag">T 45</span><span class="tag">P 15</span><span class="tag">S 15</span>
-        <span class="tag evs">EVS-05</span><span class="tag evs">EVS-06</span>
-        <span class="status planned">Brief · teaching page Phase 4</span>
-      </div>
-    </a>
-    <a class="card" href="session-04/brief.html">
-      <div class="card-top"><span class="snum">S04</span><h3>Storage Devices, Partitions &amp; File Systems</h3></div>
-      <p>HDD and SSD internals, slack space, MBR versus GPT, FAT and NTFS, <code>$MFT</code>, ADS, carving and deleted data.</p>
-      <div class="hands">
-        <div class="hands-track"><span class="hands-fill" style="width:85%"></span></div>
-        <span class="hands-label">Hands-on 175 of 205 topic minutes · 85%</span>
-      </div>
-      <div class="chips">
-        <span class="tag">Tier B</span><span class="tag">INE M3</span><span class="tag">T 35</span><span class="tag">P 15</span><span class="tag">S 155</span>
-        <span class="tag evs">EVS-02</span><span class="tag evs">EVS-04</span><span class="tag evs">EVS-07</span>
-        <span class="status planned">Brief · teaching page Phase 4</span>
-      </div>
-    </a>
-    <a class="card" href="session-05/brief.html">
-      <div class="card-top"><span class="snum">S05</span><h3>Windows Forensics — Registry, User Activity &amp; Execution</h3></div>
-      <p>Hives, USB history, shellbags, prefetch, amcache, LNK and jumplists, recycle bin and Volume Shadow Copies.</p>
-      <div class="hands">
-        <div class="hands-track"><span class="hands-fill" style="width:90%"></span></div>
-        <span class="hands-label">Hands-on 185 of 205 topic minutes · 90%</span>
-      </div>
-      <div class="chips">
-        <span class="tag">Tier B</span><span class="tag">INE M4</span><span class="tag">F 155</span><span class="tag">T 35</span><span class="tag">P 15</span>
-        <span class="tag evs">EVS-02</span><span class="tag evs">EVS-04</span>
-        <span class="status planned">Brief · teaching page Phase 4</span>
-      </div>
-    </a>
-    <a class="card" href="session-06/brief.html">
-      <div class="card-top"><span class="snum">S06</span><h3>Network Forensics, Timelines, Reporting &amp; Capstone</h3></div>
-      <p>Wireshark and <code>tcpdump</code>, network file carving, plaso super-timelines, and the full written capstone report.</p>
-      <div class="hands">
-        <div class="hands-track"><span class="hands-fill" style="width:86%"></span></div>
-        <span class="hands-label">Hands-on 177 of 205 topic minutes · 86%</span>
-      </div>
-      <div class="chips">
-        <span class="tag">Tier A</span><span class="tag">INE M4 + M5</span><span class="tag">F 42</span><span class="tag">T 148</span><span class="tag">P 15</span>
-        <span class="tag evs">EVS-02</span><span class="tag evs">EVS-03</span><span class="tag evs">EVS-08</span>
-        <span class="status planned">Brief · teaching page Phase 4</span>
-      </div>
-    </a>
-    <article class="card">
-      <div class="card-top"><span class="snum">&#9733;</span><h3>Milestone review — Sessions 1&ndash;3</h3></div>
-      <p>A checkpoint before the two catalogue sessions: integrity, acquisition and file examination, scored so you know which session to revise.</p>
-      <div class="chips">
-        <span class="tag">Checkpoint</span><span class="tag">Self-scoring</span>
-        <span class="status planned">Planned</span>
-      </div>
-    </article>
-  </div>
-</main>
-
 <section class="wrap section-sm" id="lab">
   <h2 class="sec">The forensic lab</h2>
-  <p class="sec-desc">Three local VMs on VMware Workstation. No cloud, no SIEM, nothing leaves the host —
-     evidence is handled on machines that cannot reach a network.</p>
+  <p class="sec-desc">Three local VMs on VMware Workstation, one host-only network, evidence flowing one way. No cloud, no SIEM, nothing leaves the host &mdash; the whole lab, its build and its snapshot policy are on <a href="lab/index.html">one page</a>.</p>
+  <div class="topo-wrap">
+<svg viewBox="0 0 1500 600" role="img" preserveAspectRatio="xMidYMid meet" aria-labelledby="topo-title">
+  <title id="topo-title">The eCDFP lab: three VMs on one host-only network inside a VMware host, with evidence flowing one way from the victim through Kali to the analyst workstation. The internet is blocked.</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--text-secondary)"/>
+    </marker>
+    <marker id="arrc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-cyan)"/>
+    </marker>
+  </defs>
+
+  <!-- internet, outside the host, blocked -->
+  <g>
+    <rect x="1230" y="14" width="250" height="52" rx="10" fill="var(--bg-card)" stroke="var(--border)" stroke-dasharray="6 5"/>
+    <text x="1355" y="38" text-anchor="middle" font-size="17" fill="var(--text-secondary)" style="font-family:var(--font-body)">&#127760; Internet / cloud</text>
+    <text x="1355" y="57" text-anchor="middle" font-size="13" fill="var(--text-secondary)" style="font-family:var(--font-body)">not reachable from any VM</text>
+    <path d="M1355 66 L1355 96" stroke="var(--accent-red)" stroke-width="3"/>
+    <line x1="1338" y1="72" x2="1372" y2="90" stroke="var(--accent-red)" stroke-width="4" stroke-linecap="round"/>
+    <line x1="1372" y1="72" x2="1338" y2="90" stroke="var(--accent-red)" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- host boundary -->
+  <rect x="20" y="96" width="1460" height="404" rx="16" fill="none" stroke="var(--text-secondary)" stroke-width="1.5" stroke-dasharray="9 7"/>
+  <rect x="34" y="82" width="520" height="28" rx="7" fill="var(--bg-secondary)"/>
+  <text x="46" y="102" font-size="15" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-mono);letter-spacing:.06em">VMWARE WORKSTATION &#183; YOUR HOST &#183; NOTHING LEAVES IT</text>
+
+  <!-- ===== VM cards ===== -->
+  <!-- FOR-WS01 -->
+  <g>
+    <rect x="60" y="136" width="400" height="150" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+    <rect x="60" y="136" width="5" height="150" rx="2" fill="var(--accent-cyan)"/>
+    <!-- monitor icon -->
+    <rect x="86" y="158" width="34" height="24" rx="3" fill="none" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+    <path d="M96 190 h14 M103 182 v8" stroke="var(--accent-cyan)" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="132" y="176" font-size="23" font-weight="700" fill="var(--accent-cyan)" style="font-family:var(--font-mono)">FOR-WS01</text>
+    <text x="86" y="212" font-size="17" fill="var(--text-primary)" style="font-family:var(--font-body)">Windows 11 &#183; analyst workstation</text>
+    <text x="86" y="236" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">4 vCPU &#183; 8 GB RAM &#183; 120 GB disk</text>
+    <text x="86" y="260" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">where every examination happens</text>
+    <rect x="322" y="150" width="124" height="22" rx="11" fill="rgba(0,217,255,.12)" stroke="var(--accent-cyan)"/>
+    <text x="384" y="165" text-anchor="middle" font-size="12" font-weight="700" fill="var(--accent-cyan)" style="font-family:var(--font-mono)">CLEAN-TOOLS</text>
+  </g>
+  <!-- EVI-SRC01 -->
+  <g>
+    <rect x="550" y="136" width="400" height="150" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+    <rect x="550" y="136" width="5" height="150" rx="2" fill="var(--accent-red)"/>
+    <!-- warning icon -->
+    <path d="M593 158 L611 190 L575 190 z" fill="none" stroke="var(--accent-red)" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M593 168 v11 M593 184 v1.5" stroke="var(--accent-red)" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="622" y="176" font-size="23" font-weight="700" fill="var(--accent-red)" style="font-family:var(--font-mono)">EVI-SRC01</text>
+    <text x="576" y="212" font-size="17" fill="var(--text-primary)" style="font-family:var(--font-body)">Windows 10 Pro &#183; the victim</text>
+    <text x="576" y="236" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">2 vCPU &#183; 4 GB RAM &#183; 60 GB disk</text>
+    <text x="576" y="260" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">compromised, then imaged &#8212; the evidence factory</text>
+    <rect x="800" y="150" width="136" height="22" rx="11" fill="rgba(255,77,94,.12)" stroke="var(--accent-red)"/>
+    <text x="868" y="165" text-anchor="middle" font-size="12" font-weight="700" fill="var(--accent-red)" style="font-family:var(--font-mono)">RE-RUNNABLE</text>
+  </g>
+  <!-- Kali -->
+  <g>
+    <rect x="1040" y="136" width="400" height="150" rx="12" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+    <rect x="1040" y="136" width="5" height="150" rx="2" fill="var(--accent-green)"/>
+    <!-- terminal icon -->
+    <rect x="1066" y="158" width="34" height="28" rx="4" fill="none" stroke="var(--accent-green)" stroke-width="2.5"/>
+    <text x="1073" y="180" font-size="15" font-weight="700" fill="var(--accent-green)" style="font-family:var(--font-mono)">&gt;_</text>
+    <text x="1112" y="176" font-size="23" font-weight="700" fill="var(--accent-green)" style="font-family:var(--font-mono)">Kali</text>
+    <text x="1066" y="212" font-size="17" fill="var(--text-primary)" style="font-family:var(--font-body)">Kali Linux &#183; the toolbox</text>
+    <text x="1066" y="236" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">2 vCPU &#183; 4 GB RAM &#183; 60 GB disk</text>
+    <text x="1066" y="260" font-size="15" fill="var(--text-secondary)" style="font-family:var(--font-body)">dc3dd &#183; Sleuth Kit &#183; plaso &#183; foremost &#183; tcpdump</text>
+  </g>
+
+  <!-- drop lines to the network -->
+  <path d="M260 286 V330" stroke="var(--accent-green)" stroke-width="2.5"/>
+  <path d="M750 286 V330" stroke="var(--accent-green)" stroke-width="2.5"/>
+  <path d="M1240 286 V330" stroke="var(--accent-green)" stroke-width="2.5"/>
+  <circle cx="260" cy="330" r="5" fill="var(--accent-green)"/>
+  <circle cx="750" cy="330" r="5" fill="var(--accent-green)"/>
+  <circle cx="1240" cy="330" r="5" fill="var(--accent-green)"/>
+
+  <!-- network bus -->
+  <rect x="60" y="330" width="1380" height="46" rx="10" fill="var(--bg-secondary)" stroke="var(--accent-green)" stroke-width="2"/>
+  <text x="750" y="359" text-anchor="middle" font-size="17" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-body)">VMware host-only network &#183; no NAT &#183; no internet &#183; the three VMs see only each other</text>
+
+  <!-- ===== evidence pipeline (one way) ===== -->
+  <text x="60" y="414" font-size="13" font-weight="700" fill="var(--text-secondary)" style="font-family:var(--font-mono);letter-spacing:.12em">EVIDENCE FLOWS ONE WAY</text>
+  <!-- step 1 -->
+  <rect x="60" y="428" width="324" height="54" rx="10" fill="rgba(255,77,94,.10)" stroke="var(--accent-red)" stroke-width="1.5"/>
+  <circle cx="86" cy="455" r="13" fill="var(--accent-red)"/><text x="86" y="460" text-anchor="middle" font-size="14" font-weight="800" fill="#0a0e14" style="font-family:var(--font-mono)">1</text>
+  <text x="106" y="450" font-size="15" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-body)">Compromise happens</text>
+  <text x="106" y="470" font-size="13" fill="var(--text-secondary)" style="font-family:var(--font-body)">EVI-SRC01 &#183; staged by the instructor</text>
+  <path d="M386 455 H408" stroke="var(--text-secondary)" stroke-width="2.5" marker-end="url(#arr)"/>
+  <!-- step 2 -->
+  <rect x="412" y="428" width="324" height="54" rx="10" fill="rgba(0,255,157,.08)" stroke="var(--accent-green)" stroke-width="1.5"/>
+  <circle cx="438" cy="455" r="13" fill="var(--accent-green)"/><text x="438" y="460" text-anchor="middle" font-size="14" font-weight="800" fill="#0a0e14" style="font-family:var(--font-mono)">2</text>
+  <text x="458" y="450" font-size="15" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-body)">Image + hash</text>
+  <text x="458" y="470" font-size="13" fill="var(--text-secondary)" style="font-family:var(--font-body)">Kali &#183; dc3dd &#183; MD5 + SHA-256 recorded</text>
+  <path d="M738 455 H760" stroke="var(--text-secondary)" stroke-width="2.5" marker-end="url(#arr)"/>
+  <!-- step 3 -->
+  <rect x="764" y="428" width="324" height="54" rx="10" fill="rgba(0,255,157,.08)" stroke="var(--accent-green)" stroke-width="1.5"/>
+  <circle cx="790" cy="455" r="13" fill="var(--accent-green)"/><text x="790" y="460" text-anchor="middle" font-size="14" font-weight="800" fill="#0a0e14" style="font-family:var(--font-mono)">3</text>
+  <text x="810" y="450" font-size="15" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-body)">Verify the copy</text>
+  <text x="810" y="470" font-size="13" fill="var(--text-secondary)" style="font-family:var(--font-body)">hash matches &#183; work only on the copy</text>
+  <path d="M1090 455 H1112" stroke="var(--accent-cyan)" stroke-width="2.5" marker-end="url(#arrc)"/>
+  <!-- step 4 -->
+  <rect x="1116" y="428" width="324" height="54" rx="10" fill="rgba(0,217,255,.10)" stroke="var(--accent-cyan)" stroke-width="1.5"/>
+  <circle cx="1142" cy="455" r="13" fill="var(--accent-cyan)"/><text x="1142" y="460" text-anchor="middle" font-size="14" font-weight="800" fill="#0a0e14" style="font-family:var(--font-mono)">4</text>
+  <text x="1162" y="450" font-size="15" font-weight="600" fill="var(--text-primary)" style="font-family:var(--font-body)">Examine &#183; write the report</text>
+  <text x="1162" y="470" font-size="13" fill="var(--text-secondary)" style="font-family:var(--font-body)">FOR-WS01 &#183; snapshot per session</text>
+
+  <!-- footer notes -->
+  <text x="60" y="540" font-size="14" fill="var(--text-secondary)" style="font-family:var(--font-body)"><tspan fill="var(--accent-cyan)" font-weight="700">CLEAN-TOOLS</tspan>  the FOR-WS01 snapshot every session rolls back to &#8212; never delete it.</text>
+  <text x="60" y="566" font-size="14" fill="var(--text-secondary)" style="font-family:var(--font-body)"><tspan fill="var(--accent-red)" font-weight="700">RE-RUNNABLE</tspan>  EVI-SRC01 is snapshotted before staging, so the compromise can be replayed for every cohort.</text>
+  <text x="1440" y="540" text-anchor="end" font-size="14" fill="var(--text-secondary)" style="font-family:var(--font-body)">A snapshot protects the <tspan font-weight="700" fill="var(--text-primary)">machine</tspan>. Hashes protect the <tspan font-weight="700" fill="var(--text-primary)">evidence</tspan>.</text>
+</svg>
+  </div>
   <div class="tiles">
-    <a class="tile" href="lab/index.html"><span class="ico">&#128421;</span><h4>Topology &amp; machines</h4><p>The three VMs, their specs, and the job each one does.</p></a>
+    <a class="tile" href="lab/index.html#topology"><span class="ico">&#128421;</span><h4>Topology &amp; machines</h4><p>The three VMs, their specs, and the job each one does &mdash; the diagram above, explained.</p></a>
     <a class="tile" href="lab/index.html#before"><span class="ico">&#9989;</span><h4>Before your first session</h4><p>Disk space, the imported workstation, and the evidence you verify at home.</p></a>
     <a class="tile" href="lab/index.html#snapshots"><span class="ico">&#128247;</span><h4>Snapshot policy</h4><p>One snapshot per session, and the one you never delete.</p></a>
-    <a class="tile" href="lab/setup.html"><span class="ico">&#9881;</span><h4>Workstation setup</h4><p>Build FOR-WS01, install the tool set, verify it and snapshot &mdash; the one-shot script or by hand.</p></a>
+    <a class="tile" href="lab/index.html#build"><span class="ico">&#9881;</span><h4>Build FOR-WS01</h4><p>The Windows 11 VM, the 25 tools by script, verify, isolate the network, snapshot &mdash; one page, three parts.</p></a>
   </div>
 </section>
 
@@ -182,40 +310,36 @@
   <p class="sec-desc">Two things run through all six sessions unchanged: how evidence is handled, and how
      the report is graded.</p>
   <div class="tiles">
-    <a class="tile" href="resources/evidence.html"><span class="ico">&#128274;</span><h4>Evidence &amp; integrity</h4><p>The policy, the nine sets, and the hash you verify before class.</p></a>
-    <a class="tile" href="resources/report.html"><span class="ico">&#128221;</span><h4>The report and its rubric</h4><p>Four criteria, identical in all six sessions. Criterion 4 is the course.</p></a>
+    <a class="tile" href="resources/evidence.html"><span class="ico">&#128274;</span><h4>Evidence &amp; integrity</h4><p>The policy, the ten sets, and the hash you verify before class.</p></a>
+    <a class="tile" href="report/index.html"><span class="ico">&#128221;</span><h4>The report and its rubric</h4><p>Four criteria, identical in all six sessions. Criterion 4 is the course.</p></a>
+    <a class="tile" href="report/example.html"><span class="ico">&#128196;</span><h4>Worked report example</h4><p>All twelve sections written in full for a realistic case, with a teaching note on every one.</p></a>
     <a class="tile" href="cases/index.html"><span class="ico">&#128269;</span><h4>Case files</h4><p>The six investigations and the incident that runs through them.</p></a>
   </div>
 </section>
 
 <section class="wrap section-sm" id="records">
-  <h2 class="sec">Case records &mdash; chain of custody</h2>
-  <p class="sec-desc">One unbroken Chain-of-Custody record per case, maintained across the whole course. Each
-     session's record carries every earlier session forward and adds its own, then exports to a clean,
-     court-ready document you submit. Structure follows <strong>SWGDE 18-Q-002</strong> (report content),
-     <strong>SWGDE 18-F-002</strong> (evidence collection and custody) and <strong>ISO/IEC 27037</strong>
-     (identification, collection, acquisition, preservation).</p>
+  <h2 class="sec">Case record &mdash; chain of custody</h2>
+  <p class="sec-desc">One cumulative record for the whole case, open from the first topic to the last.
+     Tick each step as you do it, write what you recorded, and export it as the deliverable.
+     It saves in this browser only.</p>
   <div class="tiles">
-    <a class="tile" href="session-01/record.html"><span class="ico">&#128279;</span><h4>S01 &middot; Integrity &amp; custody</h4><p>Authorization gate, integrity verification against the signed manifest, working-copy discipline, the custody entry.</p></a>
-    <a class="tile" href="session-02/record.html"><span class="ico">&#128190;</span><h4>S02 &middot; Acquisition</h4><p>Scene and device documentation, order of volatility, write blocker engaged, imaging and the verification hash.</p></a>
-    <a class="tile" href="session-03/record.html"><span class="ico">&#128196;</span><h4>S03 &middot; File examination</h4><p>Working copy verified, signature versus extension, metadata and embedded content.</p></a>
-    <a class="tile" href="session-04/record.html"><span class="ico">&#128189;</span><h4>S04 &middot; File systems</h4><p>Partition structure recovered and proven, <code>$MFT</code> parsed, carving and what carving cannot show.</p></a>
-    <a class="tile" href="session-05/record.html"><span class="ico">&#128187;</span><h4>S05 &middot; Windows artifacts</h4><p>Registry hives extracted from the image, USB and removable-media history, execution evidence.</p></a>
-    <a class="tile" href="session-06/record.html"><span class="ico">&#128225;</span><h4>S06 &middot; Network &amp; capstone</h4><p>Packet capture examined, super-timeline built, findings separated from interpretation, final disposition.</p></a>
+    <a class="tile" href="record.html"><h3>Chain-of-Custody Record</h3>
+      <p>Authorization &middot; receipt &amp; integrity &middot; acquisition &middot; analysis &middot; custody &amp; close.
+         Structure follows SWGDE 18-Q-002 and 18-F-002.</p></a>
+    <a class="tile" href="report/index.html"><h3>The forensic report</h3>
+      <p>The twelve sections, and which topic fills each one. One report, grown across the course.</p></a>
   </div>
 </section>
 
 <section class="wrap section-sm" id="resources">
   <h2 class="sec">Resources</h2>
-  <p class="sec-desc">Reference material supporting every session. Items appear here as they are built —
-     a card is a link only when its page exists.</p>
+  <p class="sec-desc">Reference material supporting every page. Every card is a live page.</p>
   <div class="tiles">
     <a class="tile" href="roadmap.html"><span class="ico">&#128506;</span><h4>Course roadmap</h4><p>Every topic, its minutes, its prerequisites and the session it belongs to.</p></a>
+    <a class="tile" href="resources/labs.html"><span class="ico">&#129514;</span><h4>Practice labs</h4><p>One free lab per page &mdash; TryHackMe and CyberDefenders rooms verified free, picoCTF, and exercises on evidence you hold. Each hands in a report.</p></a>
+    <a class="tile" href="resources/glossary.html"><span class="ico">&#128218;</span><h4>Glossary</h4><p>Every term, with what it proves beside it &mdash; and what it does not.</p></a>
+    <a class="tile" href="index.html#pages"><span class="ico">&#128203;</span><h4>Cheat sheets</h4><p>One per page, printable, inside each page &mdash; the screen you keep open in the next lab.</p></a>
     <a class="tile" href="resources/references.html"><span class="ico">&#128279;</span><h4>References</h4><p>INE module mapping, the exam domains, evidence corpora and tool notes.</p></a>
-    <span class="tile"><span class="ico">&#129514;</span><h4>Practice labs</h4><p>External rooms and challenges per session. Planned.</p></span>
-    <span class="tile"><span class="ico">&#128203;</span><h4>Cheat sheets</h4><p>One card per session, printable. Published with each session.</p></span>
-    <span class="tile"><span class="ico">&#128218;</span><h4>Glossary</h4><p>Every term, with what it proves beside it. Planned.</p></span>
-    <span class="tile"><span class="ico">&#9733;</span><h4>Milestone review</h4><p>The Sessions 1&ndash;3 checkpoint. Planned.</p></span>
   </div>
 </section>
 

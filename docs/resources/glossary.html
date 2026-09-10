@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary &middot; eCDFP &middot; ITGate Academy</title>
+<meta name="description" content="Every term the eCDFP diploma uses, with what it proves beside it — and what it does not. The vocabulary of the fourteen pages, in the order the course teaches it.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+<style>
+  .gnav{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+  .gnav a{font-size:.85rem;border:1px solid var(--border);background:var(--bg-card);color:var(--text-primary);text-decoration:none;padding:5px 11px;border-radius:999px}
+  .gnav a:hover{border-color:var(--accent-cyan)}
+  .gsec{margin:30px 0 0;padding-top:18px;border-top:1px solid var(--border)}
+  .gsec h2.sec .pg{font-family:var(--font-mono);font-size:.7em;color:var(--text-secondary);margin-left:10px;font-weight:500}
+  .terms{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 0}
+  .term{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:13px 15px}
+  .term h4{margin:0 0 5px;font-size:1.02rem;color:var(--text-primary)}
+  .term h4 code{font-size:.92em}
+  .term .def{color:var(--text-secondary);font-size:.92rem;margin:0 0 8px;line-height:1.5}
+  .term .pv,.term .np{font-size:.88rem;line-height:1.5;padding:5px 10px;border-radius:0 7px 7px 0;margin:5px 0}
+  .term .pv{border-left:3px solid var(--finding);background:var(--finding-bg)}
+  .term .np{border-left:3px dotted var(--limitation);background:var(--limitation-bg);color:var(--text-secondary)}
+  .term .pv b,.term .np b{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:2px}
+  .term .pv b{color:var(--finding)} .term .np b{color:var(--limitation)}
+  @media (max-width:760px){.terms{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text">
+        <span class="hb-name">ITGate Academy</span>
+        <span class="hb-sub">eCDFP &middot; Glossary</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="../index.html#pages">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <div class="eyebrow">Every term &middot; what it proves &middot; what it does not</div>
+    <h1>The <span>glossary</span></h1>
+    <p class="lede">A forensic term is only useful with its limit attached. Every entry here carries two lines — what the thing <em>proves</em>, and what it <em>does not</em> — in the same colours the course uses for findings and limitations. Read the second line as carefully as the first; it is where reports go wrong.</p>
+    <div class="gnav">
+      <a href="#g-method">Method &amp; report</a><a href="#g-integrity">Integrity &amp; acquisition</a><a href="#g-bytes">Bytes &amp; files</a><a href="#g-memory">Memory</a><a href="#g-disk">Disk &amp; file systems</a><a href="#g-windows">Windows artifacts</a><a href="#g-logs">Event logs</a><a href="#g-network">Network</a><a href="#g-timeline">Timelines</a>
+    </div>
+  </div>
+</section>
+
+<main class="wrap section hub-main">
+
+  <section class="gsec" id="g-method">
+    <h2 class="sec">Method &amp; the report <span class="pg">P01 &middot; P14</span></h2>
+    <div class="terms">
+      <div class="term"><h4>Finding</h4><p class="def">One observable fact, past tense, tied to one named artifact at an exact path with a UTC time. Report &sect;8.</p><div class="pv"><b>proves</b>That the artifact recorded exactly this, and another examiner can reproduce it from the bytes.</div><div class="np"><b>does not prove</b>Why it is there, who caused it, or what it means. If the sentence needs <em>because</em>, it is not a finding.</div></div>
+      <div class="term"><h4>Interpretation</h4><p class="def">What findings mean, citing them, with a stated confidence and an alternative you could not exclude. Report &sect;9.</p><div class="pv"><b>proves</b>Nothing on its own &mdash; it is your reasoning, made visible and checkable.</div><div class="np"><b>does not prove</b>Anything a cited finding does not support. Without a bracketed finding under it, it is opinion.</div></div>
+      <div class="term"><h4>Limitation &middot; &ldquo;cannot prove&rdquo;</h4><p class="def">What could not be determined, why, and what that does to the conclusions. Report &sect;10, graded.</p><div class="pv"><b>proves</b>That you looked for the edge of your evidence and found it.</div><div class="np"><b>does not prove</b>&mdash; a report with no limitation reads as one that did not look.</div></div>
+      <div class="term"><h4>Confidence</h4><p class="def">How far you would defend an interpretation: high / medium / low, in words, never &ldquo;certain&rdquo;.</p><div class="pv"><b>proves</b>How many independent artifacts agree.</div><div class="np"><b>does not prove</b>Truth. High confidence with one artifact is a contradiction.</div></div>
+      <div class="term"><h4>Chain of custody</h4><p class="def">One line per transfer of an exhibit: who released, who received, when, from where, why, two signatures. Report &sect;4.</p><div class="pv"><b>proves</b>That the exhibit was accounted for at every moment between seizure and analysis.</div><div class="np"><b>does not prove</b>Anything during a gap. A gap declared is a weakness; a gap found by the other side is the end of the exhibit.</div></div>
+      <div class="term"><h4>Exhibit</h4><p class="def">A physical or logical thing seized or produced, with an ID, a description, and both hashes. Report &sect;5.</p><div class="pv"><b>proves</b>What you examined, and that it is what was seized.</div><div class="np"><b>does not prove</b>That it is the <em>right</em> thing to have seized &mdash; a perfectly verified image of the wrong disk is still the wrong disk.</div></div>
+      <div class="term"><h4>Rubric &middot; the four criteria</h4><p class="def">Integrity (&sect;4&ndash;5) &middot; Method (&sect;6&ndash;7) &middot; Findings (&sect;8) &middot; Separation (&sect;9&ndash;10). Unchanged for the whole course.</p><div class="pv"><b>proves</b>What the report is graded on &mdash; and criterion 4 is the skill the diploma exists to teach.</div><div class="np"><b>does not prove</b>&mdash; the rubric never rewards a correct conclusion reached by an unsupported step.</div></div>
+      <div class="term"><h4>One adjective past the evidence</h4><p class="def">The course&rsquo;s one writing rule: state the claim in the verb the evidence supports, cite the artifact, give confidence, name the limit.</p><div class="pv"><b>proves</b>&mdash; it is the test every sentence of &sect;8 is read against.</div><div class="np"><b>does not prove</b>&mdash; &ldquo;a <em>suspicious</em> archive&rdquo; is a finding with one word of interpretation smuggled in.</div></div>
+    </div>
+  </section>
+
+  <section class="gsec" id="g-integrity">
+    <h2 class="sec">Integrity &amp; acquisition <span class="pg">P02 &middot; P05</span></h2>
+    <div class="terms">
+      <div class="term"><h4>Hash &middot; SHA-256 / MD5</h4><p class="def">A fixed-length fingerprint of bytes; one bit changed changes the whole value (the avalanche). SHA-256 is the value you defend; MD5 is a lookup key only.</p><div class="pv"><b>proves</b>That two byte sequences are identical (match) or not (mismatch).</div><div class="np"><b>does not prove</b>Who made the bytes, when, whether they are complete, or whether they are the right bytes. A hash matches a file, not a story.</div></div>
+      <div class="term"><h4>Verified</h4><p class="def">A tool&rsquo;s word for a write-then-read round trip inside itself: what it wrote equals what it read back.</p><div class="pv"><b>proves</b>The image file survived the tool&rsquo;s own copy.</div><div class="np"><b>does not prove</b>That the source was read correctly, that the blocker worked, that the right device was selected, or that the disk was complete. <strong>Verified &ne; complete &ne; correct.</strong></div></div>
+      <div class="term"><h4>Independent hash of the source</h4><p class="def">Hashing the original device with a second tool (<code>dc3dd</code>, <code>sha256sum</code>) and comparing to the image&rsquo;s hash.</p><div class="pv"><b>proves</b>The image equals the device &mdash; the only statement that is about the <em>device</em> rather than your file.</div><div class="np"><b>does not prove</b>Completeness beyond the capacity the device reported (see HPA / DCO). Practical on 16 GB; hours on 4 TB &mdash; know what you give up.</div></div>
+      <div class="term"><h4>Write blocker</h4><p class="def">Hardware (Tableau) or software that lets a device be read but not written during acquisition.</p><div class="pv"><b>proves</b>Nothing by itself &mdash; its <em>log</em> proves the device was not written during imaging.</div><div class="np"><b>does not prove</b>Anything if it is not logged and named in &sect;7. &ldquo;Behind a blocker&rdquo; without a log is a claim, not a control.</div></div>
+      <div class="term"><h4>Physical &middot; logical &middot; targeted</h4><p class="def">Physical = every sector; logical = one volume; targeted = a chosen set of files (a collection, not an image).</p><div class="pv"><b>proves</b>What scope the image can speak to.</div><div class="np"><b>does not prove</b>Anything outside that scope. A logical image never sees a hidden partition, and the tool will not tell you.</div></div>
+      <div class="term"><h4>raw &middot; E01 &middot; AD1</h4><p class="def">raw (dd): bytes only, needs a sidecar. E01: per-block CRC, embedded hash and case metadata. AD1: a logical collection, not a disk image (Autopsy cannot open it).</p><div class="pv"><b>proves</b>E01&rsquo;s metadata proves what the examiner <em>typed</em> at acquisition.</div><div class="np"><b>does not prove</b>That the typed fields are true, or that the disk was complete or correct. The container stores claims; it does not check them.</div></div>
+      <div class="term"><h4>HPA &middot; DCO</h4><p class="def">Host Protected Area and Device Configuration Overlay: capacity a disk can hide from the OS. One disk can report three sizes.</p><div class="pv"><b>proves</b>(when checked) what the true native capacity is &mdash; <code>hdparm --dco-identify</code> first, then <code>hdparm -N</code>.</div><div class="np"><b>does not prove</b>Anything in the wrong order: a DCO lowers what <code>-N</code> measures against, so HPA-first reports &ldquo;disabled&rdquo; on a disk that is hiding capacity.</div></div>
+      <div class="term"><h4>Snapshot</h4><p class="def">A VMware restore point of the analyst workstation.</p><div class="pv"><b>proves</b>Nothing about evidence. It protects your <em>machine</em>.</div><div class="np"><b>does not prove</b>Integrity of anything; it never appears in a chain of custody. Evidence is protected by hashes and by working on a copy.</div></div>
+    </div>
+  </section>
+
+  <section class="gsec" id="g-bytes">
+    <h2 class="sec">Bytes, files &amp; what hides in them <span class="pg">P03 &middot; P06 &middot; P07</span></h2>
+    <div class="terms">
+      <div class="term"><h4>Magic bytes &middot; file signature</h4><p class="def">The first bytes of a file that identify its format: <code>25 50 44 46</code> PDF, <code>89 50 4E 47</code> PNG, <code>FF D8 FF</code> JPEG, <code>50 4B 03 04</code> ZIP (and docx, jar, apk).</p><div class="pv"><b>proves</b>What the file <em>starts</em> as, regardless of its extension.</div><div class="np"><b>does not prove</b>What follows the header. A real JPEG can carry a ZIP after <code>FF D9</code> and still pass the signature check.</div></div>
+      <div class="term"><h4>Metadata &middot; EXIF</h4><p class="def">Data about a file written by software: <code>DateTimeOriginal</code>, <code>ModifyDate</code>, <code>Software</code>, GPS, an embedded thumbnail. All editable.</p><div class="pv"><b>proves</b>What some software wrote into the file at some point.</div><div class="np"><b>does not prove</b>That the values are true. The file records a timestamp; it does not witness it. Three dates on one photo is normal.</div></div>
+      <div class="term"><h4>Appended data &middot; polyglot</h4><p class="def">Bytes after a file&rsquo;s end marker (appended), or a file valid as two formats at once (polyglot).</p><div class="pv"><b>proves</b>That something was placed there &mdash; found only by reading past the end marker.</div><div class="np"><b>does not prove</b>Who placed it or why. Detection proves presence, never intent.</div></div>
+      <div class="term"><h4>LSB steganography &middot; channel asymmetry</h4><p class="def">Data hidden in the least-significant bits of pixels. Natural noise spreads across R, G and B; a payload does not.</p><div class="pv"><b>proves</b>(asymmetry across channels) that the pixel data is not natural noise &mdash; usable without a clean twin, which is always.</div><div class="np"><b>does not prove</b>Content until extracted, or purpose ever.</div></div>
+      <div class="term"><h4>Redaction</h4><p class="def">Removing content from an image. Drawing a box over pixels updates the main image and leaves the EXIF thumbnail untouched.</p><div class="pv"><b>proves</b>(a thumbnail that differs from its image) that the file was edited after the thumbnail was made.</div><div class="np"><b>does not prove</b>&mdash; real redaction means exporting a new file, not painting the old one.</div></div>
+      <div class="term"><h4>Macro &middot; <code>vbaProject.bin</code></h4><p class="def">Code stored inside an Office document; visible as a member of the document&rsquo;s ZIP without opening it in Office.</p><div class="pv"><b>proves</b>That code is present in the document.</div><div class="np"><b>does not prove</b>That it ran, that macros were enabled, that anyone clicked Enable Content, or that the code is hostile. And the reverse fails too: the second delivery path needs no macro.</div></div>
+      <div class="term"><h4>Entropy</h4><p class="def">A measure of randomness per section, 0&ndash;8. Zeros 0.00, text ~5.4, code ~6, compressed 7.96, random 7.95.</p><div class="pv"><b>proves</b>That a region is (or is not) worth a closer look.</div><div class="np"><b>does not prove</b>Malice, or even packing vs. compression &mdash; 7.96 and 7.95 are indistinguishable. A reason to look, never a finding.</div></div>
+      <div class="term"><h4>Import table</h4><p class="def">The functions a PE binary declares it will use from system libraries, read statically.</p><div class="pv"><b>proves</b>What the binary <em>can</em> do &mdash; a capability list.</div><div class="np"><b>does not prove</b>What it did, or what it resolves at run time. A very short import table is a louder signal than a long one: the capability is hidden until it runs.</div></div>
+    </div>
+  </section>
+
+  <section class="gsec" id="g-memory">
+    <h2 class="sec">Memory &amp; volatile evidence <span class="pg">P04</span></h2>
+    <div class="terms">
+      <div class="term"><h4>Order of volatility</h4><p class="def">Collect what disappears fastest first: registers/cache &rarr; memory &rarr; network state &rarr; running processes &rarr; disk &rarr; backups (RFC 3227).</p><div class="pv"><b>proves</b>&mdash; it is a decision rule, not evidence: collect first, examine second.</div><div class="np"><b>does not prove</b>&mdash; a hash taken <em>after</em> power-down compares itself to nothing.</div></div>
+      <div class="term"><h4>Memory image</h4><p class="def">A capture of RAM (WinPmem writes raw), read with Volatility 3 &mdash; no profiles, no <code>imageinfo</code>.</p><div class="pv"><b>proves</b>What was resident in memory across the seconds the capture took.</div><div class="np"><b>does not prove</b>A consistent instant. The capture is a <em>smear</em>: an inconsistent process list is not anti-forensics, it is time passing.</div></div>
+      <div class="term"><h4>Smear</h4><p class="def">The inconsistency in a memory image because the machine kept running while it was captured.</p><div class="pv"><b>proves</b>That the machine was live during capture.</div><div class="np"><b>does not prove</b>Tampering. Treat contradictions as a lead to verify, not a finding.</div></div>
+      <div class="term"><h4><code>windows.cmdline</code> &middot; PEB</h4><p class="def">A process&rsquo;s command line as read from its own Process Environment Block &mdash; memory the process can rewrite.</p><div class="pv"><b>proves</b>What the PEB contained at capture.</div><div class="np"><b>does not prove</b>What was actually executed. A command line is a lead, not proof; corroborate with prefetch, logs, or the binary itself.</div></div>
+    </div>
+  </section>
+
+  <section class="gsec" id="g-disk">
+    <h2 class="sec">Disk &amp; file systems <span class="pg">P08 &middot; P09</span></h2>
+    <div class="terms">
+      <div class="term"><h4>Sector &middot; cluster &middot; slack</h4><p class="def">Disks are addressed in 512-byte sectors; file systems allocate in clusters of several sectors; the unused tail of a file&rsquo;s last cluster is slack.</p><div class="pv"><b>proves</b>(slack) what was on the disk <em>before</em> this file was written there &mdash; one byte past a boundary costs a whole cluster.</div><div class="np"><b>does not prove</b>That the current file&rsquo;s owner ever saw it. Slack is the previous occupant&rsquo;s leftovers.</div></div>
+      <div class="term"><h4>MBR &middot; GPT</h4><p class="def">Partition tables. MBR: 64 bytes at <code>0x1BE</code> and the <code>55 AA</code> signature. GPT: <code>EFI PART</code> at LBA 1, CRC32s, a backup header at the last LBA.</p><div class="pv"><b>proves</b>Where the OS was told the partitions are.</div><div class="np"><b>does not prove</b>Where data is. Zeroing 512 bytes makes a disk unmountable and leaves 99.9992% of it untouched.</div></div>
+      <div class="term"><h4>Partition-table recovery &middot; <code>BPB_BkBootSec</code></h4><p class="def">Rebuilding a wiped table from boot sectors found by scanning. A FAT32 volume keeps a backup boot sector at the offset its own BPB records (usually 6).</p><div class="pv"><b>proves</b>(the discarded candidate) why a third boot sector is a backup, not a partition.</div><div class="np"><b>does not prove</b>Correctness by mounting: a table built from all three candidates mounts too. The wrong answer that works is the lesson.</div></div>
+      <div class="term"><h4>FAT delete &middot; <code>0xE5</code></h4><p class="def">Deleting on FAT overwrites the first byte of the directory entry with <code>E5</code> and frees the cluster chain. Five bytes change; the data does not.</p><div class="pv"><b>proves</b>That the file was deleted, and (from the surviving entry) its size and first cluster.</div><div class="np"><b>does not prove</b>That the content is gone &mdash; the first cluster still begins <code>%PDF</code> until something overwrites it.</div></div>
+      <div class="term"><h4>MFT record &middot; resident / non-resident</h4><p class="def">Every NTFS file has a 1,024-byte record in <code>$MFT</code>. Small files keep their content <em>inside</em> the record (resident); large ones keep a run list pointing to clusters.</p><div class="pv"><b>proves</b>(a deleted resident file) that its entire content is still readable in the record deletion marked free.</div><div class="np"><b>does not prove</b>When it was last read, or by whom. NTFS records what the file <em>is</em>, not who touched it.</div></div>
+      <div class="term"><h4>Alternate data stream (ADS)</h4><p class="def">A second named <code>$DATA</code> stream on an NTFS file. Directory listings show only the unnamed stream&rsquo;s size.</p><div class="pv"><b>proves</b>That data exists on the file beyond what the listing shows.</div><div class="np"><b>does not prove</b>Intent &mdash; Windows itself writes ADS (<code>Zone.Identifier</code>).</div></div>
+      <div class="term"><h4>Carving</h4><p class="def">Recovering files by header and footer patterns alone, without consulting the file system.</p><div class="pv"><b>proves</b>That the bytes of a file exist on the media &mdash; &ldquo;deleted&rdquo; means nothing to a carver.</div><div class="np"><b>does not prove</b>Boundaries: a footer is a guess (a PDF ending <code>%%EOF\n</code> carves one byte short), and a fragmented file carves with someone else&rsquo;s clusters inside it.</div></div>
+    </div>
+  </section>
+
+  <section class="gsec" id="g-windows">
+    <h2 class="sec">Windows artifacts &mdash; one verb each <span class="pg">P10 &middot; P11</span></h2>
+    <div class="terms">
+      <div class="term"><h4>Registry hive</h4><p class="def">Files (<code>SYSTEM</code>, <code>SOFTWARE</code>, <code>SAM</code>, <code>SECURITY</code>, <code>NTUSER.DAT</code>, <code>UsrClass.dat</code>) behind the one tree regedit shows. A <code>regf</code> header with two sequence numbers.</p><div class="pv"><b>proves</b>(sequence numbers one apart) that the hive was not cleanly flushed &mdash; an abrupt power-off.</div><div class="np"><b>does not prove</b>That every hive came from the same machine. Check shared volume GUIDs before correlating.</div></div>
+      <div class="term"><h4>USBSTOR &middot; MountedDevices &middot; MountPoints2</h4><p class="def">The USB chain: device serial (<code>SYSTEM</code>) &rarr; drive letter and volume GUID (<code>MountedDevices</code>) &rarr; the user profile that mounted it (<code>NTUSER.DAT</code>).</p><div class="pv"><b>proves</b>That a device with that serial was connected, which letter it took, and under which <em>profile</em>.</div><div class="np"><b>does not prove</b>Which <em>person</em> was at the keyboard, or that any file was written to it. MountPoints2 names an account; nothing here names a human.</div></div>
+      <div class="term"><h4>First InstallDate</h4><p class="def">The date Windows installed (or reinstalled) a device&rsquo;s driver instance.</p><div class="pv"><b>proves</b>When a driver instance was created.</div><div class="np"><b>does not prove</b>First connection. It is often the <em>latest</em> of four dates; the earliest sits inside the volume GUID&rsquo;s UUIDv1 clock, which nobody decodes by default.</div></div>
+      <div class="term"><h4>Prefetch</h4><p class="def"><code>.pf</code> files Windows keeps to speed up program starts: run count, last eight run times, files touched.</p><div class="pv"><b>proves</b>The program <strong>ran</strong>, how many times, when.</div><div class="np"><b>does not prove</b>Who ran it, or why.</div></div>
+      <div class="term"><h4>ShimCache &middot; Amcache</h4><p class="def">Application-compatibility records of executables Windows has seen on disk.</p><div class="pv"><b>proves</b>The file was <strong>present</strong> on the disk.</div><div class="np"><b>does not prove</b>That it ran. The ShimCache timestamp is the file&rsquo;s modification time, not a run time. Upgrading &ldquo;present&rdquo; to &ldquo;ran&rdquo; is the error P11 exists to prevent.</div></div>
+      <div class="term"><h4>UserAssist</h4><p class="def">A per-user count and focus time for programs launched through the Windows GUI.</p><div class="pv"><b>proves</b>The <strong>profile launched</strong> it from the interface, and for how long it had focus.</div><div class="np"><b>does not prove</b>Launches from scripts, services or the command line, which it never records.</div></div>
+      <div class="term"><h4>ShellBags</h4><p class="def">Explorer&rsquo;s memory of folder windows a user opened, with paths and view settings.</p><div class="pv"><b>proves</b>A folder was <strong>browsed</strong> under that profile &mdash; even on a drive that is no longer present.</div><div class="np"><b>does not prove</b>That any file in it was opened, or that a drive letter is the same device as another artifact&rsquo;s letter. A letter is not a device.</div></div>
+      <div class="term"><h4>LNK &middot; jump list</h4><p class="def">Shortcut files and per-application recent lists Windows writes when files are opened.</p><div class="pv"><b>proves</b>A file at that path was <strong>opened</strong>, with the target&rsquo;s size and timestamps at the time.</div><div class="np"><b>does not prove</b>That the file was copied anywhere, or by whom. An <code>E:\</code> path proves access at that letter, not a transfer to it.</div></div>
+      <div class="term"><h4>Recycle Bin &middot; <code>$I</code> / <code>$R</code></h4><p class="def">On deletion, <code>$R</code> holds the content and <code>$I</code> the original path, size and deletion time.</p><div class="pv"><b>proves</b>A file was <strong>binned</strong>, from where, when, and how large it was.</div><div class="np"><b>does not prove</b>Who deleted it, or that two deletions eight seconds apart were one act &mdash; that is interpretation.</div></div>
+    </div>
+  </section>
+
+  <section class="gsec" id="g-logs">
+    <h2 class="sec">Event logs <span class="pg">P12</span></h2>
+    <div class="terms">
+      <div class="term"><h4>Event log</h4><p class="def">The one artifact Windows writes <em>on purpose</em>: EventID + Provider + UTC time + the fields that carry the meaning.</p><div class="pv"><b>proves</b>What the logging service was told, when.</div><div class="np"><b>does not prove</b>What it was never told: persistence via a Run key is invisible to the Security log (Sysmon 13 sees it).</div></div>
+      <div class="term"><h4>1102 &middot; 104 &mdash; log cleared</h4><p class="def">Security (1102) or another log (104) was cleared, by which account, when. MITRE T1070.001.</p><div class="pv"><b>proves</b>That someone with that account tried to silence the testimony &mdash; the loudest testimony of all.</div><div class="np"><b>does not prove</b>What was in the cleared window. Rebuild it from artifacts that live off the logs: prefetch, registry, <code>$MFT</code>, pcap.</div></div>
+      <div class="term"><h4>4624 &middot; LogonType</h4><p class="def">A successful logon; type 2 interactive, 3 network, 9 NewCredentials (<code>runas /netonly</code>), 10 RDP.</p><div class="pv"><b>proves</b>An account authenticated, and how.</div><div class="np"><b>does not prove</b>A human. &ldquo;Interactive&rdquo; describes the session type &mdash; a Chrome updater can produce type 2.</div></div>
+      <div class="term"><h4>Pass-the-hash pattern</h4><p class="def">4624 type 9 + package <code>seclogo</code> + source <code>::1</code> + 4672 special privileges, together.</p><div class="pv"><b>proves</b>(the combination) a credential used without its password &mdash; MITRE T1550.002.</div><div class="np"><b>does not prove</b>Anything from any one of those events alone.</div></div>
+      <div class="term"><h4>4732 &middot; group membership</h4><p class="def">An account was added to a security-enabled local group, e.g. Guest into Administrators. MITRE T1098.</p><div class="pv"><b>proves</b>The change, the subject account, the time.</div><div class="np"><b>does not prove</b>Who sat at the keyboard, or whether the new member was ever used.</div></div>
+    </div>
+  </section>
+
+  <section class="gsec" id="g-network">
+    <h2 class="sec">Network <span class="pg">P13</span></h2>
+    <div class="terms">
+      <div class="term"><h4>Beacon</h4><p class="def">A host contacting a server at a fixed interval &mdash; ten GETs every 30 seconds with zero jitter is not a person browsing.</p><div class="pv"><b>proves</b>(the regularity) automated command-and-control traffic &mdash; and it survives encryption, because timing is metadata.</div><div class="np"><b>does not prove</b>What was said. Content needs the payload; the rhythm does not.</div></div>
+      <div class="term"><h4>DNS tunnel</h4><p class="def">Data carried in DNS queries &mdash; long Base32 <code>TXT</code> lookups to a strange domain where an <code>A</code> record under 30 bytes belongs.</p><div class="pv"><b>proves</b>(the shape) that DNS is carrying something DNS does not carry. Decode afterwards to confirm content.</div><div class="np"><b>does not prove</b>The destination of the data beyond the resolver it reached.</div></div>
+      <div class="term"><h4>C2 &middot; exfiltration</h4><p class="def">Command-and-control: the channel the malware takes orders on. Exfiltration: data leaving &mdash; here by DNS and by a plain POST to a raw IP.</p><div class="pv"><b>proves</b>(one IP across the pcap and the email header) that delivery, command channel and exfil are one operation &mdash; the strongest fact in the case.</div><div class="np"><b>does not prove</b>The person behind the IP. IP &ne; person, always.</div></div>
+      <div class="term"><h4>Email header &middot; SPF / DKIM / DMARC</h4><p class="def">The <code>Received:</code> chain and three authentication checks on a message&rsquo;s claimed sender.</p><div class="pv"><b>proves</b>Which server handed the mail on, and whether the sending domain vouched for it.</div><div class="np"><b>does not prove</b>Forgery from a single failure &mdash; misconfiguration exists. Three failures plus a raw-IP Reply-To is a strong interpretation, still an interpretation.</div></div>
+      <div class="term"><h4>User-Agent</h4><p class="def">The client string in an HTTP request &mdash; MSIE 6.0 among modern Chrome traffic.</p><div class="pv"><b>proves</b>What the client claimed to be.</div><div class="np"><b>does not prove</b>What it was. A stale UA is an anomaly worth following, not evidence on its own.</div></div>
+    </div>
+  </section>
+
+  <section class="gsec" id="g-timeline">
+    <h2 class="sec">Timelines <span class="pg">P14</span></h2>
+    <div class="terms">
+      <div class="term"><h4>Super-timeline</h4><p class="def">Every artifact type (registry, <code>$MFT</code>, prefetch, evtx, browser, pcap) on one UTC axis &mdash; plaso&rsquo;s <code>log2timeline</code> then <code>psort</code>. A million events you never read top to bottom.</p><div class="pv"><b>proves</b>Order across sources, which no single source shows &mdash; and causation lives in the order.</div><div class="np"><b>does not prove</b>Anything you did not pivot to. The skill is choosing the window, not reading the file.</div></div>
+      <div class="term"><h4>Normalise &middot; pivot</h4><p class="def">Convert every timestamp to one clock (UTC, timezone-corrected), then filter to the window or indicator that matters.</p><div class="pv"><b>proves</b>(normalising) that events from different sources can be compared at all.</div><div class="np"><b>does not prove</b>&mdash; skip the timezone and every event is wrong by the offset, consistently, which is the worst kind of wrong.</div></div>
+      <div class="term"><h4>Timestomp &middot; <code>$SI</code> vs <code>$FN</code></h4><p class="def">Forging a file&rsquo;s timestamps. Tools rewrite <code>$STANDARD_INFORMATION</code>; the kernel-maintained <code>$FILE_NAME</code> attribute is left behind.</p><div class="pv"><b>proves</b>(SI and FN disagreeing) that a timestamp was altered.</div><div class="np"><b>does not prove</b>By whom &mdash; but faking one artifact does not fake the others, which is the whole basis of cross-validation.</div></div>
+      <div class="term"><h4>The window the attacker erased</h4><p class="def">Logs cleared at the end of an intrusion remove the logs &mdash; and nothing else.</p><div class="pv"><b>proves</b>(a timeline rebuilt from prefetch, registry, <code>$MFT</code> and pcap) the sequence the clearing was meant to hide.</div><div class="np"><b>does not prove</b>Events that lived only in the logs. State that line in &sect;10.</div></div>
+    </div>
+  </section>
+
+  <div class="note" style="margin-top:28px">
+    <p><strong>Using this page.</strong> When you write a finding, look the artifact up here and read its second line before you choose a verb. When a classmate&rsquo;s report says an artifact proves something, check it against the same line. Every entry maps to the page that taught it &mdash; the page number is beside each heading.</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>ITGate Academy · eCDFP Diploma · Your gate to the world</span>
+    <span class="mono">Glossary · every term with what it proves · and what it does not</span>
+  </div>
+</footer>
+
+</body>
+</html>
