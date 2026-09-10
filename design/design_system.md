@@ -211,6 +211,11 @@ Collapses to one column under 900 px, and the sticky is released with it. Both c
 
 `.gui-row` swaps the mono body for a two-column field list — a form rather than a terminal.
 
+**`.gui-title` truncates, it does not wrap (`D62`).** A filename in a mono font is a single
+unbreakable token; as a flex child without `min-width: 0` it cannot shrink, and at 480 px it
+pushes the row past the viewport. The title carries `min-width: 0` + `text-overflow: ellipsis`,
+so **put the identifying part of a filename first** — the tail is what gets cut.
+
 **The rule that makes this safe:** a `.gui` renders a command and its **real** output as styled
 text, and its caption says so. It is an illustration, and it must never be dressed up as a capture
 of a real product. Anything that would be mistaken for a screenshot of a real interface is a

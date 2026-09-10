@@ -62,12 +62,14 @@ Why is a memory capture described as a **smear** rather than a snapshot?
 
 ## Q5 · MCQ · O3
 
-Which of these is present in a **physical** image but absent from a **logical** one?
+A file named `policy_v2.docx` is opened in a hex editor. Its first four bytes are `89 50 4E 47`.
 
-- **A.** Unallocated space and file slack
-- **B.** Allocated user documents
-- **C.** File names
-- **D.** File modification times
+**What is it?**
+
+- **A.** A PNG image carrying a `.docx` extension.
+- **B.** A DOCX, which is a ZIP — those are the expected bytes.
+- **C.** A corrupted DOCX whose header was damaged.
+- **D.** An OLE compound document.
 
 ---
 

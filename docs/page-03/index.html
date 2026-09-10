@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P03 &middot; Data at byte level &middot; eCDFP Diploma</title>
+<meta name="description" content="Hex, magic bytes and what a rename really changes; endianness; and reading metadata as a claim &mdash; page 3 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P03 &middot; Data at byte level</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>Objectives</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; How data is stored</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>What is digital data?</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>Reading a byte</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>Reading a hex dump</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>File structure</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>What are magic bytes?</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>What a rename changes</span></a></li>
+      <li class="is-part"><a href="#p11"><span class="n">11</span><span>PART 2 &mdash; What a file says about itself</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>Three questions about a file</span></a></li>
+      <li><a href="#p13"><span class="n">13</span><span>How a number is stored &mdash; endianness</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>The two EXIF timestamps</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>What metadata does not prove</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>When there is no metadata</span></a></li>
+      <li class="is-part"><a href="#p17"><span class="n">17</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>Signature sweep</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>The sweep result</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>The limits of signatures</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>Analysing file metadata</span></a></li>
+      <li class="is-part"><a href="#p22"><span class="n">22</span><span>YOUR TURN &mdash; Case 01</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>Case 01 &mdash; the brief</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Reading a split result</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>Integrity and identity</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Knowledge check</span></a></li>
+      <li class="is-part"><a href="#p27"><span class="n">27</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p29"><span class="n">29</span><span>TASK</span></a></li>
+      <li><a href="#p30"><span class="n">30</span><span>Task &mdash; identify, write findings</span></a></li>
+      <li><a href="#p31"><span class="n">31</span><span>Report &mdash; Section 6</span></a></li>
+      <li><a href="#p32"><span class="n">32</span><span>Report &mdash; Section 8</span></a></li>
+      <li><a href="#p33"><span class="n">33</span><span>Summary</span></a></li>
+      <li><a href="#p34"><span class="n">34</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+  <main class="main">
+
+<section class="page" id="p1">
+<span class="kicker">P03 &middot; Page 3 of 14 &middot; 117 topic minutes</span>
+<h1>Data at byte level
+  <span class="ar">البيانات على مستوى الـ byte</span></h1>
+<p class="lede">Your copy is identical to the source. Identical to <i>what</i>?
+  <span class="ar">نسختك مطابقة للمصدر. مطابقة لـ<i>ماذا</i> بالضبط؟</span></p>
+<div class="key-takeaway">
+  <span class="cl-label">By the end of this page you can</span>
+  <ul>
+    <li>read a file&rsquo;s first bytes and say exactly what they establish &mdash; and what they do not.
+      <span class="ar">أن تقرأ أوائل bytes الملف و تحدّد بدقة ما تُثبته و ما لا تُثبته.</span></li>
+    <li>tell <b>integrity</b> from <b>identity</b>, and show a file that has one without the other.
+      <span class="ar">أن تميّز <b>الـ integrity</b> من <b>الـ identity</b>، و أن تعرض ملفًا يملك إحداهما دون الأخرى.</span></li>
+    <li>read metadata as a claim the file makes, and report an <b>absence</b> as a finding.
+      <span class="ar">أن تقرأ الـ metadata بوصفها ادعاءً يقوله الملف، و أن تسجّل <b>الغياب</b> بوصفه اكتشافًا.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<figure class="dgm" id="dg-lc-p03" data-mode="story" data-reveal="upto" data-interval="9000">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p03">
+  <title id="t-dg-lc-p03">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="78" text-anchor="middle" fill="#00ff9d">ANALYSE</text>
+    <text class="xs" x="388" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 3.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P03 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستصبح قادرًا عليه</span></h2>
+<div class="key-takeaway">
+  <ul>
+    <li>Explain <b>how a computer stores anything</b>, and read a byte in hex.
+      <span class="ar">أن تشرح <b>كيف يخزّن الحاسوب أي شيء</b>، و أن تقرأ byte بالنظام الـ hex.</span></li>
+    <li>Identify a file from <b>its own bytes</b> rather than its name, and say what that establishes.
+      <span class="ar">أن تحدّد نوع الملف من <b>الـ bytes الخاصة به</b> لا من اسمه، و أن تقول ما الذي يُثبته ذلك.</span></li>
+    <li>Read a verification result that <b>differs between two algorithms</b>.
+      <span class="ar">أن تقرأ نتيجة تحقق <b>تختلف بين خوارزميتين</b>.</span></li>
+    <li>Read file metadata as a <b>claim</b>, and report its <b>absence</b> as a finding.
+      <span class="ar">أن تقرأ الـ metadata بوصفها <b>ادعاءً</b>، و أن تسجّل <b>غيابها</b> بوصفه اكتشافًا.</span></li>
+  </ul>
+</div>
+<div class="note">
+  <span class="cl-label">How this page is arranged</span>
+  <p><b>Part 1</b> &mdash; how data is stored, and how a file declares what it is. <b>Part 2</b> &mdash;
+    what a file says about itself. Then the <b>lab</b>, your <b>own case</b>, and the <b>report</b>.
+    <span class="ar"><b>الجزء الأول</b> — كيف تُخزَّن البيانات، و كيف يُعلن الملف عن نوعه. <b>الجزء الثاني</b> — ماذا يقول الملف عن نفسه. ثم <b>المعمل</b>، ثم <b>قضيتك</b>، ثم <b>التقرير</b>.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 2</span>
+  <h2>How data is stored, and how a file says what it is<span class="ar">كيف تُخزَّن البيانات، و كيف يُعلن الملف عن نوعه</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Everything on a disk is bits. This part builds from that to the four bytes that let you identify a file without trusting its name.<span class="ar">كل ما على القرص bits. و يبني هذا الجزء من تلك الحقيقة وصولاً إلى الـ bytes الأربع التي تتيح لك تحديد الملف دون الوثوق باسمه.</span></p>
+  <p class="divider-meta">5 screens &middot; about 20 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">Part 1 &middot; #1</span>
+<h2>What is digital data?
+  <span class="ar">ما هي البيانات الرقمية؟</span></h2>
+<p>A computer stores, transmits and processes everything in <b>one</b> form: binary &mdash; zeros and
+  ones. Text, images, video and every file you will examine are the same thing underneath.
+  <span class="ar">يخزّن الحاسوب و ينقل و يعالج كل شيء بصورة <b>واحدة</b>: ثنائية، أصفار و آحاد. فالنصوص و الصور و الفيديو و كل ملف ستفحصه هي الشيء نفسه في الأساس.</span></p>
+<figure class="dgm" id="dg-bits" data-mode="loop" data-reveal="upto" data-interval="3600">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D0 &middot; EVERYTHING IS THE SAME THING UNDERNEATH</span><span class="dgm-tag">PATTERN 2 &middot; 5</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 250" role="img" aria-labelledby="t-bits">
+  <title id="t-bits">Text, images and video all reduce to the same binary storage</title>
+  <text class="xs mut" x="14" y="18">WHAT YOU SEE</text>
+  <text class="xs mut" x="330" y="18">HOW IT IS ENCODED</text>
+  <text class="xs mut" x="596" y="18">WHAT IS STORED</text>
+
+  <g data-step="1">
+    <rect class="box key" x="14" y="30" width="290" height="52" rx="6"/>
+    <text class="sm" x="32" y="62">the letter &nbsp;<tspan class="m">A</tspan></text>
+    <rect class="box" x="330" y="30" width="240" height="52" rx="6"/>
+    <text class="m sm" x="348" y="62">ASCII 65</text>
+    <rect class="box" x="596" y="30" width="170" height="52" rx="6"/>
+    <text class="m sm" x="612" y="62">01000001</text>
+  </g>
+  <g data-step="2">
+    <rect class="box key" x="14" y="94" width="290" height="52" rx="6"/>
+    <text class="sm" x="32" y="126">one pixel of an image</text>
+    <rect class="box" x="330" y="94" width="240" height="52" rx="6"/>
+    <text class="m sm" x="348" y="126">R 8 &middot; G 8 &middot; B 8 bits</text>
+    <rect class="box" x="596" y="94" width="170" height="52" rx="6"/>
+    <text class="m sm" x="612" y="126">24 bits</text>
+  </g>
+  <g data-step="3">
+    <rect class="box key" x="14" y="158" width="290" height="52" rx="6"/>
+    <text class="sm" x="32" y="190">one second of video</text>
+    <rect class="box" x="330" y="158" width="240" height="52" rx="6"/>
+    <text class="sm" x="348" y="190">a set of frames</text>
+    <rect class="box" x="596" y="158" width="170" height="52" rx="6"/>
+    <text class="m sm" x="612" y="190">more bits</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="222" width="752" height="24" rx="12"/>
+    <text class="sm" x="30" y="240" fill="#00ff9d">Every one of them is 0s and 1s by the time it reaches the disk. There is nothing else down there.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="note">
+  <span class="cl-label">Why this is the first screen and not the third</span>
+  <p>Every technique in this diploma &mdash; signatures, carving, metadata, slack space &mdash; is a
+    way of <b>reading bits</b>. Skip this and the rest is memorised procedure.
+    <span class="ar">كل أسلوب في هذه الدبلومة — الـ signatures و الـ carving و الـ metadata و المساحة المهدرة — طريقة في <b>قراءة الـ bits</b>. و تجاوزُ هذا يجعل ما بعده إجراءً محفوظًا لا مفهومًا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">Part 1 &middot; #2</span>
+<h2>Reading a byte &mdash; binary, decimal and hex
+  <span class="ar">قراءة الـ byte — ثنائي و عشري و ست عشري</span></h2>
+<p>Eight bits make a <b>byte</b>, which holds a value from 0 to 255. The same byte can be written
+  three ways, and forensic tools show one of them for a reason.
+  <span class="ar">ثمانية bits تصنع <b>byte</b> يحمل قيمة من صفر إلى ٢٥٥. و يمكن كتابة الـ byte نفسه بثلاث طرق، و أدوات التحليل تعرض إحداها لسبب.</span></p>
+<figure class="dgm" id="dg-whyhex" data-mode="loop" data-reveal="upto" data-interval="3800">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D0b &middot; WHY HEX AND NOT BINARY</span><span class="dgm-tag">PATTERN 1 &middot; 6</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 228" role="img" aria-labelledby="t-whyhex">
+  <title id="t-whyhex">One byte written three ways: binary, decimal and hexadecimal</title>
+  <text class="xs mut" x="14" y="20">ONE BYTE &mdash; eight bits &mdash; written three ways</text>
+
+  <g data-step="1">
+    <rect class="box" x="14" y="34" width="752" height="48" rx="6"/>
+    <text class="xs mut" x="30" y="54">BINARY</text>
+    <text class="m sm" x="180" y="66">0 1 0 0 0 0 0 1</text>
+    <text class="xs mut" x="520" y="66">exact, and unreadable at length</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="14" y="94" width="752" height="48" rx="6"/>
+    <text class="xs mut" x="30" y="114">DECIMAL</text>
+    <text class="m sm" x="180" y="126">65</text>
+    <text class="xs mut" x="520" y="126">readable, but 1 to 3 digits &mdash; ragged</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="154" width="752" height="48" rx="6"/>
+    <text class="xs mut" x="30" y="174">HEXADECIMAL</text>
+    <text class="m sm" x="180" y="186" fill="#00ff9d">41</text>
+    <text class="xs" x="520" y="186" fill="#00ff9d">always exactly two digits per byte</text>
+    <text class="xs mut" x="14" y="222">That is the whole reason forensic tools display hex: one byte, one column, every time.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">Part 1 &middot; #3</span>
+<h2>Reading a hex dump
+  <span class="ar">قراءة مُخرَج الـ hex</span></h2>
+<p>A hex viewer prints two panes: the bytes as numbers, and the ones that happen to be printable
+  characters. <b>Both panes are the same row of data.</b>
+  <span class="ar">يطبع عارض الـ hex لوحتين: الـ bytes أرقامًا، و ما يقبل الطباعة منها حروفًا. <b>و اللوحتان صفٌّ واحد من البيانات.</b></span></p>
+<figure class="dgm" id="dg-hex" data-mode="loop" data-reveal="upto" data-interval="3800">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D1 &middot; ONE ROW OF BYTES, THREE READINGS</span><span class="dgm-tag">PATTERN 1 &middot; 6</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 268" role="img" aria-labelledby="t-hex">
+  <title id="t-hex">The same eight bytes read as raw values, as characters, and as a signature</title>
+  <text class="xs mut" x="14" y="18">The first eight bytes of q3_summary.pdf. Nothing below is converted &mdash; it is one row, read three ways.</text>
+
+  <g data-step="1">
+    <rect class="box" x="14" y="32" width="752" height="52" rx="6"/>
+    <text class="xs mut" x="28" y="52">THE BYTES</text>
+    <text class="m sm" x="28" y="72">25  50  44  46  2D  31  2E  34</text>
+    <text class="xs mut" x="560" y="72">eight values, 0&ndash;255</text>
+  </g>
+  <g data-step="2">
+    <rect class="box key" x="14" y="98" width="752" height="52" rx="6"/>
+    <text class="xs mut" x="28" y="118">AS CHARACTERS</text>
+    <text class="m sm" x="28" y="138">%   P   D   F   -   1   .   4</text>
+    <text class="xs mut" x="560" y="138">the printable ones</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="164" width="752" height="52" rx="6"/>
+    <text class="xs mut" x="28" y="184">AS A SIGNATURE</text>
+    <text class="m sm" x="28" y="204" fill="#00ff9d">25 50 44 46</text>
+    <text class="sm" x="180" y="204">matches the PDF entry in the signature table</text>
+  </g>
+  <g data-step="4">
+    <text class="sm" x="14" y="244">A hex viewer shows rows 1 and 2 side by side. They are the same data, not a conversion.</text>
+    <text class="xs mut" x="14" y="262">Row 3 is a lookup you perform &mdash; it is the only one that involves a table outside the file.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="wu">
+  <div class="wu-tb"><span class="t">bash</span>
+    <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+  <div class="wu-term"><span class="p">$</span> <span class="k">xxd -l 16 q3_summary.pdf</span>
+00000000: <span class="w">2550 4446</span> 2d31 2e34 0a25 e2e3 cfd3 0a31  <span class="w">%PDF</span>-1.4.%......1
+<span class="d"># left pane and right pane are the SAME bytes.</span></div>
+</div>
+    </section>
+
+<section class="page" id="p8">
+<span class="kicker">Part 1 &middot; #3</span>
+<h2>File structure
+  <span class="ar">بنية الملف</span></h2>
+<p>Every file on your computer has the <b>same three-part shape</b>, whatever its format.
+  <span class="ar">لكل ملف على جهازك <b>الشكل الثلاثي نفسه</b>، أيًّا كانت صيغته.</span></p>
+<figure class="dgm" id="dg-struct" data-mode="loop" data-reveal="upto" data-interval="3800">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D0c &middot; EVERY FILE HAS THE SAME SHAPE</span><span class="dgm-tag">PATTERN 5 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 240" role="img" aria-labelledby="t-struct">
+  <title id="t-struct">Header, data and end-of-file marker: the shape every file shares</title>
+  <text class="xs mut" x="14" y="20">Whatever the format &mdash; PDF, JPEG, ZIP, a Word document &mdash; the shape is the same.</text>
+
+  <g data-step="1">
+    <rect class="box key" x="14" y="34" width="200" height="88" rx="6"/>
+    <text class="lbl" x="36" y="62">HEADER</text>
+    <text class="xs mut" x="36" y="84">type, size, dates</text>
+    <text class="xs" x="36" y="104" fill="#00d9ff">the first bytes live here</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="226" y="34" width="330" height="88" rx="6"/>
+    <text class="lbl" x="248" y="62">DATA</text>
+    <text class="xs mut" x="248" y="84">the content itself &mdash; the text,</text>
+    <text class="xs mut" x="248" y="104">the pixels, the compressed stream</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="568" y="34" width="198" height="88" rx="6"/>
+    <text class="lbl" x="590" y="62">EOF MARKER</text>
+    <text class="xs mut" x="590" y="84">where the file ends</text>
+    <text class="xs" x="590" y="104" fill="#ffb454">and what sits after it</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="140" width="752" height="86" rx="6"/>
+    <text class="lbl" x="30" y="166" fill="#00ff9d">THIS SHAPE IS WHY THREE LATER TOPICS WORK</text>
+    <text class="sm mut" x="30" y="192">The header carries the type, so signature analysis is possible.</text>
+    <text class="sm mut" x="30" y="212">The header carries metadata, so EXIF exists. The EOF marker is where data gets hidden.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">Where the header sits</span>
+  <p>The header is <b>the first bytes of the file</b>. That is why the next screen is about the
+    first four bytes and not about anything else.
+    <span class="ar">الـ header هي <b>أوائل bytes الملف</b>. و لهذا تدور الشاشة التالية حول الـ bytes الأربع الأولى دون غيرها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p9">
+<span class="kicker">Part 1 &middot; #5</span>
+<h2>What are magic bytes?
+  <span class="ar">ما هي الـ bytes السحرية؟</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Bytes</th><th>Format</th></tr></thead>
+  <tbody>
+  <tr><td><code>25 50 44 46</code><span class="ar">تُقرأ <code>%PDF</code></span></td>
+      <td>PDF &mdash; the signature is literally the characters <code>%PDF</code>
+        <span class="ar">مستند PDF — و الـ signature هي حرفيًا حروف <code>%PDF</code>.</span></td></tr>
+  <tr><td><code>89 50 4E 47 0D 0A 1A 0A</code><span class="ar">ثماني bytes</span></td>
+      <td>PNG &mdash; eight bytes, and the longest of the four
+        <span class="ar">صورة PNG — ثمانية bytes، و هي أطول الأربع.</span></td></tr>
+  <tr><td><code>FF D8 FF</code><span class="ar">ثلاث bytes</span></td>
+      <td>JPEG
+        <span class="ar">صورة JPEG.</span></td></tr>
+  <tr><td><code>50 4B 03 04</code><span class="ar">تُقرأ <code>PK</code></span></td>
+      <td>ZIP &mdash; <b>and therefore <code>.docx</code>, <code>.xlsx</code>, <code>.pptx</code>,
+        <code>.odt</code>, <code>.jar</code>, <code>.apk</code></b>
+        <span class="ar">أرشيف ZIP — <b>و بالتالي <code>.docx</code> و <code>.xlsx</code> و <code>.pptx</code> و <code>.odt</code> و <code>.jar</code> و <code>.apk</code></b>.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="warn">
+  <span class="cl-label">Learn the last row properly</span>
+  <p>A Word document <b>is</b> a ZIP archive with a particular structure inside it. When you meet
+    OOXML later in the course, you should already expect <code>50 4B</code>.
+    <span class="ar">مستند Word <b>هو</b> أرشيف ZIP بداخله بنية معيّنة. فحين تلقى OOXML لاحقًا في الدبلومة، ينبغي أن تكون متوقعًا <code>50 4B</code> سلفًا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p10">
+<span class="kicker">Part 1 &middot; #6</span>
+<h2>What a rename changes
+  <span class="ar">ما الذي تغيّره إعادة التسمية فعلاً</span></h2>
+<figure class="dgm" id="dg-ren" data-mode="loop" data-reveal="upto" data-interval="3800">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D2 &middot; WHAT A RENAME TOUCHES</span><span class="dgm-tag">PATTERN 2 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 276" role="img" aria-labelledby="t-ren">
+  <title id="t-ren">Renaming rewrites a name string in the directory index; the clusters holding the content are untouched</title>
+
+  <text class="xs mut" x="14" y="18">BEFORE</text>
+  <rect class="box" x="14" y="30" width="360" height="46" rx="6"/>
+  <text class="xs mut" x="30" y="50">directory index</text>
+  <text class="m sm" x="30" y="68">photo.jpg</text>
+  <rect class="box" x="406" y="30" width="360" height="46" rx="6"/>
+  <text class="xs mut" x="422" y="50">first data cluster</text>
+  <text class="m sm" x="422" y="68">FF D8 FF E1 ...</text>
+
+  <g data-step="1">
+    <path class="arw warn" d="M194 84 L194 112" stroke="#ffb454"/>
+    <path class="arw warn" d="M189 104 L194 114 L199 104" stroke="#ffb454"/>
+    <text class="xs" x="210" y="104" fill="#ffb454">rename writes here</text>
+  </g>
+  <g data-step="2">
+    <text class="xs mut" x="14" y="140">AFTER</text>
+    <rect class="box warn" x="14" y="152" width="360" height="46" rx="6"/>
+    <text class="xs mut" x="30" y="172">directory index</text>
+    <text class="m sm" x="30" y="190" fill="#ffb454">report.docx</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="406" y="152" width="360" height="46" rx="6"/>
+    <text class="xs mut" x="422" y="172">first data cluster</text>
+    <text class="m sm" x="422" y="190" fill="#00ff9d">FF D8 FF E1 ...</text>
+    <text class="xs" x="406" y="126" fill="#00ff9d" >not read, not moved, not rewritten</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="216" width="752" height="46" rx="6"/>
+    <text class="sm" x="30" y="238" fill="#00ff9d">The header survives because the header IS content. The extension is not.</text>
+    <text class="xs mut" x="30" y="256">Which is why searching a disk for *.jpg does not find every JPEG on it.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">The mechanism the whole topic rests on</span>
+  <p>The header survives a rename <b>because the header is content</b>. The extension is not.
+    <span class="ar">تبقى الـ header بعد إعادة التسمية <b>لأن الـ header محتوى</b>. أما الامتداد فليس كذلك.</span></p>
+  <div class="eg"><b>Which is why</b> searching a disk for <code>*.jpg</code> will not find every
+    JPEG on it &mdash; and why signature analysis exists at all.
+    <span class="ar"><b>و لهذا</b> لن يعثر البحث في قرص عن <code>*.jpg</code> على كل صور JPEG فيه — و لهذا وُجد تحليل الـ signatures أصلاً.</span></div>
+</div>
+<div class="note">
+  <p>Our courseware states this outcome and never explains the mechanism. You are getting it here
+    because it <i>is</i> the topic; clusters and directory indexes are taught properly in
+    <b>P08</b>.
+    <span class="ar">تذكر مادتنا هذه النتيجة و لا تشرح آليتها قط. و تجدها هنا لأنها <i>هي</i> الموضوع نفسه؛ أما الـ clusters و فهارس المجلدات فتُدرَّس بحقها في <b>P08</b>.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p11">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 2</span>
+  <h2>What a file says about itself<span class="ar">ماذا يقول الملف عن نفسه</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The header carries more than a type. It carries dates, a camera, sometimes a location — all written by software, and all editable.<span class="ar">تحمل الـ header أكثر من النوع. تحمل تواريخ، و كاميرا، و أحيانًا موقعًا — و كلها تكتبها البرامج، و كلها قابلة للتعديل.</span></p>
+  <p class="divider-meta">5 screens &middot; about 30 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p12">
+<span class="kicker">Part 2 &middot; #1</span>
+<h2>Three questions about a file
+  <span class="ar">ثلاثة أسئلة عن الملف</span></h2>
+<p>You can say what a file <b>is</b>. The next question is what it <b>claims</b> &mdash; because
+  files carry data about themselves, and that data is written by software.
+  <span class="ar">أصبح بإمكانك تحديد ما <b>هو</b> الملف. و السؤال التالي: ما الذي <b>يدّعيه</b>؟ فالملفات تحمل بيانات عن نفسها، و تلك البيانات تكتبها البرامج.</span></p>
+<figure class="dgm" id="dg-three" data-mode="loop" data-reveal="upto" data-interval="3800">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D9 &middot; THREE QUESTIONS ABOUT ONE FILE</span><span class="dgm-tag">PATTERN 5 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 218" role="img" aria-labelledby="t-three">
+  <title id="t-three">Three separate questions a single file has to answer, and which page answers each</title>
+
+  <g data-step="1">
+    <rect class="box ok" x="14" y="34" width="240" height="86" rx="6"/>
+    <text class="lbl" x="34" y="62" fill="#00ff9d">DID IT CHANGE?</text>
+    <text class="sm mut" x="34" y="88">the hash answers it</text>
+    <text class="xs mut" x="34" y="108">P02</text>
+  </g>
+  <g data-step="2">
+    <rect class="box key" x="270" y="34" width="240" height="86" rx="6"/>
+    <text class="lbl" x="290" y="62" fill="#00d9ff">WHAT IS IT?</text>
+    <text class="sm mut" x="290" y="88">the signature answers it</text>
+    <text class="xs mut" x="290" y="108">T04, just now</text>
+  </g>
+  <g data-step="3">
+    <rect class="box warn" x="526" y="34" width="240" height="86" rx="6"/>
+    <text class="lbl" x="546" y="62" fill="#ffb454">WHAT DOES IT CLAIM?</text>
+    <text class="sm mut" x="546" y="88">the metadata answers it</text>
+    <text class="xs mut" x="546" y="108">T05, next</text>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="14" y="140" width="752" height="60" rx="6"/>
+    <text class="sm" x="30" y="166">Three independent questions. A file can pass the first and fail the second,</text>
+    <text class="sm" x="30" y="188">and the third is written by software rather than measured from the bytes.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page" id="p13">
+<span class="kicker">Part 2 &middot; #2</span>
+<h2>How a number is stored &mdash; endianness
+  <span class="ar">كيف يُخزَّن الرقم — ترتيب الـ bytes</span></h2>
+<figure class="dgm" id="dg-endian" data-mode="loop" data-reveal="upto" data-interval="4200">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D7 &middot; PATTERN OR VALUE?</span><span class="dgm-tag">PATTERN 1 &middot; 6</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t-endian">
+  <title id="t-endian">The same four bytes read as a little-endian value, a big-endian value, and a signature pattern</title>
+  <rect class="box" x="270" y="28" width="240" height="46" rx="6"/>
+  <text class="m sm" x="300" y="57">00  10  00  00</text>
+  <text class="xs mut" x="14" y="52">four bytes on disk</text>
+
+  <g data-step="1">
+    <rect class="box key" x="14" y="94" width="366" height="66" rx="6"/>
+    <text class="xs mut" x="30" y="116">AS A LITTLE-ENDIAN VALUE</text>
+    <text class="m sm" x="30" y="140" fill="#00d9ff">0x00001000  =  4 096</text>
+    <text class="xs mut" x="30" y="156">x86, Windows, NTFS</text>
+  </g>
+  <g data-step="2">
+    <rect class="box warn" x="400" y="94" width="366" height="66" rx="6"/>
+    <text class="xs mut" x="416" y="116">AS A BIG-ENDIAN VALUE</text>
+    <text class="m sm" x="416" y="140" fill="#ffb454">0x00100000  =  1 048 576</text>
+    <text class="xs mut" x="416" y="156">network byte order</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="176" width="752" height="42" rx="6"/>
+    <text class="xs mut" x="30" y="196">AS A SIGNATURE PATTERN</text>
+    <text class="sm" x="290" y="196" fill="#00ff9d">read left to right, always. Byte order does not apply.</text>
+    <text class="xs mut" x="14" y="240">Ask which of the three you are looking at BEFORE you read a number off a hex dump.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="note">
+  <span class="cl-label">Why this is on the page at all</span>
+  <p>Our courseware never defines endianness, and nothing in <b>P08</b>&rsquo;s PE tables can be read
+    without it. Encodings sit beside it: Windows internals are full of <b>UTF-16LE</b>, which is why
+    a plain string search for <code>svchost</code> can miss it entirely.
+    <span class="ar">لا تعرّف مادتنا ترتيب الـ bytes قط، و لا يمكن قراءة أي جدول من جداول PE في <b>P08</b> بدونه. و إلى جانبه الترميزات: فبنية ويندوز الداخلية مليئة بـ<b>UTF-16LE</b>، و لهذا قد يخفق بحث نصي بسيط عن <code>svchost</code> في العثور عليه إطلاقًا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">Part 2 &middot; #4</span>
+<h2>The two EXIF timestamps
+  <span class="ar">توقيتا EXIF</span></h2>
+<figure class="dgm" id="dg-exif" data-mode="loop" data-reveal="upto" data-interval="4400">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D8 &middot; TWO TIMESTAMPS, ONE WEEK APART</span><span class="dgm-tag">PATTERN 1 &middot; 4</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 276" role="img" aria-labelledby="t-exif">
+  <title id="t-exif">DateTimeOriginal records the shutter; ModifyDate records the last write</title>
+  <text class="xs mut" x="14" y="18">EVS-10 / office_floor3.jpg. Real values, read from the file.</text>
+
+  <line x1="80" y1="104" x2="700" y2="104" stroke="#2b3947" stroke-width="2"/>
+
+  <g data-step="1">
+    <circle cx="150" cy="104" r="8" fill="#00d9ff"/>
+    <text class="sm" x="96" y="80">24 August</text>
+    <text class="m xs mut" x="92" y="134">09:14:02</text>
+    <rect class="box key" x="14" y="152" width="366" height="66" rx="6"/>
+    <text class="xs mut" x="30" y="174">DateTimeOriginal</text>
+    <text class="sm" x="30" y="198">when the shutter fired</text>
+    <text class="xs mut" x="30" y="214">written once, by the camera</text>
+  </g>
+  <g data-step="2">
+    <circle cx="630" cy="104" r="8" fill="#ffb454"/>
+    <text class="sm" x="576" y="80">31 August</text>
+    <text class="m xs mut" x="576" y="134">16:40:05</text>
+    <rect class="box warn" x="400" y="152" width="366" height="66" rx="6"/>
+    <text class="xs mut" x="416" y="174">ModifyDate</text>
+    <text class="sm" x="416" y="198">when the file was last written</text>
+    <text class="xs mut" x="416" y="214">rewritten by whatever touched it</text>
+  </g>
+  <g data-step="3">
+    <rect x="150" y="96" width="480" height="16" fill="#ffb454" opacity=".14"/>
+    <rect class="box ok" x="14" y="230" width="752" height="38" rx="6"/>
+    <text class="sm" x="30" y="255" fill="#00ff9d">Not evidence of tampering &mdash; evidence that software wrote to the file on the 31st.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="interpretation">
+  <span class="cl-label">Interpretation &middot; dashed border</span>
+  <p>Assessed with <b>high</b> confidence that the file was written to by software on 31 August:
+    the two date fields differ by seven days, and <code>Software</code> reads
+    <code>MRG ImageTool 2.4</code>. <b>Considered and not excluded:</b> a field edited directly,
+    which would produce the same result.
+    <span class="ar">يُرجَّح <b>بدرجة ثقة عالية</b> أن برنامجًا كتب في الملف يوم الحادي و الثلاثين من أغسطس: فحقلا التاريخ يفترقان بسبعة أيام، و حقل <code>Software</code> يقرأ <code>MRG ImageTool 2.4</code>. <b>و احتُسب و لم يُستبعَد:</b> أن يكون الحقل عُدِّل مباشرةً، و هو ما كان سيُنتج النتيجة نفسها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">Part 2 &middot; #5</span>
+<h2>What metadata does not prove
+  <span class="ar">ما الذي لا تُثبته الـ metadata</span></h2>
+<div class="finding">
+  <span class="cl-label">Finding &middot; solid border</span>
+  <p><code>office_floor3.jpg</code> records GPS coordinates
+    <code>30&deg;2&prime;27.60&Prime;N 31&deg;14&prime;13.20&Prime;E</code>.
+    <span class="ar">يسجّل <code>office_floor3.jpg</code> إحداثيات <code>30&deg;2&prime;27.60&Prime;N 31&deg;14&prime;13.20&Prime;E</code>.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">Cannot prove &middot; dotted border</span>
+  <p>That the photograph was <b>taken</b> there. For the record to reflect reality the device clock
+    and location service must have been correct, and the file untouched since. <b>EXIF is ordinary
+    editable data.</b>
+    <span class="ar">أن الصورة <b>التُقطت</b> هناك. فلكي يعكس السجل الواقع، يلزم أن تكون ساعة الجهاز و خدمة الموقع صحيحتين، و ألا يكون الملف قد مُسَّ بعدها. <b>فبيانات EXIF بيانات عادية قابلة للتعديل.</b></span></p>
+  <div class="eg"><b>Which does not make it worthless.</b> It is excellent lead material, and it is
+    corroborated rather than conclusive &mdash; those are different sentences and you owe the court
+    the second one.
+    <span class="ar"><b>و لا يجعلها ذلك بلا قيمة.</b> فهي مادة استدلالية ممتازة، و هي مؤيَّدة لا قاطعة — و هاتان جملتان مختلفتان، و الثانية هي ما تدين به للمحكمة.</span></div>
+</div>
+    </section>
+
+<section class="page" id="p16">
+<span class="kicker">Part 2 &middot; #6</span>
+<h2>When there is no metadata
+  <span class="ar">حين لا توجد metadata</span></h2>
+<p>Three images, three questions, one tool.
+  <span class="ar">ثلاث صور، ثلاثة أسئلة، أداة واحدة.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>File</th><th>The question</th></tr></thead>
+  <tbody>
+  <tr><td><code>office_floor3.jpg</code><span class="ar">الأولى</span></td>
+      <td><b>Where</b> does the file say it was taken &mdash; and how confident can you be?
+        <span class="ar"><b>أين</b> يقول الملف إنها التُقطت — و ما مقدار ثقتك في ذلك؟</span></td></tr>
+  <tr><td><code>invoice_batch.jpg</code><span class="ar">الثانية</span></td>
+      <td><b>When</b> was it taken, and when last written? What accounts for the difference?
+        <span class="ar"><b>متى</b> التُقطت، و متى كُتب فيها آخر مرة؟ و ما تفسير الفارق؟</span></td></tr>
+  <tr><td><code>team_photo.jpg</code><span class="ar">الثالثة</span></td>
+      <td><b>What</b> does its metadata tell you?
+        <span class="ar"><b>ماذا</b> تخبرك بياناتها الوصفية؟</span></td></tr>
+  </tbody>
+</table></div>
+<div class="wu">
+  <div class="wu-tb"><span class="t">bash</span>
+    <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+  <div class="wu-term"><span class="p">$</span> <span class="k">exiftool team_photo.jpg</span>
+File Name    : team_photo.jpg
+File Size    : 10 kB
+File Type    : JPEG
+<span class="d"># and nothing else. no EXIF block at all.</span></div>
+</div>
+<div class="warn">
+  <span class="cl-label">The commonest mistake in this topic</span>
+  <p>Reporting that as <i>&ldquo;the tool did not work&rdquo;</i>. <b>It worked.</b> It told you there is
+    nothing there &mdash; and that is a finding worth more than either image that does carry GPS.
+    <span class="ar">أن يُسجَّل ذلك بوصفه <i>«الأداة لم تعمل»</i>. <b>بل عملت.</b> و أخبرتك بأن لا شيء هناك — و هذا اكتشاف أثمن من كلتا الصورتين اللتين تحملان إحداثيات.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p17">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>Reading the bytes: signatures, then metadata<span class="ar">قراءة الـ bytes: الـ signatures، ثم الـ metadata</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Watch two tools run on real files: the signature sweep that catches five liars in twelve, then the metadata read that refuses to name a cause. You repeat both on your own in the task.<span class="ar">شاهد أداتين تعملان على ملفات حقيقية: مسح الـ signatures الذي يكشف خمسة كاذبين من اثني عشر، ثم قراءة الـ metadata التي ترفض تسمية سبب. و تعيد الاثنين بنفسك في الـ task.</span></p>
+  <p class="divider-meta">4 screens &middot; the instructor drives</p>
+</div>
+    </section>
+
+<section class="page" id="p18">
+<span class="kicker">Instructor demo &middot; signature sweep</span>
+<h2>Lab objectives
+  <span class="ar">أهداف المعمل</span></h2>
+<p><code>EVS-05</code> is twelve files. <b>Five of them carry a signature that disagrees with their
+  extension.</b> You are not told which.
+  <span class="ar"><code>EVS-05</code> اثنا عشر ملفًا. <b>خمسة منها تحمل signature يخالف امتدادها.</b> و لن يُقال لك أيّها.</span></p>
+<div class="simscreen" id="ss-t04" data-title="SIMSCREEN T04-1 &middot; READ ONE FILE, THEN SWEEP TWELVE" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+  <div class="wu on" id="s4a" style="width:680px">
+    <div class="wu-tb"><span class="t">bash</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="a1"><span class="p">$</span> <span class="k">xxd -l 16 q3_summary.pdf</span>
+00000000: <span class="w">2550 4446</span> 2d31 2e34 0a25 e2e3 cfd3 0a31  <span class="w">%PDF</span>-1.4.%......1
+
+<span class="d"># two panes, one row of bytes.</span></div>
+  </div>
+  <div class="wu" id="s4b" style="width:680px">
+    <div class="wu-tb"><span class="t">bash</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="a2"><span class="p">$</span> <span class="k">file q3_summary.pdf</span>
+q3_summary.pdf: <span class="p">PDF document, version 1.4</span>
+
+<span class="d"># name and bytes agree. nothing to see -- yet.</span></div>
+  </div>
+  <div class="wu" id="s4c" style="width:680px">
+    <div class="wu-tb"><span class="t">bash</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="a3"><span class="p">$</span> <span class="k">xxd -l 4 thumbnail.png</span>
+00000000: <span class="e">ffd8 ffe0</span>                                ....
+
+<span class="d"># PNG would be 8950 4e47. this is the JPEG signature.</span></div>
+  </div>
+  <div class="wu" id="s4d" style="width:680px">
+    <div class="wu-tb"><span class="t">bash</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="a4"><span class="p">$</span> <span class="k">file *</span>
+q3_summary.pdf:     <span class="p">PDF document</span>
+floorplan.png:      <span class="p">PNG image data</span>
+badge_photo.jpg:    <span class="p">JPEG image data</span>
+thumbnail.png:      <span class="e">JPEG image data</span>
+holiday_snap.jpg:   <span class="e">Zip archive data</span>
+invoice_scan.jpg:   <span class="e">PDF document</span>
+meeting_notes.txt:  <span class="e">PNG image data</span>
+policy_v2.docx:     <span class="e">PNG image data</span>
+<span class="d"># 5 of 12 disagree with their extension.</span></div>
+  </div>
+  <div class="wu" id="s4e" style="width:680px">
+    <div class="wu-tb"><span class="t">bash</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="a5"><span class="p">$</span> <span class="k">cp readme.txt /tmp/rename_test.jpg</span>
+<span class="p">$</span> <span class="k">xxd -l 8 /tmp/rename_test.jpg</span>
+00000000: <span class="w">4d65 7269 6469 616e</span>                    <span class="w">Meridian</span>
+
+<span class="d"># new name. same bytes. the rename touched a name string, not the content.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="note">
+  <p>Full steps, each with its verification line, in <code>guided_lab.md</code>.
+    <span class="ar">الخطوات كاملة، و مع كل خطوة سطر التحقق منها، في <code>guided_lab.md</code>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p19">
+<span class="kicker">Instructor demo &middot; result</span>
+<h2>File signature analysis &mdash; the sweep result
+  <span class="ar">تحليل signatures الملفات — النتيجة</span></h2>
+<figure class="dgm" id="dg-sweep" data-mode="loop" data-reveal="upto" data-interval="3600">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D3 &middot; FIVE OF TWELVE DISAGREE</span><span class="dgm-tag">PATTERN 2 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 296" role="img" aria-labelledby="t-sweep">
+  <title id="t-sweep">The real EVS-05 signature sweep: five file names disagree with the bytes inside them</title>
+  <text class="xs mut" x="14" y="18">EVS-05, twelve files. Real values, read from the set.</text>
+  <text class="xs mut" x="28" y="42">THE NAME SAYS</text>
+  <text class="xs mut" x="330" y="42">THE FIRST BYTES SAY</text>
+  <text class="xs mut" x="620" y="42">ACTUALLY</text>
+
+  <g data-step="1">
+    <rect class="box ok" x="14" y="52" width="752" height="36" rx="5"/>
+    <text class="m sm" x="28" y="76">q3_summary.pdf</text>
+    <text class="m sm" x="330" y="76">25 50 44 46</text>
+    <text class="sm" x="620" y="76" fill="#00ff9d">PDF &mdash; agrees</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="14" y="96" width="752" height="36" rx="5"/>
+    <text class="m sm" x="28" y="120">thumbnail.png</text>
+    <text class="m sm" x="330" y="120" fill="#ff4d5e">FF D8 FF E0</text>
+    <text class="sm" x="620" y="120" fill="#ff4d5e">JPEG</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="140" width="752" height="36" rx="5"/>
+    <text class="m sm" x="28" y="164">holiday_snap.jpg</text>
+    <text class="m sm" x="330" y="164" fill="#ff4d5e">50 4B 03 04</text>
+    <text class="sm" x="620" y="164" fill="#ff4d5e">ZIP</text>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="14" y="184" width="752" height="36" rx="5"/>
+    <text class="m sm" x="28" y="208">meeting_notes.txt</text>
+    <text class="m sm" x="330" y="208" fill="#ff4d5e">89 50 4E 47</text>
+    <text class="sm" x="620" y="208" fill="#ff4d5e">PNG</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="228" width="752" height="36" rx="5"/>
+    <text class="m sm" x="28" y="252">policy_v2.docx</text>
+    <text class="m sm" x="330" y="252" fill="#ff4d5e">89 50 4E 47</text>
+    <text class="sm" x="620" y="252" fill="#ffb454">PNG &mdash; wrong twice</text>
+    <text class="xs mut" x="14" y="286">A .docx is a ZIP container and should begin 50 4B. This one is neither a Word file nor its container.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="warn">
+  <span class="cl-label">The one to look at hardest</span>
+  <p><code>policy_v2.docx</code> begins <code>89 50 4E 47</code>. A <code>.docx</code> is a ZIP
+    container, so it should begin <code>50 4B</code>. Its extension is wrong <b>twice over</b>:
+    it is not a Word document, and it is not even the container one lives in.
+    <span class="ar">يبدأ <code>policy_v2.docx</code> بـ<code>89 50 4E 47</code>. و الـ<code>.docx</code> container ZIP، فكان يجب أن يبدأ بـ<code>50 4B</code>. إذن امتداده خطأ <b>مرتين</b>: فهو ليس مستند Word، و ليس حتى الـ container التي يعيش فيها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p20">
+<span class="kicker">Instructor demo &middot; limits</span>
+<h2>The limits of signature analysis
+  <span class="ar">حدود تحليل الـ signatures</span></h2>
+<figure class="dgm" id="dg-limit" data-mode="loop" data-reveal="upto" data-interval="4000">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D4 &middot; WHAT THE MISMATCH DOES NOT SAY</span><span class="dgm-tag">PATTERN 1 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t-limit">
+  <title id="t-limit">A signature mismatch establishes a state, not an action and not an intention</title>
+
+  <rect class="box ok" x="14" y="30" width="752" height="46" rx="6"/>
+  <text class="sm" x="30" y="52" fill="#00ff9d">ESTABLISHED &mdash; a state you measured</text>
+  <text class="xs mut" x="30" y="70">thumbnail.png begins FF D8 FF E0, which matches the JPEG signature and not PNG.</text>
+
+  <g data-step="1">
+    <rect class="box no" x="14" y="90" width="752" height="42" rx="6"/>
+    <text class="sm" x="30" y="112" fill="#ff4d5e">&ldquo;the file is a JPEG&rdquo;</text>
+    <text class="xs mut" x="330" y="112">four bytes agreeing with a table, and four bytes are easily forged</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="14" y="142" width="752" height="42" rx="6"/>
+    <text class="sm" x="30" y="164" fill="#ff4d5e">&ldquo;someone renamed it&rdquo;</text>
+    <text class="xs mut" x="330" y="164">that is an ACTION. You observed a state, not an event</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="194" width="752" height="42" rx="6"/>
+    <text class="sm" x="30" y="216" fill="#ff4d5e">&ldquo;renamed to hide it&rdquo;</text>
+    <text class="xs mut" x="330" y="216">that is an INTENTION. Nothing in evidence carries one</text>
+  </g>
+  <g data-step="4">
+    <text class="xs mut" x="14" y="256">And a file with no signature at all &mdash; plain text, CSV, most logs &mdash; establishes nothing either way.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">Cannot prove &middot; dotted border</span>
+  <p>A signature is <b>better evidence than the extension</b>, never certainty. Four bytes are cheap
+    to forge, and many formats &mdash; plain text, CSV, most logs &mdash; carry no signature at all,
+    so a <i>missing</i> match establishes nothing either.
+    <span class="ar">الـ signature <b>دليل أقوى من الامتداد</b>، لا يقين. فأربعة bytes يسهل تزويرها، و صيغ كثيرة — النص العادي و CSV و معظم السجلات — لا تحمل signature أصلاً، فغياب التطابق لا يُثبت شيئًا هو الآخر.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p21">
+<span class="kicker">Instructor demo &middot; metadata</span>
+<h2>Analysing file metadata
+  <span class="ar">تحليل الـ metadata للملف</span></h2>
+<p><code>EVS-10 / office_floor3.jpg</code>. One tool, and every value real.
+  <span class="ar"><code>EVS-10 / office_floor3.jpg</code>. أداة واحدة، و كل قيمة حقيقية.</span></p>
+<div class="simscreen" id="ss-t05" data-title="SIMSCREEN T05-1 &middot; WHAT THE FILE SAYS ABOUT ITSELF" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+  <div class="wu on" id="s5a" style="width:700px">
+    <div class="wu-tb"><span class="t">bash</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="b1"><span class="p">$</span> <span class="k">exiftool office_floor3.jpg</span>
+Make              : Meridian
+Camera Model Name : MRG-CAM-11
+Software          : <span class="w">MRG ImageTool 2.4</span>
+Image Description : Office floor 3</div>
+  </div>
+  <div class="wu" id="s5b" style="width:700px">
+    <div class="wu-tb"><span class="t">bash</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="b2"><span class="p">$</span> <span class="k">exiftool -GPSLatitude -GPSLongitude office_floor3.jpg</span>
+GPS Latitude      : <span class="w">30 deg  2' 27.60" N</span>
+GPS Longitude     : <span class="w">31 deg 14' 13.20" E</span>
+
+<span class="d"># the FILE records this. it is not a fact about the world.</span></div>
+  </div>
+  <div class="wu" id="s5c" style="width:700px">
+    <div class="wu-tb"><span class="t">bash</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="b3"><span class="p">$</span> <span class="k">exiftool -DateTimeOriginal -ModifyDate office_floor3.jpg</span>
+Date/Time Original : <span class="k">2026:08:24 09:14:02</span>
+Modify Date        : <span class="w">2026:08:31 16:40:05</span>
+
+<span class="d"># seven days apart. two fields, two different events.</span></div>
+  </div>
+  <div class="wu" id="s5d" style="width:700px">
+    <div class="wu-tb"><span class="t">bash</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="b4"><span class="p">$</span> <span class="k">exiftool team_photo.jpg</span>
+File Name    : team_photo.jpg
+File Size    : 10 kB
+File Type    : JPEG
+
+<span class="e"># no EXIF block. this is a FINDING, not a failed step.</span></div>
+  </div>
+ </div></div>
+</div>
+    </section>
+
+<section class="page divider" id="p22">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn &middot; Case 01</span>
+  <h2>The verification challenge<span class="ar">تحدّي التحقق</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">A package from another examiner, two manifests, and no clean copy of anything. Decide what you can state.<span class="ar">حزمة من فاحص آخر، و ملفَّا manifest، و لا نسخة نظيفة من أي شيء. قرّر ما الذي تستطيع تقريره.</span></p>
+  <p class="divider-meta">40 minutes &middot; individual</p>
+</div>
+    </section>
+
+<section class="page" id="p23">
+<span class="kicker">Case 01 &middot; the brief</span>
+<h2>Case 01 &mdash; the brief
+  <span class="ar">القضية الأولى — التكليف</span></h2>
+<p>A folder of files and two manifests, one MD5 and one SHA-256, from another examiner. The covering
+  email said only: <i>&ldquo;Verified before sending. Ready for your report.&rdquo;</i>
+  <span class="ar">مجلد ملفات و ملفَّا manifest، أحدهما MD5 و الآخر SHA-256، من فاحص آخر. و لم يقل خطاب الإحالة سوى: <i>«جرى التحقق قبل الإرسال. جاهز لتقريرك.»</i></span></p>
+<p><b>You have no clean copy of anything.</b>
+  <span class="ar"><b>و ليس لديك نسخة نظيفة من أي شيء.</b></span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Step</th><th>What you run</th></tr></thead>
+  <tbody>
+  <tr><td><b>1</b><span class="ar">التحقق</span></td>
+      <td>Verify against <b>both</b> manifests. Record every file under both.
+        <span class="ar">تحقّق بملفَّي الـ manifest <b>معًا</b>. و سجّل كل ملف تحت كليهما.</span></td></tr>
+  <tr><td><b>2</b><span class="ar">المقارنة</span></td>
+      <td>Compare the manifest list against the folder list. They are not the same list.
+        <span class="ar">قارن قائمة البيان بقائمة المجلد. فهما ليستا القائمة نفسها.</span></td></tr>
+  <tr><td><b>3</b><span class="ar">الـ identity</span></td>
+      <td><code>file *</code> &mdash; a passing hash does not make a file what its name says.
+        <span class="ar"><code>file *</code> — فاجتياز الـ hash لا يجعل الملف ما يقوله اسمه.</span></td></tr>
+  <tr><td><b>4</b><span class="ar">الفرق الخفي</span></td>
+      <td>One file fails and looks completely normal. <code>cat -A</code>.
+        <span class="ar">ملف يُخفق و يبدو عاديًا تمامًا. استعمل <code>cat -A</code>.</span></td></tr>
+  <tr><td><b>5</b><span class="ar">التكرار</span></td>
+      <td>Two files, one digest. What does that tell you about the package?
+        <span class="ar">ملفان بـ hash واحدة. فماذا يقول ذلك عن الحزمة؟</span></td></tr>
+  </tbody>
+</table></div>
+<div class="warn">
+  <span class="cl-label">What you must not claim</span>
+  <p>For a failing file you can prove <b>that</b> it changed. You hold no clean copy, so you cannot
+    say <b>what</b> changed. <i>&ldquo;The timestamp was altered from X to Y&rdquo;</i> is an invention.
+    <span class="ar">في الملف المُخفق تستطيع إثبات <b>أنه</b> تغيّر. و لا نسخة نظيفة لديك، فلا تستطيع قول <b>ما الذي</b> تغيّر. و عبارة <i>«غُيّر التوقيت من كذا إلى كذا»</i> اختراع.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">Case 01 &middot; step 1</span>
+<h2>Case 01 &mdash; reading a split result
+  <span class="ar">القضية الأولى — قراءة نتيجة منقسمة</span></h2>
+<figure class="dgm" id="dg-split" data-mode="loop" data-reveal="upto" data-interval="4400">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D5 &middot; ONE FILE, TWO ANSWERS</span><span class="dgm-tag">PATTERN 1 &middot; 4</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 288" role="img" aria-labelledby="t-split">
+  <title id="t-split">A file passing one manifest and failing the other cannot be a changed file</title>
+  <text class="xs mut" x="14" y="18">CASE-01B, policy_extract.txt. Both checks run against the same bytes.</text>
+
+  <rect class="box" x="290" y="34" width="200" height="44" rx="6"/>
+  <text class="m sm" x="308" y="62">policy_extract.txt</text>
+
+  <g data-step="1">
+    <path class="arw ok" d="M330 86 L214 118"/><path class="arw ok" d="M222 111 L210 120 L224 121"/>
+    <rect class="box ok" x="14" y="124" width="330" height="46" rx="6"/>
+    <text class="sm" x="30" y="146" fill="#00ff9d">SHA-256 manifest &mdash; OK</text>
+    <text class="xs mut" x="30" y="164">the bytes match what was recorded</text>
+  </g>
+  <g data-step="2">
+    <path class="arw no" d="M450 86 L566 118"/><path class="arw no" d="M558 111 L570 120 L556 121"/>
+    <rect class="box no" x="436" y="124" width="330" height="46" rx="6"/>
+    <text class="sm" x="452" y="146" fill="#ff4d5e">MD5 manifest &mdash; FAILED</text>
+    <text class="xs mut" x="452" y="164">the bytes do not match what was recorded</text>
+  </g>
+  <g data-step="3">
+    <rect class="box warn" x="14" y="188" width="752" height="44" rx="6"/>
+    <text class="sm" x="30" y="210" fill="#ffb454">A file whose content changed fails BOTH.</text>
+    <text class="xs mut" x="30" y="228">So these two results cannot both describe a changed file.</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="242" width="752" height="40" rx="6"/>
+    <text class="sm" x="30" y="268" fill="#00ff9d">The finding is about a MANIFEST, not about the file.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">Finding &middot; solid border</span>
+  <p><code>policy_extract.txt</code> passes verification against the SHA-256 manifest and fails
+    against the MD5 manifest. A file whose content changed would fail both. The discrepancy
+    therefore concerns one of the two manifests, not the file. <b>Which manifest is incorrect cannot
+    be determined from this package.</b>
+    <span class="ar">يجتاز <code>policy_extract.txt</code> التحقق ببيان SHA-256 و يُخفق في بيان MD5. و الملف الذي تغيّر محتواه كان ليُخفق في كليهما. إذن يتعلق التعارض بأحد البيانين لا بالملف. <b>و أيّ البيانين خاطئ لا يمكن تحديده من هذه الحزمة.</b></span></p>
+</div>
+<p>That is not a fact to memorise. It is a piece of <b>reasoning</b>, and it is the most valuable
+  thing on this page.
+  <span class="ar">و هذه ليست معلومة تُحفظ، بل <b>استدلال</b> — و هو أثمن ما في هذه الصفحة.</span></p>
+    </section>
+
+<section class="page" id="p25">
+<span class="kicker">Case 01 &middot; step 3</span>
+<h2>Integrity and identity
+  <span class="ar">الـ integrity و الـ identity</span></h2>
+<figure class="dgm" id="dg-ident" data-mode="loop" data-reveal="upto" data-interval="4200">
+  <div class="dgm-head"><span class="dgm-id">FIG P03-D6 &middot; TWO INDEPENDENT PROPERTIES</span><span class="dgm-tag">PATTERN 2 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 250" role="img" aria-labelledby="t-ident">
+  <title id="t-ident">Integrity and identity are independent; one file can have the first and not the second</title>
+
+  <g data-step="1">
+    <rect class="box ok" x="14" y="34" width="366" height="94" rx="6"/>
+    <text class="lbl" x="34" y="62" fill="#00ff9d">INTEGRITY</text>
+    <text class="sm" x="34" y="88">the bytes did not change</text>
+    <text class="xs mut" x="34" y="110">answered by the hash &mdash; P02</text>
+  </g>
+  <g data-step="2">
+    <rect class="box warn" x="400" y="34" width="366" height="94" rx="6"/>
+    <text class="lbl" x="420" y="62" fill="#ffb454">IDENTITY</text>
+    <text class="sm" x="420" y="88">the file is what it claims to be</text>
+    <text class="xs mut" x="420" y="110">answered by the signature &mdash; P03</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="146" width="752" height="90" rx="6"/>
+    <text class="m sm" x="30" y="172">CASE-01B / photo_evidence.txt</text>
+    <text class="sm" x="30" y="196" fill="#00ff9d">verifies against BOTH manifests</text>
+    <text class="sm" x="400" y="196" fill="#ff4d5e">begins 89 50 4E 47 &mdash; a PNG</text>
+    <text class="xs mut" x="30" y="222">Integrity intact. Identity does not match the name. Neither property implies the other.</text>
+  </g>
+ </svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="note">
+  <p>This is why a report states them separately. A single sentence saying <i>&ldquo;the file
+    verified&rdquo;</i> answers one question and silently implies the other.
+    <span class="ar">و لهذا يذكرهما التقرير منفصلتين. فجملة واحدة تقول <i>«الملف اجتاز التحقق»</i> تجيب عن سؤال و توحي بالآخر ضمنًا دون أن تقوله.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p26">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check
+  <span class="ar">ملف واحد، إجابتان</span></h2>
+<div class="q mcq" data-correct="c">
+  <p class="qtext">A file <b>passes</b> verification against the SHA-256 manifest and <b>fails</b>
+    against the MD5 manifest. What follows?
+    <span class="ar">ملف <b>يجتاز</b> التحقق ببيان SHA-256 و <b>يُخفق</b> في بيان MD5. فما الذي يلزم من ذلك؟</span></p>
+  <label><input type="radio" name="q1" value="a"> The file was altered; MD5 detected it and SHA-256 missed it</label>
+  <label><input type="radio" name="q1" value="b"> MD5 is broken, so the MD5 result should be ignored</label>
+  <label><input type="radio" name="q1" value="c"> The file cannot have changed &mdash; a changed file fails both. One of the two manifests is incorrect</label>
+  <label><input type="radio" name="q1" value="d"> The file was altered; SHA-256 detected it and MD5 missed it</label>
+  <p class="feedback"></p>
+</div>
+<details>
+  <summary><code>exiftool</code> returns a name, a size and a type, and no EXIF block. What do you write?</summary>
+  <p>That the file <b>contains no EXIF metadata block</b>, and that the absence is consistent with a
+    camera that writes none, with software that stripped it, or with re-encoding &mdash; and that
+    which of these applies <b>cannot be determined from the file alone</b>. Naming an absence
+    precisely, without inventing a reason for it, is the skill.
+    <span class="ar">أن الملف <b>لا يحتوي كتلة بيانات EXIF</b>، و أن هذا الغياب يحتمل كاميرا لا تكتبها، أو برنامجًا أزالها، أو إعادة ترميز — و أن أيّها الواقع <b>لا يمكن تحديده من الملف وحده</b>. و المهارة هي تسمية الغياب بدقة دون اختراع سبب له.</span></p>
+</details>
+<p>Full quiz in <code>quiz.md</code> &mdash; twelve questions. Q5 and Q8 are the two that separate
+  the class, and both punish the instinct to name a cause.
+  <span class="ar">الاختبار الكامل في <code>quiz.md</code> — اثنا عشر سؤالاً. و السؤالان الخامس و الثامن هما ما يفصلان بين الطلاب، و كلاهما يعاقب نزعة تسمية السبب.</span></p>
+    </section>
+
+<section class="page divider" id="p27">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The four signatures, the split-result rule, and what metadata does and does not carry &mdash; in the form you reach for in the next lab.<span class="ar">الـ signatures الأربعة، و قاعدة النتيجة المنقسمة، و ما تحمله الـ metadata و ما لا تحمله — بالشكل الذي ستحتاجه في الـ lab القادم.</span></p>
+  <p class="divider-meta">1 screen &middot; print it</p>
+</div>
+    </section>
+
+<section class="page" id="p28">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet &mdash; signatures, split results, metadata
+  <span class="ar">ورقة المراجعة — الـ signatures و النتائج المنقسمة و الـ metadata</span></h2>
+<p>The whole page condensed to what you reach for in the next lab.<span class="ar">الصفحة كلها مختصرة فيما ستحتاجه في الـ lab القادم.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b><code>25 50 44 46</code></b> PDF &middot; <b><code>89 50 4E 47</code></b> PNG &middot;
+      <b><code>FF D8 FF</code></b> JPEG &middot; <b><code>50 4B 03 04</code></b> ZIP and every OOXML
+      <span class="ar">الـ signatures الأربعة، و الأخير يشمل كل صيغ OOXML.</span></li>
+    <li><b>Rename</b> &mdash; rewrites a name string. The clusters are untouched.
+      <span class="ar">إعادة التسمية: تعيد كتابة نص الاسم. و الـ clusters لا تُمَس.</span></li>
+    <li><b>Signature</b> &mdash; evidence, not proof. Forgeable, and absent from many formats.
+      <span class="ar">الـ signature: دليل لا يقين. يُزوَّر، و يغيب عن صيغ كثيرة.</span></li>
+    <li><b>Split result</b> &mdash; passes one algorithm, fails the other? The manifest is wrong.
+      <span class="ar">النتيجة المنقسمة: تجتاز خوارزمية و تُخفق في أخرى؟ الخطأ في البيان.</span></li>
+    <li><b>Integrity &ne; identity.</b> A file can verify perfectly and still not be what it says.
+      <span class="ar">الـ integrity لا تساوي الـ identity. فقد يجتاز الملف التحقق تمامًا و لا يكون ما يقوله.</span></li>
+    <li><b>Little-endian</b> for values on x86. A signature is a pattern &mdash; left to right.
+      <span class="ar">الترتيب الصغير أولاً للقيم على x86. أما الـ signature فنمط يُقرأ من اليسار.</span></li>
+    <li><b>EXIF</b> &mdash; a claim by the camera. <code>DateTimeOriginal</code> is the shutter,
+      <code>ModifyDate</code> is the last write.
+      <span class="ar">EXIF ادعاء من الكاميرا. <code>DateTimeOriginal</code> لحظة المغلاق، و <code>ModifyDate</code> آخر كتابة.</span></li>
+    <li><b>An empty result is a result.</b> Report the absence; do not invent a reason.
+      <span class="ar">النتيجة الفارغة نتيجة. سجّل الغياب، و لا تخترع له سببًا.</span></li>
+  </ul>
+  <p><button class="btn" type="button" data-action="print">Print the cheat sheet</button></p>
+</div>
+    </section>
+
+<section class="page divider" id="p29">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Handed in before P04<span class="ar">يُسلَّم قبل P04</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Your homework, then the two report sections this page advances &mdash; tools and method, and your first real findings. Six of twelve written, nothing analysed yet.<span class="ar">واجبك، ثم القسمان اللذان تضيفهما هذه الصفحة — الأدوات و المنهج، ثم أول findings حقيقية لك. ستة من اثني عشر مكتوبة، و لم يُحلَّل شيء بعد.</span></p>
+  <p class="divider-meta">3 screens &middot; the report advances</p>
+</div>
+    </section>
+
+<section class="page" id="p30">
+<span class="kicker">Task &middot; handed in before P04</span>
+<h2>Task &mdash; identify, and write your first findings
+  <span class="ar">الـ task — حدِّد الـ identity، و اكتب أول findings لك</span></h2>
+<p>You watched two analyses run. Now you run them on your own set &mdash; and this is the first page that produces real findings, so criterion 3 carries the most weight.<span class="ar">شاهدت تحليلين يعملان. الآن تُشغّلهما على مجموعتك أنت — و هذه أول صفحة تُنتج findings حقيقية، فالمعيار الثالث هو الأعلى وزنًا.</span></p>
+<ul id="taskList"></ul>
+<p>Four tasks in <code>homework.md</code>, due before <b>P04</b>. <b>Criterion 3 (Findings)</b>
+  weighted heaviest this week &mdash; this is the first page that produces real ones.
+  <span class="ar">أربع مهام في <code>homework.md</code>، تُسلَّم قبل <b>P04</b>. و <b>المعيار الثالث (الـ findings)</b> هو الأثقل هذا الأسبوع — فهذه أول صفحة تُنتج findings حقيقية.</span></p>
+<div class="limitation"><span class="cl-label">How it is graded</span>
+  <p>Criterion 3 asks whether each finding names an artifact at an exact path, states a measurement in the tool&rsquo;s own form, and <b>stops where your knowledge stops</b> &mdash; no action, no intention, no invented cause for an absence.<span class="ar">المعيار الثالث يسأل: هل يسمّي كل finding الـ artifact بمساره الدقيق، و يذكر قياسًا بصيغة الأداة، و <b>يقف حيث تقف معرفتك</b>؟ بلا فعل و لا نية و لا سبب مخترَع لغياب.</span></p></div>
+    </section>
+
+<section class="page" id="p31">
+<span class="kicker">Report &middot; Section 6</span>
+<h2>Report &mdash; Section 6, tools and method
+  <span class="ar">التقرير — القسم السادس، الأدوات و المنهج</span></h2>
+<p>One row per tool, per use: name, version, what it ran on, what question it answered, where the
+  output is filed.
+  <span class="ar">سطر لكل أداة و لكل استعمال: الاسم، و الإصدار، و ما نُفّذت عليه، و السؤال الذي أجابت عنه، و موضع حفظ الناتج.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Tool</th><th>Rows you can write today</th></tr></thead>
+  <tbody>
+  <tr><td><code>sha256sum</code> / <code>md5sum</code><span class="ar">التحقق</span></td>
+      <td>verification of <code>EVS-01</code>, <code>EVS-05</code> and <code>CASE-01B</code> against their manifests
+        <span class="ar">التحقق من <code>EVS-01</code> و <code>EVS-05</code> و <code>CASE-01B</code> بملفات الـ manifest الخاصة بها.</span></td></tr>
+  <tr><td><code>file</code><span class="ar">تحديد الصيغة</span></td>
+      <td>signature identification across <code>EVS-05</code> and the case package
+        <span class="ar">تحديد الصيغة بالـ signature عبر <code>EVS-05</code> و حزمة القضية.</span></td></tr>
+  <tr><td><code>xxd</code><span class="ar">قراءة الـ bytes</span></td>
+      <td>first-bytes read on named files
+        <span class="ar">قراءة أوائل الـ bytes في ملفات مسمّاة.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="warn">
+  <span class="cl-label">The line most people forget</span>
+  <p>The <b>read-only statement</b>. If nothing you ran modified an exhibit, say so here &mdash;
+    because later you will want to have said it.
+    <span class="ar">جملة <b>القراءة فقط</b>. فإن لم يُعدّل شيء مما نفّذته أي exhibit، فقُل ذلك هنا — لأنك ستحتاج لاحقًا أن تكون قد قلته.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p32">
+<span class="kicker">Report &middot; Section 8</span>
+<h2>Report &mdash; Section 8, findings
+  <span class="ar">التقرير — القسم الثامن، الـ findings</span></h2>
+<p>Three rules. The third is what gets graded.
+  <span class="ar">ثلاث قواعد. و الثالثة هي ما يُقيَّم عليه.</span></p>
+<ol>
+  <li><b>Named artifact, exact path.</b> Not &ldquo;a file in the package&rdquo;.
+    <span class="ar"><b>artifact مسمّى بمسار دقيق.</b> لا «ملف في الحزمة».</span></li>
+  <li><b>A measurement</b>, in the form the tool produced it.
+    <span class="ar"><b>قياس</b>، بالصيغة التي أنتجته بها الأداة.</span></li>
+  <li><b>It stops where your knowledge stops.</b>
+    <span class="ar"><b>و ينتهي حيث تنتهي معرفتك.</b></span></li>
+</ol>
+<div class="finding">
+  <span class="cl-label">F-04 &middot; the entry worth the most</span>
+  <p><code>EVS-10/team_photo.jpg</code> contains no EXIF metadata block. The absence is consistent
+    with a camera that writes none, with software that removed it, or with re-encoding; which of
+    these applies cannot be determined from the file alone.
+    <span class="ar">لا يحتوي <code>EVS-10/team_photo.jpg</code> كتلة بيانات EXIF. و الغياب يحتمل كاميرا لا تكتبها، أو برنامجًا أزالها، أو إعادة ترميز؛ و أيّها الواقع لا يمكن تحديده من الملف وحده.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">The sentence that fails criterion 4</span>
+  <p><i>&ldquo;<code>thumbnail.png</code> was renamed to disguise a JPEG.&rdquo;</i> You have a byte
+    pattern. You do not have an action, and you certainly do not have an intention.
+    <span class="ar"><i>«أُعيدت تسمية <code>thumbnail.png</code> لإخفاء صورة JPEG.»</i> ما لديك نمط bytes. و ليس لديك فعل، و لا نيّة بالتأكيد.</span></p>
+</div>
+<p><a class="btn" href="../report/index.html">Open the report template &rarr;</a></p>
+    </section>
+
+<section class="page" id="p33">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="key-takeaway">
+  <ul>
+    <li>That a named file&rsquo;s first bytes match &mdash; or do not match &mdash; the signature its
+      extension implies, and <b>exactly what that establishes</b>.
+      <span class="ar">أن أوائل bytes ملف مسمّى تطابق — أو لا تطابق — الـ signature الذي يفترضه امتداده، و <b>ما الذي يُثبته ذلك بالضبط</b>.</span></li>
+    <li>That a verification result which <b>differs between two algorithms</b> is a statement about a
+      manifest, not about the file.
+      <span class="ar">أن نتيجة تحقق <b>تختلف بين خوارزميتين</b> قولٌ عن الـ manifest لا عن الملف.</span></li>
+    <li>That a file records certain metadata &mdash; or records none &mdash; and in both cases
+      <b>what that does not establish</b>.
+      <span class="ar">أن ملفًا يسجّل metadata بعينها — أو لا يسجّل شيئًا — و في الحالتين <b>ما الذي لا يُثبته ذلك</b>.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p34">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<ul>
+  <li>INE eCDFP &mdash; <b>Module 3</b>, data representation and files examination: bytes, hex, file structure, signatures and metadata.<span class="ar">الـ bytes و الـ hex و بنية الملف و الـ signatures و الـ metadata.</span></li>
+  <li>Gary Kessler &mdash; <b>File Signatures</b> table, the standard reference for magic bytes.<span class="ar">المرجع القياسي لقيم الـ magic bytes.</span></li>
+  <li>SWGDE <b>18-F-002</b> &mdash; findings and reporting; the standard Section 8 follows.<span class="ar">المعيار الذي يلتزم به القسم الثامن.</span></li>
+</ul>
+<div class="note">
+  <span class="cl-label">Next</span>
+  <p>Everything so far has been a file sitting still on a disk. <b>P04</b> goes where the file is
+    not: <b>memory</b> &mdash; where the evidence disappears the moment the power does.
+    <span class="ar">كل ما مضى كان ملفًا ساكنًا على قرص. أما <b>P04</b> فيذهب حيث لا يوجد الملف: <b>الذاكرة</b> — حيث يختفي الدليل في اللحظة التي تنقطع فيها الكهرباء.</span></p>
+</div>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 34</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P03</b> &middot; content from
+     <code>packages/page-03/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t04', [
+ {screen:'s4a', target:'a1',
+  en:'Read one file the slow way. The left pane is the bytes as numbers, the right is the printable ones. <b>Both panes are the same row of data</b> &mdash; nothing is being converted.',
+  ar:'اقرأ ملفًا واحدًا خطوة بخطوة. اللوحة اليسرى الـ bytes أرقامًا، و اليمنى ما يقبل الطباعة منها. <b>و اللوحتان صفٌّ واحد من البيانات</b> — فلا تحويل يجري هنا.'},
+ {screen:'s4b', target:'a2',
+  en:'Now the same file through a tool that reads the <b>signature</b> instead of the name. Name and bytes agree, so there is nothing to report.',
+  ar:'و الآن الملف نفسه عبر أداة تقرأ <b>الـ signature</b> بدل الاسم. الاسم و الـ bytes متفقان، فلا شيء يُسجَّل.'},
+ {screen:'s4c', target:'a3', key:true,
+  en:'<b>Stop here.</b> <code>thumbnail.png</code> begins <code>FF D8 FF E0</code> &mdash; the JPEG signature. Say only that. <b>Not</b> &ldquo;it is a JPEG&rdquo; (four bytes are forgeable), <b>not</b> &ldquo;someone renamed it&rdquo; (that is an action you did not observe), and certainly not &ldquo;to hide it&rdquo;.',
+  ar:'<b>قف هنا.</b> يبدأ <code>thumbnail.png</code> بـ<code>FF D8 FF E0</code> — و هو الـ signature الخاص بـ JPEG. قل هذا وحده. <b>لا</b> «إنه ملف JPEG» فأربعة bytes تُزوَّر، و <b>لا</b> «شخص غيّر اسمه» فذلك فعل لم ترصده، و لا «لكي يُخفيه» بالتأكيد.'},
+ {screen:'s4d', target:'a4',
+  en:'Sweep the set. <b>Five of twelve</b> carry a signature that disagrees with the extension &mdash; and <code>policy_v2.docx</code> is wrong twice, since a <code>.docx</code> should begin <code>50 4B</code>.',
+  ar:'امسح المجموعة كلها. <b>خمسة من اثني عشر</b> تحمل signature يخالف الامتداد — و <code>policy_v2.docx</code> خطؤه مزدوج، فقد كان يجب أن يبدأ الـ<code>.docx</code> بـ<code>50 4B</code>.'},
+ {screen:'s4e', target:'a5',
+  en:'And prove the mechanism: copy a text file to a <code>.jpg</code> name and read its bytes. <b>Unchanged.</b> The rename wrote a name string in the directory index; the clusters were never touched.',
+  ar:'ثم أثبت الآلية: انسخ ملفًا نصيًا باسم <code>.jpg</code> و اقرأ الـ bytes بداخله. <b>لم تتغيّر.</b> فإعادة التسمية كتبت نص اسم في فهرس المجلد، و لم تمسّ الـ clusters إطلاقًا.'}
+]);
+SimScreen.init('#ss-t05', [
+ {screen:'s5a', target:'b1',
+  en:'The camera wrote its make, its model &mdash; and <code>Software</code>, which names whatever last processed the file.',
+  ar:'كتبت الكاميرا صانعها و طرازها — و حقل <code>Software</code> الذي يسمّي آخر ما عالج الملف.'},
+ {screen:'s5b', target:'b2',
+  en:'GPS coordinates. Write the finding as <b>the file records these coordinates</b> &mdash; not that the photograph was taken there. EXIF is ordinary editable data.',
+  ar:'إحداثيات GPS. اكتب الواقعة هكذا: <b>الملف يسجّل هذه الإحداثيات</b> — لا أن الصورة التُقطت هناك. فبيانات EXIF بيانات عادية قابلة للتعديل.'},
+ {screen:'s5c', target:'b3', key:true,
+  en:'Two timestamps, <b>seven days apart</b>. Before calling that suspicious, ask what each records: <code>DateTimeOriginal</code> is the <b>shutter</b>, written once by the camera; <code>ModifyDate</code> is the <b>last write</b>, rewritten by anything that touches the file. So this is the expected state of an edited image &mdash; and <code>Software</code> names what edited it.',
+  ar:'توقيتان بينهما <b>سبعة أيام</b>. و قبل وصف ذلك بالريبة، اسأل عمّا يسجّله كل حقل: <code>DateTimeOriginal</code> لحظة <b>المغلاق</b> تكتبها الكاميرا مرة واحدة، و <code>ModifyDate</code> <b>آخر كتابة</b> يعيد كتابتها كل ما يمسّ الملف. فهذه إذن الحالة المتوقَّعة لصورة معدَّلة — و حقل <code>Software</code> يسمّي مَن عدّلها.'},
+ {screen:'s5d', target:'b4',
+  en:'And the one that matters most: a name, a size, a type &mdash; and <b>no EXIF at all</b>. The tool worked. It told you there is nothing there, and that is a finding: consistent with a camera that writes none, with software that stripped it, or with re-encoding &mdash; <b>and the file alone cannot say which</b>.',
+  ar:'و الأهم من الجميع: اسم و حجم و نوع — و <b>لا EXIF إطلاقًا</b>. الأداة عملت. و أخبرتك بأن لا شيء هناك، و هذا اكتشاف: يحتمل كاميرا لا تكتبها، أو برنامجًا أزالها، أو إعادة ترميز — <b>و الملف وحده لا يحسم أيّها</b>.'}
+]);
+Dgm.init('#dg-hex', [
+ {en:'Eight bytes. Just values, nothing more.', ar:'ثمانية bytes. مجرد قيم، لا أكثر.'},
+ {en:'The same eight, shown as the characters they correspond to. <b>Nothing was converted</b> &mdash; a hex viewer prints both panes from one row of data.', ar:'الثماني نفسها معروضة بالحروف المقابلة لها. <b>لم يحدث أي تحويل</b> — فعارض الـ hex يطبع اللوحتين من صفٍّ واحد من البيانات.'},
+ {en:'And the first four looked up in a table: they match <b>PDF</b>. This is the only step that needs anything from outside the file.', ar:'ثم تُبحث الأربع الأولى في جدول، فتطابق <b>PDF</b>. و هذه الخطوة وحدها هي التي تحتاج شيئًا من خارج الملف.', key:true},
+ {en:'So &ldquo;reading hex&rdquo; is not a skill in itself. Knowing <b>which of the three you are looking at</b> is.', ar:'إذن «قراءة الـ hex» ليست مهارة في ذاتها. المهارة أن تعرف <b>أيًّا من الثلاثة تنظر إليه</b>.'}
+]);
+Dgm.init('#dg-ren', [
+ {en:'A JPEG on disk: its name lives in the directory index, its bytes live in a data cluster. Two different places.', ar:'صورة JPEG على القرص: اسمها في فهرس المجلد، و الـ bytes الخاصة بها في cluster بيانات. موضعان مختلفان.'},
+ {en:'Renaming writes to <b>one</b> of them.', ar:'إعادة التسمية تكتب في <b>أحدهما</b> فقط.'},
+ {en:'The clusters are <b>not read, not moved, not rewritten</b>. The signature is exactly where it was.', ar:'أما الـ clusters فـ<b>لا تُقرأ و لا تُنقل و لا يُعاد كتابتها</b>. و الـ signature في موضعه تمامًا.'},
+ {en:'That is the mechanism the whole topic rests on &mdash; and the reason signature analysis exists at all.', ar:'و هذا هو الميكانيزم الذي يقوم عليه الموضوع كله — و السبب في وجود تحليل الـ signatures أصلاً.', key:true}
+]);
+Dgm.init('#dg-sweep', [
+ {en:'Start with one that agrees. <code>q3_summary.pdf</code> begins <code>25 50 44 46</code> &mdash; <code>%PDF</code>. Name and bytes match.', ar:'ابدأ بملف متوافق. <code>q3_summary.pdf</code> يبدأ بـ<code>25 50 44 46</code> أي <code>%PDF</code>. الاسم و الـ bytes متطابقة.'},
+ {en:'<code>thumbnail.png</code> begins <code>FF D8 FF E0</code> &mdash; the JPEG signature.', ar:'<code>thumbnail.png</code> يبدأ بـ<code>FF D8 FF E0</code> — و هو الـ signature الخاص بـ JPEG.'},
+ {en:'<code>holiday_snap.jpg</code> begins <code>50 4B</code> &mdash; a ZIP archive wearing a photograph\\u2019s name.', ar:'<code>holiday_snap.jpg</code> يبدأ بـ<code>50 4B</code> — أرشيف ZIP يرتدي اسم صورة.'},
+ {en:'<code>meeting_notes.txt</code> is a PNG.', ar:'<code>meeting_notes.txt</code> صورة PNG.'},
+ {en:'And <code>policy_v2.docx</code> is <b>wrong twice</b>: a <code>.docx</code> is a ZIP container, so it should begin <code>50 4B</code>. It is neither a Word file nor the container one lives in.', ar:'أما <code>policy_v2.docx</code> فخطؤه <b>مزدوج</b>: فالـ<code>.docx</code> عبارة عن ZIP container و كان يجب أن يبدأ بـ<code>50 4B</code>. فهو ليس ملف Word و لا الـ container الذي يعيش فيه.', key:true}
+]);
+Dgm.init('#dg-limit', [
+ {en:'This is what you measured, and it is worth stating precisely.', ar:'هذا ما قِسته، و يستحق أن يُصاغ بدقة.'},
+ {en:'&ldquo;The file is a JPEG&rdquo; goes further than four bytes can carry &mdash; and those four bytes are trivially forged.', ar:'«الملف صورة JPEG» ادّعاء أكبر مما تستطيع أربعة bytes إثباته — و هي أربعة bytes يسهل تزويرها.'},
+ {en:'&ldquo;Someone renamed it&rdquo; is an <b>action</b>. You observed a state; you did not observe an event.', ar:'«شخص غيّر اسمه» <b>فعل</b>. أنت رصدت حالة، و لم ترصد حدثًا.'},
+ {en:'&ldquo;To hide it&rdquo; is an <b>intention</b>, and no artifact carries one. Each step down this list is further from what you can defend.', ar:'«لكي يُخفيه» <b>نية</b>، و لا يحمل أي أثر نيّة. و كل خطوة في هذه القائمة أبعد عمّا تستطيع الدفاع عنه.', key:true}
+]);
+Dgm.init('#dg-split', [
+ {en:'One file. Verified against the SHA-256 manifest: <b>OK</b>.', ar:'ملف واحد. جرى التحقق منه ببيان SHA-256: <b>مطابق</b>.'},
+ {en:'The same file, the same bytes, against the MD5 manifest: <b>FAILED</b>.', ar:'الملف نفسه، الـ bytes نفسها، مقابل manifest الـ MD5: <b>غير مطابق</b>.'},
+ {en:'Now reason. A file whose content changed fails <b>both</b> algorithms &mdash; so these two results are <b>logically incompatible</b> with a changed file.', ar:'و الآن استدلّ. الملف الذي تغيّر محتواه يُخفق في <b>كلتا</b> الدالتين — فهاتان النتيجتان <b>متناقضتان منطقيًا</b> مع فرض أن الملف تغيّر.'},
+ {en:'So the problem is in <b>one of the manifests</b>. Which one, you cannot tell from this package &mdash; and saying so is the finding.', ar:'إذن الخلل في <b>أحد البيانين</b>. و أيّهما، لا يمكنك تحديده من هذه الحزمة — و قول ذلك هو الاكتشاف نفسه.', key:true}
+]);
+Dgm.init('#dg-ident', [
+ {en:'<b>Integrity</b> is what <code>P02</code> gave you: the bytes did not change.', ar:'<b>الـ integrity</b> هي ما منحتك إياه <code>P02</code>: أن الـ bytes لم تتغيّر.'},
+ {en:'<b>Identity</b> is what this page gives you: the file is what it claims to be.', ar:'<b>الـ identity</b> هي ما تمنحك إياه هذه الصفحة: أن الملف هو ما يدّعي أنه هو.'},
+ {en:'And one file in the case has the first without the second. <b>Neither property implies the other</b> &mdash; which is why a report has to state them separately.', ar:'و ملف واحد في القضية يملك الأولى دون الثانية. <b>و لا تستلزم إحدى الخاصيتين الأخرى</b> — و لهذا يلزم التقريرَ أن يذكرهما منفصلتين.', key:true}
+]);
+Dgm.init('#dg-endian', [
+ {en:'Little-endian: least significant byte first. This is x86, Windows and NTFS &mdash; so most of what you will read.', ar:'الترتيب الصغير أولاً: الـ byte الأقل أهمية في المقدمة. و هذا حال x86 و ويندوز و NTFS — أي معظم ما ستقرؤه.'},
+ {en:'Big-endian: most significant first. Same four bytes, and the answer is <b>256 times larger</b>.', ar:'الترتيب الكبير أولاً: الأهم في المقدمة. الـ bytes الأربعة نفسها، و الناتج <b>أكبر بمئتين و ستة و خمسين ضعفًا</b>.'},
+ {en:'But a <b>signature</b> is a pattern, not a number &mdash; read left to right, always. <b>Decide which you are looking at before you read a value.</b>', ar:'أما <b>الـ signature</b> فنمط لا رقم — تُقرأ من اليسار إلى اليمين دائمًا. <b>فقرّر أيّهما أمامك قبل أن تقرأ قيمة.</b>', key:true}
+]);
+Dgm.init('#dg-exif', [
+ {en:'<code>DateTimeOriginal</code> &mdash; 24 August, 09:14:02. The camera wrote this once, when the shutter fired.', ar:'<code>DateTimeOriginal</code> — الرابع و العشرون من أغسطس، الساعة ٩:١٤:٠٢. كتبته الكاميرا مرة واحدة لحظة عمل المغلاق.'},
+ {en:'<code>ModifyDate</code> &mdash; 31 August, 16:40:05. This records the last <b>write</b> to the file, and anything that touches it rewrites it.', ar:'<code>ModifyDate</code> — الحادي و الثلاثون من أغسطس، الساعة ١٦:٤٠:٠٥. يسجّل آخر <b>كتابة</b> في الملف، و كل ما يمسّه يعيد كتابته.'},
+ {en:'Seven days between them &mdash; and that is <b>expected</b> for an edited image. The <code>Software</code> field even names what did it. Two fields <i>agreeing</i> on an edited file would be the odd result.', ar:'سبعة أيام بينهما — و هذا هو <b>المتوقَّع</b> في صورة معدَّلة. بل إن حقل <code>Software</code> يسمّي البرنامج الذي فعلها. و لو <i>تطابق</i> الحقلان في ملف معدَّل لكان ذلك هو الغريب.', key:true}
+]);
+Dgm.init('#dg-three', [
+ {en:'<b>Did it change?</b> That is integrity, and a hash answers it exactly. <code>P02</code>.', ar:'<b>هل تغيّر؟</b> تلك هي الـ integrity، و الـ hash يجيب عنها بدقة. <code>P02</code>.'},
+ {en:'<b>What is it?</b> That is identity, and the signature answers it &mdash; which you just did.', ar:'<b>ما هو؟</b> تلك هي الـ identity، و الـ signature يجيب عنها — و هو ما فعلته الآن.'},
+ {en:'<b>What does it claim?</b> That is metadata &mdash; and it is different from the other two, because software writes it.', ar:'<b>ماذا يدّعي؟</b> تلك هي الـ metadata — و هي مختلفة عن الاثنتين، لأن البرامج هي التي تكتبها.'},
+ {en:'Three <b>independent</b> questions. A file can pass the first and fail the second, and the third is <b>asserted</b> rather than measured.', ar:'ثلاثة أسئلة <b>مستقلة</b>. فقد يجتاز الملف الأول و يُخفق في الثاني، أما الثالث فهو <b>مُدَّعى</b> لا مقيس.', key:true}
+]);
+Dgm.init('#dg-bits', [
+ {en:'Text: each character is a number, and the number is stored as bits. The letter <code>A</code> is ASCII 65, which is <code>01000001</code>.', ar:'النص: كل حرف رقم، و الرقم يُخزَّن في صورة bits. فالحرف <code>A</code> رمزه في ASCII هو ٦٥، أي <code>01000001</code>.'},
+ {en:'Images: each pixel is three numbers &mdash; red, green and blue, eight bits each.', ar:'الصور: كل بكسل ثلاثة أرقام — أحمر و أخضر و أزرق، ثمانية bits لكلٍّ منها.'},
+ {en:'Video: a sequence of images, refreshed fast enough to look continuous.', ar:'الفيديو: سلسلة صور تُحدَّث بسرعة كافية لتبدو متصلة.'},
+ {en:'So the disk holds <b>one kind of thing</b>. Everything you will examine this year is bits &mdash; and the job is knowing how to read them.', ar:'إذن القرص يحوي <b>نوعًا واحدًا</b> من الأشياء. فكل ما ستفحصه هذا العام bits — و العمل هو أن تعرف كيف تقرؤها.', key:true}
+]);
+Dgm.init('#dg-whyhex', [
+ {en:'A byte is eight bits. Written in binary it is exact &mdash; and a page of it is unreadable.', ar:'الـ byte ثمانية bits. و كتابته ثنائيًا دقيقة — و صفحة منها غير قابلة للقراءة.'},
+ {en:'In decimal it is short, but a byte needs one, two or three digits, so columns never line up.', ar:'و بالعشري تكون قصيرة، لكن الـ byte يحتاج رقمًا أو رقمين أو ثلاثة، فلا تستقيم الأعمدة أبدًا.'},
+ {en:'In hexadecimal every byte is <b>exactly two digits</b>, <code>00</code> to <code>FF</code>. That is why every forensic tool shows hex: one byte, one column, every time.', ar:'و بالست عشري يكون كل byte <b>رقمين بالضبط</b>، من <code>00</code> إلى <code>FF</code>. و لهذا تعرض كل أدوات التحليل الجنائي الـ hex: byte واحد، عمود واحد، في كل مرة.', key:true}
+]);
+Dgm.init('#dg-struct', [
+ {en:'The <b>header</b> comes first: what type this is, how big it is, when it was made.', ar:'<b>الـ header</b> أولاً: ما نوع هذا الملف، و ما حجمه، و متى أُنشئ.'},
+ {en:'Then the <b>data</b> &mdash; the actual content, in whatever form the format uses.', ar:'ثم <b>البيانات</b> — المحتوى الفعلي، بالصيغة التي يستعملها التنسيق.'},
+ {en:'Then an <b>end-of-file marker</b>. Note it: what sits <i>after</i> it becomes a topic of its own later.', ar:'ثم <b>علامة نهاية الملف</b>. و انتبه لها: فما يقع <i>بعدها</i> يصير موضوعًا قائمًا بذاته لاحقًا.'},
+ {en:'Three later topics are consequences of this one shape &mdash; signature analysis, metadata, and data hiding.', ar:'ثلاثة مواضيع لاحقة نتائج لهذا الشكل الواحد — تحليل الـ signatures، و الـ metadata، و إخفاء البيانات.', key:true}
+]);
+Dgm.init('#dg-lc-p03', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>الجمع.</b> أن تأخذ الدليل من الجهاز دون أن تغيّره.'},
+ {en:'<b>PRESERVE.</b> Prove the copy still equals what you took, months later.', ar:'<b>الحفظ.</b> أن تُثبت أن النسخة ما زالت تساوي ما أخذته، بعد شهور.'},
+ {en:'<b>ANALYSE.</b> Read what is inside the copy. Most of this diploma lives here.', ar:'<b>التحليل.</b> أن تقرأ ما داخل النسخة. و معظم الدبلومة يقع هنا.'},
+ {en:'<b>VALIDATE.</b> Check your own result &mdash; a second tool, a second examiner, a repeated test.', ar:'<b>التحقق.</b> أن تراجع نتيجتك أنت — بأداة ثانية، أو فاحص ثانٍ، أو إعادة الاختبار.'},
+ {en:'<b>PRESENT.</b> Write it so someone who was not there can follow it.', ar:'<b>العرض.</b> أن تكتبها بحيث يتابعها من لم يحضر.'},
+ {en:'You are at <b>stage 3</b>. <code>P02</code> proved a copy equals its source; this page asks what is actually <i>in</i> that copy.', ar:'أنت في <b>المرحلة الثالثة</b>. أثبت <code>P02</code> أن النسخة تساوي مصدرها، و هذه الصفحة تسأل عمّا <i>في</i> تلك النسخة.',key:true}
+]);
+</script>
+
+</body>
+</html>

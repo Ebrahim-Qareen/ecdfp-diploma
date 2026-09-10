@@ -11,6 +11,10 @@
   if (!list) return;
 
   var counter = document.querySelector('[data-task-counter]');
+  /* If the counter IS the list (or wraps it), the textContent write below
+     replaces every <li> with "0 / 5" and the homework silently disappears.
+     That shipped on three session pages. Refuse such a counter outright. */
+  if (counter && (counter === list || counter.contains(list))) counter = null;
 
   function paint() {
     var items = [].slice.call(list.querySelectorAll('li'));

@@ -39,6 +39,68 @@ Item 4 is not a trick. It may match. Either answer is acceptable; only an unexam
 
 ---
 
+## Part 1b — Signatures, on your own machine
+
+Ten minutes, no evidence required.
+
+1. Pick any three files on your own computer — different types.
+2. Read the first four bytes of each (`Format-Hex -Count 4`, or `xxd -l 4`).
+3. Copy one of them to a **wrong** extension, and read its first four bytes again.
+
+**Answer in one line each:**
+
+| # | Question |
+|--:|---|
+| 1 | Did renaming change any byte? |
+| 2 | If a colleague sends you `report.pdf` and it begins `50 4B 03 04`, what do you write in Findings? |
+| 3 | Name one **innocent** reason a file's extension might not match its bytes. |
+
+⚠️ **Question 3 is the point.** A mismatch is not evidence of concealment — a bad export, a download
+that guessed the type, or a tool that appends its own extension all produce one.
+
+---
+
+## Part 1c — Three labs at the keyboard
+
+Do these **before** you write the report. Each one produces a line you will need in it.
+Evidence: `EVS-01` and `EVS-05`, both already on your machine. Nothing downloads.
+
+### Lab 1 — Prove the tamper · 20 min · `EVS-01`
+
+1. In your `EVS-01` folder, run `sha256sum -c EVS-01.sha256` and record the **complete** output,
+   including the warning line.
+2. Name the file that fails. Confirm the same file fails against `EVS-01.md5`.
+3. Answer in writing, in two separate paragraphs:
+   **what can you prove about that file, and what can you not?**
+
+> Step 3 is the whole lab. Be careful about what the hash entitles you to say.
+
+### Lab 2 — Build your own avalanche · 15 min · your own machine
+
+1. `printf 'any sentence you like' | sha256sum` — record the digest.
+2. Change **exactly one character** of that sentence. Hash it again.
+3. Compare the two digests position by position. Count how many of the 64 positions hold the
+   same character in both.
+4. State the number, and say **why it is that number** rather than zero.
+
+### Lab 3 — Header, not extension · 20 min · `EVS-05`
+
+1. Read the first four bytes of all twelve files (`xxd -l 4`, or `Format-Hex -Count 4`).
+2. Tabulate: filename · extension it claims · first four bytes · what those bytes say it is.
+3. Name every file whose signature disagrees with its extension.
+4. Pick one of them and write **one finding and one interpretation** about it, separately.
+
+| Type | First bytes |
+|---|---|
+| JPEG | `FF D8 FF` |
+| PNG | `89 50 4E 47` |
+| PDF | `25 50 44 46` |
+| ZIP / DOCX | `50 4B 03 04` |
+
+**Hand in:** the Lab 1 two paragraphs, the Lab 2 number and reason, and the Lab 3 table.
+
+---
+
 ## Part 2 — The forensic report
 
 **This is the deliverable the whole diploma is built to produce.** You will hand in a version of

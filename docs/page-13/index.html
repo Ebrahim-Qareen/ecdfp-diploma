@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P13 &middot; Network evidence &middot; eCDFP Diploma</title>
+<meta name="description" content="Reading a packet capture, catching a C2 beacon by its timing, data exfiltration over DNS, and an email header that ties delivery, command channel and exfil to one IP — page 13 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P13 &middot; Network evidence</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Network evidence</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>What you will be able to do</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; Reading a capture</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>What is a packet capture?</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>Take the shape first</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>What the capture cannot give you</span></a></li>
+      <li class="is-part"><a href="#p8"><span class="n">08</span><span>PART 2 &mdash; The command channel</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>What is C2, and how it hides</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>Exfiltration over DNS</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>Three exfil paths, one capture</span></a></li>
+      <li class="is-part"><a href="#p12"><span class="n">12</span><span>PART 3 &mdash; The email</span></a></li>
+      <li><a href="#p13"><span class="n">13</span><span>Reading an email header</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>Browser and web artifacts</span></a></li>
+      <li class="is-part"><a href="#p15"><span class="n">15</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>Demo &mdash; reading EVS-08 end to end</span></a></li>
+      <li class="is-part"><a href="#p17"><span class="n">17</span><span>YOUR TURN</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>Lab &mdash; find the third exfil path</span></a></li>
+      <li class="is-part"><a href="#p19"><span class="n">19</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>Cheat sheet &mdash; filters, tells, headers</span></a></li>
+      <li class="is-part"><a href="#p21"><span class="n">21</span><span>TASK</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Task &mdash; reconstruct the intrusion</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>Report &mdash; Section 8 for network evidence</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Summary &mdash; what you can now state</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+<main class="main">
+<section class="page" id="p1">
+<span class="kicker">P13 &middot; Page 13 of 14 &middot; 90 topic minutes</span>
+<h2>Network evidence
+  <span class="ar">أدلة الشبكة</span></h2>
+<p class="lede">Every page so far read <b>one machine</b>. This one reads the <b>wire between machines</b>: a packet capture, a command channel hidden in ordinary web traffic, data leaving disguised as DNS, and the phishing email that started all of it. The disk tells you what a computer <i>had</i>; the network tells you what it <i>said</i>.
+  <span class="ar">قرأت كل صفحة حتى الآن <b>جهازًا واحدًا</b>. و هذه تقرأ <b>السلك بين الأجهزة</b>: التقاط حزم، و قناة أوامر مخفية في حركة ويب عادية، و بيانات تغادر متنكّرة كـ DNS، و بريد التصيّد الذي بدأ كل ذلك. القرص يخبرك بما <i>كان</i> لدى الحاسوب؛ و الشبكة تخبرك بما <i>قاله</i>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Topic</th><th>Minutes</th><th>Hands-on</th></tr></thead>
+  <tbody>
+    <tr><td><b>T21</b> Network Evidence<span class="ar">أدلة الشبكة</span></td><td>42</td><td>Yes</td></tr>
+    <tr><td><b>T22</b> C2 in Traffic<span class="ar">الـ C2 في الحركة</span></td><td>28</td><td>Yes</td></tr>
+    <tr><td><b>T23</b> Internet &amp; Email Artifacts<span class="ar">آثار الإنترنت و البريد</span></td><td>20</td><td>Yes</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Every number on this page is measured from one capture</b> &mdash; <code>EVS-08</code>: a six-minute <code>.pcap</code> with its matching proxy log and phishing email, built by <code>scripts/make_evs08.py</code> and read back with <code>tshark</code>. <b>20 assertions</b> ran against it first. It is <b>synthesized</b>, which for a pcap is allowed &mdash; a capture of traffic we caused, with ground truth we control.
+    <span class="ar"><b>كل رقم على هذه الصفحة مقيس من التقاط واحد</b> — <code>EVS-08</code>: ملف <code>.pcap</code> مدّته ست دقائق مع proxy log مطابق و بريد تصيّد، بناها <code>scripts/make_evs08.py</code> و قُرئت بـ<code>tshark</code>. و جرى تنفيذ <b>٢٠ فحصًا</b> عليها أولاً. و هي <b>مُصنَّعة</b>، و هذا مسموح للـ pcap — التقاط لحركة تسبّبنا فيها، بحقيقة أرضية نتحكّم بها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T21 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن</span></h2>
+<figure class="dgm" id="dg-lc-p13" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p13">
+  <title id="t-dg-lc-p13">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="78" text-anchor="middle" fill="#00ff9d">ANALYSE</text>
+    <text class="xs" x="388" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 3.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p><b>From the last page to this one.</b> `P12` read what one machine wrote about itself. But the event logs showed a <b>pass-the-hash</b> and a <b>1102 clear</b> &mdash; and the one thing an attacker cannot clear is the traffic that already left the building. Network evidence is captured <b>elsewhere</b>: a tap, a proxy, a firewall. It is the one source outside the compromised host, and it is <b>append-only in practice</b> &mdash; you cannot go back and un-send a packet.
+  <span class="ar"><b>من الصفحة السابقة إلى هذه.</b> قرأت `P12` ما كتبه جهاز واحد عن نفسه. لكن سجلات الأحداث أظهرت <b>pass-the-hash</b> و <b>مسح 1102</b> — و الشيء الوحيد الذي لا يستطيع المهاجم مسحه هو الحركة التي غادرت المبنى بالفعل. تُلتقط أدلة الشبكة في <b>مكان آخر</b>: مِنفذ مراقبة، proxy، جدار ناري. و هي المصدر الوحيد خارج الجهاز المخترَق، و هي <b>للإضافة فقط عمليًّا</b> — لا تستطيع العودة لإلغاء إرسال حزمة.</span></p>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P13 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستكون قادرًا عليه</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>By the end of this page</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Read a packet by its layers &mdash; Ethernet, IP, TCP, HTTP, data &mdash; and name what each carries<span class="ar">قراءة حزمة بطبقاتها — Ethernet و IP و TCP و HTTP و البيانات — و تسمية ما يحمله كلٌّ منها</span></td></tr>
+    <tr><td>2</td><td>Take the shape of a capture with a protocol hierarchy before reading any packet<span class="ar">أخذ شكل الالتقاط بتسلسل البروتوكولات قبل قراءة أي حزمة</span></td></tr>
+    <tr><td>3</td><td>Recognise a C2 beacon by its <b>regular timing</b>, even with no readable payload<span class="ar">التعرّف على beacon من نوع C2 بـ<b>توقيته المنتظم</b>، حتى دون حمولة مقروءة</span></td></tr>
+    <tr><td>4</td><td>Spot data exfiltration over DNS, and decode the labels back to the message<span class="ar">رصد تسريب البيانات عبر DNS، و فكّ الأسماء إلى الرسالة</span></td></tr>
+    <tr><td>5</td><td>Read an email header: SPF/DKIM/DMARC, Reply-To, Received &mdash; and why the body is not evidence<span class="ar">قراءة header البريد: SPF/DKIM/DMARC و Reply-To و Received — و لماذا المتن ليس دليلاً</span></td></tr>
+    <tr><td>6</td><td>Tie a delivery, a command channel and an exfil to one IP, and map it to MITRE<span class="ar">ربط تسليم و قناة أوامر و تسريب بـ IP واحد، و ربطه بـ MITRE</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>Three topics, one intrusion. `T21` is <b>how to read a capture</b>; `T22` is <b>finding the command channel in it</b>; `T23` is <b>the email and web artifacts</b> at either end. They are taught as one story because in a real case they are one story.
+    <span class="ar">ثلاثة مواضيع، اختراق واحد. `T21` هو <b>كيف تقرأ التقاطًا</b>؛ و `T22` هو <b>إيجاد قناة الأوامر فيه</b>؛ و `T23` هو <b>آثار البريد و الويب</b> على الطرفين. و تُدرَّس قصةً واحدة لأنها في القضية الحقيقية قصة واحدة.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 3</span>
+  <h2>How to read a capture<span class="ar">كيف تقرأ التقاطًا</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">A packet is layers wrapped around data. Take the shape first, then follow one stream.<span class="ar">الحزمة طبقات ملفوفة حول بيانات. خذ الشكل أولاً، ثم تتبّع تدفّقًا واحدًا.</span></p>
+  <p class="divider-meta">3 screens &middot; 20 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T21 &middot; Theory</span>
+<h2>What is a packet capture?
+  <span class="ar">ما هو التقاط الحزم؟</span></h2>
+<p><b>Definition.</b> A packet capture (a <code>.pcap</code>) is a saved copy of the <b>frames that crossed a network point</b>, in order, with a timestamp on each. Capture at a tap, a span port, a proxy or a firewall, and you have a recording of everything the machine sent and received &mdash; independent of the machine itself.
+  <span class="ar"><b>التعريف.</b> التقاط الحزم (<code>.pcap</code>) نسخة محفوظة من <b>الإطارات التي عبرت نقطة شبكة</b>، بالترتيب، على كلٍّ منها زمن. التقِط عند tap أو span port أو proxy أو جدار ناري فتحصل على تسجيل لكل ما أرسله الجهاز و استقبله — مستقلاً عن الجهاز نفسه.</span></p>
+<figure class="dgm" id="dg13-f1" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P13-F1</span><span class="dgm-tag">STRUCTURE</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 268" role="img" aria-labelledby="t13f1">
+  <title id="t13f1">One packet, and the layers wrapped around the data</title>
+  <text class="xs mut" x="14" y="22">ONE FRAME FROM EVS-08 &#183; each layer wraps the one inside it</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="40" width="752" height="34" rx="4" fill="#1a2733"/>
+    <text class="sm" x="26" y="56">ETHERNET</text>
+    <text class="xs mut" x="26" y="70">src aa:bb:cc:dd:ee:ff &#8594; dst 00:11:22:33:44:55</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="26" y="80" width="728" height="34" rx="4" fill="#1d2c3a"/>
+    <text class="sm" x="38" y="96">IP</text>
+    <text class="xs mut" x="38" y="110">src 10.20.30.40  &#8594;  dst 45.147.230.12</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="38" y="120" width="704" height="34" rx="4" fill="#203141"/>
+    <text class="sm" x="50" y="136">TCP</text>
+    <text class="xs mut" x="50" y="150">sport 51000  &#8594;  dport 80  &#183;  the session</text>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="50" y="160" width="680" height="34" rx="4" fill="#243748"/>
+    <text class="sm" x="62" y="176">HTTP</text>
+    <text class="xs mut" x="62" y="190">GET /api/v1/check?id=a1b2c300  Host: sync-check.net</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="62" y="200" width="656" height="34" rx="4" fill="#2a4050"/>
+    <text class="sm" x="74" y="216">DATA</text>
+    <text class="xs mut" x="74" y="230">User-Agent: Mozilla/4.0 (MSIE 6.0; Windows NT 5.1)</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="238" width="752" height="26" rx="4"/>
+    <text class="xs" x="24" y="256">Each layer answers a different question: which machine, which host, which session, which request, which data.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="note">
+  <p>Two properties make this evidence special. It is captured <b>off the host</b>, so a compromised machine cannot alter it after the fact. And it is <b>time-ordered and timestamped</b> at the point of capture, so the sequence is fixed. The cost: it is only as complete as the capture point, and <b>encrypted payloads stay encrypted</b> &mdash; which is why so much of this page reads <i>metadata</i>, not content.
+    <span class="ar">خاصّتان تجعلان هذا الدليل مميّزًا. يُلتقط <b>خارج الجهاز</b>، فالجهاز المخترَق لا يستطيع تغييره بعد وقوعه. و هو <b>مرتّب زمنيًّا و مؤرَّخ</b> عند نقطة الالتقاط، فالتسلسل ثابت. و الثمن: اكتماله بقدر نقطة الالتقاط فقط، و <b>الحمولات المشفّرة تبقى مشفّرة</b> — و لهذا يقرأ كثير من هذه الصفحة <i>الـ metadata</i>، لا المحتوى.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T21 &middot; Theory &middot; measured</span>
+<h2>Take the shape first
+  <span class="ar">خذ الشكل أولاً</span></h2>
+<p>The beginner opens a capture and scrolls. The examiner asks the capture <b>what it contains</b> before reading a single packet &mdash; because a real capture has millions of frames, and you filter down, never scroll up.
+  <span class="ar">المبتدئ يفتح التقاطًا و يتصفّح. و الفاحص يسأل الالتقاط <b>ماذا يحتوي</b> قبل قراءة حزمة واحدة — لأن الالتقاط الحقيقي فيه ملايين الإطارات، و أنت ترشّح للأسفل، و لا تتصفّح للأعلى أبدًا.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Question</th><th>tshark</th><th>EVS-08 answer</th></tr></thead>
+  <tbody>
+    <tr><td>what protocols?<span class="ar">أي بروتوكولات؟</span></td><td><code>-z io,phs</code></td><td>only DNS (7) and HTTP (15) &mdash; 22 frames</td></tr>
+    <tr><td>who talked to whom?<span class="ar">من كلّم من؟</span></td><td><code>-z conv,ip</code></td><td>the victim and five peers</td></tr>
+    <tr><td>every web request?<span class="ar">كل طلب ويب؟</span></td><td><code>-Y http.request</code></td><td>15 requests, 3 hosts</td></tr>
+    <tr><td>any odd DNS?<span class="ar">أي DNS غريب؟</span></td><td><code>-Y dns.qry.type==16</code></td><td>3 TXT queries to one domain</td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">What the shape of EVS-08 tells you before any deep read</span>
+  <p><b>22 packets, six minutes, plaintext HTTP and DNS only.</b> That is small enough to read in full &mdash; and already suspicious: a normal workstation makes far more, far noisier traffic. A tiny, tidy capture with one host contacted <b>ten times</b> is a capture someone made <b>on purpose, around an event</b>.
+    <span class="ar"><b>٢٢ حزمة، ست دقائق، HTTP و DNS نصّيان فقط.</b> صغير بما يكفي لقراءته كاملاً — و مريب أصلاً: فمحطة العمل العادية تصنع حركة أكثر و أكثر ضجيجًا. و الالتقاط الصغير المرتّب الذي فيه مضيف واحد يُتّصل به <b>عشر مرات</b> التقاطٌ صنعه أحد <b>عمدًا، حول حدث</b>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T21 &middot; Theory</span>
+<h2>What the capture cannot give you
+  <span class="ar">ما لا يستطيع الالتقاط إعطاءك</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>You will be asked &mdash; and the honest answer</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><b>&ldquo;What did they steal?&rdquo;</b> &mdash; if the payload is <b>TLS-encrypted</b>, the capture shows the connection, the size and the timing, <b>not the content</b>. Metadata, not data.<span class="ar"><b>«ماذا سرقوا؟»</b> — إن كانت الحمولة <b>مشفَّرة بـ TLS</b>، يُظهر الالتقاط الاتصال و الحجم و التوقيت، <b>لا المحتوى</b>. الـ metadata، لا البيانات.</span></td></tr>
+    <tr><td>2</td><td><b>&ldquo;Who was at the keyboard?&rdquo;</b> &mdash; a capture names an <b>IP and a MAC</b>, never a person. NAT and shared machines make even the IP a group.<span class="ar"><b>«من كان على لوحة المفاتيح؟»</b> — الالتقاط يسمّي <b>IP و MAC</b>، لا شخصًا أبدًا. و الـ NAT و الأجهزة المشتركة تجعل حتى الـ IP مجموعة.</span></td></tr>
+    <tr><td>3</td><td><b>&ldquo;Is this everything?&rdquo;</b> &mdash; a capture is complete only <b>at its capture point</b>. Traffic on another path, or before the tap was placed, is simply not here.<span class="ar"><b>«هل هذا كل شيء؟»</b> — الالتقاط كامل فقط <b>عند نقطة التقاطه</b>. و الحركة على مسار آخر، أو قبل وضع الـ tap، ببساطة ليست هنا.</span></td></tr>
+    <tr><td>4</td><td><b>&ldquo;When exactly?&rdquo;</b> &mdash; the timestamps are the <b>capture device&rsquo;s</b> clock, not the victim&rsquo;s. Note which clock, and whether it was synced.<span class="ar"><b>«متى بالضبط؟»</b> — الأزمنة ساعة <b>جهاز الالتقاط</b>، لا الضحية. اذكر أي ساعة، و هل كانت متزامنة.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this part turns on</span>
+  <ul>
+    <li><b>The network shows you connections and their shape. Content only when it was not encrypted, and identity never past an address.</b>
+      <span class="ar"><b>الشبكة تريك الاتصالات و شكلها. و المحتوى فقط حين لم يكن مشفَّرًا، و الـ identity لا تتجاوز العنوان أبدًا.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page divider" id="p8">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 3</span>
+  <h2>Finding the command channel<span class="ar">إيجاد قناة الأوامر</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Malware has to phone home, and phoning home has a shape no ordinary traffic has.<span class="ar">البرمجية الخبيثة مضطرّة للاتصال ببيتها، و للاتصال بالبيت شكلٌ لا تملكه أي حركة عادية.</span></p>
+  <p class="divider-meta">3 screens &middot; 30 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p9">
+<span class="kicker">T22 &middot; Theory &middot; measured</span>
+<h2>What is C2, and how it hides
+  <span class="ar">ما هو الـ C2، و كيف يختبئ</span></h2>
+<p><b>Definition.</b> Command-and-control (C2) is the channel malware uses to reach its operator: to get orders and to send stolen data out. It must blend into normal traffic to survive &mdash; so it uses <b>HTTP, HTTPS or DNS</b>, the protocols a firewall always allows. But blending in is hard, and it leaves a shape.
+  <span class="ar"><b>التعريف.</b> التحكّم و السيطرة (C2) هي القناة التي تصل بها البرمجية الخبيثة إلى مشغّلها: لتلقّي الأوامر و إرسال البيانات المسروقة. و عليها أن تندمج في الحركة العادية لتنجو — فتستخدم <b>HTTP أو HTTPS أو DNS</b>، البروتوكولات التي يسمح بها الجدار الناري دائمًا. لكن الاندماج صعب، و يترك شكلاً.</span></p>
+<figure class="dgm" id="dg13-f2" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P13-F2</span><span class="dgm-tag">FINDING</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 260" role="img" aria-labelledby="t13f2">
+  <title id="t13f2">A C2 beacon seen as regular blips on a timeline</title>
+  <text class="xs mut" x="14" y="22">HTTP GET to sync-check.net &#183; EVS-08 &#183; every blip is one request</text>
+  <line x1="30" y1="150" x2="750" y2="150" stroke="#3a4a5c" stroke-width="2"/>
+  <g data-step="1">
+    <line x1="83" y1="130" x2="83" y2="150" stroke="#ff8a6a" stroke-width="3"/>
+    <line x1="152" y1="130" x2="152" y2="150" stroke="#ff8a6a" stroke-width="3"/>
+    <line x1="221" y1="130" x2="221" y2="150" stroke="#ff8a6a" stroke-width="3"/>
+    <line x1="290" y1="130" x2="290" y2="150" stroke="#ff8a6a" stroke-width="3"/>
+    <line x1="359" y1="130" x2="359" y2="150" stroke="#ff8a6a" stroke-width="3"/>
+    <line x1="428" y1="130" x2="428" y2="150" stroke="#ff8a6a" stroke-width="3"/>
+    <line x1="497" y1="130" x2="497" y2="150" stroke="#ff8a6a" stroke-width="3"/>
+    <line x1="566" y1="130" x2="566" y2="150" stroke="#ff8a6a" stroke-width="3"/>
+    <line x1="635" y1="130" x2="635" y2="150" stroke="#ff8a6a" stroke-width="3"/>
+    <line x1="704" y1="130" x2="704" y2="150" stroke="#ff8a6a" stroke-width="3"/>
+    <text class="xs mut" x="40" y="172">0s</text><text class="xs mut" x="720" y="172">300s</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="40" y="40" width="330" height="40" rx="4"/>
+    <text class="xs" x="52" y="58">benign browsing: irregular, bursty</text>
+    <text class="xs mut" x="52" y="73">a human clicks when a human clicks</text>
+    <rect class="box no" x="410" y="40" width="330" height="40" rx="4"/>
+    <text class="xs" x="422" y="58">the beacon: one blip every 30s, exactly</text>
+    <text class="xs mut" x="422" y="73">10 requests, zero jitter: a machine</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="40" y="190" width="700" height="30" rx="4"/>
+    <text class="xs" x="52" y="209">every request is the same size, the same URI shape, the same User-Agent &#8212; only an id counter changes</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="40" y="226" width="700" height="28" rx="4"/>
+    <text class="xs" x="52" y="244">Regularity is the signature. No payload was needed to find this &#8212; only the timing.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">The beacon in EVS-08, measured</span>
+  <p>Ten HTTP GETs to <code>sync-check.net</code> (<code>45.147.230.12</code>), at seconds <b>19, 49, 79, &hellip; 289</b> &mdash; <b>every gap exactly 30 seconds, zero jitter</b>. Every request is the same size and shape, only an id counter changing, all with a <b>2001 Internet Explorer 6</b> User-Agent while the benign traffic uses modern Chrome. <b>MITRE: T1071.001 (Web C2), T1571 (odd port/UA).</b>
+    <span class="ar">عشرة طلبات HTTP GET إلى <code>sync-check.net</code> (<code>45.147.230.12</code>)، عند الثواني <b>١٩، ٤٩، ٧٩، &hellip; ٢٨٩</b> — <b>كل فجوة بالضبط ٣٠ ثانية، بلا تذبذب</b>. كل طلب بالحجم و الشكل نفسه، يتغيّر فيه عدّاد id فقط، كلها بـ<b>User-Agent من Internet Explorer 6 لعام ٢٠٠١</b> بينما الحركة السليمة تستخدم Chrome حديثًا. <b>MITRE: T1071.001، T1571.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p10">
+<span class="kicker">T22 &middot; Theory &middot; measured</span>
+<h2>Exfiltration over DNS
+  <span class="ar">التسريب عبر الـ DNS</span></h2>
+<p>A firewall that blocks everything still lets DNS out &mdash; a network cannot function without it. So the cleverest exfiltration <b>rides DNS</b>. It does not look like a file transfer; it looks like a lot of lookups.
+  <span class="ar">الجدار الناري الذي يمنع كل شيء يظل يسمح بخروج الـ DNS — فالشبكة لا تعمل دونه. فأذكى تسريب <b>يمتطي الـ DNS</b>. لا يبدو كنقل ملف؛ بل يبدو كثيرًا من الاستعلامات.</span></p>
+<figure class="dgm" id="dg13-f3" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P13-F3</span><span class="dgm-tag">MECHANISM</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 286" role="img" aria-labelledby="t13f3">
+  <title id="t13f3">How data leaves a network hidden inside DNS queries</title>
+  <text class="xs mut" x="14" y="22">3 TXT QUERIES TO exfil-dns.net &#183; EVS-08 &#183; DNS was allowed out; the data rode it</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="34" width="752" height="40" rx="5"/>
+    <text class="sm" x="28" y="54">a normal DNS query asks &#8220;what is the IP of example.com?&#8221; &#8212; short, a name you recognise</text>
+    <text class="xs mut" x="28" y="70">A record, &lt; 30 bytes, to 8.8.8.8</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="14" y="84" width="752" height="60" rx="5"/>
+    <text class="sm" x="28" y="104">these three ask for TXT records with 30-character random-looking labels:</text>
+    <text class="xs" x="28" y="123">inhu4rsjircu4vcjifgc2q2mjfcu4v .0. exfil-dns.net</text>
+    <text class="xs" x="28" y="139">bnjrevgvbnkezs2mrqgiyc2nbvgawu .1. exfil-dns.net   ...  .2. ...</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="14" y="154" width="752" height="34" rx="5"/>
+    <text class="sm" x="28" y="176">the &#8220;names&#8221; are BASE32. Decode them, in order, and join:</text>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="14" y="198" width="752" height="34" rx="5"/>
+    <text class="sm" x="28" y="220">CONFIDENTIAL-CLIENT-LIST-Q3-2020-450-ACCOUNTS</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="242" width="752" height="38" rx="5"/>
+    <text class="sm" x="28" y="262">The firewall blocked everything except DNS. So the data left as DNS.</text>
+    <text class="xs mut" x="28" y="278">the tell is the SHAPE not the payload: TXT, one domain, high-entropy labels, no A lookups</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="interpretation">
+  <span class="cl-label">What this supports, and its limit</span>
+  <p><b>Supports:</b> data left the network to <code>exfil-dns.net</code> as three Base32-encoded TXT queries, decoding to <code>CONFIDENTIAL-CLIENT-LIST-Q3-2020-450-ACCOUNTS</code>. <b>The tell was the shape</b> &mdash; TXT type, one domain, high-entropy labels, no matching A lookups &mdash; not the content, so it works on encrypted labels too. <b>Limit:</b> the capture shows what was <i>queried</i>; whether a real answer came back, and what the operator did with it, is off this wire.
+    <span class="ar"><b>يدعم:</b> أن بيانات غادرت الشبكة إلى <code>exfil-dns.net</code> كثلاثة استعلامات TXT مرمَّزة بـ Base32، تُفكّ إلى <code>CONFIDENTIAL-CLIENT-LIST-Q3-2020-450-ACCOUNTS</code>. <b>و الدليل كان الشكل</b> — نوع TXT، و domain واحد، و أسماء عالية الـ entropy، و لا استعلامات A مطابقة — لا المحتوى، فهو يعمل على أسماء مشفّرة أيضًا. <b>الحدّ:</b> يُظهر الالتقاط ما <i>استُعلم عنه</i>؛ أما هل عاد جواب حقيقي، و ما فعله المشغّل به، فخارج هذا السلك.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T22 &middot; Theory</span>
+<h2>Three exfil paths, one capture
+  <span class="ar">ثلاثة مسارات تسريب، التقاط واحد</span></h2>
+<p>EVS-08 shows the same stolen data trying to leave <b>three ways</b>. Reading all three is what separates &ldquo;there was a beacon&rdquo; from &ldquo;here is the whole intrusion&rdquo;.
+  <span class="ar">يُظهر EVS-08 البيانات المسروقة نفسها تحاول المغادرة بـ<b>ثلاث طرق</b>. و قراءة الثلاث هي ما يفصل «كان هناك beacon» عن «هذا هو الاختراق كله».</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Path</th><th>What it looks like</th><th>How you catch it</th></tr></thead>
+  <tbody>
+    <tr><td><b>HTTP beacon</b><span class="ar">beacon من نوع HTTP</span></td><td>regular GETs to one host</td><td>timing &mdash; 30s, zero jitter</td></tr>
+    <tr><td><b>DNS tunnel</b><span class="ar">نفق DNS</span></td><td>many long TXT queries, one domain</td><td>shape &mdash; entropy, no A records</td></tr>
+    <tr><td><b>plain-HTTP POST</b><span class="ar">POST نصّي</span></td><td>one big POST to a raw IP</td><td>a 2.4 KB upload to 185.220.101.7</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>The plain POST is the crude one, and the easiest to read: a single <code>POST /upload.php</code> of <b>~2.4 KB</b> to <code>185.220.101.7</code> &mdash; a <b>raw IP with no hostname</b>, the same IP the phishing email came from. Crude, but it is the path that carries the <b>most</b> data at once. Real intrusions mix all three, and the report has to account for each.
+    <span class="ar">الـ POST النصّي هو الفجّ، و الأسهل قراءةً: <code>POST /upload.php</code> واحد بحجم <b>~٢٫٤ كيلوبايت</b> إلى <code>185.220.101.7</code> — <b>IP خام بلا اسم مضيف</b>، الـ IP نفسه الذي جاء منه بريد التصيّد. فجّ، لكنه المسار الذي يحمل <b>أكثر</b> بيانات دفعةً واحدة. و الاختراقات الحقيقية تمزج الثلاثة، و على التقرير أن يحصر كلاًّ منها.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p12">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 3 of 3</span>
+  <h2>The email that started it<span class="ar">البريد الذي بدأه</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The delivery, read from its header -- where every forgery leaves a mark the body hides.<span class="ar">التسليم، مقروءًا من الـ header الخاص به — حيث يترك كل تزوير علامة يخفيها المتن.</span></p>
+  <p class="divider-meta">2 screens &middot; 20 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p13">
+<span class="kicker">T23 &middot; Theory &middot; measured</span>
+<h2>Reading an email header
+  <span class="ar">قراءة header بريد</span></h2>
+<p>An email is two parts: the <b>body</b>, which the user reads and which anyone can forge, and the <b>header</b>, which the mail servers wrote and which is where the evidence is. Read from the bottom up: the oldest <code>Received</code> line is the true origin.
+  <span class="ar">البريد جزءان: <b>المتن</b>، الذي يقرؤه المستخدم و يستطيع أي أحد تزويره، و <b>الـ header</b>، الذي كتبته خوادم البريد و فيها الدليل. اقرأ من الأسفل للأعلى: أقدم سطر <code>Received</code> هو الأصل الحقيقي.</span></p>
+<figure class="dgm" id="dg13-f4" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P13-F4</span><span class="dgm-tag">INTERPRETATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 286" role="img" aria-labelledby="t13f4">
+  <title id="t13f4">The header fields that expose a forged email</title>
+  <text class="xs mut" x="14" y="22">EVS-08-email.eml &#183; the delivery that started the whole capture</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="34" width="752" height="34" rx="5"/>
+    <text class="sm" x="28" y="55">From:  &#8220;Accounts Payable&#8221; &lt;billing@invoices-cloud.net&gt;    Subject: Overdue invoice INV-4471</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="14" y="78" width="752" height="34" rx="5"/>
+    <text class="sm" x="28" y="99">Authentication-Results:  spf=fail  dkim=none  dmarc=fail</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="122" width="752" height="34" rx="5"/>
+    <text class="sm" x="28" y="143">Reply-To:  &lt;collect@185.220.101.7&gt;   &#8212;   a raw IP, not the From domain</text>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="14" y="166" width="752" height="34" rx="5"/>
+    <text class="sm" x="28" y="187">Received: from mail.invoices-cloud.net (185.220.101.7)   &#8212;   the SAME IP as the exfil drop</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="210" width="752" height="34" rx="5"/>
+    <text class="sm" x="28" y="231">the link: http://sync-check.net/api/v1/check?id=a1b2c300   &#8212;   the C2 the victim then beaconed to</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="254" width="752" height="26" rx="5"/>
+    <text class="xs" x="28" y="272">The header ties the email, the beacon and the exfil to ONE IP. The body was never the evidence.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">The header of EVS-08-email.eml, tied to the capture</span>
+  <p><b>SPF fail, DKIM none, DMARC fail</b> &mdash; the <code>From: invoices-cloud.net</code> is forged. <b>Reply-To</b> is a raw IP, <code>185.220.101.7</code>. <b>Received</b> is from that same IP &mdash; which is the <b>exact IP the plain-HTTP exfil POST was sent to</b>. And the body&rsquo;s only link is <code>sync-check.net</code>, the <b>C2 the victim then beaconed to</b>. One email, one capture, one IP. <b>MITRE: T1566.002 (spear-phishing link), T1071 (C2), T1048 (exfil).</b>
+    <span class="ar"><b>SPF فشل، DKIM لا شيء، DMARC فشل</b> — فـ<code>From: invoices-cloud.net</code> مزوَّر. <b>Reply-To</b> عنوان IP خام، <code>185.220.101.7</code>. و <b>Received</b> من الـ IP نفسه — و هو <b>نفس الـ IP الذي أُرسل إليه POST تسريب الـ HTTP</b>. و الرابط الوحيد في المتن هو <code>sync-check.net</code>، <b>الـ C2 الذي beaconَ إليه الضحية</b>. بريد واحد، التقاط واحد، IP واحد. <b>MITRE: T1566.002، T1071، T1048.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T23 &middot; Theory</span>
+<h2>Browser and web artifacts
+  <span class="ar">آثار المتصفّح و الويب</span></h2>
+<p>The email is one end of the wire; the browser is the other. When the victim clicked, they left marks <b>on the host</b> too &mdash; and you already know how to read most of them from earlier pages.
+  <span class="ar">البريد طرف السلك؛ و المتصفّح الطرف الآخر. حين نقر الضحية، ترك آثارًا <b>على الجهاز</b> أيضًا — و أنت تعرف بالفعل كيف تقرأ معظمها من الصفحات السابقة.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Artifact</th><th>Where</th><th>What it shows</th><th>From</th></tr></thead>
+  <tbody>
+    <tr><td>browser history<span class="ar">سجل المتصفّح</span></td><td><code>History</code> SQLite DB</td><td>the URL visited and when</td><td>`P09` files</td></tr>
+    <tr><td>cache<span class="ar">الذاكرة المؤقتة</span></td><td>the cache folder</td><td>a copy of the page fetched</td><td>`P09`</td></tr>
+    <tr><td>cookies / sessions<span class="ar">الكوكيز</span></td><td>the cookies DB</td><td>which sites held a session</td><td>`P09`</td></tr>
+    <tr><td>LNK / jump list<span class="ar">LNK</span></td><td>Recent</td><td>a downloaded file that was opened</td><td>`P11`</td></tr>
+    <tr><td>the email client<span class="ar">عميل البريد</span></td><td>PST / OST / MBOX</td><td>the message, with its header</td><td>this page</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>This is why the diploma reads the disk before the network: the URL <code>sync-check.net</code> that the capture shows as a C2 will also sit in the <b>browser history</b> (`P09`), the <b>DNS cache</b>, and &mdash; if a file was downloaded &mdash; a <b>LNK file</b> (`P11`). Two independent sources for one fact is what <b>VALIDATE</b>, stage 4, is made of. The network finds it; the disk confirms it.
+    <span class="ar">و لهذا تقرأ الدبلومة القرص قبل الشبكة: فالـ URL <code>sync-check.net</code> الذي يُظهره الالتقاط بوصفه C2 سيجلس أيضًا في <b>سجل المتصفّح</b> (`P09`)، و <b>ذاكرة DNS المؤقتة</b>، و — إن نُزّل ملف — <b>ملف LNK</b> (`P11`). و مصدران مستقلّان لحقيقة واحدة هو ما تتكوّن منه <b>VALIDATE</b>، المرحلة الرابعة. الشبكة تجده؛ و القرص يؤكّده.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p15">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>One capture, one intrusion<span class="ar">التقاط واحد، اختراق واحد</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The instructor drives tshark through the whole story in five commands. Every line is real output.<span class="ar">المدرّب يقود tshark عبر القصة كلها في خمسة أوامر. و كل سطر مخرجات حقيقي.</span></p>
+  <p class="divider-meta">1 screen &middot; 15 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p16">
+<span class="kicker">T21 &middot; Instructor demo &middot; 15 min</span>
+<h2>Demo &mdash; reading EVS-08 end to end
+  <span class="ar">العرض — قراءة EVS-08 من طرف لطرف</span></h2>
+<p><b>Tool:</b> <code>tshark</code> (Wireshark&rsquo;s command line), free, on the classroom machines; Wireshark the GUI does the same. <b>Evidence:</b> <code>EVS-08.pcap</code> and its email. Every line below is real output on the real capture.
+  <span class="ar"><b>الأداة:</b> <code>tshark</code> (سطر أوامر Wireshark)، مجانية، على أجهزة القاعة؛ و واجهة Wireshark الرسومية تفعل المثل. <b>الدليل:</b> <code>EVS-08.pcap</code> و بريدها. و كل سطر أدناه مخرجات حقيقية على الالتقاط الحقيقي.</span></p>
+<div class="simscreen" id="ss-t21" data-title="Instructor demo -- one capture, one intrusion" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="n1" style="width:720px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 1 -- what is even in this capture? get the shape before the detail.</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">tshark -r EVS-08.pcap -q -z io,phs</span>
+
+  eth   frames:22
+    ip  frames:22
+<span id="n1h">      udp/dns   frames:7
+      tcp/http  frames:15</span>
+
+<span class="d"># 22 packets, six minutes. DNS and HTTP only. small enough to read every one.</span></div>
+  </div>
+
+  <div class="wu" id="n2" style="width:760px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 2 -- list every HTTP request: who, where, what agent.</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">tshark -r EVS-08.pcap -Y http.request -T fields -e ip.dst -e http.host -e http.user_agent</span>
+
+  93.184.216.34    example.com      Mozilla/5.0 ... Chrome/85.0
+<span id="n2h">  45.147.230.12    sync-check.net   <span class="e">Mozilla/4.0 (MSIE 6.0; Windows NT 5.1)</span>   x10</span>
+  185.220.101.7    185.220.101.7    Mozilla/4.0 (MSIE 6.0; Windows NT 5.1)
+
+<span class="d"># one host is hit 10 times with a 2001 browser string. that is not a person browsing.</span></div>
+  </div>
+
+  <div class="wu" id="n3" style="width:770px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 3 -- when did those 10 requests happen? read the timing.</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">tshark -r EVS-08.pcap -Y "http.host==sync-check.net" -T fields -e frame.time_relative</span>
+
+  19   49   79   109   139   169   199   229   259   289
+<span id="n3h">  &#8594; every value is exactly <span class="w">30 seconds</span> apart. <span class="w">zero jitter</span>.</span>
+
+<span class="d"># a beacon. the regularity is the finding -- you would see it even over HTTPS.</span></div>
+  </div>
+
+  <div class="wu" id="n4" style="width:780px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 4 -- anything odd in the DNS? look at query types.</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">tshark -r EVS-08.pcap -Y "dns.qry.type==16" -T fields -e dns.qry.name</span>
+
+  inhu4rsjircu4vcjifgc2q2mjfcu4v.0.exfil-dns.net
+  bnjrevgvbnkezs2mrqgiyc2nbvgawu.1.exfil-dns.net
+<span id="n4h">  cq2dj5ku4vct.2.exfil-dns.net   <span class="e">&#8592; base32, decodes to a stolen client list</span></span>
+
+<span class="d"># TXT queries, one domain, random-looking labels. this is exfiltration over DNS.</span></div>
+  </div>
+
+  <div class="wu" id="n5" style="width:780px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 5 -- read the email header that started it. one IP ties it all together.</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">grep -Ei "spf|dmarc|reply-to|received" EVS-08-email.eml</span>
+
+  Authentication-Results: <span class="e">spf=fail</span> dkim=none <span class="e">dmarc=fail</span>
+  Received: from mail.invoices-cloud.net (<span class="w">185.220.101.7</span>)
+<span id="n5h">  Reply-To: &lt;collect@<span class="w">185.220.101.7</span>&gt;   <span class="e">same IP as the exfil POST</span></span>
+
+<span class="d"># the phishing sender, the exfil drop, one address. the header is the case.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="note">
+  <p><b>Ask while it runs:</b> after step 3, <i>if this traffic were HTTPS, which of these five findings would survive?</i> (The beacon timing and the DNS shape; not the URIs or the header.) After step 5, <i>which single artifact would you take to court, and which only make sense as a chain?</i>
+    <span class="ar"><b>اسأل أثناء التشغيل:</b> بعد الخطوة الثالثة، <i>لو كانت هذه الحركة HTTPS، أي هذه النتائج الخمس سينجو؟</i> (توقيت الـ beacon و شكل الـ DNS؛ لا الـ URIs و لا الـ header.) و بعد الخامسة، <i>أي أثر منفرد تأخذه إلى المحكمة، و أيّها لا يُفهم إلا كسلسلة؟</i></span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p17">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>The plain-HTTP exfil<span class="ar">تسريب الـ HTTP النصّي</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">One more channel in the same capture, to read and to size. Solo, or in a team of two.<span class="ar">قناة أخرى في الالتقاط نفسه، تقرؤها و تقيسها. فرديًّا، أو في فريق من اثنين.</span></p>
+  <p class="divider-meta">1 screen &middot; 20 minutes at the keyboard</p>
+</div>
+    </section>
+
+<section class="page" id="p18">
+<span class="kicker">T22 &middot; Your turn &middot; 20 min</span>
+<h2>Lab &mdash; find the third exfil path
+  <span class="ar">المعمل — اعثر على مسار التسريب الثالث</span></h2>
+<p>The demo read the beacon and the DNS tunnel. EVS-08 has a <b>third</b> exfil channel &mdash; the crude one. Find it, size it, and tie it to the email.
+  <span class="ar">قرأ العرض الـ beacon و نفق الـ DNS. و في EVS-08 قناة تسريب <b>ثالثة</b> — الفجّة. اعثر عليها، و قِسها، و اربطها بالبريد.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Step</th><th>Do</th><th>Write down</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>tshark -r EVS-08.pcap -Y http.request.method==POST -T fields -e ip.dst -e http.request.uri -e http.content_length</code><span class="ar"><code>tshark -r EVS-08.pcap -Y http.request.method==POST ...</code></span></td><td>the destination IP, the URI, the size</td></tr>
+    <tr><td>2</td><td>Compare that destination IP to the <code>Received</code> and <code>Reply-To</code> lines in <code>EVS-08-email.eml</code><span class="ar">قارن IP الوجهة بسطري <code>Received</code> و <code>Reply-To</code> في <code>EVS-08-email.eml</code></span></td><td>are they the same IP?</td></tr>
+    <tr><td>3</td><td>Follow the TCP stream of the POST (<code>-z follow,tcp,ascii</code>) and look at what was sent<span class="ar">تتبّع تدفّق الـ TCP للـ POST و انظر ما أُرسل</span></td><td>is the body readable, or encoded?</td></tr>
+  </tbody>
+</table></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Q</th><th>Answer in one sentence each</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>The POST went to a <b>raw IP with no hostname</b>. Why is a POST to a bare IP more suspicious than one to a domain?<span class="ar">ذهب الـ POST إلى <b>IP خام بلا اسم مضيف</b>. لماذا الـ POST إلى IP عارٍ أكثر ريبة من واحد إلى domain؟</span></td></tr>
+    <tr><td>2</td><td>That IP also sent the phishing email. What does one IP doing <b>both</b> let you say that two separate IPs would not?<span class="ar">ذلك الـ IP أرسل أيضًا بريد التصيّد. ماذا يتيح لك أن يفعل IP واحد <b>الأمرين</b> ما لا يتيحه IP-ان منفصلان؟</span></td></tr>
+    <tr><td>3</td><td>The three channels carry the <b>same</b> stolen list. Why use three, and which is loudest?<span class="ar">القنوات الثلاث (beacon و DNS و POST) تحمل القائمة المسروقة <b>نفسها</b>. لماذا يستخدم مهاجم ثلاثًا، و أيّها أعلى صوتًا؟</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>MITRE:</b> the POST is <b>T1048.003</b>. <b>Team version:</b> one student works the pcap, the other the email header; neither answers Q2 alone. <b>One IP linking delivery and theft is the strongest fact.</b>
+    <span class="ar"><b>MITRE:</b> الـ POST هو <b>T1048.003</b>. <b>نسخة الفريق:</b> يعمل طالب على الـ pcap، و الآخر على header البريد؛ و لا يستطيع أيٌّ منهما الإجابة عن السؤال الثاني وحده. <b>و الـ IP الواحد الذي يربط التسليم بالسرقة هو أقوى حقيقة في القضية كلها</b>، و رؤيتها تحتاج النصفين.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p19">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>Network evidence on one screen<span class="ar">أدلة الشبكة في شاشة واحدة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Keep this open in the next lab.<span class="ar">أبقِ هذه مفتوحة في المعمل القادم.</span></p>
+  <p class="divider-meta">1 screen</p>
+</div>
+    </section>
+
+<section class="page" id="p20">
+<span class="kicker">P13 &middot; Cheat sheet</span>
+<h2>Cheat sheet &mdash; filters, tells, headers
+  <span class="ar">الملخّص — المرشّحات و العلامات و الـ headers</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>To find</th><th>tshark filter</th><th>The tell</th></tr></thead>
+  <tbody>
+    <tr><td>the shape</td><td><code>-q -z io,phs</code></td><td>which protocols, how many</td></tr>
+    <tr><td>every web request</td><td><code>-Y http.request</code></td><td>host, URI, User-Agent</td></tr>
+    <tr><td>a beacon</td><td><code>-Y "http.host==X" -e frame.time_relative</code></td><td><b>regular interval, zero jitter</b></td></tr>
+    <tr><td>odd DNS</td><td><code>-Y dns.qry.type==16</code></td><td><b>TXT, one domain, long labels</b></td></tr>
+    <tr><td>an exfil POST</td><td><code>-Y http.request.method==POST</code></td><td>a big upload to a <b>raw IP</b></td></tr>
+    <tr><td>a conversation</td><td><code>-z conv,ip</code></td><td>who talked most, and to whom</td></tr>
+    <tr><td>the bytes</td><td><code>-z follow,tcp,ascii</code></td><td>readable body, or encoded/encrypted</td></tr>
+  </tbody>
+</table></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Email header</th><th>Means</th><th>Red flag</th></tr></thead>
+  <tbody>
+    <tr><td><code>Authentication-Results</code></td><td>SPF / DKIM / DMARC</td><td><b>any fail</b> = forged sender</td></tr>
+    <tr><td><code>Received</code> (oldest)</td><td>the true sending server</td><td>a raw IP, or a mismatch with From</td></tr>
+    <tr><td><code>Reply-To</code></td><td>where a reply goes</td><td>different from From, or a raw IP</td></tr>
+    <tr><td><code>Return-Path</code></td><td>the bounce address</td><td>different from the visible From</td></tr>
+  </tbody>
+</table></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Rule</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td>read metadata first; content only if unencrypted<span class="ar">اقرأ الـ metadata أولاً؛ المحتوى فقط إن لم يكن مشفَّرًا</span></td><td>most C2 is TLS now &mdash; timing and shape still show<span class="ar">معظم الـ C2 الآن TLS — و التوقيت و الشكل يظهران</span></td></tr>
+    <tr><td>an IP and a MAC are not a person<span class="ar">الـ IP و الـ MAC ليسا شخصًا</span></td><td>NAT, shared hosts, spoofing<span class="ar">الـ NAT و الأجهزة المشتركة و الانتحال</span></td></tr>
+    <tr><td>the header is the evidence, not the body<span class="ar">الـ header هو الدليل، لا المتن</span></td><td>the body is what the attacker wanted you to read<span class="ar">المتن ما أراد المهاجم أن تقرأه</span></td></tr>
+    <tr><td>confirm a network finding on the disk<span class="ar">أكّد نتيجة الشبكة على القرص</span></td><td>the URL is also in history, cache, DNS cache<span class="ar">الـ URL أيضًا في السجل و الذاكرة المؤقتة</span></td></tr>
+  </tbody>
+</table></div>
+    </section>
+
+<section class="page divider" id="p21">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Due before P14<span class="ar">يُسلَّم قبل P14</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The whole intrusion, reconstructed from one capture and one email, mapped to MITRE.<span class="ar">الاختراق كله، معاد بناؤه من التقاط واحد و بريد واحد، مربوط بـ MITRE.</span></p>
+  <p class="divider-meta">2 screens</p>
+</div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">P13 &middot; Task</span>
+<h2>Task &mdash; reconstruct the intrusion
+  <span class="ar">المهمة — أعد بناء الاختراق</span></h2>
+<p>Three items. Item 3 is the assessment.
+  <span class="ar">ثلاثة بنود. البند الثالث هو التقييم.</span></p>
+<div id="taskList" class="steps"></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Task</th><th>Deliverable</th><th>Marks</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Open <code>EVS-08.pcap</code> in Wireshark or tshark. Produce the protocol hierarchy and the list of HTTP hosts.<span class="ar">افتح <code>EVS-08.pcap</code> في Wireshark أو tshark. أنتج تسلسل البروتوكولات و قائمة مضيفي HTTP.</span></td><td>the two outputs</td><td>2</td></tr>
+    <tr><td>2</td><td>Build <b>one timeline</b>: the email delivery, the 10 beacons, the 3 DNS-tunnel queries, the POST &mdash; every event with its time and the IP or host.<span class="ar">ابنِ <b>خطًّا زمنيًّا واحدًا</b>: تسليم البريد، و الـ ١٠ beacons، و استعلامات النفق الثلاثة، و الـ POST — كل حدث بزمنه و الـ IP أو المضيف.</span></td><td>the timeline</td><td>3</td></tr>
+    <tr><td>3</td><td>Write the <b>Section 8 narrative</b> of the intrusion: delivery &#8594; C2 &#8594; exfil, each claim tied to a filter or a header field, mapped to MITRE, with one <b>cannot-prove</b> line.<span class="ar">اكتب <b>سرد القسم الثامن</b> للاختراق: التسليم &#8594; C2 &#8594; التسريب، كل ادّعاء مربوط بمرشّح أو حقل header، مربوطًا بـ MITRE، مع سطر <b>لا يمكن إثباته</b> واحد.</span></td><td>the narrative, with MITRE IDs</td><td>5</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Grading item 3.</b> Full marks: the narrative links delivery, C2 and exfil <b>to one IP</b> (<code>185.220.101.7</code>), supports the beacon with <b>timing</b> not payload, names the DNS tunnel by its <b>shape</b>, and maps to <b>T1566.002, T1071.001, T1048.003, T1070.001</b>. The cannot-prove line must note that <b>encrypted content is unknown</b>, that an <b>IP is not a person</b>, and that the capture is complete <b>only at its tap</b>. <b>Minus a mark for &ldquo;the attacker was at 185.220.101.7&rdquo;</b> &mdash; that is a server, not a seat.
+    <span class="ar"><b>تقييم البند الثالث.</b> الدرجة الكاملة: يربط السرد التسليم و الـ C2 و التسريب <b>بـ IP واحد</b> (<code>185.220.101.7</code>)، و يدعم الـ beacon بـ<b>التوقيت</b> لا الحمولة، و يسمّي نفق الـ DNS بـ<b>شكله</b>، و يربط بـ<b>T1566.002 و T1071.001 و T1048.003 و T1070.001</b>. و سطر لا يمكن إثباته يجب أن يذكر أن <b>المحتوى المشفَّر مجهول</b>، و أن <b>الـ IP ليس شخصًا</b>، و أن الالتقاط كامل <b>عند الـ tap الخاص به فقط</b>. <b>و يُخصم لعبارة «كان المهاجم عند 185.220.101.7»</b> — فهذا خادم، لا مقعد.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p23">
+<span class="kicker">T23 &middot; Report stage &middot; 5 min</span>
+<h2>Report &mdash; Section 8 for network evidence
+  <span class="ar">التقرير — القسم الثامن لأدلة الشبكة</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Do not write</th><th>Write</th></tr></thead>
+  <tbody>
+    <tr><td>&ldquo;the malware <b>connected to its C2</b>&rdquo;<span class="ar">«<b>اتصلت</b> البرمجية الخبيثة بـ C2 الخاص بها»</span></td><td>&ldquo;10 HTTP GETs to <code>45.147.230.12</code> at a fixed 30-second interval, id counter incrementing&rdquo;<span class="ar">«١٠ طلبات GET إلى <code>45.147.230.12</code> بفاصل ثابت ٣٠ ثانية، و عدّاد id يتزايد»</span></td></tr>
+    <tr><td>&ldquo;data was <b>stolen</b> over DNS&rdquo;<span class="ar">«<b>سُرقت</b> بيانات عبر DNS»</span></td><td>&ldquo;3 TXT queries to <code>exfil-dns.net</code>; the Base32 labels decode to a client-list string&rdquo;<span class="ar">«٣ استعلامات TXT إلى <code>exfil-dns.net</code>؛ و أسماء Base32 تُفكّ إلى سلسلة قائمة عملاء»</span></td></tr>
+    <tr><td>&ldquo;the <b>attacker</b> emailed the victim&rdquo;<span class="ar">«<b>راسل المهاجم</b> الضحية»</span></td><td>&ldquo;an email failing SPF/DMARC, Reply-To and Received both <code>185.220.101.7</code>&rdquo;<span class="ar">«بريد يفشل SPF/DMARC، و Reply-To و Received كلاهما <code>185.220.101.7</code>»</span></td></tr>
+    <tr><td>&ldquo;the whole network was <b>compromised</b>&rdquo;<span class="ar">«اختُرقت <b>الشبكة كلها</b>»</span></td><td>&ldquo;this <b>capture point</b> shows one host, <code>10.20.30.40</code>, exhibiting the above&rdquo;<span class="ar">«تُظهر <b>نقطة الالتقاط</b> هذه مضيفًا واحدًا، <code>10.20.30.40</code>، يبدي ما سبق»</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The line that separates network analysis from a story</span>
+  <p><b>The filter and the IP.</b> A claim with the tshark filter that produced it can be re-run by anyone with the pcap; an IP with a role names a machine, not a person. <b>Section 6</b> records the capture point, the device clock and the file hash; <b>Section 8</b> quotes filters and addresses, and maps the shape to MITRE.
+    <span class="ar"><b>المرشّح و الـ IP.</b> الادّعاء المصحوب بمرشّح tshark الذي أنتجه يستطيع أي شخص لديه الـ pcap إعادة تشغيله؛ و الـ IP بدوره يسمّي جهازًا، لا شخصًا. <b>القسم السادس</b> يسجّل نقطة الالتقاط و ساعة الجهاز و قيمة hash الملف؛ و <b>القسم الثامن</b> يقتبس المرشّحات و العناوين، و يربط الشكل بـ MITRE.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>You can state</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>what layer a network fact came from<span class="ar">من أي طبقة جاءت حقيقة شبكية</span></td><td>Ethernet / IP / TCP / HTTP / data each answer one question<span class="ar">كلٌّ من الطبقات يجيب عن سؤال واحد</span></td></tr>
+    <tr><td>the shape of a capture before reading it<span class="ar">شكل الالتقاط قبل قراءته</span></td><td>a protocol hierarchy and a host list<span class="ar">تسلسل البروتوكولات و قائمة المضيفين</span></td></tr>
+    <tr><td>that a beacon is present, even encrypted<span class="ar">أن هناك beacon، حتى لو مشفَّرًا</span></td><td>10 requests at a fixed 30s interval, zero jitter<span class="ar">١٠ طلبات بفاصل ثابت ٣٠ ثانية، بلا تذبذب</span></td></tr>
+    <tr><td>that data left over DNS, and what it was<span class="ar">أن بيانات غادرت عبر DNS، و ما كانت</span></td><td>3 Base32 TXT queries decoding to a client list<span class="ar">٣ استعلامات TXT بـ Base32 تُفكّ إلى قائمة عملاء</span></td></tr>
+    <tr><td>that an email was forged, and by which IP<span class="ar">أن بريدًا زُوِّر، و بأي IP</span></td><td>SPF/DMARC fail; Received and Reply-To one IP<span class="ar">فشل SPF/DMARC؛ و Received و Reply-To بـ IP واحد</span></td></tr>
+    <tr><td>that one IP ties delivery, C2 and exfil<span class="ar">أن IP واحدًا يربط التسليم و الـ C2 و التسريب</span></td><td>185.220.101.7 is the sender and the drop<span class="ar">185.220.101.7 هو المُرسِل و المستقبِل</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this page turns on</span>
+  <ul>
+    <li><b>The disk says what a machine had. The network says what it said, to whom, and when &mdash; and the attacker can clear the disk, but not the traffic that already left.</b>
+      <span class="ar"><b>القرص يقول ما كان لدى الجهاز. و الشبكة تقول ما قاله، و لمن، و متى — و يستطيع المهاجم مسح القرص، لا الحركة التي غادرت بالفعل.</b></span></li>
+    <li><b>And a network finding is a filter, an address, and a shape &mdash; content only when it was not encrypted, identity never past an IP.</b>
+      <span class="ar"><b>و نتيجة الشبكة مرشّح و عنوان و شكل — المحتوى فقط حين لم يكن مشفَّرًا، و الـ identity لا تتجاوز الـ IP أبدًا.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p25">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td><b><code>scripts/make_evs08.py</code></b> &mdash; in this repository</td><td>the capture, the proxy log and the email; every number on this page<span class="ar">الالتقاط و الـ proxy log و البريد؛ كل رقم على هذه الصفحة</span></td></tr>
+    <tr><td><b>Wireshark / tshark</b> 4.2</td><td>reading the pcap: hierarchy, filters, stream follow<span class="ar">قراءة الـ pcap: التسلسل و المرشّحات و تتبّع التدفّق</span></td></tr>
+    <tr><td><b>RFC 5321 / 5322</b> &mdash; SMTP and the message header</td><td>the Received, Reply-To and authentication fields<span class="ar">حقول Received و Reply-To و المصادقة</span></td></tr>
+    <tr><td><b>MITRE ATT&amp;CK</b></td><td>T1566.002, T1071.001, T1048.003, T1070.001, T1571<span class="ar">التقنيات المذكورة على الصفحة</span></td></tr>
+    <tr><td><b>TryHackMe</b> &mdash; <i>Wireshark</i>, <i>Carnage</i>, <i>Snort</i></td><td>a live pcap-analysis and C2-hunting walkthrough (referenced)<span class="ar">شرح تحليل pcap و صيد C2 حيّ (مُحال إليه)</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Evidence note.</b> <code>EVS-08</code> is <b>Tier 3, and legitimately so</b>: a pcap and text logs are the one artifact class the project may synthesize, because a capture of traffic we specified is a real recording with ground truth we control &mdash; unlike a fabricated hive or event log, which would be a lie about what a forensic artifact looks like. It is <b>byte-reproducible</b> (fixed timestamps and payloads; two builds are identical) and hash-listed in <code>EVS-08.sha256</code>. Every IP is documentation-safe and routes nowhere; the &ldquo;stolen&rdquo; data is a fictional string; no real person, company or address appears (`D41`).
+    <span class="ar"><b>ملاحظة عن الدليل.</b> <code>EVS-08</code> من <b>المستوى الثالث، و بحقّ</b>: فالـ pcap و السجلات النصّية هي فئة الـ artifact الوحيدة التي يجوز للمشروع تصنيعها، لأن التقاط حركة حدّدناها تسجيلٌ حقيقي بحقيقة أرضية نتحكّم بها — بخلاف hive أو سجل أحداث مُلفَّق، فذاك كذب عن شكل الـ artifact الجنائي. و هي <b>قابلة لإعادة الإنتاج byte بـ byte</b> (أزمنة و حمولات ثابتة؛ بناءان متطابقان) و مُدرَجة قيم قيم الـ hash الخاصة بها في <code>EVS-08.sha256</code>. و كل IP آمن للتوثيق و لا يوصل لشيء؛ و البيانات «المسروقة» سلسلة خيالية؛ و لا يظهر شخص أو شركة أو عنوان حقيقي.</span></p>
+</div>
+<p><b>Next: `P14` &mdash; Timelines and the final report.</b> Twelve pages have each read one kind of evidence. `T24` <b>merges them all</b> into a single super-timeline &mdash; disk, registry, execution, logs, network on one axis &mdash; and `T25` is the <b>capstone report</b> that this whole diploma has been building toward.
+  <span class="ar"><b>التالي: `P14` — الخطوط الزمنية و التقرير النهائي.</b> قرأت اثنتا عشرة صفحة كلٌّ نوعًا من الأدلة. و <b>يدمجها `T24` كلها</b> في super-timeline واحد — القرص و الـ registry و التنفيذ و السجلات و الشبكة على محور واحد — و `T25` هو <b>التقرير الختامي</b> الذي كانت الدبلومة كلها تبني نحوه.</span></p>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 25</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P13</b> &middot; content from
+     <code>packages/page-13/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t21', [
+ {screen:'n1', target:'n1h',
+  en:'Never open a capture packet-by-packet first. Get its <b>shape</b>: a protocol hierarchy. 22 packets, only DNS and HTTP. Small and plaintext &mdash; you can read every request by hand.',
+  ar:'لا تفتح الالتقاط حزمةً حزمة أولاً أبدًا. خذ <b>شكله</b>: تسلسل البروتوكولات. ٢٢ حزمة، DNS و HTTP فقط. صغير و نصّي — تستطيع قراءة كل طلب يدويًّا.'},
+ {screen:'n2', target:'n2h',
+  en:'List every HTTP request as three columns: destination, host, User-Agent. One host, <code>sync-check.net</code>, is hit <b>ten times</b> with a <b>2001 Internet Explorer 6</b> string. Benign traffic on the same capture uses a modern Chrome. <b>The old UA is the marker.</b>',
+  ar:'اسرد كل طلب HTTP في ثلاثة أعمدة: الوجهة و المضيف و الـ User-Agent. مضيف واحد، <code>sync-check.net</code>، يُطرَق <b>عشر مرات</b> بسلسلة <b>Internet Explorer 6 من ٢٠٠١</b>. و الحركة السليمة في الالتقاط نفسه تستخدم Chrome حديثًا. <b>الـ UA القديم هو العلامة.</b>'},
+ {screen:'n3', target:'n3h',
+  en:'Now the timing of those ten. <b>19, 49, 79, 109 &hellip;</b> &mdash; every one exactly <b>30 seconds apart, with zero jitter</b>. That is a machine checking in, not a human clicking. <b>The regularity is the finding, and it survives encryption.</b>',
+  ar:'الآن توقيت العشرة. <b>١٩، ٤٩، ٧٩، ١٠٩ &hellip;</b> — كلٌّ بالضبط <b>على بُعد ٣٠ ثانية، بلا تذبذب</b>. هذا جهاز يسجّل حضوره، لا إنسان ينقر. <b>الانتظام هو النتيجة، و ينجو من التشفير.</b>'},
+ {screen:'n4', target:'n4h',
+  en:'The DNS holds a second channel. Filter for <b>TXT</b> queries: three, all to <code>exfil-dns.net</code>, with 30-character labels. Those labels are <b>Base32</b> &mdash; decode them in order and they spell a <b>stolen client list</b>. Data left as DNS.',
+  ar:'الـ DNS يحمل قناةً ثانية. رشّح على استعلامات <b>TXT</b>: ثلاثة، كلها إلى <code>exfil-dns.net</code>، بأسماء من ٣٠ حرفًا. تلك الأسماء <b>Base32</b> — فُكّها بالترتيب فتهجّئ <b>قائمة عملاء مسروقة</b>. غادرت البيانات كـ DNS.'},
+ {screen:'n5', target:'n5h',
+  en:'Finally the email that began it. <b>SPF and DMARC fail</b> &mdash; the From is forged. <b>Reply-To is a raw IP</b>, and <b>Received names the same IP</b> the exfil POST went to: <code>185.220.101.7</code>. The phishing delivery and the theft share one address. <b>The header, not the body, is the evidence.</b>',
+  ar:'أخيرًا البريد الذي بدأه. <b>SPF و DMARC يفشلان</b> — فالـ From مزوَّر. <b>Reply-To عنوان IP خام</b>، و <b>Received يسمّي الـ IP نفسه</b> الذي ذهب إليه POST التسريب: <code>185.220.101.7</code>. فتسليم التصيّد و السرقة يتشاركان عنوانًا واحدًا. <b>الـ header، لا المتن، هو الدليل.</b>'}
+]);
+Dgm.init('#dg-lc-p13', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>ACQUIRE.</b> إخراج الدليل من الجهاز دون تغييره.'},
+ {en:'<b>PRESERVE.</b> Prove it did not change afterwards.', ar:'<b>PRESERVE.</b> إثبات أنه لم يتغيّر بعد ذلك.'},
+ {en:'<b>ANALYSE.</b> Read what is there, and say only what the bytes support. <b>This page is here.</b>', ar:'<b>ANALYSE.</b> قراءة ما هو موجود، و قول ما تدعمه الـ bytes فقط. <b>و هذه الصفحة هنا.</b>',key:true},
+ {en:'<b>VALIDATE.</b> Check the finding against a second source.', ar:'<b>VALIDATE.</b> التحقّق من النتيجة بمصدر ثانٍ.'},
+ {en:'<b>PRESENT.</b> Write it so someone else can check it.', ar:'<b>PRESENT.</b> كتابتها بحيث يستطيع غيرك التحقّق منها.'}
+]);
+Dgm.init('#dg13-f1', [
+ {en:'The outermost layer is <b>Ethernet</b>: the MAC addresses of the two machines on the local wire. It changes at every hop and rarely matters to the case &mdash; but it is what the frame literally starts with.', ar:'الطبقة الخارجية <b>Ethernet</b>: عناوين MAC للجهازين على السلك المحلي. تتغيّر عند كل قفزة و نادرًا ما تهمّ القضية — لكنها ما يبدأ به الإطار حرفيًّا.'},
+ {en:'Inside it, <b>IP</b>: the source and destination <b>addresses</b>. <code>10.20.30.40</code> is our victim; <code>45.147.230.12</code> is the peer it is talking to. This is the layer that says <b>who is talking to whom</b>.', ar:'بداخله <b>IP</b>: <b>عنوانا</b> المصدر و الوجهة. <code>10.20.30.40</code> ضحيتنا؛ و <code>45.147.230.12</code> النظير الذي يكلّمه. هذه الطبقة تقول <b>من يكلّم من</b>.'},
+ {en:'Inside that, <b>TCP</b>: the ports, which identify the <b>session</b>. Port 80 is the server&rsquo;s; the high source port is this one conversation. TCP is what lets you follow a single stream.', ar:'بداخله <b>TCP</b>: المنافذ التي تحدّد <b>الجلسة</b>. المنفذ 80 للخادم؛ و منفذ المصدر العالي هو هذه المحادثة الواحدة. الـ TCP هو ما يتيح لك تتبّع تدفّق واحد.'},
+ {en:'Inside that, <b>HTTP</b>: the actual request. <code>GET /api/v1/check</code> to host <code>sync-check.net</code>. This is the layer a human reads.', ar:'بداخله <b>HTTP</b>: الطلب الفعلي. <code>GET /api/v1/check</code> إلى المضيف <code>sync-check.net</code>. هذه الطبقة التي يقرؤها الإنسان.'},
+ {en:'And the innermost is the <b>data</b>: here, the request headers. The <code>User-Agent</code> claims to be <b>Internet Explorer 6 on Windows XP</b> &mdash; a 2001 browser, in a 2020 capture. Hold that.', ar:'و أعمقها <b>البيانات</b>: هنا headers الطلب. يدّعي <code>User-Agent</code> أنه <b>Internet Explorer 6 على Windows XP</b> — متصفّح من ٢٠٠١، في التقاط من ٢٠٢٠. احتفظ بهذا.'},
+ {en:'<b>Five layers, five questions: which machine, which host, which session, which request, which data.</b> Every network finding names the layer it came from.', ar:'<b>خمس طبقات، خمسة أسئلة: أي جهاز، أي مضيف، أي جلسة، أي طلب، أي بيانات.</b> و كل نتيجة شبكية تسمّي الطبقة التي جاءت منها.',key:true}
+]);
+Dgm.init('#dg13-f2', [
+ {en:'Ten requests to <code>sync-check.net</code>, plotted on a five-minute axis. The eye sees it before any analysis: <b>evenly spaced blips</b>.', ar:'عشرة طلبات إلى <code>sync-check.net</code>، مرسومة على محور خمس دقائق. تراها العين قبل أي تحليل: <b>ومضات متساوية التباعد</b>.'},
+ {en:'Human traffic is <b>bursty and irregular</b> &mdash; you click, you read, you click. This is the opposite: <b>one request every 30 seconds, with zero jitter</b>. People do not browse on a metronome.', ar:'حركة الإنسان <b>متقطّعة و غير منتظمة</b> — تنقر، تقرأ، تنقر. و هذا العكس: <b>طلب كل ٣٠ ثانية، بلا أي تذبذب</b>. الناس لا يتصفّحون على إيقاع مِترونوم.'},
+ {en:'Every beacon is <b>identical</b> but for a counter in the URL: same host, same path, same size, same User-Agent. It is a program checking in for orders.', ar:'كل beacon <b>متطابق</b> إلا في عدّاد في الـ URL: المضيف نفسه و المسار نفسه و الحجم نفسه و الـ User-Agent نفسه. إنه برنامج يسجّل حضوره لتلقّي الأوامر.'},
+ {en:'<b>The regularity is the finding, and it needed no payload at all.</b> Even fully encrypted, this beacon would stand out on timing alone &mdash; which is how C2 is caught on HTTPS.', ar:'<b>الانتظام هو النتيجة، و لم يحتج أي حمولة إطلاقًا.</b> حتى لو كان مشفَّرًا بالكامل، لبرز هذا الـ beacon بالتوقيت وحده — و هكذا يُكتشف الـ C2 على HTTPS.',key:true}
+]);
+Dgm.init('#dg13-f3', [
+ {en:'A normal DNS query is short and readable: <i>&ldquo;what is the address of <code>example.com</code>?&rdquo;</i> An <b>A record</b>, a few bytes, to a resolver. You make thousands a day.', ar:'استعلام DNS العادي قصير و مقروء: <i>«ما عنوان <code>example.com</code>؟»</i> <b>سجل A</b>، بضعة bytes، إلى resolver. تصنع الآلاف يوميًّا.'},
+ {en:'These three are different: <b>TXT</b> queries whose &ldquo;hostnames&rdquo; are <b>30-character random-looking strings</b>, all to <code>exfil-dns.net</code>. No human types a name like that, and nothing on the network resolves them to an address.', ar:'هذه الثلاثة مختلفة: استعلامات <b>TXT</b> أسماء «مضيفيها» <b>سلاسل عشوائية المظهر من ٣٠ حرفًا</b>، كلها إلى <code>exfil-dns.net</code>. لا إنسان يكتب اسمًا كهذا، و لا شيء على الشبكة يحوّلها إلى عنوان.'},
+ {en:'The labels are not random &mdash; they are <b>Base32</b>. Each query carries one chunk of a message, numbered <code>.0.</code>, <code>.1.</code>, <code>.2.</code> so the receiver can reassemble them.', ar:'الأسماء ليست عشوائية — إنها <b>Base32</b>. كل استعلام يحمل جزءًا من رسالة، مرقّمًا <code>.0.</code> و <code>.1.</code> و <code>.2.</code> ليعيد المستقبِل تجميعها.'},
+ {en:'Decode and join them and the &ldquo;lookups&rdquo; were an <b>upload</b>: <code>CONFIDENTIAL-CLIENT-LIST-Q3-2020-450-ACCOUNTS</code>. The data left the network disguised as DNS.', ar:'فُكّها و اجمعها فإذا الـ «استعلامات» كانت <b>رفعًا</b>: <code>CONFIDENTIAL-CLIENT-LIST-Q3-2020-450-ACCOUNTS</code>. غادرت البيانات الشبكة متنكّرة كـ DNS.'},
+ {en:'The firewall let DNS out &mdash; everyone does &mdash; so the data left as DNS. <b>The tell is the shape, not the content:</b> TXT queries, one domain, high-entropy labels, no matching address lookups. You would catch this even if the labels were encrypted.', ar:'سمح الجدار الناري بخروج الـ DNS — الجميع يفعل — فغادرت البيانات كـ DNS. <b>و الدليل هو الشكل، لا المحتوى:</b> استعلامات TXT، و domain واحد، و أسماء عالية الـ entropy، و لا استعلامات عناوين مطابقة. كنت ستمسك بهذا حتى لو كانت الأسماء مشفَّرة.',key:true}
+]);
+Dgm.init('#dg13-f4', [
+ {en:'The visible part looks ordinary: a billing address, an urgent subject. This is what the user saw, and it is the <b>least</b> reliable part of the email.', ar:'الجزء الظاهر يبدو عاديًّا: عنوان فوترة، موضوع عاجل. هذا ما رآه المستخدم، و هو <b>أقلّ</b> أجزاء البريد موثوقية.'},
+ {en:'The <b>Authentication-Results</b> header is the first real signal: <b>SPF fail, DKIM none, DMARC fail</b>. The sending server was not authorised to send as <code>invoices-cloud.net</code>. The From address is forged.', ar:'و <b>Authentication-Results</b> أول إشارة حقيقية: <b>SPF فشل، DKIM لا شيء، DMARC فشل</b>. فالخادم المُرسِل لم يكن مخوّلاً بالإرسال باسم <code>invoices-cloud.net</code>. عنوان From مزوَّر.'},
+ {en:'<b>Reply-To</b> points somewhere else entirely: a <b>raw IP address</b>, <code>185.220.101.7</code>. A real company replies to its own domain, not to a number.', ar:'و <b>Reply-To</b> يشير إلى مكان آخر تمامًا: <b>عنوان IP خام</b>، <code>185.220.101.7</code>. الشركة الحقيقية يُردّ عليها على الـ domain الخاص بها، لا على رقم.'},
+ {en:'The <b>Received</b> header names the sending server&rsquo;s IP: <code>185.220.101.7</code> &mdash; the <b>same IP</b> the plain-HTTP exfil POST was sent to later. The email and the theft share an address.', ar:'و <b>Received</b> يسمّي IP الخادم المُرسِل: <code>185.220.101.7</code> — <b>الـ IP نفسه</b> الذي أُرسل إليه POST تسريب الـ HTTP لاحقًا. فالبريد و السرقة يتشاركان عنوانًا.'},
+ {en:'And the <b>link</b> in the body is <code>sync-check.net</code> &mdash; the exact C2 the victim beaconed to for the next five minutes. Click, beacon, exfil: one chain, and the header started it.', ar:'و <b>الرابط</b> في المتن هو <code>sync-check.net</code> — نفس الـ C2 الذي beaconَ إليه الضحية للدقائق الخمس التالية. نقرة، beacon، تسريب: سلسلة واحدة، و الـ header بدأه.'},
+ {en:'<b>The header, not the body, is the evidence.</b> It ties the delivery, the command channel and the exfil to one IP &mdash; and every one of those fields can be checked by anyone with the <code>.eml</code>.', ar:'<b>الـ header، لا المتن، هو الدليل.</b> تربط التسليم و قناة الأوامر و التسريب بـ IP واحد — و كل حقل منها يستطيع أي شخص لديه الـ <code>.eml</code> التحقّق منه.',key:true}
+]);
+</script>
+
+</body>
+</html>

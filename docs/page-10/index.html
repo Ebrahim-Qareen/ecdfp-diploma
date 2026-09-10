@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P10 &middot; The registry &middot; eCDFP Diploma</title>
+<meta name="description" content="The six hive files and their internal structure, what SYSTEM, SOFTWARE and SAM say about a machine, and following one USB device through three hives and four timestamps — page 10 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P10 &middot; The registry</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>The registry</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>What you will be able to do</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; What the registry is</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>What is the registry?</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>Where the six files live</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>Inside a hive file</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>The one timestamp every key carries</span></a></li>
+      <li class="is-part"><a href="#p9"><span class="n">09</span><span>PART 2 &mdash; The system about itself</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>Identity: the first five questions</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>Users: the SAM hive</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>What runs at boot</span></a></li>
+      <li class="is-part"><a href="#p13"><span class="n">13</span><span>PART 3 &mdash; Device history</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>The USB chain</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>Four timestamps, one device</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>What the chain does not tell you</span></a></li>
+      <li class="is-part"><a href="#p17"><span class="n">17</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>Demo &mdash; following the ADATA drive</span></a></li>
+      <li class="is-part"><a href="#p19"><span class="n">19</span><span>YOUR TURN</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>Lab &mdash; the second device</span></a></li>
+      <li class="is-part"><a href="#p21"><span class="n">21</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Cheat sheet &mdash; hives, keys, tools</span></a></li>
+      <li class="is-part"><a href="#p23"><span class="n">23</span><span>TASK</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Task &mdash; write up one device</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>Report &mdash; Section 6 and Section 8 for a device</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Summary &mdash; what you can now state</span></a></li>
+      <li><a href="#p27"><span class="n">27</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+<main class="main">
+<section class="page" id="p1">
+<span class="kicker">P10 &middot; Page 10 of 14 &middot; 63 topic minutes</span>
+<h2>The registry
+  <span class="ar">الـ registry</span></h2>
+<p class="lede">Windows keeps a database about itself: what it is called, what time zone it is in, who has an account, what starts at boot, and <b>every USB device that was ever plugged in</b>. This page opens that database <b>as files</b>, the way an examiner does.
+  <span class="ar">يحتفظ ويندوز بقاعدة بيانات عن نفسه: ما اسمه، و في أي منطقة زمنية، و من له حساب، و ما الذي يبدأ عند الإقلاع، و <b>كل جهاز USB وُصِّل به يومًا</b>. و تفتح هذه الصفحة قاعدة البيانات تلك <b>بوصفها ملفات</b>، كما يفعل الفاحص.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Topic</th><th>Minutes</th><th>Hands-on</th></tr></thead>
+  <tbody>
+    <tr><td><b>T16</b> Registry Structure &amp; System Configuration<span class="ar">بنية الـ registry و إعدادات النظام</span></td><td>28</td><td>Yes</td></tr>
+    <tr><td><b>T17</b> USB &amp; Device History<span class="ar">تاريخ أجهزة الـ USB</span></td><td>35</td><td>Yes</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Every number on this page is read from real hives</b> &mdash; <code>EVS-12</code>, five registry files published by Eric Zimmerman for testing registry parsers, fetched at a pinned commit by <code>scripts/fetch_corpora.py</code>. <b>39 assertions</b> were run against them first.
+    <span class="ar"><b>كل رقم على هذه الصفحة مقروء من hives حقيقية</b> — <code>EVS-12</code>، خمسة ملفات registry نشرها Eric Zimmerman لاختبار أدوات تحليل الـ registry، جُلبت عند commit مثبَّت بواسطة <code>scripts/fetch_corpora.py</code>. و جرى تنفيذ <b>٣٩ فحصًا</b> عليها أولاً.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T16 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن</span></h2>
+<figure class="dgm" id="dg-lc-p10" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p10">
+  <title id="t-dg-lc-p10">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="78" text-anchor="middle" fill="#00ff9d">ANALYSE</text>
+    <text class="xs" x="388" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 3.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p><b>From the last page to this one.</b> `P09` showed that a file system is bookkeeping: tables that say where things are. The registry is the same idea one level up &mdash; <b>six files</b>, each with its own little file system inside, in which Windows records what it knows about itself. You already know how to read a header, follow an offset and spot a deleted record. Now you do it on these six files.
+  <span class="ar"><b>من الصفحة السابقة إلى هذه.</b> أظهرت `P09` أن نظام الملفات مسكٌ دفتري: جداول تقول أين الأشياء. و الـ registry الفكرة نفسها بمستوًى أعلى — <b>ستة ملفات</b>، في كلٍّ منها نظام ملفات صغير، يسجّل فيها ويندوز ما يعرفه عن نفسه. و أنت تعرف بالفعل كيف تقرأ header و تتبع إزاحة و تكتشف سجلاً محذوفًا. و الآن تفعل ذلك على هذه الملفات الستة.</span></p>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P10 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستكون قادرًا عليه</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>By the end of this page</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Name the six hive files, where each lives on disk, and what each one is for<span class="ar">تسمية ملفات الـ hive الستة، و مكان كلٍّ منها على القرص، و ما وظيفته</span></td></tr>
+    <tr><td>2</td><td>Read a hive header by hand and explain what a key and a value are inside the file<span class="ar">قراءة header الـ hive يدويًّا و شرح ما هو المفتاح و ما هي القيمة داخل الملف</span></td></tr>
+    <tr><td>3</td><td>Pull the machine name, time zone, OS version, install date and user accounts from the right hives<span class="ar">استخراج اسم الجهاز و المنطقة الزمنية و إصدار النظام و تاريخ التثبيت و الحسابات من الـ hives الصحيحة</span></td></tr>
+    <tr><td>4</td><td>Follow one USB device through <b>three hives and five keys</b>, and say which user used it<span class="ar">تتبّع جهاز USB واحد عبر <b>ثلاثة hives و خمسة مفاتيح</b>، و تحديد أي مستخدم استخدمه</span></td></tr>
+    <tr><td>5</td><td>Explain the four device timestamps &mdash; and why &ldquo;first install&rdquo; is not first use<span class="ar">شرح أزمنة الجهاز الأربعة — و لماذا «أول تثبيت» ليس أول استخدام</span></td></tr>
+    <tr><td>6</td><td>Write the device finding so that every date carries the key it came from<span class="ar">كتابة نتيجة الجهاز بحيث يحمل كل تاريخ المفتاح الذي جاء منه</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>If you have never opened the registry before, this page assumes nothing.</b> Part 1 starts from &ldquo;it is six files&rdquo; and builds up. Part 3 is where the forensics happens, and it uses only what Parts 1 and 2 taught.
+    <span class="ar"><b>إن لم تفتح الـ registry من قبل، فهذه الصفحة لا تفترض شيئًا.</b> يبدأ الجزء الأول من «إنها ستة ملفات» و يبني عليها. و الجزء الثالث هو حيث يجري التحليل الجنائي، و لا يستخدم إلا ما علّمه الجزءان الأول و الثاني.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 3</span>
+  <h2>What the registry is<span class="ar">ما هو الـ registry</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Six files, a header, and cells. If you understood P09 you already understand this.<span class="ar">ستة ملفات، و header، و خلايا. إن فهمت P09 فقد فهمت هذا بالفعل.</span></p>
+  <p class="divider-meta">4 screens &middot; 16 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T16 &middot; Theory</span>
+<h2>What is the registry?
+  <span class="ar">ما هو الـ registry؟</span></h2>
+<p><b>Definition.</b> The registry is a set of <b>database files</b> in which Windows stores its own settings and its record of what has happened to it: hardware, software, users, devices. Programs read and write it constantly. <b>Nothing on a Windows machine happens without leaving a mark here.</b>
+  <span class="ar"><b>التعريف.</b> الـ registry مجموعة <b>ملفات قاعدة بيانات</b> يخزّن فيها ويندوز إعداداته و سجلّه لما جرى له: العتاد و البرامج و المستخدمون و الأجهزة. و تقرؤه البرامج و تكتب فيه باستمرار. <b>و لا يحدث شيء على جهاز ويندوز دون أن يترك أثرًا هنا.</b></span></p>
+<figure class="dgm" id="dg10-f1" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P10-F1</span><span class="dgm-tag">STRUCTURE</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 300" role="img" aria-labelledby="t10f1">
+  <title id="t10f1">The registry as it appears in regedit, and the files it is actually made of</title>
+  <text class="xs mut" x="14" y="24">WHAT YOU SEE IN REGEDIT</text>
+  <text class="xs mut" x="420" y="24">WHAT IS ACTUALLY ON THE DISK</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="36" width="380" height="30" rx="4"/>
+    <text class="xs" x="24" y="56">HKEY_LOCAL_MACHINE\SYSTEM</text>
+    <path class="arw" d="M396 51 L414 51"/>
+    <path class="arw" d="M408 46 L414 51 L408 56"/>
+    <rect class="box ok" x="420" y="36" width="346" height="30" rx="4"/>
+    <text class="xs" x="430" y="56">C:\Windows\System32\config\SYSTEM</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="14" y="74" width="380" height="30" rx="4"/>
+    <text class="xs" x="24" y="94">HKEY_LOCAL_MACHINE\SOFTWARE</text>
+    <path class="arw" d="M396 89 L414 89"/>
+    <path class="arw" d="M408 84 L414 89 L408 94"/>
+    <rect class="box ok" x="420" y="74" width="346" height="30" rx="4"/>
+    <text class="xs" x="430" y="94">C:\Windows\System32\config\SOFTWARE</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="14" y="112" width="380" height="30" rx="4"/>
+    <text class="xs" x="24" y="132">HKEY_LOCAL_MACHINE\SAM</text>
+    <path class="arw" d="M396 127 L414 127"/>
+    <path class="arw" d="M408 122 L414 127 L408 132"/>
+    <rect class="box ok" x="420" y="112" width="346" height="30" rx="4"/>
+    <text class="xs" x="430" y="132">C:\Windows\System32\config\SAM</text>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="14" y="150" width="380" height="30" rx="4"/>
+    <text class="xs" x="24" y="170">HKEY_LOCAL_MACHINE\SECURITY</text>
+    <path class="arw" d="M396 165 L414 165"/>
+    <path class="arw" d="M408 160 L414 165 L408 170"/>
+    <rect class="box ok" x="420" y="150" width="346" height="30" rx="4"/>
+    <text class="xs" x="430" y="170">C:\Windows\System32\config\SECURITY</text>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="14" y="188" width="380" height="30" rx="4"/>
+    <text class="xs" x="24" y="208">HKEY_CURRENT_USER</text>
+    <path class="arw" d="M396 203 L414 203"/>
+    <path class="arw" d="M408 198 L414 203 L408 208"/>
+    <rect class="box ok" x="420" y="188" width="346" height="30" rx="4"/>
+    <text class="xs" x="430" y="208">C:\Users\&lt;user&gt;\NTUSER.DAT</text>
+  </g>
+  <g data-step="6">
+    <rect class="box" x="14" y="226" width="380" height="30" rx="4"/>
+    <text class="xs" x="24" y="246">HKEY_CURRENT_USER\Software\Classes</text>
+    <path class="arw" d="M396 241 L414 241"/>
+    <path class="arw" d="M408 236 L414 241 L408 246"/>
+    <rect class="box ok" x="420" y="226" width="346" height="30" rx="4"/>
+    <text class="xs" x="430" y="246">C:\Users\&lt;user&gt;\AppData\Local\&#8230;\UsrClass.dat</text>
+  </g>
+  <g data-step="7">
+    <rect class="box key" x="14" y="268" width="752" height="26" rx="4"/>
+    <text class="xs" x="24" y="286">regedit shows ONE tree. The disk holds SIX FILES. You take the files.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="note">
+  <p><b>The words.</b> A <b>hive</b> is one of the files. A <b>key</b> is a folder inside it. A <b>value</b> is a named piece of data inside a key. Regedit draws hives as a tree because that is how Windows presents them &mdash; but on disk there is no tree, only six files.
+    <span class="ar"><b>المصطلحات.</b> الـ <b>hive</b> أحد الملفات. و الـ <b>key</b> مجلد داخله. و الـ <b>value</b> قطعة بيانات مسمّاة داخل key. و يرسم regedit الـ hives شجرةً لأن ويندوز يعرضها هكذا — لكن على القرص لا توجد شجرة، بل ستة ملفات فقط.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T16 &middot; Theory</span>
+<h2>Where the six files live
+  <span class="ar">أين تعيش الملفات الستة</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Hive file</th><th>What it holds</th></tr></thead>
+  <tbody>
+    <tr><td><code>SYSTEM</code><br><span class="mut" style="font-size:.85em">C:\Windows\System32\config\</span></td><td>hardware, services, the computer name, the time zone, <b>every device ever installed</b><span class="ar">العتاد و الخدمات و اسم الجهاز و المنطقة الزمنية و <b>كل جهاز ثُبِّت يومًا</b></span></td></tr>
+    <tr><td><code>SOFTWARE</code><br><span class="mut" style="font-size:.85em">C:\Windows\System32\config\</span></td><td>installed programs, Windows version and install date, the list of user profiles, what runs at boot<span class="ar">البرامج المثبَّتة و إصدار ويندوز و تاريخ تثبيته و قائمة ملفات التعريف و ما يعمل عند الإقلاع</span></td></tr>
+    <tr><td><code>SAM</code><br><span class="mut" style="font-size:.85em">C:\Windows\System32\config\</span></td><td>local user accounts: names, RIDs, login counts, last login, password hashes<span class="ar">الحسابات المحلية: الأسماء و الـ RIDs و عدد مرات الدخول و آخر دخول و قيم hash كلمات المرور</span></td></tr>
+    <tr><td><code>SECURITY</code><br><span class="mut" style="font-size:.85em">C:\Windows\System32\config\</span></td><td>security policy, cached domain logons<span class="ar">سياسة الأمان و بيانات دخول الـ domain المخزَّنة</span></td></tr>
+    <tr><td><code>NTUSER.DAT</code><br><span class="mut" style="font-size:.85em">C:\Users\&lt;user&gt;\</span></td><td><b>one per user</b>: what that person opened, typed, ran and mounted<span class="ar"><b>واحد لكل مستخدم</b>: ما فتحه ذلك الشخص و كتبه و شغّله و ركّبه</span></td></tr>
+    <tr><td><code>UsrClass.dat</code><br><span class="mut" style="font-size:.85em">&hellip;\AppData\Local\Microsoft\Windows\</span></td><td>one per user: folder views, and the <b>shellbags</b> `T19` is about<span class="ar">واحد لكل مستخدم: طرق عرض المجلدات، و الـ <b>shellbags</b> التي يدور حولها `T19`</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">Why you take the files instead of running regedit</span>
+  <p>Every one of these is <b>locked while Windows runs</b>, and regedit shows you a merged view with the deleted parts hidden. From a disk image you get the files themselves &mdash; including the two <b>transaction logs</b> beside each one, <code>.LOG1</code> and <code>.LOG2</code>, which can hold changes not yet written into the hive.
+    <span class="ar">كلٌّ منها <b>مقفل أثناء عمل ويندوز</b>، و يعرض لك regedit مشهدًا مدمجًا تُخفى فيه الأجزاء المحذوفة. و من صورة القرص تحصل على الملفات نفسها — بما في ذلك <b>سجلا المعاملات</b> بجوار كل ملف، <code>.LOG1</code> و <code>.LOG2</code>، اللذان قد يحملان تغييرات لم تُكتب بعد في الـ hive.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T16 &middot; Theory &middot; measured</span>
+<h2>Inside a hive file
+  <span class="ar">داخل ملف الـ hive</span></h2>
+<p>Open <code>SYSTEM</code> in a hex viewer and it looks like `P09`: a header, then fixed-size blocks, then small records inside them. The names change; the ideas do not.
+  <span class="ar">افتح <code>SYSTEM</code> في عارض hex فيبدو مثل `P09`: header، ثم كتل ثابتة الحجم، ثم سجلات صغيرة بداخلها. تتغيّر الأسماء؛ و لا تتغيّر الأفكار.</span></p>
+<figure class="dgm" id="dg10-f2" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P10-F2</span><span class="dgm-tag">STRUCTURE</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 286" role="img" aria-labelledby="t10f2">
+  <title id="t10f2">The header, the bins and the cells of a hive file</title>
+  <text class="xs mut" x="14" y="24">SYSTEM &#183; 10,485,760 BYTES &#183; READ BY HAND</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="36" width="752" height="44" rx="5"/>
+    <text class="sm" x="30" y="55">0x0000  HEADER  &#8220;regf&#8221; &#183; 4,096 B &#183; sequence 20610 / 20609 &#183; written 2013-08-22 14:52:22</text>
+    <text class="xs mut" x="30" y="73">root cell 0x20 &#183; data size 10,473,472 &#183; XOR-32 checksum 0xF76F4711, recomputed: matches</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="14" y="92" width="752" height="40" rx="5"/>
+    <text class="sm" x="30" y="110">0x1000  &#8220;hbin&#8221;  &#183;  a 4,096-byte bin  &#183;  every offset in the file counts from HERE, not from byte 0</text>
+    <text class="xs mut" x="30" y="126">so the root cell at &#8220;0x20&#8221; is really at 0x1000 + 0x20 = 0x1020</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="14" y="144" width="368" height="56" rx="5"/>
+    <text class="sm" x="30" y="165">0x1020  cell  size &#8722;144  &#8220;nk&#8221;</text>
+    <text class="xs mut" x="30" y="184">a KEY. flags 0x2C, 8 subkeys, 0 values</text>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="398" y="144" width="368" height="56" rx="5"/>
+    <text class="sm" x="414" y="165">&#8220;vk&#8221; cells</text>
+    <text class="xs mut" x="414" y="184">a VALUE: name, type, data or a pointer to it</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="212" width="752" height="30" rx="5"/>
+    <text class="sm" x="30" y="232">negative size = IN USE. positive = FREE &#8212; and a free cell still holds its old bytes</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="252" width="752" height="28" rx="5"/>
+    <text class="sm" x="30" y="271">A hive is a file system inside a file: allocation, free space, and slack. `P08` again.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">Read from the first 512 bytes of EVS-12 SYSTEM</span>
+  <p>Magic <code>regf</code>. Sequence numbers <b>20610 / 20609</b> &mdash; they differ by one, which means the hive was not cleanly flushed and the <code>.LOG</code> files may hold the last change. Root cell at offset <b>0x20</b> from the first bin, so at file offset <b>0x1020</b>. The header checksum recomputed by hand is <b>0xF76F4711</b>, and it matches.
+    <span class="ar">العلامة <code>regf</code>. رقما التسلسل <b>٢٠٦١٠ / ٢٠٦٠٩</b> — يختلفان بواحد، أي أن الـ hive لم يُفرَّغ بشكل نظيف و قد يحمل ملفا <code>.LOG</code> آخر تغيير. و الخلية الجذر عند الإزاحة <b>0x20</b> من أول bin، أي عند الإزاحة <b>0x1020</b> في الملف. و checksum الـ header المعاد حسابه يدويًّا هو <b>0xF76F4711</b>، و هو مطابق.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p8">
+<span class="kicker">T16 &middot; Theory</span>
+<h2>The one timestamp every key carries
+  <span class="ar">الزمن الوحيد الذي يحمله كل مفتاح</span></h2>
+<p>A key knows <b>when it was last written</b>. That is the only time it knows. A value knows nothing about time at all.
+  <span class="ar">يعرف المفتاح <b>متى كُتب آخر مرة</b>. و هذا هو الزمن الوحيد الذي يعرفه. أما القيمة فلا تعرف عن الزمن شيئًا إطلاقًا.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>What you want to know</th><th>What the registry can say</th></tr></thead>
+  <tbody>
+    <tr><td>when was this setting changed?<span class="ar">متى تغيّر هذا الإعداد؟</span></td><td>the key&rsquo;s LastWrite &mdash; <b>if</b> nothing else in the same key changed later<span class="ar">زمن LastWrite للمفتاح — <b>إن</b> لم يتغيّر شيء آخر في المفتاح نفسه لاحقًا</span></td></tr>
+    <tr><td>when was this value created?<span class="ar">متى أُنشئت هذه القيمة؟</span></td><td><b>never</b>. Values carry no timestamp.<span class="ar"><b>أبدًا</b>. فالقيم لا تحمل زمنًا.</span></td></tr>
+    <tr><td>when was this key created?<span class="ar">متى أُنشئ هذا المفتاح؟</span></td><td>not stored either &mdash; unless a value inside it says so, as the USB keys do<span class="ar">غير مخزَّن أيضًا — إلا إن قالت قيمة بداخله ذلك، كما تفعل مفاتيح الـ USB</span></td></tr>
+    <tr><td>who changed it?<span class="ar">من غيّره؟</span></td><td>never. A hive records a state, not an actor.<span class="ar">أبدًا. فالـ hive يسجّل حالة، لا فاعلاً.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">The trap this creates</span>
+  <p>A LastWrite time on a key with twenty values tells you <b>one</b> of them changed then. Which one is not recorded. Report the key&rsquo;s time as the key&rsquo;s time &mdash; <b>never</b> as the time a particular value was set.
+    <span class="ar">زمن LastWrite لمفتاح فيه عشرون قيمة يخبرك أن <b>واحدة</b> منها تغيّرت حينها. أما أيّها فغير مسجَّل. اذكر زمن المفتاح بوصفه زمن المفتاح — و <b>أبدًا</b> لا بوصفه زمن ضبط قيمة بعينها.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p9">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 3</span>
+  <h2>What the system says about itself<span class="ar">ما يقوله النظام عن نفسه</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Name, time zone, version, users, and what starts at boot -- each in a known key, in a known hive.<span class="ar">الاسم و المنطقة الزمنية و الإصدار و المستخدمون و ما يبدأ عند الإقلاع — كلٌّ في مفتاح معروف، في hive معروف.</span></p>
+  <p class="divider-meta">3 screens &middot; 12 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p10">
+<span class="kicker">T16 &middot; Theory &middot; measured</span>
+<h2>Identity: the first five questions
+  <span class="ar">الـ identity: الأسئلة الخمسة الأولى</span></h2>
+<p>Before any artifact, an examiner answers five questions about the machine, because every later timestamp depends on them. Each has a fixed address.
+  <span class="ar">قبل أي artifact، يجيب الفاحص عن خمسة أسئلة عن الجهاز، لأن كل زمن لاحق يعتمد عليها. و لكلٍّ منها عنوان ثابت.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Question</th><th>Hive and key &rarr; what EVS-12 says</th></tr></thead>
+  <tbody>
+    <tr><td>What is it called?<span class="ar">ما اسمه؟</span></td><td><code>SYSTEM</code> &rarr; <code>ControlSet001\Control\ComputerName\ComputerName</code><br><b>HAXOR4</b></td></tr>
+    <tr><td>What time zone?<span class="ar">أي منطقة زمنية؟</span></td><td><code>SYSTEM</code> &rarr; <code>&hellip;\Control\TimeZoneInformation</code><br><b>Mountain Standard Time, bias 420 min</b></td></tr>
+    <tr><td>Which ControlSet is live?<span class="ar">أي ControlSet هو الفعّال؟</span></td><td><code>SYSTEM</code> &rarr; <code>Select\Current</code><br><b>1 &rarr; use <code>ControlSet001</code></b></td></tr>
+    <tr><td>What Windows, installed when?<span class="ar">أي ويندوز، و متى ثُبِّت؟</span></td><td><code>SOFTWARE</code> &rarr; <code>Microsoft\Windows NT\CurrentVersion</code><br><b>Windows 7 Professional build 7601, 2013-10-10 01:33:45</b></td></tr>
+    <tr><td>Who has a profile?<span class="ar">من له ملف تعريف؟</span></td><td><code>SOFTWARE</code> &rarr; <code>&hellip;\CurrentVersion\ProfileList</code><br><b>RID 1000 &rarr; <code>C:\Users\Win7SP1</code></b></td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">One thing EVS-12 makes you notice</span>
+  <p>The <code>SYSTEM</code> hive names the machine <b>HAXOR4</b>; the <code>SOFTWARE</code> hive belongs to a clean <b>Win7SP1</b> virtual machine. <b>They are from two different systems</b> &mdash; the corpus was assembled for testing parsers, not as one case. An examiner checks this on every case: <b>do the hives I was handed come from the same machine?</b> `T17` will show one way to prove it.
+    <span class="ar">يسمّي hive الـ <code>SYSTEM</code> الجهاز <b>HAXOR4</b>؛ بينما ينتمي hive الـ <code>SOFTWARE</code> إلى جهاز افتراضي نظيف اسمه <b>Win7SP1</b>. <b>فهما من نظامين مختلفين</b> — إذ جُمعت المجموعة لاختبار أدوات التحليل، لا بوصفها قضية واحدة. و يتحقّق الفاحص من هذا في كل قضية: <b>هل الـ hives التي سُلِّمت لي من الجهاز نفسه؟</b> و سيُظهر `T17` طريقة لإثبات ذلك.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T16 &middot; Theory &middot; measured</span>
+<h2>Users: the SAM hive
+  <span class="ar">المستخدمون: hive الـ SAM</span></h2>
+<p>Local accounts live in <code>SAM</code>, under <code>SAM\Domains\Account\Users</code>. Each account is a key named by its <b>RID</b> in hex, holding two binary values: <code>F</code> (times and counts) and <code>V</code> (name and hashes).
+  <span class="ar">تعيش الحسابات المحلية في <code>SAM</code>، تحت <code>SAM\Domains\Account\Users</code>. و كل حساب مفتاح اسمه الـ <b>RID</b> بالنظام الست عشري، يحمل قيمتين ثنائيتين: <code>F</code> (الأزمنة و العدّادات) و <code>V</code> (الاسم و قيم الـ hash).</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>RID</th><th>Account</th><th>Last login</th><th>Login count</th></tr></thead>
+  <tbody>
+    <tr><td><code>000001F4</code> = 500</td><td>Administrator</td><td>never</td><td>0</td></tr>
+    <tr><td><code>000001F5</code> = 501</td><td>Guest</td><td>never</td><td>0</td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">What EVS-12&rsquo;s SAM tells you, and what it does not</span>
+  <p>Two built-in accounts, <b>neither ever logged in</b>. That is the SAM of a machine nobody used interactively as a local user &mdash; consistent with a domain-joined or freshly built system. <b>The absence is the finding.</b> The user who did the work in `T17` is not in this SAM at all, because the two hives are from different machines.
+    <span class="ar">حسابان مدمجان، <b>لم يدخل أيٌّ منهما قط</b>. و هذا SAM جهاز لم يستخدمه أحد تفاعليًّا بحساب محلي — و يتّسق مع نظام منضمّ إلى domain أو مبنيّ حديثًا. <b>فالغياب هو النتيجة.</b> و المستخدم الذي قام بالعمل في `T17` ليس في هذا الـ SAM أصلاً، لأن الـ hives من جهازين مختلفين.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p12">
+<span class="kicker">T16 &middot; Theory</span>
+<h2>What runs at boot
+  <span class="ar">ما الذي يعمل عند الإقلاع</span></h2>
+<p>Persistence &mdash; a program arranging to run again after a reboot &mdash; is a registry question first. These are the keys, in the order you check them.
+  <span class="ar">الاستمرارية — برنامج يرتّب أن يعمل مجدّدًا بعد إعادة التشغيل — سؤال registry أولاً. و هذه هي المفاتيح، بترتيب فحصها.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Key &mdash; and who it applies to</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</code> &mdash; every user, every logon<span class="ar">كل مستخدم، عند كل دخول</span></td></tr>
+    <tr><td>2</td><td><code>SOFTWARE\&hellip;\CurrentVersion\RunOnce</code> &mdash; every user, once, then the entry is deleted<span class="ar">كل مستخدم، مرة واحدة ثم يُحذف المدخل</span></td></tr>
+    <tr><td>3</td><td><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run</code> &mdash; <b>this</b> user only<span class="ar"><b>هذا</b> المستخدم فقط</span></td></tr>
+    <tr><td>4</td><td><code>SYSTEM\ControlSet001\Services</code> &mdash; services and drivers, before any user logs on<span class="ar">الخدمات و التعريفات — قبل دخول أي مستخدم</span></td></tr>
+    <tr><td>5</td><td><code>SOFTWARE\&hellip;\Winlogon</code> (<code>Shell</code>, <code>Userinit</code>) &mdash; replaces what starts the desktop itself<span class="ar">يستبدل ما يبدأ سطح المكتب نفسه</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>In EVS-12, the machine-wide <code>Run</code> key holds exactly one entry &mdash; VMware Tools &mdash; which is what a clean VM looks like. A <code>Run</code> key with an entry pointing into <code>AppData\Roaming</code> or <code>Temp</code> is not a finding of malware; it is a <b>reason to look</b>, the same as the entropy scale in `P07`.
+    <span class="ar">في EVS-12 يحمل مفتاح <code>Run</code> العام مدخلاً واحدًا بالضبط — VMware Tools — و هكذا يبدو الجهاز الافتراضي النظيف. و مفتاح <code>Run</code> فيه مدخل يشير إلى <code>AppData\Roaming</code> أو <code>Temp</code> ليس نتيجةً بوجود برمجية خبيثة؛ بل <b>سبب للنظر</b>، مثل مقياس الـ entropy في `P07`.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p13">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 3 of 3</span>
+  <h2>Device history<span class="ar">تاريخ الأجهزة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">One USB stick, three hives, five keys, and four dates that do not mean what their names say.<span class="ar">USB stick واحد، و ثلاثة hives، و خمسة مفاتيح، و أربعة تواريخ لا تعني ما تقوله أسماؤها.</span></p>
+  <p class="divider-meta">3 screens &middot; 15 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T17 &middot; Theory &middot; measured</span>
+<h2>The USB chain
+  <span class="ar">سلسلة الـ USB</span></h2>
+<p>When a USB storage device is plugged in, Windows writes to <b>five places</b>. None of them tells the whole story. Together they name the device, the port, the drive letter, and the user.
+  <span class="ar">حين يُوصَّل جهاز تخزين USB، يكتب ويندوز في <b>خمسة مواضع</b>. و لا واحد منها يروي القصة كاملة. و معًا تسمّي الجهاز و المنفذ و حرف القرص و المستخدم.</span></p>
+<figure class="dgm" id="dg10-f3" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P10-F3</span><span class="dgm-tag">MECHANISM</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 330" role="img" aria-labelledby="t10f3">
+  <title id="t10f3">The five places a USB device leaves a record, linked by the values they share</title>
+  <text class="xs mut" x="14" y="24">ONE DEVICE, FIVE RECORDS, FOUR LINKS &#183; the ADATA flash drive in EVS-12</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="36" width="752" height="46" rx="5"/>
+    <text class="sm" x="30" y="55">SYSTEM \ Enum \ USBSTOR \ Disk&amp;Ven_ADATA&amp;Prod_USB_Flash_Drive \ 2361808400440061&amp;0</text>
+    <text class="xs mut" x="30" y="74">the SERIAL is the key name &#183; FriendlyName &#183; four timestamps under Properties</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="14" y="94" width="752" height="40" rx="5"/>
+    <text class="sm" x="30" y="112">SYSTEM \ Enum \ USB \ VID_125F&amp;PID_DE7A \ 2361808400440061</text>
+    <text class="xs mut" x="30" y="129">the same serial under the vendor and product IDs &#8212; the maker, the model</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="14" y="146" width="752" height="40" rx="5"/>
+    <text class="sm" x="30" y="164">SYSTEM \ MountedDevices   \DosDevices\J:  and  \??\Volume{3aa3a4a9-087f-11e4-825d-ac220b2a5a56}</text>
+    <text class="xs mut" x="30" y="181">both values CONTAIN the serial &#8212; so the device was J:, and it had this volume GUID</text>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="14" y="198" width="752" height="40" rx="5"/>
+    <text class="sm" x="30" y="216">NTUSER.DAT \ &#8230; \ Explorer \ MountPoints2 \ {3aa3a4a9-087f-11e4-825d-ac220b2a5a56}</text>
+    <text class="xs mut" x="30" y="233">the same GUID in a USER&#8217;s hive &#8212; THIS user mounted it &#183; key last written 2014-10-14 20:39:34</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="250" width="752" height="30" rx="5"/>
+    <text class="sm" x="30" y="270">C:\Windows\inf\setupapi.dev.log  &#8212;  the FIRST time ever, in plain text. Not in EVS-12.</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="290" width="752" height="30" rx="5"/>
+    <text class="sm" x="30" y="310">Serial links 1&#8211;3. GUID links 3&#8211;4. No single key knows the whole story.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">Measured on EVS-12 for the ADATA flash drive</span>
+  <p>Serial <code>2361808400440061&amp;0</code> &rarr; vendor <code>VID_125F</code> product <code>PID_DE7A</code> &rarr; drive letter <b>J:</b> &rarr; volume GUID <code>{3aa3a4a9-087f-11e4-825d-ac220b2a5a56}</code> &rarr; present in the user&rsquo;s <code>MountPoints2</code>, last written <b>2014-10-14 20:39:34</b>. <b>43 of the 52</b> GUIDs in that user hive also appear in <code>SYSTEM</code> &mdash; which is how we know these two hives, at least, are from the same machine.
+    <span class="ar">الرقم التسلسلي <code>2361808400440061&amp;0</code> &rarr; المُصنِّع <code>VID_125F</code> و المنتج <code>PID_DE7A</code> &rarr; حرف القرص <b>J:</b> &rarr; الـ volume GUID <code>{3aa3a4a9-087f-11e4-825d-ac220b2a5a56}</code> &rarr; موجود في <code>MountPoints2</code> الخاص بالمستخدم، بآخر كتابة <b>٢٠١٤-١٠-١٤ ٢٠:٣٩:٣٤</b>. و <b>٤٣ من ٥٢</b> GUID في hive ذلك المستخدم تظهر أيضًا في <code>SYSTEM</code> — و هكذا نعرف أن هذين الـ hives على الأقل من الجهاز نفسه.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">T17 &middot; Theory &middot; measured</span>
+<h2>Four timestamps, one device
+  <span class="ar">أربعة أزمنة، جهاز واحد</span></h2>
+<p>Under each device&rsquo;s serial key, a <code>Properties</code> subtree holds up to four dates. Their names are misleading, and the only cure is to look at all of them at once.
+  <span class="ar">تحت مفتاح الرقم التسلسلي لكل جهاز، تحمل شجرة <code>Properties</code> الفرعية حتى أربعة تواريخ. و أسماؤها مضلِّلة، و العلاج الوحيد أن تنظر إليها كلها معًا.</span></p>
+<figure class="dgm" id="dg10-f4" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P10-F4</span><span class="dgm-tag">INTERPRETATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t10f4">
+  <title id="t10f4">Three timestamps for the same device, on a timeline</title>
+  <text class="xs mut" x="14" y="24">THE ADATA DRIVE &#183; EVERY DATE BELOW WAS READ FROM EVS-12</text>
+  <line x1="40" y1="120" x2="740" y2="120" stroke="#3a4a5c" stroke-width="2"/>
+  <g data-step="1">
+    <circle cx="120" cy="120" r="7" fill="#00ff9d"/>
+    <rect class="box ok" x="35" y="60" width="170" height="50" rx="5"/>
+    <text class="sm" x="120" y="79" text-anchor="middle">2014-07-10</text>
+    <text class="xs mut" x="120" y="95" text-anchor="middle">volume GUID minted</text>
+    <text class="xs mut" x="120" y="54" text-anchor="middle">UUIDv1 inside the GUID</text>
+  </g>
+  <g data-step="2">
+    <circle cx="330" cy="120" r="7" fill="#00ff9d"/>
+    <rect class="box ok" x="245" y="150" width="170" height="50" rx="5"/>
+    <text class="sm" x="330" y="169" text-anchor="middle">2014-10-14</text>
+    <text class="xs mut" x="330" y="185" text-anchor="middle">user last mounted it</text>
+    <text class="xs mut" x="330" y="144" text-anchor="middle">MountPoints2 LastWrite</text>
+  </g>
+  <g data-step="3">
+    <circle cx="560" cy="120" r="7" fill="#ff8a6a"/>
+    <rect class="box no" x="475" y="60" width="170" height="50" rx="5"/>
+    <text class="sm" x="560" y="79" text-anchor="middle">2015-02-23</text>
+    <text class="xs mut" x="560" y="95" text-anchor="middle">device (re)installed</text>
+    <text class="xs mut" x="560" y="54" text-anchor="middle">USBSTOR 0064 + key LastWrite</text>
+  </g>
+  <g data-step="4">
+    <circle cx="690" cy="120" r="7" fill="#ff8a6a"/>
+    <rect class="box no" x="605" y="150" width="170" height="50" rx="5"/>
+    <text class="sm" x="690" y="169" text-anchor="middle">2015-02-24</text>
+    <text class="xs mut" x="690" y="185" text-anchor="middle">last arrival</text>
+    <text class="xs mut" x="690" y="144" text-anchor="middle">USBSTOR 0066</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="218" width="752" height="36" rx="5"/>
+    <text class="sm" x="30" y="241">&#8220;First install&#8221; is NOT first use. The earliest date is inside a GUID nobody reads.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="interpretation">
+  <span class="cl-label">What this timeline supports, and what it does not</span>
+  <p><b>Supports:</b> the volume existed on this machine by <b>July 2014</b>; this user had it mounted in <b>October 2014</b>; the driver was reinstalled on <b>2015-02-23 at 17:31</b>, ten seconds after a Mushkin drive&rsquo;s last removal; it arrived again the next morning and no removal was recorded. <b>Does not support:</b> what was copied, whether anything was copied, or that the person at the keyboard was the account owner. <b>Cannot prove:</b> the first time the device was ever attached &mdash; that is in <code>setupapi.dev.log</code>, which is not in this corpus.
+    <span class="ar"><b>يدعم:</b> أن الـ volume كان موجودًا على هذا الجهاز بحلول <b>يوليو ٢٠١٤</b>؛ و أن هذا المستخدم ركّبه في <b>أكتوبر ٢٠١٤</b>؛ و أن التعريف أُعيد تثبيته في <b>٢٠١٥-٠٢-٢٣ الساعة ١٧:٣١</b>، بعد عشر ثوانٍ من آخر إزالة لقرص Mushkin؛ و أنه وصل مجدّدًا صباح اليوم التالي دون تسجيل إزالة. <b>لا يدعم:</b> ما الذي نُسخ، و لا هل نُسخ شيء أصلاً، و لا أن من كان على لوحة المفاتيح هو صاحب الحساب. <b>لا يستطيع إثبات:</b> أول مرة وُصِّل فيها الجهاز على الإطلاق — فتلك في <code>setupapi.dev.log</code>، و ليس في هذه المجموعة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p16">
+<span class="kicker">T17 &middot; Theory</span>
+<h2>What the chain does not tell you
+  <span class="ar">ما لا تخبرك به السلسلة</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>You will be asked &mdash; and the honest answer</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><b>&ldquo;Was this USB used to copy the files?&rdquo;</b> &mdash; the registry records that the device was <b>attached</b>, never what crossed it. Copying leaves marks elsewhere &mdash; `T19` shellbags and LNK files &mdash; and even those show <b>access</b>, not copying.<span class="ar"><b>«هل استُخدم هذا الـ USB لنسخ الملفات؟»</b> — يسجّل الـ registry أن الجهاز <b>وُصِّل</b>، و لا يسجّل أبدًا ما عبره. فالنسخ يترك آثارًا في مواضع أخرى — shellbags و ملفات LNK في `T19` — و حتى تلك تُظهر <b>وصولاً</b>، لا نسخًا.</span></td></tr>
+    <tr><td>2</td><td><b>&ldquo;Who plugged it in?&rdquo;</b> &mdash; <code>MountPoints2</code> names the <b>account</b> whose session mounted it. An account is not a person.<span class="ar"><b>«من وصّله؟»</b> — يسمّي <code>MountPoints2</code> <b>الحساب</b> الذي ركّبته جلسته. و الحساب ليس شخصًا.</span></td></tr>
+    <tr><td>3</td><td><b>&ldquo;When was it first used?&rdquo;</b> &mdash; not from the registry. <code>setupapi.dev.log</code> or the earliest UUIDv1 clock &mdash; and say which.<span class="ar"><b>«متى استُخدم أول مرة؟»</b> — ليس من الـ registry. بل من <code>setupapi.dev.log</code> أو من أقدم ساعة UUIDv1 — و اذكر أيّهما.</span></td></tr>
+    <tr><td>4</td><td><b>&ldquo;Is it still attached?&rdquo;</b> &mdash; a missing <b>Last Removal</b> means none was recorded, which is also what an unclean shutdown looks like.<span class="ar"><b>«هل ما زال موصولاً؟»</b> — غياب <b>Last Removal</b> يعني أنه لم تُسجَّل إزالة، و هكذا يبدو أيضًا إيقاف التشغيل غير النظيف.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this part turns on</span>
+  <ul>
+    <li><b>The registry records that a device was known. Everything past &ldquo;known&rdquo; is another artifact&rsquo;s job.</b>
+      <span class="ar"><b>يسجّل الـ registry أن جهازًا كان معروفًا. و كل ما بعد «معروف» عمل artifact آخر.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page divider" id="p17">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>One device, three hives<span class="ar">جهاز واحد، ثلاثة hives</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The instructor drives. Five RegRipper commands, every output line real. Watch where the serial goes.<span class="ar">المدرّب يقود. خمسة أوامر RegRipper، و كل سطر مخرجات حقيقي. راقب إلى أين يذهب الرقم التسلسلي.</span></p>
+  <p class="divider-meta">1 screen &middot; 10 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p18">
+<span class="kicker">T17 &middot; Instructor demo &middot; 10 min</span>
+<h2>Demo &mdash; following the ADATA drive
+  <span class="ar">العرض — تتبّع قرص ADATA</span></h2>
+<p><b>Tool:</b> RegRipper 3.0 (<code>rip.exe</code>), free, on the classroom machines. <b>Evidence:</b> the <code>SYSTEM</code> and <code>NTUSER.DAT</code> hives from <code>EVS-12</code>. Every line of output below was captured from the real tool on the real hives &mdash; nothing is typed in by hand.
+  <span class="ar"><b>الأداة:</b> RegRipper 3.0 (<code>rip.exe</code>)، مجانية، على أجهزة القاعة. <b>الدليل:</b> ملفا <code>SYSTEM</code> و <code>NTUSER.DAT</code> من <code>EVS-12</code>. و كل سطر مخرجات أدناه التُقط من الأداة الحقيقية على الـ hives الحقيقية — لا شيء مكتوب باليد.</span></p>
+<div class="simscreen" id="ss-t17" data-title="Instructor demo -- one USB device, three hives" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="r1" style="width:740px">
+    <div class="wu-tb"><span class="t">Command Prompt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 1 -- what machine is this? one plugin, one hive.</span>
+
+<span class="p">C:\cases\EVS-12&gt;</span> <span class="k">rip.exe -r SYSTEM -p compname</span>
+compname v.20090727
+(System) Gets ComputerName and Hostname values from System hive
+
+<span id="g1">ComputerName    = <span class="w">HAXOR4</span></span>
+TCP/IP Hostname = haxor4
+
+<span class="p">C:\cases\EVS-12&gt;</span> <span class="k">rip.exe -r SYSTEM -p timezone</span>
+  Bias           -> 420 (7 hours)
+  TimeZoneKeyName-> <span class="w">Mountain Standard Time</span></div>
+  </div>
+
+  <div class="wu" id="r2" style="width:740px">
+    <div class="wu-tb"><span class="t">Command Prompt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 2 -- every USB storage device this machine has ever installed</span>
+
+<span class="p">C:\cases\EVS-12&gt;</span> <span class="k">rip.exe -r SYSTEM -p usbstor</span>
+
+Disk&amp;Ven_ADATA&amp;Prod_USB_Flash_Drive&amp;Rev_1.00 [2015-02-23 17:31:31]
+<span id="g2">  S/N: <span class="w">2361808400440061&amp;0</span> [2015-02-23 17:31:31Z]</span>
+    FriendlyName          : ADATA USB Flash Drive USB Device
+    First InstallDate     : 2015-02-23 17:31:31Z
+    InstallDate           : 2015-02-23 17:31:31Z
+    Last Arrival          : 2015-02-24 03:23:35Z
+
+<span class="d"># 9 devices in this hive. Take the serial -- it is the key to everything else.</span></div>
+  </div>
+
+  <div class="wu" id="r3" style="width:780px">
+    <div class="wu-tb"><span class="t">Command Prompt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 3 -- which drive letter, which volume? search MountedDevices for the serial</span>
+
+<span class="p">C:\cases\EVS-12&gt;</span> <span class="k">rip.exe -r SYSTEM -p mountdev | findstr /C:"2361808400440061" /C:"J:" /C:"3aa3a4a9"</span>
+
+Device: _??_USBSTOR#Disk&amp;Ven_ADATA&amp;Prod_USB_Flash_Drive&amp;Rev_1.00#2361808400440061&amp;0#{53f56307-...}
+<span id="g3">  \??\Volume{<span class="w">3aa3a4a9-087f-11e4-825d-ac220b2a5a56</span>}
+  \DosDevices\<span class="w">J:</span></span>
+
+<span class="d"># the device was J:, and this is its volume GUID. Carry the GUID to the next hive.</span></div>
+  </div>
+
+  <div class="wu" id="r4" style="width:780px">
+    <div class="wu-tb"><span class="t">Command Prompt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 4 -- leave SYSTEM. did THIS user mount it? search the user hive for the GUID</span>
+
+<span class="p">C:\cases\EVS-12&gt;</span> <span class="k">rip.exe -r NTUSER.DAT -p mp2 | findstr /B /C:"2014-10-14" /C:"  {3aa3a4a9"</span>
+
+<span id="g4"><span class="w">2014-10-14 20:39:34Z</span>
+  {3aa3a4a9-087f-11e4-825d-ac220b2a5a56}</span>
+
+<span class="d"># the GUID is in the user's MountPoints2. This user, not just this machine. Last: 2014-10-14.</span></div>
+  </div>
+
+  <div class="wu" id="r5" style="width:780px">
+    <div class="wu-tb"><span class="t">Command Prompt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 5 -- put the four dates side by side before writing a word</span>
+
+  2014-07-10 22:12:06   volume GUID minted        <span class="d">(UUIDv1 clock inside the GUID)</span>
+  2014-10-14 20:39:34   user last mounted it      <span class="d">(NTUSER  MountPoints2 LastWrite)</span>
+<span id="g5">  2015-02-23 17:31:31   "First InstallDate"       <span class="e">(SYSTEM  USBSTOR -- driver reinstall)</span></span>
+  2015-02-24 03:23:35   Last Arrival              <span class="d">(SYSTEM  USBSTOR)</span>
+
+<span class="d"># "first install" is the LATEST of the three. Write the key beside every date, always.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="note">
+  <p><b>Ask while the demo runs:</b> after step 2, <i>which of these nine devices would you look at first, and why?</i> After step 4: <i>what did we just learn that step 3 could not tell us?</i>
+    <span class="ar"><b>اسأل أثناء العرض:</b> بعد الخطوة الثانية، <i>أي هذه الأجهزة التسعة كنت ستنظر إليه أولاً، و لماذا؟</i> و بعد الرابعة: <i>ما الذي تعلّمناه للتو و لم تستطع الخطوة الثالثة إخبارنا به؟</i></span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p19">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>The Mushkin drive<span class="ar">قرص Mushkin</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Same hives, a different device. Solo, or in a team of two -- one on SYSTEM, one on NTUSER.DAT.<span class="ar">الـ hives نفسها، و جهاز مختلف. فرديًّا، أو في فريق من اثنين — واحد على SYSTEM و واحد على NTUSER.DAT.</span></p>
+  <p class="divider-meta">1 screen &middot; 20 minutes at the keyboard</p>
+</div>
+    </section>
+
+<section class="page" id="p20">
+<span class="kicker">T17 &middot; Your turn &middot; 20 min</span>
+<h2>Lab &mdash; the second device
+  <span class="ar">المعمل — الجهاز الثاني</span></h2>
+<p>The demo followed the ADATA drive. <code>usbstor</code> also lists <b>MUSHKIN MKNUFDMH32GB</b>, serial <code>07AC0A07DBC96520&amp;0</code>. Follow it the same way, and answer the four questions.
+  <span class="ar">تتبّع العرض قرص ADATA. و يسرد <code>usbstor</code> أيضًا <b>MUSHKIN MKNUFDMH32GB</b> بالرقم التسلسلي <code>07AC0A07DBC96520&amp;0</code>. تتبّعه بالطريقة نفسها، و أجب عن الأسئلة الأربعة.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Step</th><th>Do</th><th>Write down</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>rip.exe -r SYSTEM -p usbstor</code> &mdash; find the Mushkin block<span class="ar"><code>rip.exe -r SYSTEM -p usbstor</code> — اعثر على كتلة Mushkin</span></td><td>all four dates, with their labels</td></tr>
+    <tr><td>2</td><td><code>rip.exe -r SYSTEM -p mountdev</code> &mdash; search for the serial<span class="ar"><code>rip.exe -r SYSTEM -p mountdev</code> — ابحث عن الرقم التسلسلي</span></td><td>the drive letter (if any) and the volume GUID</td></tr>
+    <tr><td>3</td><td><code>rip.exe -r NTUSER.DAT -p mp2</code> &mdash; search for that GUID<span class="ar"><code>rip.exe -r NTUSER.DAT -p mp2</code> — ابحث عن ذلك الـ GUID</span></td><td>present or not, and the date beside it</td></tr>
+    <tr><td>4</td><td>Decode the UUIDv1 clock inside the GUID (any online UUID decoder, or Python <code>uuid.UUID(g).time</code>)<span class="ar">فكّ ساعة UUIDv1 داخل الـ GUID (أي أداة فكّ UUID على الإنترنت، أو Python <code>uuid.UUID(g).time</code>)</span></td><td>the date the GUID was minted</td></tr>
+    <tr><td>5</td><td>Put the dates on one line, earliest first, each with its key<span class="ar">ضع التواريخ في سطر واحد، الأقدم أولاً، كلٌّ مع مفتاحه</span></td><td>the timeline</td></tr>
+  </tbody>
+</table></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Q</th><th>Answer these in one sentence each</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Did this device have a drive letter when the hive was taken? How do you know?<span class="ar">هل كان لهذا الجهاز حرف قرص حين أُخذ الـ hive؟ و كيف تعرف؟</span></td></tr>
+    <tr><td>2</td><td>Which was removed first on 2015-02-23 &mdash; this drive or the ADATA? By how many seconds?<span class="ar">أيّهما أُزيل أولاً في ٢٠١٥-٠٢-٢٣ — هذا القرص أم ADATA؟ و بكم ثانية؟</span></td></tr>
+    <tr><td>3</td><td>Is there a &ldquo;Last Removal&rdquo;? What does its presence say that the ADATA&rsquo;s absence does not?<span class="ar">هل يوجد «Last Removal»؟ و ما الذي يقوله وجوده و لا يقوله غيابه عند ADATA؟</span></td></tr>
+    <tr><td>4</td><td>Which of your dates would you <b>refuse</b> to call &ldquo;first use&rdquo;, and why?<span class="ar">أي تواريخك <b>ترفض</b> تسميته «أول استخدام»، و لماذا؟</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Team version:</b> one student works only <code>SYSTEM</code> (steps 1&ndash;2), the other only <code>NTUSER.DAT</code> (step 3). Neither can answer Q1&ndash;Q4 alone. <b>That is the point.</b>
+    <span class="ar"><b>نسخة الفريق:</b> يعمل طالب على <code>SYSTEM</code> فقط (الخطوتان ١–٢)، و الآخر على <code>NTUSER.DAT</code> فقط (الخطوة ٣). و لا يستطيع أيٌّ منهما الإجابة عن الأسئلة وحده. <b>و هذا هو المقصود.</b></span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p21">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>The registry on one screen<span class="ar">الـ registry في شاشة واحدة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Keep this open in the next lab.<span class="ar">أبقِ هذه مفتوحة في المعمل القادم.</span></p>
+  <p class="divider-meta">1 screen</p>
+</div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">P10 &middot; Cheat sheet</span>
+<h2>Cheat sheet &mdash; hives, keys, tools
+  <span class="ar">الملخّص — الـ hives و المفاتيح و الأدوات</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Question</th><th>Hive</th><th>Key or plugin</th></tr></thead>
+  <tbody>
+    <tr><td>machine name</td><td><code>SYSTEM</code></td><td><code>Control\ComputerName\ComputerName</code> &middot; <code>-p compname</code></td></tr>
+    <tr><td>time zone</td><td><code>SYSTEM</code></td><td><code>Control\TimeZoneInformation</code> &middot; <code>-p timezone</code></td></tr>
+    <tr><td>live ControlSet</td><td><code>SYSTEM</code></td><td><code>Select\Current</code></td></tr>
+    <tr><td>last shutdown</td><td><code>SYSTEM</code></td><td><code>Control\Windows\ShutdownTime</code> &middot; <code>-p shutdown</code></td></tr>
+    <tr><td>OS version, install date</td><td><code>SOFTWARE</code></td><td><code>Microsoft\Windows NT\CurrentVersion</code> &middot; <code>-p winver</code></td></tr>
+    <tr><td>user profiles</td><td><code>SOFTWARE</code></td><td><code>&hellip;\CurrentVersion\ProfileList</code> &middot; <code>-p profilelist</code></td></tr>
+    <tr><td>local accounts</td><td><code>SAM</code></td><td><code>SAM\Domains\Account\Users</code> &middot; <code>-p samparse</code></td></tr>
+    <tr><td>runs at boot</td><td><code>SOFTWARE</code> / <code>NTUSER</code></td><td><code>&hellip;\CurrentVersion\Run</code> &middot; <code>-p run</code></td></tr>
+    <tr><td>USB devices + 4 dates</td><td><code>SYSTEM</code></td><td><code>Enum\USBSTOR</code> &middot; <code>-p usbstor</code></td></tr>
+    <tr><td>vendor / product IDs</td><td><code>SYSTEM</code></td><td><code>Enum\USB\VID_&amp;PID_</code> &middot; <code>-p usbdevices</code></td></tr>
+    <tr><td>drive letter, volume GUID</td><td><code>SYSTEM</code></td><td><code>MountedDevices</code> &middot; <code>-p mountdev</code></td></tr>
+    <tr><td>which user mounted it</td><td><code>NTUSER.DAT</code></td><td><code>&hellip;\Explorer\MountPoints2</code> &middot; <code>-p mp2</code></td></tr>
+    <tr><td>first-ever install</td><td><i>not a hive</i></td><td><code>C:\Windows\inf\setupapi.dev.log</code></td></tr>
+  </tbody>
+</table></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Rule</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td>take the files, never run regedit on evidence<span class="ar">خذ الملفات، و لا تشغّل regedit على الدليل أبدًا</span></td><td>the files are locked live, and regedit hides deleted cells<span class="ar">الملفات مقفلة أثناء التشغيل، و regedit يخفي الخلايا المحذوفة</span></td></tr>
+    <tr><td>every date goes in the report with its key<span class="ar">كل تاريخ يدخل التقرير مع مفتاحه</span></td><td>&ldquo;First InstallDate&rdquo; was the latest of four<span class="ar">كان «First InstallDate» الأحدث بين أربعة</span></td></tr>
+    <tr><td>a key LastWrite is the key&rsquo;s, not a value&rsquo;s<span class="ar">زمن LastWrite للمفتاح، لا لقيمة</span></td><td>values carry no time<span class="ar">القيم لا تحمل زمنًا</span></td></tr>
+    <tr><td>prove the hives are from one machine before joining them<span class="ar">أثبت أن الـ hives من جهاز واحد قبل الربط بينها</span></td><td>EVS-12 was not &mdash; and the GUID overlap showed which were<span class="ar">لم تكن EVS-12 كذلك — و أظهر تداخل الـ GUIDs أيّها كانت</span></td></tr>
+  </tbody>
+</table></div>
+    </section>
+
+<section class="page divider" id="p23">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Due before P11<span class="ar">يُسلَّم قبل P11</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">One device, written up properly. Graded on the words, not the dates.<span class="ar">جهاز واحد، مكتوب عنه كما ينبغي. و الدرجة على الكلمات، لا على التواريخ.</span></p>
+  <p class="divider-meta">2 screens</p>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">P10 &middot; Task</span>
+<h2>Task &mdash; write up one device
+  <span class="ar">المهمة — اكتب عن جهاز واحد</span></h2>
+<p>Three items. Items 1 and 2 are on <b>your own machine</b>; item 3 is the assessment.
+  <span class="ar">ثلاثة بنود. البندان ١ و ٢ على <b>جهازك أنت</b>؛ و البند ٣ هو التقييم.</span></p>
+<div id="taskList" class="steps"></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Task</th><th>Deliverable</th><th>Marks</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Export your own <code>SYSTEM</code> hive: <code>reg save HKLM\SYSTEM C:\temp\SYSTEM.hiv</code> (as Administrator). Run <code>compname</code>, <code>timezone</code> and <code>usbstor</code> on it.<span class="ar">صدّر hive الـ <code>SYSTEM</code> الخاص بك: <code>reg save HKLM\SYSTEM C:\temp\SYSTEM.hiv</code> (بصلاحيات Administrator). و شغّل عليه <code>compname</code> و <code>timezone</code> و <code>usbstor</code>.</span></td><td>the three outputs</td><td>2</td></tr>
+    <tr><td>2</td><td>Pick one USB device from your own machine and build its four-date timeline, each date with its key.<span class="ar">اختر جهاز USB واحدًا من جهازك و ابنِ خطّه الزمني بتواريخه الأربعة، كلٌّ مع مفتاحه.</span></td><td>the timeline</td><td>3</td></tr>
+    <tr><td>3</td><td>Write the <b>Section 8</b> lines for the ADATA drive in EVS-12: one <b>finding</b> line per date, one <b>interpretation</b> line, and one <b>cannot prove</b> line. Then write, underneath, the sentence a lawyer would attack first.<span class="ar">اكتب سطور <b>القسم الثامن</b> لقرص ADATA في EVS-12: سطر <b>نتيجة</b> لكل تاريخ، و سطر <b>استنتاج</b> واحد، و سطر <b>لا يمكن إثباته</b> واحد. ثم اكتب تحتها الجملة التي سيهاجمها محامٍ أولاً.</span></td><td>the lines, and the weak one</td><td>5</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Grading item 3.</b> Full marks need every date to name its key, the interpretation to stay inside what the chain supports, and the &ldquo;cannot prove&rdquo; line to name <code>setupapi.dev.log</code> or the copy question. <b>Zero marks for &ldquo;the suspect used the USB on 2015-02-23&rdquo;</b> &mdash; that sentence has three claims in it and the evidence supports none of them as written.
+    <span class="ar"><b>تقييم البند الثالث.</b> الدرجة الكاملة تحتاج إلى أن يسمّي كل تاريخ مفتاحه، و أن يبقى الـ interpretation داخل ما تدعمه السلسلة، و أن يسمّي سطر «لا يمكن إثباته» ملف <code>setupapi.dev.log</code> أو سؤال النسخ. <b>و صفر لعبارة «استخدم المشتبه به الـ USB في ٢٠١٥-٠٢-٢٣»</b> — ففيها ثلاثة ادّعاءات، و لا يدعم الدليل أيًّا منها كما كُتبت.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p25">
+<span class="kicker">T17 &middot; Report stage &middot; 5 min</span>
+<h2>Report &mdash; Section 6 and Section 8 for a device
+  <span class="ar">التقرير — القسمان السادس و الثامن لجهاز</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Do not write</th><th>Write</th></tr></thead>
+  <tbody>
+    <tr><td>&ldquo;the USB was <b>first used</b> on 2015-02-23&rdquo;<span class="ar">«<b>استُخدم</b> الـ USB <b>أول مرة</b> في ٢٠١٥-٠٢-٢٣»</span></td><td>&ldquo;<code>USBSTOR</code> key LastWrite and <code>0064</code> both read 2015-02-23 17:31:31Z&rdquo;<span class="ar">«زمن LastWrite لمفتاح <code>USBSTOR</code> و قيمة <code>0064</code> كلاهما ٢٠١٥-٠٢-٢٣ ١٧:٣١:٣١Z»</span></td></tr>
+    <tr><td>&ldquo;<b>the suspect</b> plugged in the drive&rdquo;<span class="ar">«وصّل <b>المشتبه به</b> القرص»</span></td><td>&ldquo;the volume GUID appears in the <code>MountPoints2</code> key of the profile <code>&lt;user&gt;</code>&rdquo;<span class="ar">«يظهر الـ volume GUID في مفتاح <code>MountPoints2</code> لملف تعريف <code>&lt;user&gt;</code>»</span></td></tr>
+    <tr><td>&ldquo;files were <b>copied</b> to J:&rdquo;<span class="ar">«<b>نُسخت</b> ملفات إلى J:»</span></td><td>&ldquo;the device was assigned J:; no artifact examined here records a file transfer&rdquo;<span class="ar">«أُسند للجهاز الحرف J:؛ و لا يسجّل أي artifact فُحص هنا نقلَ ملفات»</span></td></tr>
+    <tr><td>&ldquo;the drive is <b>still connected</b>&rdquo;<span class="ar">«القرص <b>ما زال موصولاً</b>»</span></td><td>&ldquo;no <code>0067</code> Last Removal value is present&rdquo;<span class="ar">«لا توجد قيمة <code>0067</code> Last Removal»</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The line that separates a device finding from a story</span>
+  <p><b>The key path.</b> A date with a key path can be checked by anyone with the hive. A date without one is a claim about the examiner&rsquo;s memory. <b>Section 6</b> lists the hives by name and hash; <b>Section 8</b> quotes keys.
+    <span class="ar"><b>مسار المفتاح.</b> التاريخ الذي معه مسار مفتاح يستطيع أي شخص لديه الـ hive التحقّق منه. أما التاريخ بلا مسار فادّعاء عن ذاكرة الفاحص. <b>القسم السادس</b> يسرد الـ hives بأسمائها و قيم الـ hash الخاصة بها؛ و <b>القسم الثامن</b> يقتبس المفاتيح.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p26">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>You can state</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>what the registry physically is<span class="ar">ما هو الـ registry ماديًّا</span></td><td>six files, each a header plus bins plus cells<span class="ar">ستة ملفات، كلٌّ منها header ثم bins ثم خلايا</span></td></tr>
+    <tr><td>why you never run regedit on evidence<span class="ar">لماذا لا تشغّل regedit على الدليل أبدًا</span></td><td>the files are locked live and the view hides deleted cells<span class="ar">الملفات مقفلة أثناء التشغيل و العرض يخفي الخلايا المحذوفة</span></td></tr>
+    <tr><td>a machine&rsquo;s name, zone, version and users<span class="ar">اسم الجهاز و منطقته و إصداره و مستخدموه</span></td><td>five fixed keys in three hives<span class="ar">خمسة مفاتيح ثابتة في ثلاثة hives</span></td></tr>
+    <tr><td>which user used which USB device<span class="ar">أي مستخدم استخدم أي جهاز USB</span></td><td>the serial links three keys; the GUID links the fourth<span class="ar">الرقم التسلسلي يربط ثلاثة مفاتيح؛ و الـ GUID يربط الرابع</span></td></tr>
+    <tr><td>why &ldquo;First InstallDate&rdquo; misleads<span class="ar">لماذا يضلّل «First InstallDate»</span></td><td>it was the <b>latest</b> of four dates on the ADATA drive<span class="ar">كان <b>الأحدث</b> بين أربعة تواريخ على قرص ADATA</span></td></tr>
+    <tr><td>that two hives come from one machine<span class="ar">أن hive-ين من جهاز واحد</span></td><td>43 volume GUIDs in common<span class="ar">٤٣ volume GUID مشتركة</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this page turns on</span>
+  <ul>
+    <li><b>The registry records that something was known to Windows. When, by which key, and nothing more.</b>
+      <span class="ar"><b>يسجّل الـ registry أن شيئًا كان معروفًا لويندوز. متى، و بأي مفتاح، و لا شيء أكثر.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p27">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td><b>Eric Zimmerman &mdash; <code>Registry</code></b> test hives (MIT), commit <code>1b0b3c41</code><span class="ar">ملفات hive الاختبارية من مستودع <code>Registry</code> لـ Eric Zimmerman (MIT)</span></td><td>every hive on this page: <code>SYSTEM</code>, <code>SOFTWARE</code>, <code>SAM</code>, <code>SECURITY</code>, <code>NTUSER.DAT</code><span class="ar">كل hive على هذه الصفحة</span></td></tr>
+    <tr><td><b>RegRipper 3.0</b> &mdash; Harlan Carvey<span class="ar">أداة RegRipper 3.0 لـ Harlan Carvey</span></td><td>the demo: <code>compname</code>, <code>timezone</code>, <code>usbstor</code>, <code>mountdev</code>, <code>mp2</code>, verbatim<span class="ar">العرض: مخرجات الإضافات الخمس حرفيًّا</span></td></tr>
+    <tr><td><b>Windows registry file format</b> &mdash; libyal documentation<span class="ar">توثيق تنسيق ملف الـ registry من libyal</span></td><td>the header, bin and cell layout<span class="ar">بنية الـ header و الـ bin و الخلايا</span></td></tr>
+    <tr><td><b>INE eCDFP</b> module 4<span class="ar">وحدة INE eCDFP الرابعة</span></td><td>the hive list, the USB key chain, the four device timestamps<span class="ar">قائمة الـ hives و سلسلة مفاتيح الـ USB و أزمنة الجهاز الأربعة</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Evidence note.</b> <code>EVS-12</code> is <b>Tier 2</b>: a published corpus, fetched at a pinned commit and hash-checked by <code>scripts/fetch_corpora.py</code>, credited here and never rehosted. It is not one case &mdash; the <code>SYSTEM</code> and <code>NTUSER.DAT</code> hives share a machine, the others do not, and the page says so where it matters. <b>The user hive belongs to a real person who published it for exactly this purpose</b>; this page uses only its device keys, and nothing from it that describes the person.
+    <span class="ar"><b>ملاحظة عن الدليل.</b> <code>EVS-12</code> من <b>المستوى الثاني</b>: مجموعة منشورة، جُلبت عند commit مثبَّت و فُحصت قيم الـ hash الخاصة بها بواسطة <code>scripts/fetch_corpora.py</code>، منسوبة هنا و غير معاد استضافتها أبدًا. و هي ليست قضية واحدة — فـ<code>SYSTEM</code> و <code>NTUSER.DAT</code> من جهاز واحد، و البقية ليست كذلك، و تقول الصفحة ذلك حيث يهمّ. <b>و hive المستخدم يخصّ شخصًا حقيقيًّا نشره لهذا الغرض بالذات</b>؛ و لا تستخدم هذه الصفحة منه إلا مفاتيح الأجهزة، و لا شيء يصف الشخص.</span></p>
+</div>
+<p><b>Next: `P11` &mdash; What ran, what was touched.</b> This page asked the registry what Windows knew. `T18` and `T19` ask it, and four other artifacts, what the <b>user did</b>: which programs ran, which folders were opened, what went to the Recycle Bin.
+  <span class="ar"><b>التالي: `P11` — ما الذي عمل، و ما الذي لُمس.</b> سألت هذه الصفحة الـ registry عمّا عرفه ويندوز. و يسأله `T18` و `T19`، و أربعة artifacts أخرى، عمّا <b>فعله المستخدم</b>: أي برامج عملت، و أي مجلدات فُتحت، و ما الذي ذهب إلى سلة المحذوفات.</span></p>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 27</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P10</b> &middot; content from
+     <code>packages/page-10/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t17', [
+ {screen:'r1', target:'g1',
+  en:'RegRipper runs one <b>plugin</b> against one <b>hive file</b>. <code>compname</code> reads the computer name from <code>SYSTEM</code>; <code>timezone</code> reads the offset every other timestamp on this machine was written in. <b>Do these two first, on every case.</b>',
+  ar:'يشغّل RegRipper <b>plugin</b> واحدًا على <b>ملف hive</b> واحد. يقرأ <code>compname</code> اسم الجهاز من <code>SYSTEM</code>؛ و يقرأ <code>timezone</code> الفارق الزمني الذي كُتب به كل زمن آخر على هذا الجهاز. <b>افعل هذين أولاً في كل قضية.</b>'},
+ {screen:'r2', target:'g2',
+  en:'<code>usbstor</code> lists every USB storage device the machine ever installed a driver for. The line to copy is the <b>serial number</b> &mdash; it is the key name, and it is the thread that ties the next two hives together.',
+  ar:'يسرد <code>usbstor</code> كل جهاز تخزين USB ثبّت له الجهاز تعريفًا يومًا. و السطر الذي تنسخه هو <b>الرقم التسلسلي</b> — فهو اسم المفتاح، و هو الخيط الذي يربط الـ hives التاليين.'},
+ {screen:'r3', target:'g3',
+  en:'<code>MountedDevices</code> is the same hive, different key. Search its output for the serial and two lines come back: the <b>drive letter</b> the device had, and its <b>volume GUID</b>. The GUID is what you carry out of <code>SYSTEM</code>.',
+  ar:'<code>MountedDevices</code> في الـ hive نفسه، بمفتاح مختلف. ابحث في مخرجاته عن الرقم التسلسلي فيعود سطران: <b>حرف القرص</b> الذي كان للجهاز، و <b>volume GUID</b> الخاص به. و الـ GUID هو ما تخرج به من <code>SYSTEM</code>.'},
+ {screen:'r4', target:'g4',
+  en:'Now a <b>user</b> hive. <code>mp2</code> lists the volume GUIDs in this user&rsquo;s <code>MountPoints2</code>, each with its last-written time. The GUID is there. <b>That is the sentence that names a person rather than a machine</b> &mdash; and note it is 2014, not 2015.',
+  ar:'الآن hive <b>مستخدم</b>. يسرد <code>mp2</code> الـ volume GUIDs في <code>MountPoints2</code> الخاص بهذا المستخدم، كلٌّ مع زمن آخر كتابة. و الـ GUID موجود. <b>و هذه هي الجملة التي تسمّي شخصًا لا جهازًا</b> — و لاحظ أنها ٢٠١٤، لا ٢٠١٥.'},
+ {screen:'r5', target:'g5',
+  en:'Four dates, four keys, and the one labelled <b>&ldquo;First InstallDate&rdquo;</b> is the <b>latest</b> of the three. It records the current driver instance, which Windows recreated ten seconds after another drive was removed. <b>Every date goes in the report with the key it came from. None goes in as &ldquo;when the USB was used&rdquo;.</b>',
+  ar:'أربعة تواريخ من أربعة مفاتيح، و الذي عنوانه <b>«First InstallDate»</b> هو <b>الأحدث</b> بين الثلاثة. فهو يسجّل نسخة التعريف الحالية التي أعاد ويندوز إنشاءها بعد عشر ثوانٍ من إزالة قرص آخر. <b>كل تاريخ يدخل التقرير مع المفتاح الذي جاء منه. و لا يدخل أيٌّ منها بوصفه «وقت استخدام الـ USB».</b>'}
+]);
+Dgm.init('#dg-lc-p10', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>ACQUIRE.</b> إخراج الدليل من الجهاز دون تغييره.'},
+ {en:'<b>PRESERVE.</b> Prove it did not change afterwards.', ar:'<b>PRESERVE.</b> إثبات أنه لم يتغيّر بعد ذلك.'},
+ {en:'<b>ANALYSE.</b> Read what is there, and say only what the bytes support. <b>This page is here.</b>', ar:'<b>ANALYSE.</b> قراءة ما هو موجود، و قول ما تدعمه الـ bytes فقط. <b>و هذه الصفحة هنا.</b>',key:true},
+ {en:'<b>VALIDATE.</b> Check the finding against a second source.', ar:'<b>VALIDATE.</b> التحقّق من النتيجة بمصدر ثانٍ.'},
+ {en:'<b>PRESENT.</b> Write it so someone else can check it.', ar:'<b>PRESENT.</b> كتابتها بحيث يستطيع غيرك التحقّق منها.'}
+]);
+Dgm.init('#dg10-f1', [
+ {en:'<code>HKEY_LOCAL_MACHINE\SYSTEM</code> is not a thing that exists on its own. It is a <b>file</b>: <code>C:\Windows\System32\config\SYSTEM</code>, loaded at boot.', ar:'<code>HKEY_LOCAL_MACHINE\SYSTEM</code> ليس شيئًا قائمًا بذاته. إنه <b>ملف</b>: <code>C:\Windows\System32\config\SYSTEM</code> يُحمَّل عند الإقلاع.'},
+ {en:'<code>SOFTWARE</code> is another file, in the same folder. It holds the installed programs, the Windows version, and the list of user profiles.', ar:'و <code>SOFTWARE</code> ملف آخر في المجلد نفسه. يحمل البرامج المثبَّتة و إصدار ويندوز و قائمة ملفات تعريف المستخدمين.'},
+ {en:'<code>SAM</code> holds the local user accounts and their password hashes. It is locked while Windows runs &mdash; which is one reason we image disks instead of copying files.', ar:'و <code>SAM</code> يحمل حسابات المستخدمين المحلية و قيم hash لكلمات مرورهم. و هو مقفل أثناء عمل ويندوز — و هذا أحد أسباب تصويرنا للأقراص بدلاً من نسخ الملفات.'},
+ {en:'<code>SECURITY</code> holds the security policy and cached domain credentials.', ar:'و <code>SECURITY</code> يحمل سياسة الأمان و بيانات اعتماد الـ domain المخزَّنة مؤقتًا.'},
+ {en:'<code>HKEY_CURRENT_USER</code> is <b>per user</b>: it is <code>NTUSER.DAT</code> in that user&rsquo;s profile folder. Every user on the machine has their own.', ar:'و <code>HKEY_CURRENT_USER</code> <b>خاص بكل مستخدم</b>: هو <code>NTUSER.DAT</code> في مجلد ملف التعريف الخاص به. و لكل مستخدم على الجهاز ملفه.'},
+ {en:'And <code>UsrClass.dat</code>, also per user, hidden deeper in the profile. `T19` lives almost entirely in this file.', ar:'و <code>UsrClass.dat</code>، لكل مستخدم أيضًا، مخفي أعمق في ملف التعريف. و `T19` يعيش كله تقريبًا في هذا الملف.'},
+ {en:'<b>Six files.</b> Regedit shows them as one tree because Windows loads them together. A forensic examiner never uses regedit &mdash; <b>you take the six files from the image and read them offline.</b>', ar:'<b>ستة ملفات.</b> يعرضها regedit شجرةً واحدة لأن ويندوز يحمّلها معًا. و الفاحص الجنائي لا يستخدم regedit أبدًا — <b>بل تأخذ الملفات الستة من الصورة و تقرؤها دون تشغيل النظام.</b>',key:true}
+]);
+Dgm.init('#dg10-f2', [
+ {en:'The first 4,096 bytes are the <b>header</b>. It starts with <code>regf</code>, carries two <b>sequence numbers</b>, a last-written time, and a checksum &mdash; which we recomputed by hand, and it matches.', ar:'أول ٤٬٠٩٦ byte هي الـ <b>header</b>. يبدأ بـ<code>regf</code>، و يحمل <b>رقمي تسلسل</b> و زمن آخر كتابة و checksum — أعدنا حسابه يدويًّا، و هو مطابق.'},
+ {en:'Then the <b>bins</b>, 4,096 bytes each, starting with <code>hbin</code>. <b>Every offset the hive quotes is relative to the first bin</b>, so a root at &ldquo;0x20&rdquo; is at file offset 0x1020.', ar:'ثم الـ <b>bins</b>، كلٌّ منها ٤٬٠٩٦ byte، تبدأ بـ<code>hbin</code>. <b>و كل إزاحة يذكرها الـ hive محسوبة من أول bin</b>، فالجذر «عند 0x20» يقع في الإزاحة 0x1020 من الملف.'},
+ {en:'Inside bins are <b>cells</b>. An <code>nk</code> cell is a <b>key</b>: it has a name, a last-written time, and counts of its subkeys and values. This root has 8 subkeys.', ar:'و داخل الـ bins <b>خلايا</b>. و خلية <code>nk</code> <b>مفتاح</b>: لها اسم و زمن آخر كتابة و عدد المفاتيح الفرعية و القيم. و لهذا الجذر ٨ مفاتيح فرعية.'},
+ {en:'A <code>vk</code> cell is a <b>value</b>: a name, a type, and either the data itself (if small) or an offset to it. Resident or not &mdash; the same idea as NTFS in `P09`.', ar:'و خلية <code>vk</code> <b>قيمة</b>: اسم و نوع، و إمّا البيانات نفسها (إن كانت صغيرة) أو إزاحة إليها. مقيمة أو لا — الفكرة نفسها في NTFS من `P09`.'},
+ {en:'Each cell begins with its size, and the <b>sign</b> is the allocation flag: negative means in use, positive means free. <b>A free cell keeps its old contents</b> until something overwrites it.', ar:'و تبدأ كل خلية بحجمها، و <b>الإشارة</b> هي علامة التخصيص: سالب يعني مستخدَمة، و موجب يعني حرّة. <b>و الخلية الحرّة تحتفظ بمحتواها القديم</b> حتى يكتب فوقها شيء.'},
+ {en:'So a hive is a small file system: bins are clusters, cells are files, and <b>deleted keys can be recovered exactly the way deleted files were in `P09`</b>.', ar:'إذن الـ hive نظام ملفات صغير: الـ bins هي clusters، و الخلايا ملفات، و <b>المفاتيح المحذوفة تُستعاد بالطريقة نفسها التي استُعيدت بها الملفات المحذوفة في `P09`</b>.',key:true}
+]);
+Dgm.init('#dg10-f3', [
+ {en:'Start in <code>SYSTEM</code>. <code>USBSTOR</code> has one key per device model, and under it one key per <b>serial number</b>. This is the anchor: <code>2361808400440061&amp;0</code>.', ar:'ابدأ في <code>SYSTEM</code>. في <code>USBSTOR</code> مفتاح لكل طراز جهاز، و تحته مفتاح لكل <b>رقم تسلسلي</b>. و هذا هو المرساة: <code>2361808400440061&amp;0</code>.'},
+ {en:'The same serial appears under <code>Enum\USB</code>, beneath the <b>vendor and product IDs</b> &mdash; <code>VID_125F</code> is ADATA. That is how you name the maker even when the friendly name lies.', ar:'و يظهر الرقم التسلسلي نفسه تحت <code>Enum\USB</code>، أسفل <b>معرّفي المُصنِّع و المنتج</b> — فـ<code>VID_125F</code> هو ADATA. و هكذا تسمّي المُصنِّع حتى لو كذب الاسم الودّي.'},
+ {en:'<code>MountedDevices</code> maps drive letters and volume GUIDs to devices, and its data <b>contains the serial</b>. Search it and the device was <b>J:</b>, with volume GUID <code>{3aa3a4a9&hellip;}</code>.', ar:'و يربط <code>MountedDevices</code> أحرف الأقراص و volume GUIDs بالأجهزة، و بياناته <b>تحوي الرقم التسلسلي</b>. ابحث فيه فتجد أن الجهاز كان <b>J:</b>، و volume GUID الخاص به <code>{3aa3a4a9&hellip;}</code>.'},
+ {en:'Now leave <code>SYSTEM</code>. <code>MountPoints2</code> in a user&rsquo;s <code>NTUSER.DAT</code> lists the volume GUIDs <b>that user</b> mounted. The same GUID is there &mdash; <b>so this user, not just this machine, used the device</b>. Last written 2014-10-14.', ar:'الآن اترك <code>SYSTEM</code>. فـ<code>MountPoints2</code> في <code>NTUSER.DAT</code> الخاص بمستخدم يسرد volume GUIDs التي ركّبها <b>ذلك المستخدم</b>. و الـ GUID نفسه هناك — <b>فهذا المستخدم، لا هذا الجهاز فقط، استخدم الوسيلة</b>. آخر كتابة ٢٠١٤-١٠-١٤.'},
+ {en:'The fifth record is a <b>text file</b>, not a hive: <code>setupapi.dev.log</code> writes a line the first time a device is ever installed. It is not in this corpus &mdash; it is the piece you would ask for.', ar:'و السجل الخامس <b>ملف نصي</b>، لا hive: يكتب <code>setupapi.dev.log</code> سطرًا في أول مرة يُثبَّت فيها الجهاز. و ليس في هذه المجموعة — و هو القطعة التي كنت ستطلبها.'},
+ {en:'<b>No single key tells the story.</b> The serial links the first three, the GUID links the third to the fourth, and the fifth is the only one that says <i>first</i>. This walk is the whole of `T17`.', ar:'<b>لا مفتاح واحد يروي القصة.</b> الرقم التسلسلي يربط الثلاثة الأولى، و الـ GUID يربط الثالث بالرابع، و الخامس وحده يقول <i>أول مرة</i>. و هذه المسيرة هي `T17` كله.',key:true}
+]);
+Dgm.init('#dg10-f4', [
+ {en:'A volume GUID is a <b>UUID version 1</b>, and a v1 UUID carries a timestamp. Decode <code>{3aa3a4a9-087f-11e4-&hellip;}</code> and it was minted on <b>2014-07-10 22:12:06</b>. That is the earliest trace of this volume on this machine.', ar:'الـ volume GUID هو <b>UUID من الإصدار الأول</b>، و هذا الإصدار يحمل زمنًا. فكّ <code>{3aa3a4a9-087f-11e4-&hellip;}</code> فتجد أنه سُكّ في <b>٢٠١٤-٠٧-١٠ ٢٢:١٢:٠٦</b>. و هذا أقدم أثر لهذا الـ volume على هذا الجهاز.'},
+ {en:'<code>MountPoints2</code> in the user&rsquo;s hive was last written <b>2014-10-14</b>. That is the last time <b>this user</b> had it mounted &mdash; three months later.', ar:'و آخر كتابة لـ<code>MountPoints2</code> في hive المستخدم كانت <b>٢٠١٤-١٠-١٤</b>. و هذه آخر مرة كان فيها الجهاز مركَّبًا عند <b>هذا المستخدم</b> — بعد ثلاثة أشهر.'},
+ {en:'<code>USBSTOR</code> says &ldquo;first install&rdquo; <b>2015-02-23 17:31:31</b> &mdash; <b>seven months AFTER</b> the volume existed. And ten seconds earlier, another drive recorded its <i>last removal</i>. Windows reinstalled this device&rsquo;s driver that day. <b>&ldquo;First install&rdquo; means the current driver instance, not the first time the device was ever seen.</b>', ar:'و يقول <code>USBSTOR</code> إن «أول تثبيت» كان <b>٢٠١٥-٠٢-٢٣ ١٧:٣١:٣١</b> — <b>بعد سبعة أشهر</b> من وجود الـ volume. و قبله بعشر ثوانٍ سجّل قرص آخر <i>آخر إزالة</i> له. فقد أعاد ويندوز تثبيت تعريف هذا الجهاز في ذلك اليوم. <b>فعبارة «أول تثبيت» تعني نسخة التعريف الحالية، لا أول مرة رُئي فيها الجهاز.</b>'},
+ {en:'<b>Last arrival</b>, <code>0066</code>, is the next morning. There is no <code>0067</code> &mdash; no last removal &mdash; so as far as this hive knows, <b>the device was still attached when the hive was taken</b>.', ar:'و <b>آخر وصول</b>، <code>0066</code>، في صباح اليوم التالي. و لا يوجد <code>0067</code> — لا آخر إزالة — فبقدر ما يعلم هذا الـ hive، <b>كان الجهاز ما زال موصولاً حين أُخذ الـ hive</b>.'},
+ {en:'<b>Four timestamps, three different meanings, and the one everyone quotes is the least informative.</b> Report each with the key it came from, never as &ldquo;the date the USB was used&rdquo;.', ar:'<b>أربعة أزمنة، و ثلاثة معانٍ مختلفة، و الذي يقتبسه الجميع هو الأقل إفادة.</b> اذكر كلاًّ منها مع المفتاح الذي جاء منه، و لا تكتب أبدًا «تاريخ استخدام الـ USB».',key:true}
+]);
+</script>
+
+</body>
+</html>

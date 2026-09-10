@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 03 &mdash; Data Representation, Hidden Information &amp; File Examination &middot; eCDFP &middot; ITGate Academy</title>
+<meta name="description" content="ITGate Academy eCDFP diploma — Session 03. Data representation, metadata, hidden information and file examination.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+</head>
+
+<body data-session="s03">
+
+<header class="site-header">
+  <a class="brand" href="../index.html">
+    <span class="brand-mark" aria-hidden="true">iG</span>
+    <span>ITGate <span class="brand-sub">eCDFP</span></span>
+  </a>
+  <div class="session-title"><strong>Session 03</strong> &mdash; Data Representation, Hidden Information &amp; File Examination</div>
+  <span class="progress-chip">3 / 6</span>
+</header>
+
+<div class="page-layout">
+
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>How this session works</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>Objectives</span></a></li>
+      <li><a href="#p4"><span class="n">04</span><span>The claim</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>Endianness</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>EXIF &amp; dates</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>The thumbnail</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>LSB stego</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>Lab setup</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>Appended &amp; polyglot</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>Check 1</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>Break</span></a></li>
+      <li><a href="#p13"><span class="n">13</span><span>Document structure</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>Executables</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>Independent practice</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>Case 03</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>Carry-through doc</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>Check 2</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>Cheat sheet</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>Takeaways</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>Homework</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>References</span></a></li>
+    </ol>
+  </nav>
+
+  <main class="main">
+
+    <section class="page" id="p1">
+      <span class="kicker">Session 03</span>
+      <h1>Data Representation, Hidden Information &amp; File Examination</h1>
+
+      <p>By the end of today you can say what a file really is, and find what is hidden inside it
+      when no extension check ever would.</p>
+
+      <div class="chips">
+        <span class="tag evs">EVS-05</span>
+        <span class="tag evs">EVS-10</span>
+        <span class="tag">Case 03</span>
+        <span class="tag">office_floor3.jpg</span>
+      </div>
+
+      <div class="key-takeaway">
+        <span class="cl-label">Where this sits</span>
+        <p>Third of six. Sessions 1 and 2 established that a name is a label. Today is the next layer: the file is not what it says, <em>and</em> something is inside it that no name check will ever reach.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p2">
+      <span class="kicker">How this session works</span>
+      <h2>Two threads, each finished before the next starts</h2>
+
+      <figure class="svg-wrap" role="group" aria-label="S3-F1">
+        <svg viewBox="0 0 1120 210" role="img" aria-labelledby="h1t" xmlns="http://www.w3.org/2000/svg">
+        <title id="h1t">The session clock: 130 minutes taught, 15 break, 60 investigation, 15 closing ritual</title>
+        <rect x="10" y="52" width="600" height="54" rx="6" fill="var(--bg-card)" stroke="var(--accent-cyan)" stroke-width="2"/>
+        <rect x="614" y="52" width="72" height="54" rx="6" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="2" stroke-dasharray="5 4"/>
+        <rect x="690" y="52" width="290" height="54" rx="6" fill="var(--bg-card)" stroke="var(--finding)" stroke-width="2"/>
+        <rect x="984" y="52" width="126" height="54" rx="6" fill="var(--bg-card)" stroke="var(--accent-green)" stroke-width="2"/>
+        <text x="310" y="84" text-anchor="middle" fill="var(--text-primary)" font-size="17" font-weight="700">130 min &mdash; taught</text>
+        <text x="650" y="78" text-anchor="middle" fill="var(--text-secondary)" font-size="13">15</text>
+        <text x="650" y="94" text-anchor="middle" fill="var(--text-secondary)" font-size="13">break</text>
+        <text x="835" y="84" text-anchor="middle" fill="var(--text-primary)" font-size="17" font-weight="700">60 min &mdash; Case 03</text>
+        <text x="1047" y="78" text-anchor="middle" fill="var(--text-primary)" font-size="13" font-weight="700">15 min</text>
+        <text x="1047" y="94" text-anchor="middle" fill="var(--text-primary)" font-size="13">close</text>
+        <text x="310" y="130" text-anchor="middle" fill="var(--text-secondary)" font-size="14">images first, then documents and binaries</text>
+        <text x="835" y="130" text-anchor="middle" fill="var(--text-secondary)" font-size="14">twelve files, one hidden payload</text>
+        <text x="1047" y="130" text-anchor="middle" fill="var(--text-secondary)" font-size="13">hash + custody</text>
+        <text x="10" y="36" fill="var(--text-secondary)" font-size="14" font-weight="700">00:00</text>
+        <text x="1110" y="36" text-anchor="end" fill="var(--text-secondary)" font-size="14" font-weight="700">04:00</text>
+        <line x1="10" y1="164" x2="1110" y2="164" stroke="var(--border)" stroke-width="1.5"/>
+        <text x="560" y="190" text-anchor="middle" fill="var(--text-secondary)" font-size="14">Almost nothing today is abstract. Every block is bytes, pixels or structure on screen.</text>
+        </svg>
+      <figcaption>Two threads: images finished completely, then documents and executables.</figcaption>
+      </figure>
+
+      <div class="caveat">
+        <span class="cl-label">The order is deliberate</span>
+        <p>EXIF &rarr; thumbnails &rarr; hidden data is one continuous thread about images, and <code>invoice_batch.jpg</code> is its hinge. Documents and executables are the second thread, and the binary you read is the one the document drops.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p3">
+      <span class="kicker">Objectives</span>
+      <h2>By the end of this session you can</h2>
+
+      <ol class="steps">
+        <li>Read the same bytes two ways and say why the number changed.</li>
+        <li>Extract metadata, and state which timestamp you trust <strong>and why</strong>.</li>
+        <li>Recover an image the file kept after the picture was edited.</li>
+        <li>Detect a payload hidden in pixels, and a file appended to another file.</li>
+        <li>Open a macro-enabled document as the archive it is, and find the macro.</li>
+        <li>Read a binary's imports and say what it is able to do, without running it.</li>
+      </ol>
+    </section>
+
+    <section class="page" id="p4">
+      <span class="kicker">The claim</span>
+      <h2>&ldquo;The export list tells us what was taken.&rdquo;</h2>
+
+      <div class="gui"><div class="gui-bar"><span class="gui-dots"><i></i><i></i><i></i></span><span class="gui-title">export_manifest.txt &mdash; twelve files from the workstation</span></div><div class="gui-body"><div class="l ">q3_summary.pdf        floorplan.png      badge_photo.jpg</div><div class="l ">archive_2026.zip      readme.txt         invoice_scan.jpg</div><div class="l ">meeting_notes.txt     holiday_snap.jpg   policy_v2.docx</div><div class="l ">thumbnail.png         scan_partial.png   export_partial.jpg</div><div class="l d"># accepted as listed by the investigator before you</div></div><div class="gui-cap">Twelve names. Nobody has looked inside any of them.</div></div>
+
+      <div class="split">
+        <div>
+          <div class="interpretation">
+        <span class="cl-label">The claim on trial today</span>
+        <p>Twelve files were taken, of the twelve types the list names.</p>
+      </div>
+        </div>
+        <div>
+          <div class="limitation">
+        <span class="cl-label">What the list is</span>
+        <p>A record of what the export tool was told to call things. It is not an observation of content, and it was never checked.</p>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="p5">
+      <span class="kicker">S3-01 &middot; 10 min</span>
+      <h2>The bytes do not say which way to read them</h2>
+
+      <figure class="svg-wrap" role="group" aria-label="S3-F2">
+        <svg viewBox="0 0 1120 300" role="img" aria-labelledby="h2t" xmlns="http://www.w3.org/2000/svg">
+        <title id="h2t">The same four bytes read low-byte-first and high-byte-first give two different numbers</title>
+        <g class="svg-play" id="h2play" role="button" tabindex="0" aria-label="Play: play both readings"><rect x="886" y="10" width="202" height="34" rx="17" fill="var(--bg-secondary)" stroke="var(--accent-cyan)" stroke-width="2"/><path d="M904 20 l16 10 l-16 10 z" fill="var(--accent-cyan)"/><text x="930" y="33" fill="var(--accent-cyan)" font-size="14" font-weight="700">play both readings</text></g>
+        <text x="380" y="56" text-anchor="middle" fill="var(--text-secondary)" font-size="14">the first four bytes of every Windows executable</text>
+        <rect x="200" y="76" width="84" height="70" rx="5" fill="var(--bg-card)" stroke="var(--accent-cyan)" stroke-width="2"/>
+        <text x="242" y="116" text-anchor="middle" fill="var(--text-primary)" font-size="24">4D</text>
+        <rect x="292" y="76" width="84" height="70" rx="5" fill="var(--bg-card)" stroke="var(--accent-cyan)" stroke-width="2"/>
+        <text x="334" y="116" text-anchor="middle" fill="var(--text-primary)" font-size="24">5A</text>
+        <rect x="384" y="76" width="84" height="70" rx="5" fill="var(--bg-card)" stroke="var(--accent-cyan)" stroke-width="2"/>
+        <text x="426" y="116" text-anchor="middle" fill="var(--text-primary)" font-size="24">90</text>
+        <rect x="476" y="76" width="84" height="70" rx="5" fill="var(--bg-card)" stroke="var(--accent-cyan)" stroke-width="2"/>
+        <text x="518" y="116" text-anchor="middle" fill="var(--text-primary)" font-size="24">00</text>
+        <g opacity="0"><animate attributeName="opacity" dur="3.6s" begin="h2play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.05556;0.10556;1"/><path d="M200 178 L520 178" stroke="var(--accent-green)" stroke-width="3" fill="none"/><path d="M544 178 l-24 -8 v16 z" fill="var(--accent-green)"/><text x="200" y="204" fill="var(--accent-green)" font-size="13">low byte first</text></g>
+        <text x="600" y="186" fill="var(--accent-green)" font-size="19" font-weight="700" font-family="var(--font-mono)" opacity="0">9 460 301<animate attributeName="opacity" dur="3.6s" begin="h2play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.22222;0.27222;1"/></text>
+        <text x="830" y="186" fill="var(--text-secondary)" font-size="15" font-family="var(--font-mono)" opacity="0">0x00905A4D  little-endian<animate attributeName="opacity" dur="3.6s" begin="h2play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.22222;0.27222;1"/></text>
+        <g opacity="0"><animate attributeName="opacity" dur="3.6s" begin="h2play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.44444;0.49444;1"/><path d="M544 244 L224 244" stroke="var(--accent-amber)" stroke-width="3" fill="none"/><path d="M200 244 l24 -8 v16 z" fill="var(--accent-amber)"/><text x="380" y="270" text-anchor="middle" fill="var(--accent-amber)" font-size="13">high byte first</text></g>
+        <text x="600" y="252" fill="var(--accent-amber)" font-size="19" font-weight="700" font-family="var(--font-mono)" opacity="0">1 297 780 736<animate attributeName="opacity" dur="3.6s" begin="h2play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.61111;0.66111;1"/></text>
+        <text x="830" y="252" fill="var(--text-secondary)" font-size="15" font-family="var(--font-mono)" opacity="0">0x4D5A9000  big-endian<animate attributeName="opacity" dur="3.6s" begin="h2play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.61111;0.66111;1"/></text>
+        <text x="20" y="292" fill="var(--text-primary)" font-size="16" font-weight="700" opacity="0">Same four bytes. Two numbers, 137&#215; apart. The bytes never said which.<animate attributeName="opacity" dur="3.6s" begin="h2play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.77778;0.82778;1"/></text>
+        </svg>
+      <figcaption>Byte order is not in the bytes. It is a convention you must know before you can read them.</figcaption>
+      </figure>
+
+      <div class="split">
+        <div>
+          <div class="lab-box">
+        <span class="cl-label">Do it now</span>
+        <p>Take <code>00 10 00 00</code>. Write the little-endian value and the big-endian value. One of them is 4 096; say which, and how you knew.</p>
+      </div>
+        </div>
+        <div>
+          <div class="caveat">
+        <span class="cl-label">Where this bites</span>
+        <p>Every offset, length and timestamp you read by hand for the rest of this diploma is stored in one order or the other. Guess wrong and the number is not slightly off &mdash; it is unrelated.</p>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="p6">
+      <span class="kicker">S3-02 &middot; 25 min</span>
+      <h2>Metadata, and the three dates that disagree</h2>
+
+      <figure class="svg-wrap" role="group" aria-label="S3-F3">
+        <svg viewBox="0 0 1120 264" role="img" aria-labelledby="h3t" xmlns="http://www.w3.org/2000/svg">
+        <title id="h3t">Three timestamps on one photograph, nine days apart, recording three different events</title>
+        <text x="20" y="40" fill="var(--text-primary)" font-size="16" font-weight="700">office_floor3.jpg &mdash; three dates, three different questions</text>
+        <line x1="60" y1="118" x2="1080" y2="118" stroke="var(--border)" stroke-width="3"/>
+        <circle cx="200" cy="118" r="12" fill="var(--accent-green)"/>
+        <text x="200" y="82" text-anchor="middle" fill="var(--accent-green)" font-size="14" font-weight="700" font-family="var(--font-mono)">DateTimeOriginal</text>
+        <text x="200" y="152" text-anchor="middle" fill="var(--text-primary)" font-size="14" font-family="var(--font-mono)">2026:08:24 09:14:02</text>
+        <text x="200" y="174" text-anchor="middle" fill="var(--text-secondary)" font-size="13">what the camera wrote</text>
+        <circle cx="560" cy="118" r="12" fill="var(--accent-amber)"/>
+        <text x="560" y="82" text-anchor="middle" fill="var(--accent-amber)" font-size="14" font-weight="700" font-family="var(--font-mono)">ModifyDate</text>
+        <text x="560" y="152" text-anchor="middle" fill="var(--text-primary)" font-size="14" font-family="var(--font-mono)">2026:08:31 16:40:05</text>
+        <text x="560" y="174" text-anchor="middle" fill="var(--text-secondary)" font-size="13">an edit, seven days later</text>
+        <circle cx="940" cy="118" r="12" fill="var(--accent-red)"/>
+        <text x="940" y="82" text-anchor="middle" fill="var(--accent-red)" font-size="14" font-weight="700" font-family="var(--font-mono)">FileModifyDate</text>
+        <text x="940" y="152" text-anchor="middle" fill="var(--text-primary)" font-size="14" font-family="var(--font-mono)">2026:09:02 00:00:00</text>
+        <text x="940" y="174" text-anchor="middle" fill="var(--text-secondary)" font-size="13">a copy, on some filesystem</text>
+        <text x="20" y="216" fill="var(--text-primary)" font-size="16" font-weight="700">None of them is &ldquo;when the photo was taken&rdquo;. One is the best available indicator.</text>
+        <text x="20" y="244" fill="var(--text-secondary)" font-size="14">EXIF is user-writable. That is the limitation you write down, every time.</text>
+        </svg>
+      <figcaption>Nine days between the first and the last. Which event each one records is the whole question.</figcaption>
+      </figure>
+
+      <div class="split">
+        <div>
+          <div class="gui"><div class="gui-bar"><span class="gui-dots"><i></i><i></i><i></i></span><span class="gui-title">office_floor3.jpg &middot; exiftool -s -G</span></div><div class="gui-body"><div class="l p">$ exiftool -s -G -time:all -GPSPosition office_floor3.jpg</div><div class="l ">[EXIF] DateTimeOriginal : 2026:08:24 09:14:02</div><div class="l ">[EXIF] CreateDate       : 2026:08:24 09:14:02</div><div class="l no">[EXIF] ModifyDate       : 2026:08:31 16:40:05</div><div class="l no">[File] FileModifyDate   : 2026:09:02 00:00:00+00:00</div><div class="l ok">[Composite] GPSPosition : 30 deg 2' 27.60&quot; N, 31 deg 14' 13.20&quot; E</div></div><div class="gui-cap">Real output. Those coordinates resolve to a real city &mdash; find it.</div></div>
+        </div>
+        <div>
+          <div class="lab-box">
+        <span class="cl-label">Do it now</span>
+        <p>Run it yourself, then answer in writing: which of the three dates would you put in a report as the time the photograph was taken, and what do you have to say about it in the same sentence?</p>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="p7">
+      <span class="kicker">S3-06 &middot; 12 min</span>
+      <h2>What the file kept after the picture was edited</h2>
+
+      <figure class="svg-wrap" role="group" aria-label="S3-F4">
+        <svg viewBox="0 0 1120 300" role="img" aria-labelledby="h4t" xmlns="http://www.w3.org/2000/svg">
+        <title id="h4t">A redaction covers the main image while the smaller thumbnail embedded in the file is untouched</title>
+        <g class="svg-play" id="h4play" role="button" tabindex="0" aria-label="Play: play the redaction"><rect x="886" y="10" width="202" height="34" rx="17" fill="var(--bg-secondary)" stroke="var(--accent-cyan)" stroke-width="2"/><path d="M904 20 l16 10 l-16 10 z" fill="var(--accent-cyan)"/><text x="930" y="33" fill="var(--accent-cyan)" font-size="14" font-weight="700">play the redaction</text></g>
+        <text x="60" y="70" fill="var(--text-secondary)" font-size="14" font-weight="700">main image &mdash; 600 &#215; 400</text>
+        <rect x="60" y="84" width="300" height="200" rx="8" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="2"/>
+        <g opacity="1"><animate attributeName="opacity" dur="3.2s" begin="h4play.click" fill="freeze" restart="always" values="1;1;0;0" keyTimes="0;0.28125;0.325;1"/><circle cx="130" cy="140" r="18" fill="var(--accent-amber)"/><path d="M80 262 L170 176 L232 238 L268 206 L340 262 Z" fill="var(--accent-cyan)"/></g>
+        <rect x="66" y="90" width="288" height="188" rx="6" fill="#0a0e14" opacity="0"><animate attributeName="opacity" dur="3.2s" begin="h4play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.21875;0.275;1"/></rect>
+        <text x="210" y="196" text-anchor="middle" fill="var(--accent-red)" font-size="17" font-weight="700" opacity="0">REDACTED<animate attributeName="opacity" dur="3.2s" begin="h4play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.3125;0.36875;1"/></text>
+        <path d="M400 184 L470 184" stroke="var(--text-secondary)" stroke-width="2" fill="none"/><path d="M494 184 l-24 -8 v16 z" fill="var(--text-secondary)"/>
+        <text x="447" y="168" text-anchor="middle" fill="var(--text-secondary)" font-size="12">same file</text>
+        <text x="560" y="70" fill="var(--text-secondary)" font-size="14" font-weight="700">EXIF thumbnail &mdash; 160 &#215; 107, 1 735 B</text>
+        <rect x="560" y="84" width="240" height="160" rx="8" fill="var(--bg-secondary)" stroke="var(--accent-green)" stroke-width="2.5"/>
+        <circle cx="616" cy="128" r="14" fill="var(--accent-amber)"/>
+        <path d="M576 228 L648 160 L698 210 L727 184 L784 228 Z" fill="var(--accent-cyan)"/>
+        <text x="680" y="270" text-anchor="middle" fill="var(--accent-green)" font-size="15" font-weight="700" opacity="0">still sharp<animate attributeName="opacity" dur="3.2s" begin="h4play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.4375;0.49375;1"/></text>
+        <text x="20" y="294" fill="var(--text-primary)" font-size="16" font-weight="700" opacity="0">The redaction edited the picture. The file kept its own copy.<animate attributeName="opacity" dur="3.2s" begin="h4play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.59375;0.65;1"/></text>
+        </svg>
+      <figcaption>Editing what you can see does not touch what the container carries alongside it.</figcaption>
+      </figure>
+
+      <div class="split">
+        <div>
+          <div class="gui"><div class="gui-bar"><span class="gui-dots"><i></i><i></i><i></i></span><span class="gui-title">invoice_batch.jpg &middot; extract the thumbnail</span></div><div class="gui-body"><div class="l p">$ exiftool -b -ThumbnailImage invoice_batch.jpg &gt; thumb.jpg</div><div class="l ">main image : 600x400,  14 kB</div><div class="l ok">thumbnail  : 160x107, 1 735 B</div><div class="l d"># written when the photo was made, not when it was edited</div></div><div class="gui-cap">One command. The redaction never touched this copy.</div></div>
+        </div>
+        <div>
+          <div class="attacker-view">
+        <span class="cl-label">Why this keeps happening</span>
+        <p>Editors that redraw pixels often leave the embedded preview alone, and so do many &ldquo;save a copy&rdquo; paths. Nobody intends it &mdash; which is exactly why it is worth checking every time.</p>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="p8">
+      <span class="kicker">S3-03 &middot; part 1 of 33 min</span>
+      <h2>A payload you cannot see</h2>
+
+      <figure class="svg-wrap" role="group" aria-label="S3-F5">
+        <svg viewBox="0 0 1120 330" role="img" aria-labelledby="h5t" xmlns="http://www.w3.org/2000/svg">
+        <title id="h5t">One pixel of a stego image beside its clean twin: the low bit of blue differs and the colour does not</title>
+        <g class="svg-play" id="h5play" role="button" tabindex="0" aria-label="Play: play the bit flip"><rect x="893" y="10" width="195" height="34" rx="17" fill="var(--bg-secondary)" stroke="var(--accent-cyan)" stroke-width="2"/><path d="M911 20 l16 10 l-16 10 z" fill="var(--accent-cyan)"/><text x="937" y="33" fill="var(--accent-cyan)" font-size="14" font-weight="700">play the bit flip</text></g>
+        <text x="60" y="72" fill="var(--text-secondary)" font-size="14" font-weight="700">receipt_scan_clean.png</text>
+        <rect x="60" y="86" width="150" height="150" rx="8" fill="#603E3B" stroke="var(--border)" stroke-width="2"/>
+        <text x="135" y="260" text-anchor="middle" fill="var(--text-primary)" font-size="14" font-family="var(--font-mono)">96, 62, 59</text>
+        <text x="270" y="72" fill="var(--text-secondary)" font-size="14" font-weight="700">receipt_scan.png</text>
+        <rect x="270" y="86" width="150" height="150" rx="8" fill="#603E3A" stroke="var(--border)" stroke-width="2"/>
+        <text x="345" y="260" text-anchor="middle" fill="var(--text-primary)" font-size="14" font-family="var(--font-mono)">96, 62, 58</text>
+        <text x="240" y="292" text-anchor="middle" fill="var(--text-secondary)" font-size="15" font-weight="700">indistinguishable</text>
+        <text x="500" y="72" fill="var(--text-secondary)" font-size="14" font-weight="700">the blue byte, in binary</text>
+        <text x="500" y="128" fill="var(--text-primary)" font-size="26" font-family="var(--font-mono)">0011 101<tspan fill="var(--accent-green)" font-weight="700">1</tspan><animate attributeName="opacity" dur="3.4s" begin="h5play.click" fill="freeze" restart="always" values="1;1;0;0" keyTimes="0;0.26471;0.30588;1"/></text>
+        <text x="500" y="128" fill="var(--text-primary)" font-size="26" font-family="var(--font-mono)" opacity="0">0011 101<tspan fill="var(--accent-red)" font-weight="700">0</tspan><animate attributeName="opacity" dur="3.4s" begin="h5play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.26471;0.31765;1"/></text>
+        <text x="500" y="160" fill="var(--text-secondary)" font-size="13">only the lowest bit carries the payload</text>
+        <rect x="500" y="188" width="560" height="72" rx="8" fill="var(--bg-card)" stroke="var(--accent-red)" stroke-width="2" opacity="0"><animate attributeName="opacity" dur="3.4s" begin="h5play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.47059;0.52353;1"/></rect>
+        <text x="524" y="220" fill="var(--accent-red)" font-size="18" font-weight="700" opacity="0">190 of 76 800 pixels differ<animate attributeName="opacity" dur="3.4s" begin="h5play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.47059;0.52353;1"/></text>
+        <text x="524" y="246" fill="var(--text-secondary)" font-size="14" opacity="0">all 190 in the blue channel &middot; every delta exactly 1<animate attributeName="opacity" dur="3.4s" begin="h5play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.52941;0.58235;1"/></text>
+        <text x="20" y="322" fill="var(--text-primary)" font-size="16" font-weight="700">You cannot see it. You can diff it &mdash; which is why the clean twin exists.</text>
+        </svg>
+      <figcaption>Two swatches, one bit apart. The eye is the wrong instrument; the diff is the right one.</figcaption>
+      </figure>
+
+      <div class="split">
+        <div>
+          <div class="lab-box">
+        <span class="cl-label">Do it now</span>
+        <p>Open both files. Look at them side by side and satisfy yourself that you cannot tell them apart. Then diff them and count the differing pixels.</p>
+      </div>
+        </div>
+        <div>
+          <div class="finding">
+        <span class="cl-label">How you write this one</span>
+        <p>190 pixels of <code>receipt_scan.png</code> differ from <code>receipt_scan_clean.png</code>, all in the blue channel, each by exactly 1. State the count and the channel &mdash; not what the payload says, which you have not read yet.</p>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="p9">
+      <span class="kicker">Lab setup</span>
+      <h2>Verify both sets before you touch either</h2>
+
+      <div class="split">
+        <div>
+          <div class="gui"><div class="gui-bar"><span class="gui-dots"><i></i><i></i><i></i></span><span class="gui-title">EVS-05 and EVS-10 &middot; sha256sum -c</span></div><div class="gui-body"><div class="l p">$ sha256sum -c EVS-05.sha256</div><div class="l ok">12 files: OK</div><div class="l p">$ sha256sum -c EVS-10.sha256</div><div class="l ok">7 files: OK</div><div class="l d"># both sets regenerate byte-identical from their scripts</div></div><div class="gui-cap">Session 1's habit, applied without comment, every session.</div></div>
+        </div>
+        <div>
+          <div class="lab-box">
+        <span class="cl-label">Your working copies</span>
+        <p>Work on copies, never the distributed set. Record the tool and version for everything you run today &mdash; <code>exiftool</code>, <code>xxd</code>, <code>unzip</code>, <code>binwalk</code> &mdash; because the report asks for them by name.</p>
+      </div>
+        </div>
+      </div>
+
+      <div class="caveat">
+        <span class="cl-label">Three tools this session will not use</span>
+        <p>Xiao Steganography has no living vendor and is not distributed. <code>steghide</code>, <code>zsteg</code> and <code>stegsolve</code> are the current, maintained answers.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p10">
+      <span class="kicker">S3-03 &middot; part 2 of 33 min</span>
+      <h2>A whole file, hiding after the end of another</h2>
+
+      <div class="split">
+        <div>
+          <div class="gui"><div class="gui-bar"><span class="gui-dots"><i></i><i></i><i></i></span><span class="gui-title">team_photo.jpg &middot; a valid JPEG and a valid ZIP</span></div><div class="gui-body"><div class="l p">$ unzip -l team_photo.jpg</div><div class="l d">  (attempting to process anyway)</div><div class="l ">  Length      Date    Time    Name</div><div class="l ok">      58  2026-08-24 09:14   handover.txt</div><div class="l d"># JPEG starts at 0; PK 03 04 begins at offset 10 296 of 10 476</div></div><div class="gui-cap">The image opens. The archive opens. Both statements are true.</div></div>
+        </div>
+        <div>
+          <div class="table-wrap">
+          <table>
+            <thead><tr><th>How it hides</th><th>What finds it</th></tr></thead>
+            <tbody>
+              <tr><td>Appended after the end</td><td><code>binwalk</code></td></tr>
+              <tr><td>Inside the pixels (LSB)</td><td><code>zsteg &middot; stegsolve</code></td></tr>
+              <tr><td>Valid as two formats at once</td><td><code>unzip &middot; file</code></td></tr>
+              <tr><td>Renamed to something else</td><td><code>xxd -l 4</code></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="key-takeaway">
+        <span class="cl-label">The rule that covers all four</span>
+        <p>A file ends where its format says it ends, not where the byte count does. Everything after that is somebody's choice.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p11">
+      <span class="kicker">Knowledge check 1</span>
+      <h2>Before the break</h2>
+
+      <div class="q mcq"><p class="stem"><code>policy_v2.docx</code> begins <code>89 50 4E 47</code>. What is it?</p><ul class="opts"><li data-why="The ZIP signature is <code>50 4B 03 04</code>. Knowing that a .docx is a ZIP is exactly what makes this one catch people."><label><input type="radio" name="q1c"> A DOCX &mdash; those bytes are the ZIP signature a .docx uses.</label></li><li data-correct data-why="<code>89 50 4E 47</code> is PNG. The extension is wrong and the pattern you learned is wrong here too."><label><input type="radio" name="q1c"> A PNG.</label></li><li data-why="Nothing is corrupt. It is an intact PNG with a misleading name."><label><input type="radio" name="q1c"> A corrupted DOCX.</label></li><li data-why="Four bytes is exactly what a signature is. This one is unambiguous."><label><input type="radio" name="q1c"> Cannot be determined from four bytes.</label></li></ul><div class="feedback"></div></div>
+
+      <div class="q mcq"><p class="stem"><code>scan_partial.png</code> has a valid PNG signature but will not open. What does the signature tell you?</p><ul class="opts"><li data-why="It tells you how the file <em>starts</em>. Validity is a different question."><label><input type="radio" name="q2c"> The file is a valid PNG.</label></li><li data-correct data-why="Header and integrity are two questions. This is the bridge back to hashing."><label><input type="radio" name="q2c"> How the file begins, and nothing about whether it is complete.</label></li><li data-why="The name and the signature agree here. That is not the problem."><label><input type="radio" name="q2c"> The file was renamed.</label></li><li data-why="An encrypted file would not carry a readable PNG signature at offset 0."><label><input type="radio" name="q2c"> The file is encrypted.</label></li></ul><div class="feedback"></div></div>
+
+      <div class="q mcq"><p class="stem">You diff two images and 190 pixels differ, all in the blue channel, each by 1. What have you established?</p><ul class="opts"><li data-why="That is the likely reading, but you have not extracted anything. Say what you measured."><label><input type="radio" name="q3c"> The image contains a hidden message.</label></li><li data-correct data-why="Exactly what the diff shows, stated without reaching past it."><label><input type="radio" name="q3c"> The two files differ in 190 blue-channel low bits.</label></li><li data-why="Re-saving perturbs many channels by varying amounts, not one channel by exactly 1."><label><input type="radio" name="q3c"> The image was re-saved at a different quality.</label></li><li data-why="Confined to one channel, at exactly 1, across 190 pixels, is a pattern rather than noise."><label><input type="radio" name="q3c"> Nothing &mdash; a delta of 1 is noise.</label></li></ul><div class="feedback"></div></div>
+    </section>
+
+    <section class="page" id="p12">
+      <span class="kicker">Break</span>
+      <div class="break-card" data-timer="15" data-timer-done="Back to it">
+        <h2>15 minutes</h2>
+        <p class="break-timer">15:00</p>
+        <div class="break-controls">
+          <button class="btn" type="button" data-timer-action="toggle">Pause</button>
+          <button class="btn ghost" type="button" data-timer-action="reset">Reset</button>
+        </div>
+        <p>Leave both evidence sets mounted. Do not close your notes.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p13">
+      <span class="kicker">S3-04 &middot; 25 min</span>
+      <h2>A document is an archive, and the macro is a file in it</h2>
+
+      <figure class="svg-wrap" role="group" aria-label="S3-F6">
+        <svg viewBox="0 0 1120 352" role="img" aria-labelledby="h6t" xmlns="http://www.w3.org/2000/svg">
+        <title id="h6t">A macro-enabled Word document opened as the ZIP archive it is, showing its six parts</title>
+        <g class="svg-play" id="h6play" role="button" tabindex="0" aria-label="Play: play the unzip"><rect x="917" y="10" width="171" height="34" rx="17" fill="var(--bg-secondary)" stroke="var(--accent-cyan)" stroke-width="2"/><path d="M935 20 l16 10 l-16 10 z" fill="var(--accent-cyan)"/><text x="961" y="33" fill="var(--accent-cyan)" font-size="14" font-weight="700">play the unzip</text></g>
+        <rect x="30" y="140" width="250" height="76" rx="8" fill="var(--bg-card)" stroke="var(--accent-cyan)" stroke-width="2.5"/>
+        <text x="155" y="172" text-anchor="middle" fill="var(--text-primary)" font-size="15" font-family="var(--font-mono)">quarterly_review</text>
+        <text x="155" y="196" text-anchor="middle" fill="var(--accent-cyan)" font-size="15" font-weight="700" font-family="var(--font-mono)">.docm</text>
+        <text x="155" y="240" text-anchor="middle" fill="var(--text-secondary)" font-size="13">1 627 B, one file</text>
+        <path d="M300 178 L354 178" stroke="var(--text-secondary)" stroke-width="2" fill="none"/><path d="M378 178 l-24 -8 v16 z" fill="var(--text-secondary)"/>
+        <text x="339" y="162" text-anchor="middle" fill="var(--text-secondary)" font-size="12">unzip</text>
+        <g opacity="0"><animate attributeName="opacity" dur="4.0s" begin="h6play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.075;0.11;1"/><rect x="400" y="62" width="600" height="34" rx="5" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/><text x="416" y="85" fill="var(--text-primary)" font-size="14" font-family="var(--font-mono)">[Content_Types].xml</text><text x="984" y="85" text-anchor="end" fill="var(--text-secondary)" font-size="13" font-family="var(--font-mono)">486</text></g>
+        <g opacity="0"><animate attributeName="opacity" dur="4.0s" begin="h6play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.13;0.165;1"/><rect x="400" y="106" width="600" height="34" rx="5" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/><text x="416" y="129" fill="var(--text-primary)" font-size="14" font-family="var(--font-mono)">_rels/.rels</text><text x="984" y="129" text-anchor="end" fill="var(--text-secondary)" font-size="13" font-family="var(--font-mono)">300</text></g>
+        <g opacity="0"><animate attributeName="opacity" dur="4.0s" begin="h6play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.185;0.22;1"/><rect x="400" y="150" width="600" height="34" rx="5" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/><text x="416" y="173" fill="var(--text-primary)" font-size="14" font-family="var(--font-mono)">word/document.xml</text><text x="984" y="173" text-anchor="end" fill="var(--text-secondary)" font-size="13" font-family="var(--font-mono)">272</text></g>
+        <g opacity="0"><animate attributeName="opacity" dur="4.0s" begin="h6play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.24;0.275;1"/><rect x="400" y="194" width="600" height="34" rx="5" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/><text x="416" y="217" fill="var(--text-primary)" font-size="14" font-family="var(--font-mono)">word/_rels/document.xml.rels</text><text x="984" y="217" text-anchor="end" fill="var(--text-secondary)" font-size="13" font-family="var(--font-mono)">426</text></g>
+        <g opacity="0"><animate attributeName="opacity" dur="4.0s" begin="h6play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.295;0.33;1"/><rect x="400" y="238" width="600" height="34" rx="5" fill="var(--bg-card)" stroke="var(--accent-red)" stroke-width="2.5"/><text x="416" y="261" fill="var(--accent-red)" font-size="14" font-family="var(--font-mono)">word/vbaProject.bin</text><text x="984" y="261" text-anchor="end" fill="var(--text-secondary)" font-size="13" font-family="var(--font-mono)">1 536</text></g>
+        <g opacity="0"><animate attributeName="opacity" dur="4.0s" begin="h6play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.35;0.385;1"/><rect x="400" y="282" width="600" height="34" rx="5" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/><text x="416" y="305" fill="var(--text-primary)" font-size="14" font-family="var(--font-mono)">word/embeddings/oleObject1.bin</text><text x="984" y="305" text-anchor="end" fill="var(--text-secondary)" font-size="13" font-family="var(--font-mono)">512</text></g>
+        <text x="1010" y="261" fill="var(--accent-red)" font-size="13" font-weight="700" opacity="0">&#8592; the macro<animate attributeName="opacity" dur="4.0s" begin="h6play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.525;0.57;1"/></text>
+        <text x="20" y="338" fill="var(--text-primary)" font-size="16" font-weight="700" opacity="0">A .docm is a ZIP. The macro is a file inside it &mdash; and that file is OLE: <tspan font-family="var(--font-mono)">d0 cf 11 e0</tspan>.<animate attributeName="opacity" dur="4.0s" begin="h6play.click" fill="freeze" restart="always" values="0;0;1;1" keyTimes="0;0.65;0.695;1"/></text>
+        </svg>
+      <figcaption>Two container formats in one artifact: OOXML on the outside, OLE in the part that matters.</figcaption>
+      </figure>
+
+      <div class="split">
+        <div>
+          <div class="gui"><div class="gui-bar"><span class="gui-dots"><i></i><i></i><i></i></span><span class="gui-title">quarterly_review.docm &middot; unzip -l</span></div><div class="gui-body"><div class="l p">$ unzip -l quarterly_review.docm</div><div class="l ">     486  [Content_Types].xml</div><div class="l ">     272  word/document.xml</div><div class="l no">   1 536  word/vbaProject.bin</div><div class="l ">     512  word/embeddings/oleObject1.bin</div><div class="l d">6 files, 3 532 B uncompressed</div></div><div class="gui-cap">Rename it to .zip if you like. It was always one.</div></div>
+        </div>
+        <div>
+          <div class="finding">
+        <span class="cl-label">Two container formats, one artifact</span>
+        <p>OOXML on the outside &mdash; a ZIP of XML parts. OLE on the inside: <code>vbaProject.bin</code> begins <code>d0 cf 11 e0</code>, the compound-file signature. Older <code>.doc</code> files are OLE all the way down.</p>
+      </div>
+        </div>
+      </div>
+
+      <div class="caveat">
+        <span class="cl-label">&#9940; Tier 3 sample &mdash; pending <code>EVS-06</code></span>
+        <p>This document was authored for the course to teach structure. It carries the real OLE signature and a real embedded object, and <strong>no executable macro code</strong>. The carry-through document arrives with the disk image.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p14">
+      <span class="kicker">S3-05 &middot; 25 min</span>
+      <h2>What a binary tells you before you run it</h2>
+
+      <figure class="svg-wrap" role="group" aria-label="S3-F7">
+        <svg viewBox="0 0 1120 300" role="img" aria-labelledby="h7t" xmlns="http://www.w3.org/2000/svg">
+        <title id="h7t">The layout of a Windows executable from the DOS stub through the headers to its sections</title>
+        <text x="20" y="46" fill="var(--text-primary)" font-size="15" font-weight="700">report_viewer.exe &mdash; pei-x86-64</text>
+        <rect x="20" y="66" width="150" height="62" rx="5" fill="var(--bg-card)" stroke="var(--accent-amber)" stroke-width="2"/>
+        <text x="95" y="102" text-anchor="middle" fill="var(--accent-amber)" font-size="14">DOS stub</text>
+        <text x="95" y="152" text-anchor="middle" fill="var(--accent-amber)" font-size="13" font-family="var(--font-mono)">4D 5A</text>
+        <rect x="180" y="66" width="170" height="62" rx="5" fill="var(--bg-card)" stroke="var(--accent-cyan)" stroke-width="2"/>
+        <text x="265" y="102" text-anchor="middle" fill="var(--accent-cyan)" font-size="14">PE header</text>
+        <text x="265" y="152" text-anchor="middle" fill="var(--accent-cyan)" font-size="13" font-family="var(--font-mono)">50 45 00 00</text>
+        <rect x="366" y="66" width="176" height="62" rx="5" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+        <text x="454" y="102" text-anchor="middle" fill="var(--text-primary)" font-size="15">.text</text>
+        <text x="454" y="152" text-anchor="middle" fill="var(--text-secondary)" font-size="13" font-family="var(--font-mono)">0x6b78</text>
+        <rect x="556" y="66" width="176" height="62" rx="5" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+        <text x="644" y="102" text-anchor="middle" fill="var(--text-primary)" font-size="15">.data</text>
+        <text x="644" y="152" text-anchor="middle" fill="var(--text-secondary)" font-size="13" font-family="var(--font-mono)">0x00c0</text>
+        <rect x="746" y="66" width="176" height="62" rx="5" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+        <text x="834" y="102" text-anchor="middle" fill="var(--text-primary)" font-size="15">.rdata</text>
+        <text x="834" y="152" text-anchor="middle" fill="var(--text-secondary)" font-size="13" font-family="var(--font-mono)">0x0dc0</text>
+        <rect x="936" y="66" width="176" height="62" rx="5" fill="var(--bg-card)" stroke="var(--accent-green)" stroke-width="2.5"/>
+        <text x="1024" y="102" text-anchor="middle" fill="var(--text-primary)" font-size="15">.idata</text>
+        <text x="1024" y="152" text-anchor="middle" fill="var(--text-secondary)" font-size="13" font-family="var(--font-mono)">0x06fc</text>
+        <text x="1094" y="110" text-anchor="end" fill="var(--accent-green)" font-size="13" font-weight="700">&#8593; the imports live here</text>
+        <line x1="20" y1="186" x2="1100" y2="186" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <text x="20" y="222" fill="var(--text-primary)" font-size="15">KERNEL32.dll &middot; msvcrt.dll &mdash; and <tspan font-family="var(--font-mono)" fill="var(--accent-green)">GetSystemDirectoryA</tspan> among the imports</text>
+        <text x="20" y="250" fill="var(--text-secondary)" font-size="14">The import table is the binary declaring, in advance, what it intends to call.</text>
+        <text x="20" y="286" fill="var(--text-primary)" font-size="16" font-weight="700">You do not need to run it to learn what it is able to do.</text>
+        </svg>
+      <figcaption>Imports are a capability list. Read them before you decide whether the file matters.</figcaption>
+      </figure>
+
+      <div class="split">
+        <div>
+          <div class="gui"><div class="gui-bar"><span class="gui-dots"><i></i><i></i><i></i></span><span class="gui-title">report_viewer.exe &middot; objdump -p</span></div><div class="gui-body"><div class="l p">$ objdump -f report_viewer.exe</div><div class="l ">file format pei-x86-64</div><div class="l p">$ objdump -p report_viewer.exe | grep 'DLL Name'</div><div class="l ok">  DLL Name: KERNEL32.dll</div><div class="l ok">  DLL Name: msvcrt.dll</div><div class="l no">  ... GetSystemDirectoryA, MultiByteToWideChar</div></div><div class="gui-cap">Real output from a benign binary compiled for this session.</div></div>
+        </div>
+        <div>
+          <div class="lab-box">
+        <span class="cl-label">Do it now</span>
+        <p>Pick three imports from the list and say, for each, one thing the binary is able to do. Then say the thing you <em>cannot</em> conclude from an import table.</p>
+      </div>
+        </div>
+      </div>
+
+      <div class="limitation">
+        <span class="cl-label">What an import table cannot show</span>
+        <p>That a function is ever called, in what order, or on what condition. Imports are capability, not behaviour &mdash; and code can resolve functions at run time without declaring them here at all.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p15">
+      <span class="kicker">Independent practice</span>
+      <h2>All twelve, by their bytes</h2>
+
+      <ol class="steps">
+        <li>Read the first four bytes of every file in <code>EVS-05</code>.</li>
+        <li>Tabulate: name &middot; extension it claims &middot; bytes &middot; what those bytes say it is.</li>
+        <li>Name the five that disagree. One of them will surprise you &mdash; predict it first.</li>
+        <li>Name the two whose signature is correct and which still will not open.</li>
+        <li>For one file of each kind, write the finding with its exact path.</li>
+      </ol>
+
+      <div class="caveat">
+        <span class="cl-label">Predict before you look</span>
+        <p>Write down what you expect <code>policy_v2.docx</code> to begin with, then check. The point of the exercise is the gap between those two moments.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p16">
+      <span class="kicker">S3-07 &middot; 35 min &middot; individual</span>
+      <h2>Case 03 &mdash; twelve files, one hidden payload</h2>
+
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Question</th><th>Answer format</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Which files are not the type their name claims?</td><td>filename + actual type</td></tr>
+          <tr><td>2</td><td>Which files have a valid signature and a broken body?</td><td>filename + the evidence</td></tr>
+          <tr><td>3</td><td>Which image carries a payload, and in which channel?</td><td>filename + channel + pixel count</td></tr>
+          <tr><td>4</td><td>Which file is two formats at once, and where does the second start?</td><td>filename + byte offset</td></tr>
+          <tr><td>5</td><td>Which &ldquo;redacted&rdquo; file is not redacted?</td><td>filename + what survived + its size</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="limitation">
+        <span class="cl-label">One of the five has no single answer</span>
+        <p>Where a question asks for something the evidence cannot settle, say so and say what would settle it. That answer scores full marks; a guess scores nothing.</p>
+      </div>
+
+      <div class="coc">
+        <span class="cl-label">Closing 15 minutes &mdash; the same in every session</span>
+        <p>Re-hash what you touched &middot; sign the custody line &middot; store read-only &middot; then write it up on the fixed template from Session 1.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p17">
+      <span class="kicker">S3-08 &middot; 25 min</span>
+      <h2>The document from the case itself</h2>
+
+      <ol class="steps">
+        <li>Verify the artifact against the manifest before opening it.</li>
+        <li>Open it as an archive. List the parts and record their sizes.</li>
+        <li>Identify the part that holds the macro, and its container signature.</li>
+        <li>Identify any embedded object and what type it really is.</li>
+        <li>Write the finding, the interpretation and the limitation separately.</li>
+      </ol>
+
+      <div class="caveat">
+        <span class="cl-label">&#9940; Provisional &mdash; pending <code>EVS-06</code></span>
+        <p>The steps, the order and the verification line are final. <code>EVS-06</code> is to be carved from the disk image, which is not yet acquired, so no filename, size, digest or tool output on this page is real yet. Page 13's Tier 3 sample teaches the same structure in the meantime.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p18">
+      <span class="kicker">Knowledge check 2</span>
+      <h2>Before you write it up</h2>
+
+      <div class="q mcq"><p class="stem"><code>office_floor3.jpg</code> carries three timestamps nine days apart. Which one records when the photograph was actually taken?</p><ul class="opts"><li data-why="It is the best candidate, and that is not the same as proof. EXIF is user-writable, so this cannot be established from the file alone."><label><input type="radio" name="q4c"> <code>DateTimeOriginal</code> &mdash; it is what the camera wrote.</label></li><li data-why="It records a copy onto a filesystem. It is the weakest of the three for this question."><label><input type="radio" name="q4c"> <code>FileModifyDate</code> &mdash; the filesystem does not lie.</label></li><li data-correct data-why="Correct. <code>DateTimeOriginal</code> is the best available indicator and must be reported <em>with</em> its limitation. Naming it as proof is the wrong answer."><label><input type="radio" name="q4c"> <strong>It cannot be determined from this file alone.</strong></label></li><li data-why="That records a later edit, not the exposure."><label><input type="radio" name="q4c"> <code>ModifyDate</code> &mdash; the most recent EXIF date wins.</label></li></ul><div class="feedback"></div></div>
+
+      <div class="q mcq"><p class="stem">A JPEG opens correctly and <code>unzip -l</code> also lists a file inside it. What is it?</p><ul class="opts"><li data-why="It opens correctly. Nothing here is corrupt."><label><input type="radio" name="q5c"> A corrupted JPEG.</label></li><li data-correct data-why="Both readings are true at the same time &mdash; which is what makes an extension check useless against it."><label><input type="radio" name="q5c"> A file valid as two formats at once.</label></li><li data-why="A renamed ZIP would not open as an image."><label><input type="radio" name="q5c"> A ZIP that was renamed.</label></li><li data-why="Nothing here is encrypted; the archive listed its contents."><label><input type="radio" name="q5c"> An encrypted archive.</label></li></ul><div class="feedback"></div></div>
+
+      <div class="q mcq"><p class="stem">Which belongs in <em>Findings</em> exactly as written?</p><ul class="opts"><li data-why="That reasons about a person's intent from a byte pattern."><label><input type="radio" name="q6c"> The suspect concealed data in the photograph.</label></li><li data-correct data-why="A named file, an exact signature, an exact offset &mdash; reproducible by anyone with the same evidence."><label><input type="radio" name="q6c"> <code>team_photo.jpg</code> contains <code>50 4B 03 04</code> at offset 10 296.</label></li><li data-why="&ldquo;Probably&rdquo; is reasoning. State the offset, then reason separately."><label><input type="radio" name="q6c"> The image was probably tampered with.</label></li><li data-why="&ldquo;Proves&rdquo; overstates what user-writable metadata can support."><label><input type="radio" name="q6c"> The metadata proves the photo was taken on 24 August.</label></li></ul><div class="feedback"></div></div>
+    </section>
+
+    <section class="page" id="p19">
+      <span class="kicker">Summary</span>
+      <h2>Everything from today, on one page</h2>
+
+      <div class="cheat"><div class="cheat-head"><h3>Cheat sheet &mdash; Session 3</h3>
+      <button class="btn ghost" type="button" data-action="print">Print</button></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Need</th><th>Command</th><th>Watch for</th></tr></thead>
+        <tbody>
+          <tr><td>Identify a file by content</td><td><code>xxd -l 4 &lt;file&gt;</code></td><td>a .docx is a ZIP &mdash; until it is not</td></tr>
+          <tr><td>All metadata, grouped</td><td><code>exiftool -s -G &lt;file&gt;</code></td><td>dates that disagree with each other</td></tr>
+          <tr><td>Pull the embedded preview</td><td><code>exiftool -b -ThumbnailImage &lt;f&gt;</code></td><td>it may predate the edit</td></tr>
+          <tr><td>Find an appended file</td><td><code>binwalk &lt;file&gt;</code></td><td>anything after the format's own end</td></tr>
+          <tr><td>Read LSB planes</td><td><code>zsteg &lt;file.png&gt;</code></td><td>one channel, deltas of exactly 1</td></tr>
+          <tr><td>Open a document as an archive</td><td><code>unzip -l &lt;file.docm&gt;</code></td><td><code>word/vbaProject.bin</code></td></tr>
+          <tr><td>What a binary can do</td><td><code>objdump -p &lt;file.exe&gt;</code></td><td>the imported DLLs and functions</td></tr>
+        </tbody>
+      </table>
+      </div></div>
+
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>JPEG</th><th>PNG</th><th>PDF</th><th>ZIP / DOCX</th><th>PE</th><th>OLE</th></tr></thead>
+        <tbody><tr>
+          <td><code>FF D8 FF</code></td><td><code>89 50 4E 47</code></td><td><code>25 50 44 46</code></td>
+          <td><code>50 4B 03 04</code></td><td><code>4D 5A</code></td><td><code>D0 CF 11 E0</code></td>
+        </tr></tbody>
+      </table>
+      </div>
+    </section>
+
+    <section class="page" id="p20">
+      <span class="kicker">Takeaways</span>
+      <h2>Five things to leave with</h2>
+
+      <div class="key-takeaway"><span class="cl-label">1</span><p>Byte order is a convention, not a property of the bytes. Know it before you read a number.</p></div>
+      <div class="key-takeaway"><span class="cl-label">2</span><p>A valid signature says how a file starts. It says nothing about whether it is complete.</p></div>
+      <div class="key-takeaway"><span class="cl-label">3</span><p>Editing a picture is not editing the file. Check what the container kept.</p></div>
+      <div class="key-takeaway"><span class="cl-label">4</span><p>A file ends where its format says it ends. Everything after that was a decision.</p></div>
+      <div class="key-takeaway"><span class="cl-label">5</span><p>Imports tell you capability. They never tell you behaviour.</p></div>
+
+      <div class="limitation">
+        <span class="cl-label">And the one this session is built around</span>
+        <p>Three dates, nine days apart, and none of them answers the question you were asked. &ldquo;Cannot be determined&rdquo; with the best indicator named is the professional answer.</p>
+      </div>
+    </section>
+
+    <section class="page" id="p21">
+      <span class="kicker">Homework</span>
+      <h2>Before Session 4</h2>
+
+      <p class="task-count" data-task-counter>0 / 5</p>
+      <ul id="taskList">
+        <li><input type="checkbox" id="s3t1"><label for="s3t1">The Case 03 report, on the fixed template, against the rubric below</label></li>
+        <li><input type="checkbox" id="s3t2"><label for="s3t2">The twelve-file table from page 15, complete, with exact paths</label></li>
+        <li><input type="checkbox" id="s3t3"><label for="s3t3">Resolve the GPS coordinates to a city and state how precise that is</label></li>
+        <li><input type="checkbox" id="s3t4"><label for="s3t4">Extract the payload from <code>receipt_scan.png</code> and say what tool you used</label></li>
+        <li><input type="checkbox" id="s3t5"><label for="s3t5">Verify Session 4's evidence before you arrive</label></li>
+      </ul>
+      <button class="btn ghost" type="button" data-action="add-task">Add a task</button>
+
+      <h3>Labs &mdash; at the keyboard, before you write</h3>
+      <ol class="steps">
+        <li><strong>Predict, then look.</strong> For all twelve files, write your prediction of the
+        first four bytes <em>before</em> reading any. Score yourself and keep the sheet.</li>
+        <li><strong>Diff the twins.</strong> Reproduce the 190-pixel result yourself, and say in one
+        sentence why the clean twin is what makes the exercise possible.</li>
+        <li><strong>Carve the polyglot.</strong> Extract the appended archive from
+        <code>team_photo.jpg</code> and record the offset you found it at.</li>
+      </ol>
+
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Rubric criterion &mdash; identical in all six sessions</th><th>Marks</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><strong>Integrity</strong> &mdash; digests recorded, verified and re-verified</td><td>25</td></tr>
+          <tr><td>2</td><td><strong>Method</strong> &mdash; tool, version and exact command, reproducible by someone else</td><td>25</td></tr>
+          <tr><td>3</td><td><strong>Findings</strong> &mdash; each tied to a named artifact and an exact path</td><td>25</td></tr>
+          <tr><td>4</td><td><strong>Separation</strong> &mdash; findings, interpretation and limitations never mixed</td><td>25</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section class="page" id="p22">
+      <span class="kicker">Going further</span>
+      <h2>Additional practice and sources</h2>
+
+      <div class="vs">
+        <div>
+          <h4>Practice &mdash; before Session 4</h4>
+          <ul>
+            <li>Take a photo on your own phone and read every date it carries</li>
+            <li>Append a text file to a JPEG with <code>cat</code>, then find it again with <code>binwalk</code></li>
+            <li>Rename any <code>.docx</code> you own to <code>.zip</code> and list its parts</li>
+            <li>Gary Kessler's file-signature table &mdash; keep it, you will use it all year</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Sources &mdash; where today came from</h4>
+          <ul>
+            <li>INE eCDFP &mdash; Unit 3 &sect;3.1&ndash;3.2, data representation</li>
+            <li>INE eCDFP &mdash; Unit 3 &sect;3.7.1 DOCX, &sect;3.7.3 PDF, &sect;3.7.4 EXE</li>
+            <li>Unit 4 &sect;6.3.2 &mdash; thumbnails and image forensics</li>
+            <li>Microsoft &mdash; PE format specification</li>
+            <li>CFB / OLE compound file specification</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="split">
+        <div>
+          <div class="lab-box">
+        <span class="cl-label">Next session</span>
+        <p><strong>Storage Devices, Partitions &amp; File Systems.</strong> Carving is signature matching across unallocated space &mdash; the signatures you learned today are what it searches for. You have read files; now find the ones that were deleted.</p>
+      </div>
+        </div>
+        <div>
+          <div class="gui"><div class="gui-bar"><span class="gui-dots"><i></i><i></i><i></i></span><span class="gui-title">scan_partial.png &middot; what Session 4 explains</span></div><div class="gui-body"><div class="l ok">signature : 89 50 4E 47   valid</div><div class="l no">body      : truncated, will not render</div><div class="l d"># why can a file be half there?</div><div class="l d"># S4: sectors, clusters, slack, $MFT, carving</div></div><div class="gui-cap">Today you proved it is broken. Next session explains how it got that way.</div></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav" aria-label="Page navigation">
+  <button class="btn ghost" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 22</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<div class="modal" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle" hidden>
+  <div class="modal-card">
+    <h3 id="taskModalTitle">Add a task</h3>
+    <form>
+      <label for="taskText">What do you want to follow up on?</label>
+      <input type="text" id="taskText" name="taskText" autocomplete="off">
+      <div class="modal-actions">
+        <button class="btn ghost" type="button" data-action="close-modal">Cancel</button>
+        <button class="btn" type="submit">Add</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+</body>
+</html>

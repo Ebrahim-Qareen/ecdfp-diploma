@@ -1,0 +1,306 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>eCDFP — SIMSCREEN</title><style>
+:root{--bg:#0a0e14;--bg2:#10161f;--card:#151c27;--bd:#232c3a;--tx:#e6edf3;--tx2:#8b98a9;
+ --cy:#00d9ff;--gr:#00ff9d;--am:#ffb454;--rd:#ff4d5e;
+ --f:'Inter','Segoe UI',system-ui,sans-serif;--m:'JetBrains Mono','Fira Code',ui-monospace,Consolas,monospace;
+ --arf:'Segoe UI','Noto Naskh Arabic',Tahoma,sans-serif;
+ --win:'Segoe UI Variable Text','Segoe UI',system-ui,sans-serif;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--f);
+ font-size:clamp(1.02rem,.97rem + .3vw,1.16rem);line-height:1.66;
+ background-image:linear-gradient(rgba(35,44,58,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(35,44,58,.13) 1px,transparent 1px);
+ background-size:44px 44px}
+.wrap{max-width:1180px;margin:0 auto;padding:34px clamp(16px,3vw,40px) 60px}
+.chip{display:inline-block;font-family:var(--m);font-size:.7rem;letter-spacing:.14em;padding:5px 11px;
+ border-radius:5px;border:1px solid var(--bd);color:var(--cy);background:rgba(0,217,255,.06)}
+h1{font-size:clamp(1.9rem,1.4rem + 2vw,2.7rem);line-height:1.15;margin:.5em 0 .15em;font-weight:660;
+ border-left:5px solid var(--cy);padding-left:18px}
+h1 .ar,.lead .ar{display:block;direction:rtl;text-align:right;font-family:var(--arf);color:var(--tx2)}
+h1 .ar{font-size:.4em;font-weight:400;margin-top:.5em}
+.lead{max-width:74ch;color:var(--tx2);margin:0 0 26px}
+.lead .ar{margin-top:.6em;font-size:.92em}
+
+/* ======== SIMSCREEN shell ======== */
+.sim{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;overflow:hidden}
+.sim-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 18px;
+ border-bottom:1px solid var(--bd);background:var(--card)}
+.sim-t{font-family:var(--m);font-size:.74rem;letter-spacing:.13em;color:var(--tx2)}
+.count{font-family:var(--m);font-size:.74rem;letter-spacing:.1em;color:var(--cy);border:1px solid var(--bd);
+ border-radius:20px;padding:4px 13px;background:var(--bg)}
+.stage{position:relative;display:grid;place-items:center;min-height:498px;padding:30px 20px;
+ background:radial-gradient(130% 130% at 50% -10%,#16202c 0,#070a0e 72%)}
+.holder{position:relative}
+.mask{position:absolute;inset:-30px;pointer-events:none;transition:background .5s ease;border-radius:14px}
+.ring{position:absolute;width:32px;height:32px;margin:-16px 0 0 -16px;border-radius:50%;border:2px solid var(--cy);
+ pointer-events:none;z-index:5;animation:pulse 1.7s infinite;
+ transition:left .5s cubic-bezier(.4,0,.2,1),top .5s cubic-bezier(.4,0,.2,1)}
+.ring.key{border-color:var(--am);animation-name:pulseK}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,217,255,.5);transform:scale(.85)}
+ 70%{box-shadow:0 0 0 15px rgba(0,217,255,0);transform:scale(1.1)}100%{box-shadow:0 0 0 0 rgba(0,217,255,0);transform:scale(.85)}}
+@keyframes pulseK{0%{box-shadow:0 0 0 0 rgba(255,180,84,.55);transform:scale(.85)}
+ 70%{box-shadow:0 0 0 17px rgba(255,180,84,0);transform:scale(1.13)}100%{box-shadow:0 0 0 0 rgba(255,180,84,0);transform:scale(.85)}}
+.cur{position:absolute;width:19px;height:25px;pointer-events:none;z-index:6;filter:drop-shadow(0 2px 5px rgba(0,0,0,.7));
+ transition:left .5s cubic-bezier(.4,0,.2,1),top .5s cubic-bezier(.4,0,.2,1)}
+.cap{padding:17px 20px 19px;border-top:1px solid var(--bd);background:var(--card)}
+.cap .en{max-width:78ch;margin:0}
+.cap .ar{display:block;margin-top:.62em;direction:rtl;text-align:right;font-family:var(--arf);
+ font-size:.85em;line-height:1.75;color:var(--tx2)}
+.cap b{color:var(--tx)} .cap.key{background:rgba(255,180,84,.06);border-top-color:rgba(255,180,84,.3)}
+.ctl{display:flex;align-items:center;gap:9px;padding:11px 18px;border-top:1px solid var(--bd);background:var(--bg2)}
+.btn{font-family:var(--m);font-size:.72rem;letter-spacing:.08em;color:var(--tx2);background:var(--card);
+ border:1px solid var(--bd);border-radius:6px;padding:6px 13px;cursor:pointer}
+.btn:hover{color:var(--cy);border-color:var(--cy)}
+.dots{display:flex;gap:7px;margin-left:auto}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--bd);cursor:pointer;transition:.25s}
+.dot.on{background:var(--cy);transform:scale(1.35)} .dot.k{background:#4a3a22}.dot.k.on{background:var(--am)}
+
+/* ======== recreated Windows chrome — the part that must not look drawn ======== */
+.w{display:none;font-family:var(--win);color:#1b1b1b;background:#f0f0f0;border-radius:6px;overflow:hidden;
+ box-shadow:0 30px 78px -20px #000,0 0 0 1px #303a48,0 1px 0 rgba(255,255,255,.5) inset;
+ -webkit-font-smoothing:antialiased}
+.w.on{display:block}
+.tb{display:flex;align-items:center;height:31px;padding:0 0 0 12px;background:#fff;border-bottom:1px solid #e2e2e2}
+.tb .ti{font-size:12px;font-weight:600;color:#1b1b1b;letter-spacing:.005em}
+.tb .sp{margin-left:auto;display:flex}
+.tb .cb{width:45px;height:31px;display:grid;place-items:center;font-size:11px;color:#4a4a4a}
+.tb .cb.x:hover{background:#c42b1c;color:#fff}
+.body{padding:14px 16px 16px;font-size:12px;line-height:1.55}
+fieldset{border:1px solid #d8d8d8;border-radius:3px;margin:0 0 12px;padding:11px 13px 13px}
+legend{padding:0 5px;font-size:12px;color:#1b1b1b}
+.rd,.cb2{display:flex;align-items:flex-start;gap:8px;margin:0 0 9px;font-size:12px}
+.rd i,.cb2 i{flex:0 0 auto;width:13px;height:13px;border:1px solid #666;background:#fff;margin-top:2px;position:relative}
+.rd i{border-radius:50%}
+.rd.sel i::after{content:'';position:absolute;inset:3px;border-radius:50%;background:#1b1b1b}
+.cb2.sel i::after{content:'';position:absolute;left:3px;top:0px;width:5px;height:9px;border:solid #1b1b1b;
+ border-width:0 1.6px 1.6px 0;transform:rotate(42deg)}
+.hint{color:#8a5a00;font-size:11.5px;margin:-5px 0 9px 21px}
+.tx{border:1px solid #a0a0a0;background:#fff;padding:4px 7px;font-size:12px;min-height:24px;display:flex;align-items:center}
+.tx.dis{background:#f0f0f0;color:#8a8a8a;border-color:#cdcdcd}
+.lb{font-size:12px;margin:0 0 4px;color:#1b1b1b}
+.lst{border:1px solid #a0a0a0;background:#fff;height:86px;padding:5px 7px;font-size:12px;color:#1b1b1b}
+.btns{display:flex;gap:7px;justify-content:center;margin-top:14px}
+.bt{min-width:76px;height:25px;border:1px solid #adadad;background:#e1e1e1;border-radius:2px;font-size:12px;
+ font-family:var(--win);display:grid;place-items:center;color:#1b1b1b}
+.bt.def{border:1px solid #0078d4;background:#e1e1e1}
+.bt.dis{color:#8a8a8a;border-color:#cdcdcd;background:#f0f0f0}
+.bt.sm{min-width:66px}
+.row{display:flex;gap:7px;align-items:center}
+.sel2{border:1px solid #a0a0a0;background:#fff;height:24px;display:flex;align-items:center;
+ padding:0 8px;font-size:12px;flex:1;justify-content:space-between}
+.sel2 span:last-child{color:#555;font-size:9px}
+.pb{height:17px;border:1px solid #bcbcbc;background:#e6e6e6;overflow:hidden}
+.pb i{display:block;height:100%;background:#06b025}
+.mono{font-family:'Consolas','Courier New',monospace;font-size:11.5px}
+/* Start menu */
+.sm{width:520px;background:#f3f3f3;border-radius:8px;overflow:hidden;box-shadow:0 30px 78px -20px #000,0 0 0 1px #303a48}
+.sm-s{margin:14px 16px 10px;height:32px;border:1px solid #c9c9c9;background:#fff;border-radius:16px;
+ display:flex;align-items:center;gap:9px;padding:0 13px;font-size:12.5px;color:#1b1b1b}
+.sm-s .mag{width:13px;height:13px;border:1.6px solid #666;border-radius:50%;position:relative;flex:0 0 auto}
+.sm-s .mag::after{content:'';position:absolute;right:-4px;bottom:-3px;width:6px;height:1.6px;background:#666;transform:rotate(45deg)}
+.sm-h{font-size:11px;color:#5c5c5c;margin:2px 16px 5px;font-weight:600}
+.sm-i{display:flex;align-items:center;gap:11px;margin:0 8px;padding:7px 9px;border-radius:5px;font-size:12.5px}
+.sm-i.hl{background:#e5f1fb}
+.sm-i .ic{width:26px;height:26px;border-radius:4px;background:linear-gradient(160deg,#3a6ea5,#1f4e79);
+ display:grid;place-items:center;color:#fff;font-size:9px;font-weight:700;flex:0 0 auto}
+.sm-i .sub{color:#6a6a6a;font-size:11px}
+.sm-i div{line-height:1.35}
+/* FTK main window + menu */
+.app{width:640px;background:#f0f0f0;border-radius:6px;overflow:hidden;box-shadow:0 30px 78px -20px #000,0 0 0 1px #303a48}
+.mb{display:flex;gap:0;background:#f0f0f0;border-bottom:1px solid #dcdcdc;font-size:12px}
+.mb span{padding:5px 11px}
+.mb span.open{background:#cce4f7;border:1px solid #99d1ff;border-bottom-color:#cce4f7;margin-bottom:-1px}
+.menu{position:absolute;left:6px;top:56px;width:238px;background:#f2f2f2;border:1px solid #b6b6b6;
+ box-shadow:0 8px 22px rgba(0,0,0,.28);padding:2px 0;font-size:12px;z-index:3}
+.menu div{padding:5px 12px 5px 26px;position:relative}
+.menu div.hl{background:#cce4f7}
+.menu div.sep{padding:0;margin:3px 0;border-top:1px solid #dcdcdc}
+.pane{display:flex;height:172px;font-size:11.5px}
+.pane .l{width:210px;border-right:1px solid #dcdcdc;background:#fff;padding:7px}
+.pane .r{flex:1;background:#fff;padding:7px;color:#8a8a8a}
+.pane .l div{padding:2px 0}
+.sb{height:22px;border-top:1px solid #dcdcdc;background:#f0f0f0;font-size:11px;color:#5c5c5c;
+ display:flex;align-items:center;padding:0 10px}
+.hx{font-family:'Consolas',monospace;font-size:11px;color:#333;line-height:1.5}
+</style></head><body><div class="wrap">
+<span class="chip">T09 · IMAGING TOOLS · THEORY</span>
+<h1>Making a defensible image — before you touch the tool
+  <span class="ar">إزاي تعمل image يصمد — قبل ما تلمس الأداة أصلاً</span></h1>
+<p class="lead">Nine actions. Watch them once here, then do them yourself on FOR-WS01.
+ <span class="ar">تسع خطوات. اتفرج عليهم هنا الأول، بعدين نفّذهم بنفسك على FOR-WS01.</span></p>
+
+<div class="sim">
+ <div class="sim-head">
+   <span class="sim-t">SIMSCREEN · T09-1 · FTK IMAGER — DISK ACQUISITION</span>
+   <span class="count" id="count">1 / 9</span>
+ </div>
+ <div class="stage"><div class="holder" id="holder">
+
+  <!-- 1 · Start menu -->
+  <div class="w sm" id="sc1" style="background:#f3f3f3">
+    <div class="sm-s"><span class="mag"></span><span>FTK Imager</span></div>
+    <div class="sm-h">Best match</div>
+    <div class="sm-i hl" id="t1"><span class="ic">FTK</span>
+      <div><div>AccessData FTK Imager</div><div class="sub">App</div></div></div>
+    <div class="sm-h" style="margin-top:9px">Also on this machine</div>
+    <div class="sm-i"><span class="ic" style="background:linear-gradient(160deg,#5a5a5a,#333)">RE</span>
+      <div><div>Registry Explorer</div><div class="sub">App</div></div></div>
+    <div class="sm-i"><span class="ic" style="background:linear-gradient(160deg,#1f7a3f,#0d4a24)">WH</span>
+      <div><div>WinHex</div><div class="sub">App</div></div></div>
+    <div style="height:12px"></div>
+  </div>
+
+  <!-- 2 · FTK main window, File menu open -->
+  <div class="w app" id="sc2" style="position:relative">
+    <div class="tb"><span class="ti">AccessData FTK Imager 4.7.1.2</span>
+      <span class="sp"><span class="cb">&#8211;</span><span class="cb">&#9633;</span><span class="cb x">&#10005;</span></span></div>
+    <div class="mb"><span class="open">File</span><span>View</span><span>Mode</span><span>Help</span></div>
+    <div class="menu">
+      <div>Add Evidence Item…</div>
+      <div>Add All Attached Devices</div>
+      <div class="sep"></div>
+      <div class="hl" id="t2">Create Disk Image…</div>
+      <div>Export Disk Image…</div>
+      <div>Export Logical Image (AD1)…</div>
+      <div class="sep"></div>
+      <div>Obtain Protected Files…</div>
+      <div>Capture Memory…</div>
+      <div class="sep"></div>
+      <div>Exit</div>
+    </div>
+    <div class="pane"><div class="l">
+        <div style="font-weight:600;margin-bottom:4px">Evidence Tree</div>
+        <div style="color:#8a8a8a">(no evidence loaded)</div></div>
+      <div class="r">File List</div></div>
+    <div class="sb">For User Guide, press F1</div>
+  </div>
+
+  <!-- 3 · Select Source -->
+  <div class="w" id="sc3" style="width:438px">
+    <div class="tb"><span class="ti">Select Source</span>
+      <span class="sp"><span class="cb x">&#10005;</span></span></div>
+    <div class="body">
+      <fieldset><legend>Please Select the Source Evidence Type</legend>
+        <div class="rd sel" id="t3"><i></i><span>Physical Drive</span></div>
+        <div class="rd"><i></i><span>Logical Drive</span></div>
+        <div class="rd"><i></i><span>Image File</span></div>
+        <div class="rd"><i></i><span>Contents of a Folder</span></div>
+        <div class="hint">(logical file-level analysis only; excludes deleted, unallocated, etc.)</div>
+        <div class="rd" style="margin-bottom:2px"><i></i><span>Femico Device (multiple CD/DVD)</span></div>
+        <div style="height:52px"></div>
+      </fieldset>
+      <div class="btns"><span class="bt dis">&lt; Back</span><span class="bt def" id="t4">Next &gt;</span>
+        <span class="bt">Cancel</span><span class="bt">Help</span></div>
+    </div>
+  </div>
+
+  <!-- 4 · Select Drive -->
+  <div class="w" id="sc4" style="width:433px">
+    <div class="tb"><span class="ti">Select Drive</span>
+      <span class="sp"><span class="cb x">&#10005;</span></span></div>
+    <div class="body">
+      <fieldset><legend>Source Drive Selection</legend>
+        <div class="lb">Please select from the following available drives:</div>
+        <div class="row" id="t5"><div class="sel2"><span class="mono">\\.\PHYSICALDRIVE1 — WDC WD5000 [465GB] S/N WX41A8...</span><span>&#9660;</span></div></div>
+        <div style="height:14px"></div>
+        <div class="cb2"><i></i><span>Automate multiple removable media</span></div>
+        <div style="height:34px"></div>
+      </fieldset>
+      <div class="btns"><span class="bt">&lt; Back</span><span class="bt def">Finish</span>
+        <span class="bt">Cancel</span><span class="bt">Help</span></div>
+    </div>
+  </div>
+
+  <!-- 5 · Create Image -->
+  <div class="w" id="sc5" style="width:453px">
+    <div class="tb"><span class="ti">Create Image</span>
+      <span class="sp"><span class="cb x">&#10005;</span></span></div>
+    <div class="body">
+      <fieldset><legend>Image Source</legend>
+        <div class="tx mono">\\.\PHYSICALDRIVE1</div></fieldset>
+      <div class="row" style="justify-content:flex-end;margin:-4px 0 10px">
+        <span style="color:#8a8a8a">Starting Evidence Number:</span>
+        <div class="tx dis" style="width:64px">1</div></div>
+      <fieldset><legend>Image Destination(s)</legend>
+        <div class="lst mono">F:\EVI-SRC01 [E01]</div>
+        <div class="btns" style="justify-content:flex-start;margin-top:9px">
+          <span class="bt" id="t6">Add…</span><span class="bt dis">Edit…</span><span class="bt dis">Remove</span></div>
+        <div class="btns" style="margin-top:7px"><span class="bt" style="min-width:150px">Add Overflow Location</span></div>
+      </fieldset>
+      <div class="cb2 sel" id="t7" style="margin-bottom:7px"><i></i><span>Verify images after they are created</span></div>
+      <div class="cb2"><i></i><span>Create directory listings of all files in the image after they are created</span></div>
+      <div class="btns"><span class="bt def" id="t8">Start</span><span class="bt">Cancel</span></div>
+    </div>
+  </div>
+
+  <!-- 6 · Verify Results -->
+  <div class="w" id="sc6" style="width:466px">
+    <div class="tb"><span class="ti">Drive/Image Verify Results</span>
+      <span class="sp"><span class="cb x">&#10005;</span></span></div>
+    <div class="body">
+      <fieldset><legend>Name</legend><div class="tx mono">EVI-SRC01.E01</div></fieldset>
+      <fieldset><legend>Results</legend>
+        <div class="hx" id="t9">
+          Sector count &nbsp; 976773168<br><br>
+          <b>MD5 Hash</b><br>
+          Computed hash &nbsp; 9f2b4c1a7e08d35b6c19af402d7e88c1<br>
+          Report hash &nbsp;&nbsp;&nbsp; 9f2b4c1a7e08d35b6c19af402d7e88c1<br>
+          Verify result &nbsp;&nbsp; <b style="color:#0a7b16">Match</b><br><br>
+          <b>SHA1 Hash</b><br>
+          Computed hash &nbsp; 4a1d90f7c2b8e5031f6a7c94db2e08315fa6c7d0<br>
+          Report hash &nbsp;&nbsp;&nbsp; 4a1d90f7c2b8e5031f6a7c94db2e08315fa6c7d0<br>
+          Verify result &nbsp;&nbsp; <b style="color:#0a7b16">Match</b>
+        </div></fieldset>
+      <div class="btns"><span class="bt def">Close</span></div>
+    </div>
+  </div>
+
+  <div class="mask" id="mask"></div>
+  <div class="ring" id="ring"></div>
+  <svg class="cur" id="cur" viewBox="0 0 20 26"><path d="M2 1 L2 20 L7 15.5 L10.5 23.5 L13.5 22 L10 14.5 L17 14 Z" fill="#fff" stroke="#111" stroke-width="1.2"/></svg>
+ </div></div>
+
+ <div class="cap" id="cap"><p class="en" id="en"></p></div>
+ <div class="ctl">
+   <button class="btn" id="prev">&#8592; PREV</button>
+   <button class="btn" id="play">&#10073;&#10073; PAUSE</button>
+   <button class="btn" id="next">NEXT &#8594;</button>
+   <div class="dots" id="dots"></div>
+ </div>
+</div>
+
+<div class="src" style="font-family:var(--m);font-size:.68rem;color:var(--tx2);opacity:.72;margin-top:10px">
+SIMSCREEN &mdash; recreated interface, not a screenshot. Values shown are illustrative until EVS-02 is acquired (D95).
+</div>
+<script>
+const S=[{"sc": "sc1", "t": "t1", "en": "Open <b>FTK Imager</b> on the analyst workstation \u2014 never on the machine you are investigating. Running a tool on the suspect host changes it.", "ar": "\u0627\u0641\u062a\u062d <b>FTK Imager</b> \u0639\u0644\u0649 \u062c\u0647\u0627\u0632 \u0627\u0644\u062a\u062d\u0644\u064a\u0644 \u2014 \u0645\u0634 \u0639\u0644\u0649 \u0627\u0644\u062c\u0647\u0627\u0632 \u0627\u0644\u0644\u064a \u0628\u062a\u062d\u0642\u0642 \u0641\u064a\u0647 \u0623\u0628\u062f\u0627\u064b. \u062a\u0634\u063a\u064a\u0644 \u0623\u062f\u0627\u0629 \u0639\u0644\u0649 \u0627\u0644\u062c\u0647\u0627\u0632 \u0627\u0644\u0645\u0634\u062a\u0628\u0647 \u0641\u064a\u0647 \u0628\u064a\u063a\u064a\u0651\u0631\u0647."}, {"sc": "sc2", "t": "t2", "en": "<b>File \u2192 Create Disk Image\u2026</b> Not \u201cAdd Evidence Item\u201d. Adding an item only opens the disk for reading; creating an image is what produces the exhibit.", "ar": "<b>File \u2192 Create Disk Image\u2026</b> \u0645\u0634 \"Add Evidence Item\". \u0627\u0644\u0625\u0636\u0627\u0641\u0629 \u0628\u062a\u0641\u062a\u062d \u0627\u0644\u062f\u064a\u0633\u0643 \u0644\u0644\u0642\u0631\u0627\u0621\u0629 \u0628\u0633\u061b \u0639\u0645\u0644 \u0627\u0644\u0640 image \u0647\u0648 \u0627\u0644\u0644\u064a \u0628\u064a\u0646\u062a\u062c \u0627\u0644\u062d\u0631\u0632."}, {"sc": "sc3", "t": "t3", "en": "Choose <b>Physical Drive</b>. A logical drive hands you the file system only \u2014 deleted files, unallocated space and slack all sit outside it.", "ar": "\u0627\u062e\u062a\u0627\u0631 <b>Physical Drive</b>. \u0627\u0644\u0640 logical \u0628\u064a\u062f\u064a\u0643 \u0627\u0644\u0640 file system \u0628\u0633 \u2014 \u0627\u0644\u0645\u0644\u0641\u0627\u062a \u0627\u0644\u0645\u062d\u0630\u0648\u0641\u0629 \u0648 \u0627\u0644\u0640 unallocated \u0648 \u0627\u0644\u0640 slack \u0643\u0644\u0647\u0645 \u0628\u0631\u0629."}, {"sc": "sc3", "t": "t4", "en": "<b>Next</b>. Nothing has touched the disk yet \u2014 this screen only records what you intend to acquire.", "ar": "<b>Next</b>. \u0644\u0633\u0647 \u0645\u062d\u062f\u0634 \u0644\u0645\u0633 \u0627\u0644\u062f\u064a\u0633\u0643 \u2014 \u0627\u0644\u0634\u0627\u0634\u0629 \u062f\u064a \u0628\u062a\u0633\u062c\u0651\u0644 \u0625\u064a\u0647 \u0627\u0644\u0644\u064a \u0646\u0627\u0648\u064a \u062a\u0627\u062e\u062f\u0647 \u0628\u0633."}, {"sc": "sc4", "t": "t5", "en": "Select the source by its <b>model and serial</b>, not its drive letter. A drive letter is assigned by Windows and means nothing in a report.", "ar": "\u0627\u062e\u062a\u0627\u0631 \u0627\u0644\u0645\u0635\u062f\u0631 \u0628\u0640 <b>\u0627\u0644\u0645\u0648\u062f\u064a\u0644 \u0648 \u0627\u0644\u0633\u064a\u0631\u064a\u0627\u0644</b>\u060c \u0645\u0634 \u0628\u062d\u0631\u0641 \u0627\u0644\u062f\u0631\u0627\u064a\u0641. \u062d\u0631\u0641 \u0627\u0644\u062f\u0631\u0627\u064a\u0641 \u0648\u064a\u0646\u062f\u0648\u0632 \u0647\u0648 \u0627\u0644\u0644\u064a \u0628\u064a\u062f\u064a\u0647\u060c \u0648 \u0645\u0627\u0644\u0648\u0634 \u0623\u064a \u0642\u064a\u0645\u0629 \u0641\u064a \u0627\u0644\u062a\u0642\u0631\u064a\u0631."}, {"sc": "sc5", "t": "t6", "en": "<b>Add\u2026</b> the destination. It goes on a separate, wiped drive \u2014 never back onto the disk you are imaging.", "ar": "<b>Add\u2026</b> \u0639\u0634\u0627\u0646 \u062a\u062d\u062f\u062f \u0645\u0643\u0627\u0646 \u0627\u0644\u062d\u0641\u0638. \u0639\u0644\u0649 \u062f\u0631\u0627\u064a\u0641 \u062a\u0627\u0646\u064a \u0645\u0646\u0636\u0651\u0641 \u2014 \u0639\u0645\u0631\u0643 \u0645\u0627 \u062a\u062d\u0641\u0638 \u0627\u0644\u0640 image \u0639\u0644\u0649 \u0646\u0641\u0633 \u0627\u0644\u062f\u064a\u0633\u0643 \u0627\u0644\u0644\u064a \u0628\u062a\u0635\u0648\u0651\u0631\u0647."}, {"sc": "sc5", "t": "t7", "key": true, "en": "<b>Tick \u201cVerify images after they are created.\u201d</b> This single checkbox is the difference between an exhibit and a copy of a disk. Untick it and you have no proof the image matches the source.", "ar": "<b>\u0639\u0644\u0651\u0645 \u0639\u0644\u0649 \"Verify images after they are created\".</b> \u0627\u0644\u062e\u0627\u0646\u0629 \u062f\u064a \u0644\u0648\u062d\u062f\u0647\u0627 \u0647\u064a \u0627\u0644\u0641\u0631\u0642 \u0628\u064a\u0646 \"\u062d\u0631\u0632\" \u0648 \"\u0646\u0633\u062e\u0629 \u0645\u0646 \u0647\u0627\u0631\u062f\". \u0645\u0646 \u063a\u064a\u0631\u0647\u0627 \u0645\u0639\u0646\u062f\u0643\u0634 \u0623\u064a \u0625\u062b\u0628\u0627\u062a \u0625\u0646 \u0627\u0644\u0640 image \u0645\u0637\u0627\u0628\u0642 \u0644\u0644\u0645\u0635\u062f\u0631."}, {"sc": "sc5", "t": "t8", "en": "<b>Start</b>. FTK Imager hashes the source, writes the image, then re-hashes what it wrote and compares the two.", "ar": "<b>Start</b>. FTK Imager \u0628\u064a\u0639\u0645\u0644 hash \u0644\u0644\u0645\u0635\u062f\u0631\u060c \u0628\u064a\u0643\u062a\u0628 \u0627\u0644\u0640 image\u060c \u0628\u0639\u062f\u064a\u0646 \u0628\u064a\u0639\u0645\u0644 hash \u062a\u0627\u0646\u064a \u0644\u0644\u0644\u064a \u0643\u062a\u0628\u0647 \u0648 \u064a\u0642\u0627\u0631\u0646 \u0627\u0644\u0627\u062a\u0646\u064a\u0646."}, {"sc": "sc6", "t": "t9", "en": "<b>Match</b>, on both algorithms. This screen is what you paste into report section 5 \u2014 evidence inventory. Screenshot it before you close it.", "ar": "<b>Match</b> \u0639\u0644\u0649 \u0627\u0644\u0627\u062a\u0646\u064a\u0646. \u0627\u0644\u0634\u0627\u0634\u0629 \u062f\u064a \u0647\u064a \u0627\u0644\u0644\u064a \u0628\u062a\u062d\u0637\u0647\u0627 \u0641\u064a \u0642\u0633\u0645 \u0665 \u0641\u064a \u0627\u0644\u062a\u0642\u0631\u064a\u0631 \u2014 Evidence Inventory. \u0635\u0648\u0651\u0631\u0647\u0627 \u0642\u0628\u0644 \u0645\u0627 \u062a\u0642\u0641\u0644\u0647\u0627."}];
+const $=i=>document.getElementById(i);
+let i=0,timer=null,playing=true;
+const dots=$('dots');
+S.forEach((s,n)=>{const d=document.createElement('span');d.className='dot'+(s.key?' k':'');
+ d.onclick=()=>{go(n);pause()};dots.appendChild(d)});
+function go(n){
+ i=(n+S.length)%S.length; const s=S[i];
+ ['sc1','sc2','sc3','sc4','sc5','sc6'].forEach(id=>$(id).classList.toggle('on',id===s.sc));
+ $('count').textContent=(i+1)+' / '+S.length;
+ requestAnimationFrame(()=>{
+   const h=$('holder').getBoundingClientRect(), t=$(s.t).getBoundingClientRect();
+   const x=t.left-h.left+Math.min(t.width,150)/2, y=t.top-h.top+t.height/2;
+   $('ring').style.left=x+'px'; $('ring').style.top=y+'px';
+   $('ring').className='ring'+(s.key?' key':'');
+   $('cur').style.left=(x+2)+'px'; $('cur').style.top=(y+1)+'px';
+   $('mask').style.background='radial-gradient(circle 74px at '+(x+30)+'px '+(y+30)+'px,'+
+     'rgba(0,0,0,0) 0%,rgba(0,0,0,0) 58%,rgba(3,6,10,.55) 100%)';
+ });
+ $('cap').className='cap'+(s.key?' key':'');
+ $('en').innerHTML=s.en+'<span class="ar">'+s.ar+'</span>';
+ [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));
+}
+function tick(){go(i+1)}
+function play(){playing=true;$('play').innerHTML='&#10073;&#10073; PAUSE';clearInterval(timer);timer=setInterval(tick,4600)}
+function pause(){playing=false;$('play').innerHTML='&#9654; PLAY';clearInterval(timer)}
+$('next').onclick=()=>{go(i+1);pause()};$('prev').onclick=()=>{go(i-1);pause()};
+$('play').onclick=()=>playing?pause():play();
+go(0);play();
+</script>
+</div></body></html>

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P01 &middot; Foundations and the deliverable &middot; eCDFP Diploma</title>
+<meta name="description" content="What digital forensics is, the principles that make evidence defensible, and the report that carries it — page 1 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P01 &middot; Foundations and the deliverable</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>How to read this page</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; The forensic method</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>The evidence lifecycle</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>The three forensic principles</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>What makes evidence admissible</span></a></li>
+      <li class="is-part"><a href="#p8"><span class="n">08</span><span>PART 2 &mdash; The forensic report</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>What is a forensic report?</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>Finding, interpretation and limitation</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>The twelve sections of the report</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>Words that do not belong in Findings</span></a></li>
+      <li class="is-part"><a href="#p13"><span class="n">13</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>Verify the toolkit and seal it</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>Writing one artifact three ways</span></a></li>
+      <li class="is-part"><a href="#p16"><span class="n">16</span><span>YOUR TURN</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>Exercise &mdash; what you may write</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>Exercise &mdash; admissible or not</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>Exercise &mdash; write your own three boxes</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>Knowledge check</span></a></li>
+      <li class="is-part"><a href="#p21"><span class="n">21</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p23"><span class="n">23</span><span>TASK</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Task &mdash; verify and open the report</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>Report &mdash; Sections 1 and 3</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Report &mdash; the sections written last</span></a></li>
+      <li><a href="#p27"><span class="n">27</span><span>Summary</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+  <main class="main">
+
+<section class="page" id="p1">
+<span class="kicker">P01 &middot; Page 1 of 14 &middot; 70 topic minutes</span>
+<h1>Foundations and the deliverable
+  <span class="ar">الأساس الذي يقوم عليه العمل، و المستند الذي ينتج عنه</span></h1>
+<p class="lede">Two topics. What the work is, and what it produces.
+  <span class="ar">موضوعان: ما هي مهنة التحليل الجنائي الرقمي، و ما الذي يُسلَّم في نهايتها.</span></p>
+<div class="key-takeaway">
+  <span class="cl-label">This page needs no forensic software at all</span>
+  <p>Everything after it does &mdash; and none of it will save you if you skip this.
+    <span class="ar">كل صفحة بعدها تحتاج أدوات. لكن الأداة لا تنفعك إذا كان الأساس الذي تعمل عليه غير سليم.</span></p>
+</div>
+<div class="chips" style="margin-top:20px">
+  <span class="tag">T01 &middot; Foundations &middot; 45 min</span>
+  <span class="tag">T02 &middot; The Report &middot; 25 min</span>
+  <span class="tag evs">No evidence required</span>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T01 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن — و ما الذي يتغيّر هنا</span></h2>
+<p>In eCIR you worked web, network and email attacks. You contained an incident and you were right.
+   <b>Nobody asked you to prove it.</b> This course is the part where somebody does.
+   <span class="ar">في eCIR تعاملت مع هجمات الويب و الشبكة و البريد. احتويت الحادثة و كان حكمك صحيحًا — <b>لكن لم يطلب منك أحد أن تُثبته</b>. هنا يبدأ الجزء الذي يُطلب فيه الإثبات.</span></p>
+<figure class="dgm" id="dg-lc-p01" data-mode="story" data-reveal="upto" data-interval="9000">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p01">
+  <title id="t-dg-lc-p01">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="86" text-anchor="middle">ANALYSE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This page defines all five.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="key-takeaway"><span class="cl-label">The case you are about to examine</span>
+  <p>The forensic phase of exactly that kind of attack &mdash; a phishing email, a document, and a
+     beacon leaving the network. <b>Same person, next phase of the same job.</b>
+     <span class="ar">القضية التي ستفحصها هي المرحلة الجنائية لهجوم من النوع نفسه: رسالة تصيّد، ثم مستند، ثم اتصال خارج بالشبكة. <b>الشخص نفسه، و المرحلة التالية من العمل نفسه.</b></span></p></div>
+<div class="note soc" style="margin-top:18px"><b>As a SOC analyst</b>
+  Your job ended at containment. This one ends at a signed document someone will attack.
+  <span class="ar">عمل محلل الـ SOC ينتهي عند الاحتواء. هذا العمل ينتهي عند مستند موقَّع سيحاول طرف آخر الطعن فيه.</span></div>
+    
+</section>
+
+<section class="page" id="p3">
+<span class="kicker">How this page works</span>
+<h2>The three boxes used throughout this course
+  <span class="ar">الصناديق الثلاثة المستعملة في هذه الدبلومة</span></h2>
+<p>Colour is never the only signal &mdash; <b>the border style is the lesson.</b>
+  <span class="ar">لا تعتمد على اللون وحده: قد لا يميّزه الطالب المصاب بعمى الألوان، و لن يظهر في طباعة رمادية. لذلك <b>شكل الإطار نفسه يحمل المعنى</b>.</span></p>
+
+<div class="finding"><span class="cl-label">Finding &middot; solid border</span>
+  <p>A fact you observed, tied to one named artifact at an exact path.
+    <span class="ar">شيء رأيته بعينك في الـ artifact. تكتبه كما هو: أي artifact، في أي مسار، و في أي وقت. بلا تفسير و بلا رأي.</span></p>
+  <p class="eg"><b>Example:</b> <code>Prefetch\RCLONE.EXE-A1B2C3D4.pf</code> shows run count 3, last run
+     <code>2026-08-25 21:14:07 UTC</code>.
+    <span class="ar"><b>مثال:</b> ملف <code>Prefetch</code> سجّل أن البرنامج شُغِّل ثلاث مرات، آخرها في وقت محدد. هذه finding مقروءة من الـ artifact مباشرة.</span></p></div>
+
+<div class="interpretation"><span class="cl-label">Interpretation &middot; dashed border</span>
+  <p>What it means &mdash; reasoned. Never complete without three things: the findings it rests on,
+    your confidence in it, and an alternative you could not rule out.
+    <span class="ar">ما الذي تعنيه الـ finding. هنا تستنتج — و الـ interpretation لا يكتمل إلا بثلاثة: الـ findings التي يستند إليها، و درجة ثقتك فيه، و تفسير آخر محتمل لم تستطع استبعاده.</span></p>
+  <p class="eg"><b>Example:</b> assessed with <b>moderate</b> confidence to be data transfer. Not excluded:
+     legitimate admin use &mdash; no software policy was available.
+    <span class="ar"><b>مثال:</b> «بدرجة ثقة <b>متوسطة</b>، استُخدم البرنامج لنقل بيانات. و لم أستبعد أن يكون استخدامًا إداريًا مشروعًا، لعدم توفر سياسة برامج للمؤسسة أرجع إليها.»</span></p></div>
+
+<div class="limitation"><span class="cl-label">Cannot prove &middot; dotted border</span>
+  <p>What the evidence does not show &mdash; however convincing it looks. <b>Graded every session</b>,
+    because a report that never states its limits reads as one that never looked for them.
+    <span class="ar">حدود الـ artifact: ما الذي لا يستطيع إثباته مهما بدا مقنعًا. <b>و هذا القسم تُقيَّم عليه في كل جلسة</b> — لأن التقرير الذي لا يذكر حدوده يُقرأ على أنه تقرير لم يبحث عنها.</span></p>
+  <p class="eg"><b>Example:</b> Prefetch does not record <b>who</b> ran it, <b>what</b> was transferred, or
+     whether the transfer <b>succeeded</b>.
+    <span class="ar"><b>مثال:</b> ملف <code>Prefetch</code> يثبت أن البرنامج عمل. لكنه لا يسجّل <b>من</b> شغّله، و لا <b>ماذا</b> نُقل، و لا هل نجح النقل.</span></p></div>
+
+<h3>By the end of this page you can<span class="ar">في نهاية هذه الصفحة ستكون قادرًا على</span></h3>
+<ol>
+  <li>say what makes evidence defensible, and <b>which of the three tests is yours</b>;
+    <span class="ar">تحديد شروط قبول الدليل، و معرفة <b>أي شرط من الثلاثة يقع على عاتقك أنت</b> دون غيرك؛</span></li>
+  <li>put your workstation in a state you can describe, and prove it;
+    <span class="ar">ضبط جهاز التحليل في حالة معروفة يمكنك وصفها لاحقًا و إثباتها؛</span></li>
+  <li>tell a finding from an interpretation, and write both in the fixed format.
+    <span class="ar">التمييز بين الـ finding و الـ interpretation، و كتابة كل منهما بالصيغة المعتمدة.</span></li>
+</ol>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 2</span>
+  <h2>The forensic method<span class="ar">المنهج الجنائي الرقمي</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Before any tool: the five stages evidence passes through, the three principles that govern every one of them, and what a court asks of the result.<span class="ar">قبل أي أداة: المراحل الخمس التي يمرّ بها الدليل، و المبادئ الثلاثة التي تحكمها جميعًا، و ما تطلبه المحكمة من النتيجة.</span></p>
+  <p class="divider-meta">3 screens &middot; about 20 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T01 &middot; Theory</span>
+<h2>The digital evidence lifecycle
+  <span class="ar">دورة حياة الدليل الرقمي</span></h2>
+<figure class="dgm" id="dg-life" data-mode="loop" data-reveal="upto" data-interval="3800">
+  <div class="dgm-head"><span class="dgm-id">FIG P01-D1 &middot; WHAT EACH STAGE LOSES FOR GOOD</span><span class="dgm-tag">PATTERN 1 &middot; 5</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 292" role="img" aria-labelledby="t-life">
+  <title id="t-life">The five stages of the evidence life cycle, with what becomes unrecoverable at each</title>
+
+  <text class="xs mut" x="14" y="18">Each box is a stage. The bar under it is what you can never get back if that stage is done badly.</text>
+
+  <g data-step="1">
+    <rect class="box key" x="14" y="34" width="140" height="60" rx="6"/>
+    <text class="lbl" x="38" y="60">IDENTIFY</text>
+    <text class="xs mut" x="30" y="82">what is evidence</text>
+    <line x1="14" y1="106" x2="154" y2="106" stroke="#ff4d5e" stroke-width="3"/>
+    <text class="xs" x="14" y="128" fill="#ff4d5e">the exhibit you</text>
+    <text class="xs" x="14" y="146" fill="#ff4d5e">never took</text>
+  </g>
+  <g data-step="2">
+    <path class="arw key" d="M160 64 L172 64"/><path class="arw key" d="M166 60 L174 64 L166 68"/>
+    <rect class="box key" x="176" y="34" width="140" height="60" rx="6"/>
+    <text class="lbl" x="200" y="60">PRESERVE</text>
+    <text class="xs mut" x="192" y="82">stop it changing</text>
+    <line x1="176" y1="106" x2="316" y2="106" stroke="#ff4d5e" stroke-width="3"/>
+    <text class="xs" x="176" y="128" fill="#ff4d5e">the state it was in</text>
+    <text class="xs" x="176" y="146" fill="#ff4d5e">when you arrived</text>
+  </g>
+  <g data-step="3">
+    <path class="arw key" d="M322 64 L334 64"/><path class="arw key" d="M328 60 L336 64 L328 68"/>
+    <rect class="box key" x="338" y="34" width="140" height="60" rx="6"/>
+    <text class="lbl" x="366" y="60">COLLECT</text>
+    <text class="xs mut" x="358" y="82">take a copy</text>
+    <line x1="338" y1="106" x2="478" y2="106" stroke="#ff4d5e" stroke-width="3"/>
+    <text class="xs" x="338" y="128" fill="#ff4d5e">the region you</text>
+    <text class="xs" x="338" y="146" fill="#ff4d5e">did not copy</text>
+  </g>
+  <g data-step="4">
+    <path class="arw key" d="M484 64 L496 64"/><path class="arw key" d="M490 60 L498 64 L490 68"/>
+    <rect class="box ok" x="500" y="34" width="140" height="60" rx="6"/>
+    <text class="lbl" x="526" y="60">ANALYSE</text>
+    <text class="xs mut" x="518" y="82">read the copy</text>
+    <line x1="500" y1="106" x2="640" y2="106" stroke="#00ff9d" stroke-width="3"/>
+    <text class="xs" x="500" y="128" fill="#00ff9d">nothing &mdash; you can</text>
+    <text class="xs" x="500" y="146" fill="#00ff9d">run it again</text>
+  </g>
+  <g data-step="5">
+    <path class="arw key" d="M646 64 L658 64"/><path class="arw key" d="M652 60 L660 64 L652 68"/>
+    <rect class="box key" x="662" y="34" width="104" height="60" rx="6"/>
+    <text class="lbl" x="682" y="60">PRESENT</text>
+    <text class="xs mut" x="682" y="82">defend it</text>
+    <line x1="662" y1="106" x2="766" y2="106" stroke="#ff4d5e" stroke-width="3"/>
+    <text class="xs" x="662" y="128" fill="#ff4d5e">the case, if the</text>
+    <text class="xs" x="662" y="146" fill="#ff4d5e">first four failed</text>
+  </g>
+  <g data-step="6">
+    <rect class="box warn" x="14" y="176" width="752" height="100" rx="6"/>
+    <text class="lbl" x="30" y="204" fill="#ffb454">ONLY ONE OF THE FIVE IS REPEATABLE</text>
+    <text class="sm mut" x="30" y="230">Which is why this course spends its time on the other four,</text>
+    <text class="sm mut" x="30" y="252">and why the report is written as you go rather than at the end.</text>
+    <text class="xs mut" x="30" y="270">You can always re-read a copy. You cannot re-take a state.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p>The mandate: recover, preserve and interpret digital evidence <b>so that it survives challenge</b>.
+   The last part is the whole job &mdash; anyone can find the file.
+   <span class="ar">المهمة ثلاث كلمات: استرجاع، ثم حفظ، ثم تفسير. و الشرط الحاكم عليها جميعًا هو <b>أن تصمد أمام من يحاول نقضها</b>. إيجاد الملف ليس المهارة — الدفاع عمّا تقوله عنه هو المهارة.</span></p>
+<p>The life cycle is <code>acquisition &rarr; analysis &rarr; presentation</code>. <b>The three words are
+   not the lesson.</b>
+   <span class="ar">الدرس ليس حفظ المراحل الثلاث، بل إدراك أن خطأً في مرحلة يبطل كل ما بعدها — و لا يمكن إصلاحه بإتقان المرحلة التالية.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Phase</th><th>How it destroys the next</th></tr></thead>
+  <tbody>
+    <tr><td>Acquisition<span class="ar">الجمع</span></td><td>you open a file "just to read it" &mdash; the timestamp changes, and analysis now works on corrupted data<span class="ar">مجرد فتح الملف للاطّلاع يعدّل وقت آخر وصول إليه. فمرحلة الجمع أفسدت الدليل، و كل تحليل بعدها يقوم على بيانات محرّفة.</span></td></tr>
+    <tr><td>Analysis<span class="ar">التحليل</span></td><td>you record a conclusion without the artifact it rests on &mdash; presentation has nothing to show<span class="ar">إذا سجّلت نتيجة دون تحديد الـ artifact الذي تستند إليه، فلن تجد في مرحلة العرض ما تُبرزه للقارئ. النتيجة بلا artifact لا تُدافَع عنها.</span></td></tr>
+    <tr><td>Presentation<span class="ar">العرض</span></td><td>you state more than the evidence supports &mdash; the whole examination is discredited, <b>including the parts that were right</b><span class="ar">إذا ادّعيت أكثر مما يحتمله الدليل، يسقط الفحص كله في نظر القارئ — <b>بما في ذلك الأجزاء التي كانت صحيحة فعلاً</b>.</span></td></tr>
+  </tbody></table></div>
+<div class="note warn" style="margin-top:16px"><b>This example has aged</b>
+  Modern Windows disables last-access updates by default. The lesson holds; that particular effect
+  often does not. <b>Knowing which parts of the courseware have aged is part of being good at this.</b>
+  <span class="ar">إصدارات ويندوز الحديثة تعطّل تحديث وقت آخر وصول افتراضيًا، فالمثال لم يعد ينطبق حرفيًا — و إن ظل المبدأ صحيحًا. <b>و معرفة أي جزء من المنهج تجاوزه الزمن هي في ذاتها مهارة مهنية.</b></span></div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T01 &middot; Theory</span>
+<h2>The three forensic principles
+  <span class="ar">المبادئ الثلاثة للتحليل الجنائي</span></h2>
+<figure class="dgm" id="dg-touch" data-mode="loop" data-reveal="upto" data-interval="4000">
+  <div class="dgm-head"><span class="dgm-id">FIG P01-D3 &middot; BEFORE YOU TYPE ANYTHING</span><span class="dgm-tag">PATTERN 1 &middot; 4</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 274" role="img" aria-labelledby="t-touch">
+  <title id="t-touch">What a running Windows machine writes to a disk in the first seconds after it is attached</title>
+
+  <rect class="box warn" x="14" y="42" width="212" height="68" rx="6"/>
+  <text class="lbl" x="36" y="72">DISK ATTACHED</text>
+  <text class="xs mut" x="36" y="94">you have typed nothing</text>
+
+  <g data-step="1">
+    <path class="arw no" d="M232 76 L286 76"/><path class="arw no" d="M278 71 L288 76 L278 81"/>
+    <rect class="box no" x="294" y="24" width="472" height="104" rx="6"/>
+    <text class="lbl" x="314" y="50" fill="#ff4d5e">WINDOWS HAS ALREADY WRITTEN</text>
+    <text class="sm mut" x="314" y="76">mounts the volume &middot; updates journal state</text>
+  </g>
+  <g data-step="2">
+    <text class="sm mut" x="314" y="98">writes recycle-bin and volume metadata</text>
+    <text class="sm mut" x="314" y="120">may index, may scan, may create a restore point</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="14" y="148" width="752" height="112" rx="6"/>
+    <text class="lbl" x="30" y="176">THIS IS WHY THE THREE PRINCIPLES ARE NOT ADVICE</text>
+    <text class="sm mut" x="30" y="204">Minimal footprint &mdash; you cannot reach zero, so record what you changed.</text>
+    <text class="sm mut" x="30" y="226">Work on a copy &mdash; the original is a witness, not a workspace.</text>
+    <text class="sm mut" x="30" y="248">Repeatable and reproducible &mdash; someone else, with other tools, reaches your result.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="table-wrap"><table>
+  <tbody>
+    <tr><td style="width:26%"><b>Minimal footprint</b><span class="ar">أقل artifact ممكن</span></td><td>change as little as possible, and record everything you did change<span class="ar">لا يمكن فحص نظام دون التأثير فيه إطلاقًا. المطلوب أن يكون التأثير في أضيق حد، و أن يكون كل ما غيّرته مسجَّلاً و معروفًا.</span></td></tr>
+    <tr><td><b>Always work on a copy</b><span class="ar">اعمل على نسخة دائمًا</span></td><td>the original is evidence; your working copy is where you work<span class="ar">الأصل حِرز يُحفظ و لا يُمَس. أما التحليل فيجري على نسخة، حتى إذا أفسدتها أمكن الرجوع للأصل و أخذ نسخة جديدة.</span></td></tr>
+    <tr><td><b>Repeatable <i>and</i> reproducible</b><span class="ar">قابل للتكرار <i>و</i> لإعادة الإنتاج</span></td><td><b>Repeatable</b> = same lab, same tools, same result &nbsp;&middot;&nbsp; <b>Reproducible</b> = <b>different</b> lab or tools, same result<span class="ar"><b>Repeatable</b>: أن تصل أنت إلى النتيجة نفسها بالأدوات نفسها. <b>Reproducible</b>: أن يصل إليها محلل آخر بأدوات أخرى. الامتحان يطلب الاثنين، لأن الأول وحده لا يثبت أن النتيجة صحيحة — بل أنك متسق مع نفسك.</span></td></tr>
+  </tbody></table></div>
+<p>INE requires both, and the distinction is examinable. It is also why that sentence is not a method:
+   <b>nobody can repeat it</b> &mdash; including you, next month.
+   <span class="ar">و لهذا لا تُعد تلك الجملة منهجًا: <b>لا أحد يستطيع إعادتها</b> — و لا أنت نفسك بعد شهر.</span></p>
+<div class="note" style="margin-top:16px"><b>Not taught here</b>
+  Order of volatility belongs to <code>T06</code>, at the moment the collection decision is actually made.
+  <span class="ar">لا يُشرح ترتيب التطاير هنا. مكانه <code>T06</code>، حيث يُتَّخذ قرار الجمع فعليًا و يصبح للترتيب معنى عملي.</span></div>
+<div class="note soc"><b>Linux? macOS? Mobile?</b>
+  Built units in the <a href="../beyond/index.html">self-study track</a>. The taught course is
+  Windows-weighted because the exam and the casework are.
+  <span class="ar">الجزء المشروح في القاعة يركّز على ويندوز لأن الامتحان و أغلب القضايا كذلك. أما Linux و macOS و الهواتف فوحدات كاملة في مسار الدراسة الذاتية.</span></div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T01 &middot; Theory</span>
+<h2>What makes evidence admissible
+  <span class="ar">ما الذي يجعل الدليل مقبولاً</span></h2>
+<figure class="dgm" id="dg-adm" data-mode="loop" data-reveal="upto" data-interval="4000">
+  <div class="dgm-head"><span class="dgm-id">FIG P01-D2 &middot; WHO OWNS EACH PART</span><span class="dgm-tag">PATTERN 2 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 264" role="img" aria-labelledby="t-adm">
+  <title id="t-adm">The three-part admissibility test, showing which part the examiner is responsible for</title>
+
+  <text class="xs mut" x="14" y="18">All three must pass. A table can list them; it cannot show you which one is yours.</text>
+
+  <g data-step="1">
+    <rect class="box" x="14" y="34" width="242" height="122" rx="6"/>
+    <text class="lbl" x="34" y="62">RELEVANT</text>
+    <text class="sm mut" x="34" y="90">does it bear on a</text>
+    <text class="sm mut" x="34" y="110">question in the case?</text>
+    <rect x="34" y="124" width="150" height="24" rx="12" fill="#1b2430"/>
+    <text class="xs mut" x="48" y="141">the lawyers decide</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="268" y="34" width="242" height="122" rx="6"/>
+    <text class="lbl" x="288" y="62">RELIABLE</text>
+    <text class="sm mut" x="288" y="90">is it what it claims to</text>
+    <text class="sm mut" x="288" y="110">be, and unaltered?</text>
+    <rect x="288" y="124" width="202" height="24" rx="12" fill="#0f2a24"/>
+    <text class="xs" x="302" y="141" fill="#00ff9d">authenticity &mdash; THIS ONE IS YOURS</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="524" y="34" width="242" height="122" rx="6"/>
+    <text class="lbl" x="544" y="62">COMPETENT</text>
+    <text class="sm mut" x="544" y="90">was it obtained</text>
+    <text class="sm mut" x="544" y="110">lawfully?</text>
+    <rect x="544" y="124" width="168" height="24" rx="12" fill="#1b2430"/>
+    <text class="xs mut" x="558" y="141">warrant and policy</text>
+  </g>
+  <g data-step="4">
+    <path class="arw ok" d="M389 162 L389 182"/><path class="arw ok" d="M384 174 L389 184 L394 174"/>
+    <rect class="box ok" x="14" y="190" width="752" height="60" rx="6"/>
+    <text class="sm" x="30" y="216" fill="#00ff9d">Two of the three are decided by other people. Everything you do in this course</text>
+    <text class="sm" x="30" y="238" fill="#00ff9d">exists to defend the green strip &mdash; and a hash alone does not deliver it.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<figure class="cmp">
+  <div class="cmp-head">
+    <span class="cmp-title">FIG P01-F1 &middot; WHO OWNS WHICH TEST</span>
+    <span class="cmp-step"><i>1 / 3 &middot; RELEVANT</i><i>2 / 3 &middot; RELIABLE</i><i>3 / 3 &middot; COMPETENT</i></span>
+  </div>
+  <div class="cmp-rows">
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">Relevant</span>
+        <span class="cmp-sub">does it prove or disprove a hypothesis in <i>this</i> case?</span>
+        <span class="cmp-verdict no">THE LAWYER&rsquo;S</span></div>
+      <div class="cmp-reveal">Perfectly recovered evidence about the wrong question is worth nothing. Deciding what the question <i>is</i> is not your call.
+        <span class="ar">قد تستخرج الدليل بإتقان تام، لكن إن كان عن سؤال لا تطرحه القضية أصلاً فلا قيمة له. و تحديد السؤال مسؤولية المحامي لا المحلل.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">Reliable</span>
+        <span class="cmp-sub">authentic (chain of custody) + objective (a fact, not an opinion)</span>
+        <span class="cmp-verdict yes">AUTHENTICITY IS YOURS</span></div>
+      <div class="cmp-reveal">The only one you own: that the evidence is what you say it is, and has not changed. That is the examiner&rsquo;s, and nobody else&rsquo;s.
+        <span class="ar">هذا هو الشرط الوحيد الذي يقع عليك: أن تُثبت أن الدليل هو ما تقول إنه هو، و أنه لم يتغيّر منذ وصل إليك. لا يشاركك فيه أحد.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">Competent</span>
+        <span class="cmp-sub">obtained legally &middot; no protected confidentiality breached</span>
+        <span class="cmp-verdict no">THE LAWYER&rsquo;S</span></div>
+      <div class="cmp-reveal">A video that convicts the suspect is thrown out because the warrant covered text files only. Perfect forensics, inadmissible evidence.
+        <span class="ar">تصوّر مقطعًا يُدين المتهم، استُخرج بإتقان، ثم يُستبعد لأن الإذن القضائي كان يغطي الملفات النصية وحدها. التحليل سليم، و الدليل مرفوض.</span></div>
+    </div>
+  </div>
+  <div class="cmp-cap">
+    <i>Recover the wrong thing perfectly and you have nothing.</i>
+    <i>Authenticity is the examiner&rsquo;s &mdash; and it is the only one of the three that is.</i>
+    <i>Whose failure was the video? <b>Nobody&rsquo;s forensics.</b></i>
+  </div>
+</figure>
+<p class="cmp-note">Pretending the other two are yours is how analysts end up giving legal opinions
+  they are not qualified to give.
+  <span class="ar">الخلط بين الشروط الثلاثة هو ما يدفع المحلل إلى إبداء رأي قانوني ليس مؤهلاً له — و هي أسرع طريقة لفقد المصداقية.</span></p>
+    </section>
+
+<section class="page divider" id="p8">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 2</span>
+  <h2>The forensic report<span class="ar">التقرير الجنائي</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The deliverable. Everything you do for the rest of this diploma ends inside this document, so you learn its shape before you fill it.<span class="ar">هذا هو المُخرَج النهائي. كل ما ستفعله في بقية الدبلومة ينتهي داخل هذا المستند، و لذلك تتعلّم شكله قبل أن تملأه.</span></p>
+  <p class="divider-meta">7 screens &middot; about 30 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p9">
+<span class="kicker">T02 &middot; Bridge</span>
+<h2>What is a forensic report?
+  <span class="ar">ما هو تقرير التحليل الجنائي؟</span></h2>
+<p>You just decided which of those five would survive. <b>This is where you have to prove it</b> &mdash;
+   and it is the only thing anyone outside this room will ever see.
+   <span class="ar">حكمت الآن على خمس حالات. هنا تُثبت حكمك كتابةً — و هذا المستند هو الشيء الوحيد الذي سيراه من هم خارج هذه القاعة.</span></p>
+<div class="key-takeaway">
+  <p>You write <b>one</b> report for this whole course, on one case, and it grows as you learn.
+     <b>Not one per session.</b>
+     <span class="ar">تقرير <b>واحد</b> للدبلومة كلها، عن قضية واحدة، ينمو كلما تعلّمت أداة جديدة. <b>لا تقرير لكل جلسة</b> — فالمحقق لا يكتب ستة تقارير عن قضية واحدة.</span></p></div>
+    </section>
+
+<section class="page" id="p10">
+<span class="kicker">T02 &middot; Theory</span>
+<h2>Finding, interpretation and limitation
+  <span class="ar">الـ finding و الـ interpretation و الحد</span></h2>
+<figure class="cmp">
+  <div class="cmp-head">
+    <span class="cmp-title">FIG P01-F2 &middot; FINDING &middot; INTERPRETATION &middot; CANNOT PROVE</span>
+    <span class="cmp-step"><i>1 / 3 &middot; FINDING</i><i>2 / 3 &middot; INTERPRETATION</i><i>3 / 3 &middot; CANNOT PROVE</i></span>
+  </div>
+  <div class="cmp-rows">
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">FINDING</span>
+        <span class="cmp-sub">one observable fact &middot; one named artifact &middot; exact path &middot; UTC time</span>
+        <span class="cmp-verdict yes">SOLID &mdash; OBSERVED</span></div>
+      <div class="cmp-reveal"><b>The test: if it needs the word <i>because</i>, it is not a finding.</b> Past tense, no adjective, no actor.
+        <span class="ar"><b>المعيار العملي: إذا احتاجت الجملة كلمة «لأن» فهي ليست finding.</b> تُكتب بصيغة الماضي، بلا نعت، و بلا فاعل بشري.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">INTERPRETATION</span>
+        <span class="cmp-sub">cites findings &middot; states a confidence &middot; names an alternative</span>
+        <span class="cmp-verdict mid">DASHED &mdash; REASONED</span></div>
+      <div class="cmp-reveal">Three things or it is not finished. <b>Never &ldquo;we are certain.&rdquo;</b> The analysis is your interpretation, not absolute truth &mdash; and writing it as truth is what gets a report taken apart.
+        <span class="ar">ثلاثة عناصر لا يكتمل الـ interpretation بدونها: الـ findings، و درجة الثقة، و تفسير بديل. <b>و لا تكتب «نحن على يقين» أبدًا</b> — ما تكتبه هو قراءتك للدليل، لا حقيقة مطلقة، و ادّعاء اليقين هو أسهل مدخل لنقض التقرير كله.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">CANNOT PROVE</span>
+        <span class="cmp-sub">what this evidence does not show</span>
+        <span class="cmp-verdict no">DOTTED &mdash; THE HONEST GAP</span></div>
+      <div class="cmp-reveal">Most reports have no section like this. <b>This one does, and it is graded.</b> A report stating no limitation reads as a report that did not look for one.
+        <span class="ar">معظم التقارير تخلو من هذا القسم. <b>تقريرك لا يخلو منه، و تُقيَّم عليه.</b> فالتقرير الذي لا يذكر حدًا واحدًا يُقرأ على أنه تقرير لم يبحث عن حدوده.</span></div>
+    </div>
+  </div>
+  <div class="cmp-cap">
+    <i>Solid means you <b>saw</b> it.</i>
+    <i>Dashed means you <b>reasoned</b> it &mdash; and a reader must be able to tell at a glance.</i>
+    <i>Dotted means you <b>looked and it is not there</b>. This separates an examiner from a tool operator.</i>
+  </div>
+</figure>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T02 &middot; Theory</span>
+<h2>The twelve sections of the report
+  <span class="ar">أقسام التقرير الاثنا عشر</span></h2>
+<figure class="cmp n4">
+  <div class="cmp-head">
+    <span class="cmp-title">FIG P01-F3 &middot; IT FILLS AS YOU LEARN, NOT FROM THE TOP</span>
+    <span class="cmp-step"><i>AFTER P01</i><i>AFTER P02</i><i>MID-COURSE</i><i>AT T25</i></span>
+  </div>
+  <div class="cmp-rows">
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">After P01</span>
+        <span class="cmp-sub">Section 1 &check; &nbsp; Section 3 &check; &nbsp; Section 6 one row &nbsp; Section 8 Section 9 shaped</span>
+        <span class="cmp-verdict mid">3 / 12</span></div>
+      <div class="cmp-reveal">Three sections started on a page with <b>no evidence at all</b>. That is the argument: the report is not a thing you begin when the analysis ends.
+        <span class="ar">ثلاثة أقسام بدأت في صفحة <b>لم يُفحص فيها دليل واحد</b>. و هذه هي الحجة كاملة: التقرير لا يبدأ عند انتهاء التحليل.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">After P02</span>
+        <span class="cmp-sub">Section 4 chain of custody &nbsp; Section 5 inventory + hashes &nbsp; Section 10 first real line</span>
+        <span class="cmp-verdict mid">6 / 12</span></div>
+      <div class="cmp-reveal">Integrity arrives before anything is analysed &mdash; because Section 4 and Section 5 are what criterion 1 grades, and they are written while you work.
+        <span class="ar">أقسام الـ integrity تُكتب قبل أي تحليل، لأنها تُوثَّق لحظة حدوثها. الـ chain of custody لا يمكن استرجاعها من الذاكرة بعد أسبوع.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">Mid-course</span>
+        <span class="cmp-sub">Section 7 acquisition &nbsp; Section 8 findings growing &nbsp; Section 6 a row per tool</span>
+        <span class="cmp-verdict mid">9 / 12</span></div>
+      <div class="cmp-reveal">Section 8 fills for eighteen topics. <b>Section 2, Section 9 and Section 11 are still empty</b>, deliberately &mdash; and by now that no longer feels strange.
+        <span class="ar">قسم الـ findings يظل ينمو عبر ثمانية عشر موضوعًا. <b>و تبقى ثلاثة أقسام فارغة عمدًا</b> حتى النهاية.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">At T25</span>
+        <span class="cmp-sub">Section 9 interpretation &nbsp; Section 11 conclusions &nbsp; Section 2 executive summary</span>
+        <span class="cmp-verdict yes">12 / 12</span></div>
+      <div class="cmp-reveal">The summary is written <b>last</b>. A summary written first becomes a conclusion you then go looking for evidence to support &mdash; the exact failure this course exists to prevent.
+        <span class="ar">الملخص التنفيذي يُكتب <b>في النهاية</b>. فالملخص المكتوب أولاً يتحوّل إلى نتيجة مسبقة تبحث عن دليل يسندها — و هذا بالضبط الخلل الذي وُجدت هذه الدبلومة لمنعه.</span></div>
+    </div>
+  </div>
+  <div class="cmp-cap">
+    <i>Three of twelve, before you have touched any evidence.</i>
+    <i>Integrity is written while you work &mdash; never reconstructed afterwards.</i>
+    <i>Nine of twelve, and the three that are empty are empty <b>on purpose</b>.</i>
+    <i>Written last, read first. <b>That order is the whole point.</b></i>
+  </div>
+</figure>
+    </section>
+
+<section class="page" id="p12">
+<span class="kicker">T02 &middot; Guided</span>
+<h2>Words that do not belong in Findings
+  <span class="ar">ألفاظ لا مكان لها في قسم الـ findings</span></h2>
+<div class="note warn">
+  <p style="font-size:1.05rem;line-height:2"><i>clearly &middot; obviously &middot; we are sure &middot;
+     we are certain &middot; proves that &middot; the attacker &middot; malicious &middot; unauthorised</i>
+  <span class="ar">هذه الألفاظ تُشطب من التقرير. كل واحدة منها إما تضع رأيًا في موضع الواقعة، أو تفترض نتيجة لم تُثبَت بعد.</span></p>
+</div>
+<div class="table-wrap" style="margin-top:18px"><table>
+  <thead><tr><th>Word</th><th>Why it is banned in Section 8</th></tr></thead>
+  <tbody>
+    <tr><td><code>clearly</code> &middot; <code>obviously</code></td><td>a claim about how convincing you find it &mdash; that is a confidence, and confidences live in Section 9<span class="ar">تصف مدى اقتناعك أنت، و هذا تقدير للثقة — و موضعه قسم الـ interpretation لا قسم الـ findings.</span></td></tr>
+    <tr><td><code>we are sure</code> &middot; <code>we are certain</code></td><td>certainty is exactly what an interpretation must never assert<span class="ar">اليقين هو تحديدًا ما لا يجوز للـ interpretation أن يدّعيه، فضلاً عن الـ finding.</span></td></tr>
+    <tr><td><code>proves that</code></td><td>a finding <i>is</i> the evidence; it does not argue from it<span class="ar">الـ finding <i>هي</i> الدليل. أما الاستدلال منه فمرحلة تالية لها قسمها الخاص.</span></td></tr>
+    <tr><td><code>the attacker</code></td><td>presumes a conclusion about who, from an artifact that records an account<span class="ar">تفترض إجابة عن سؤال «من»، بينما الـ artifact لم يسجّل سوى حساب.</span></td></tr>
+    <tr><td><code>malicious</code> &middot; <code>unauthorised</code></td><td>both are judgements about intent and policy &mdash; neither is recorded in any artifact<span class="ar">كلاهما حكم على النية و على سياسة المؤسسة، و لا يسجّل أي artifact رقمي أيًّا منهما.</span></td></tr>
+  </tbody></table></div>
+<div class="key-takeaway" style="margin-top:18px">
+  <p><b>And never name a person as the actor.</b> Artifacts record accounts, processes and devices.
+     <span class="ar"><b>و لا تنسب الفعل إلى شخص بعينه.</b> الـ artifact يسجّل حسابًا أو عملية أو جهازًا — و بين الحساب و صاحبه مسافة يجب أن يقطعها دليل آخر.</span></p></div>
+    </section>
+
+<section class="page divider" id="p13">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>Verify the toolkit, then seal it<span class="ar">المعمل — التحقق من الأدوات ثم تثبيت حالتها</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Watch the six actions run once. The fifth is the reason the other five exist &mdash; and you repeat all six on your own in the task.<span class="ar">شاهد الخطوات الست تُنفَّذ مرة واحدة. الخامسة هي سبب وجود الخمس الأخرى — و ستعيدها كلها بنفسك في الـ task.</span></p>
+  <p class="divider-meta">1 screen &middot; the instructor drives</p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T01 &middot; Instructor demo</span>
+<h2>Lab &mdash; verify the toolkit and seal it
+  <span class="ar">المعمل — التحقق من الأدوات ثم تثبيت حالتها</span></h2>
+<p>Six actions. <b>The fifth one is the reason the other five exist.</b>
+  <span class="ar">ست خطوات، الخامسة منها هي المقصودة — و الخمس الأخرى تمهيد لها.</span></p>
+<div class="simscreen" id="ss-t01" data-title="SIMSCREEN T01-1 · VERIFY THE TOOLKIT, THEN SEAL IT" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <!-- 1 · Explorer -->
+  <div class="wu" id="scExp" style="width:660px">
+    <div class="wu-tb"><span class="t">Tools</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body" style="padding:10px 12px 12px">
+      <div class="wu-path">&#128193; &nbsp;This PC &rsaquo; Local Disk (C:) &rsaquo; Forensics &rsaquo; Tools</div>
+      <div class="wu-cols">
+        <div class="h">Name</div><div class="h">Date modified</div><div class="h">Type</div><div class="h">Size</div>
+        <div class="c">&#128193; EZTools</div><div class="c">2026-09-01 11:04</div><div class="c">File folder</div><div class="c"></div>
+        <div class="c">&#128193; NetworkMiner</div><div class="c">2026-09-01 11:07</div><div class="c">File folder</div><div class="c"></div>
+        <div class="c">&#128193; RegRipper3.0</div><div class="c">2026-09-01 11:09</div><div class="c">File folder</div><div class="c"></div>
+        <div class="c">&#128193; TrID</div><div class="c">2026-09-01 11:10</div><div class="c">File folder</div><div class="c"></div>
+        <div class="c sel" id="h1">&#128196; TOOLS.sha256</div><div class="c sel">2026-09-01 11:22</div><div class="c sel">SHA256 File</div><div class="c sel">14 KB</div>
+      </div>
+    </div>
+    <div class="wu-sb"><span>5 items</span><span>1 item selected &nbsp; 14.0 KB</span></div>
+  </div>
+
+  <!-- 2 · PowerShell — compute -->
+  <div class="wu" id="scPS1" style="width:700px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="h2"><span class="p">PS C:\Forensics\Tools&gt;</span> <span class="k">Get-FileHash '.\EZTools\PECmd.exe' -Algorithm SHA256</span>
+
+Algorithm  Hash                                                              Path
+---------  ----                                                              ----
+<span class="w">SHA256</span>     <span class="w">3F9A1C0B7E24D85A6C1FB40397E2D6115AC8E7F0D34B92A6E1057CC48B2F7D93</span>  ...\PECmd.exe</div>
+  </div>
+
+  <!-- 3 · PowerShell — compare -->
+  <div class="wu" id="scPS2" style="width:700px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="h3"><span class="p">PS C:\Forensics\Tools&gt;</span> <span class="k">Select-String -Path .\TOOLS.sha256 -Pattern 'PECmd.exe'</span>
+
+TOOLS.sha256:214:<span class="w">3f9a1c0b</span>7e24d85a6c1fb40397e2d6115ac8e7f0d34b92a6e1057cc4<span class="w">8b2f7d93</span>  EZTools\PECmd.exe
+
+<span class="d"># computed  3F9A1C0B ... 8B2F7D93</span>
+<span class="d"># baseline  3f9a1c0b ... 8b2f7d93</span>
+<span class="p">match</span></div>
+  </div>
+
+  <!-- 4 · VMware, VM menu open -->
+  <div class="wu" id="scVM" style="width:640px">
+    <div class="wu-tb"><span class="t">FOR-WS01 &mdash; VMware Workstation 17 Pro</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-mb"><span>File</span><span>Edit</span><span>View</span><span class="open">VM</span><span>Tabs</span><span>Help</span></div>
+    <div class="wu-menu" style="left:150px;top:56px;width:246px">
+      <div>Power &rsaquo;</div><div>Removable Devices &rsaquo;</div><div>Pause</div>
+      <div class="sep"></div>
+      <div class="hl" id="h4">Snapshot &rsaquo;</div>
+      <div>Capture Screen</div><div>Manage &rsaquo;</div>
+      <div class="sep"></div><div>Install VMware Tools&hellip;</div><div>Settings&hellip;</div></div>
+    <div class="wu-menu" style="left:398px;top:112px;width:212px">
+      <div>Take Snapshot&hellip;</div><div>Revert to Snapshot</div><div class="sep"></div><div>Snapshot Manager&hellip;</div></div>
+    <div style="height:180px;background:linear-gradient(160deg,#1d3450,#0e1a29)"></div>
+    <div class="wu-sb"><span>FOR-WS01 &mdash; powered on</span></div>
+  </div>
+
+  <!-- 5 · Take Snapshot dialog -->
+  <div class="wu" id="scSnap" style="width:440px">
+    <div class="wu-tb"><span class="t">Take Snapshot &mdash; FOR-WS01</span><span class="sp"><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body">
+      <p style="margin:0 0 12px;color:var(--wu-ink2)">A snapshot preserves the state of the virtual machine so that you can return to it later.</p>
+      <div class="wu-lb">Name</div>
+      <div class="wu-tx" id="h5" style="font-family:var(--wu-mono);margin-bottom:11px">CLEAN-TOOLS</div>
+      <div class="wu-lb">Description</div>
+      <div class="wu-tx" style="min-height:52px;align-items:flex-start;padding-top:6px">tool set installed and hash-verified &middot; no case data &middot; 2026-09-01 UTC</div>
+      <div class="wu-btns"><span class="wu-bt def">Take Snapshot</span><span class="wu-bt">Cancel</span><span class="wu-bt">Help</span></div>
+    </div>
+  </div>
+
+  <!-- 6 · Snapshot Manager -->
+  <div class="wu" id="scMgr" style="width:560px">
+    <div class="wu-tb"><span class="t">FOR-WS01 &mdash; Snapshot Manager</span><span class="sp"><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body" style="padding:0">
+      <div class="wu-snaptree" id="h6">
+        <div class="wu-snapnode"><div class="thumb"></div><div class="nm">CLEAN-BASE</div></div>
+        <div class="wu-snaparm">&#10230;</div>
+        <div class="wu-snapnode sel here"><div class="thumb"></div><div class="nm">CLEAN-TOOLS</div><div class="you">You Are Here</div></div>
+        <div class="wu-snaparm">&#10230;</div>
+        <div class="wu-snapempty">(per-case working state &mdash; created later)</div>
+      </div>
+      <div style="padding:10px 14px;border-top:1px solid #dcdcdc;font-size:11.5px;color:#5c5c5c">
+        <b>CLEAN-TOOLS</b> &mdash; tool set installed and hash-verified &middot; no case data &middot; 2026-09-01 UTC</div>
+      <div class="wu-btns" style="padding:0 14px 14px"><span class="wu-bt">Go To</span><span class="wu-bt">Clone&hellip;</span><span class="wu-bt">Delete</span><span class="wu-bt def">Close</span></div>
+    </div>
+  </div>
+
+ </div></div>
+ <div class="ss-prov">&#9888; The digest shown is illustrative. Yours will differ &mdash; and a finding in your report carries the value <b>you</b> computed, never one copied from a page (D94 &middot; D95).</div>
+</div>
+
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">T02 &middot; Guided &middot; live on the board</span>
+<h2>Writing one artifact three ways
+  <span class="ar">كتابة artifact واحد بثلاث طرق</span></h2>
+<div class="wu" style="margin:0 0 20px">
+  <div class="wu-tb"><span class="t">the artifact line</span></div>
+  <div class="wu-term"><span class="k">System.evtx</span> on FIN-WKS-07, record 41 992, Event ID <span class="w">7045</span>, 2026-08-25 09:12:55 UTC
+service name  <span class="w">WinDefendUpd</span>
+image path    C:\Users\&lt;user&gt;\AppData\Local\Temp\svchost.exe
+start type    auto start</div>
+</div>
+<div class="finding"><span class="cl-label">Finding</span>
+  <p><b>F-07</b> &mdash; <code>System.evtx</code> on <code>FIN-WKS-07</code>, record 41 992, Event ID 7045,
+     <code>2026-08-25 09:12:55 UTC</code>: a service named <code>WinDefendUpd</code> was installed with
+     image path <code>C:\Users\&lt;user&gt;\AppData\Local\Temp\svchost.exe</code> and start type
+     <i>auto start</i>.
+     <span class="ar">finding واحدة فقط: اسم الـ artifact، و مساره الكامل، و الوقت بتوقيت UTC، و ما سجّله. لا رأي فيها و لا فاعل بشري.</span></p></div>
+<div class="interpretation"><span class="cl-label">Interpretation</span>
+  <p><b>I-03</b> &mdash; assessed with <b>high</b> confidence to be attacker persistence: the name imitates
+     a Microsoft component, the binary sits in a user-writable temp directory, and it was installed 41
+     seconds after the execution in <b>F-05</b>. Considered and not excluded: a legitimate third-party
+     installer using a misleading name &mdash; no installer entry in <code>Application.evtx</code>, but
+     that log covers only 6 days (<b>F-02</b>).
+     <span class="ar">لاحظ العناصر الثلاثة: أرقام الـ findings التي يستند إليها، و درجة الثقة المعلنة، و تفسير بديل ذُكر مع سبب عدم استبعاده. غياب أي منها يجعل الـ interpretation ناقصًا.</span></p></div>
+<div class="limitation"><span class="cl-label">Cannot prove</span>
+  <p>This does not show <b>who</b> installed the service, or that it <b>ever ran</b>. Event 7045 records
+     installation, not execution.
+     <span class="ar">الحدث رقم 7045 يسجّل <b>تثبيت</b> الخدمة فقط. لا يدل على <b>من</b> ثبّتها، و لا على أنها <b>عملت</b> بعد ذلك.</span></p></div>
+    </section>
+
+<section class="page divider" id="p16">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>Judgement first, then your own three boxes<span class="ar">الحكم أولًا، ثم صناديقك الثلاثة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Four screens, no tool. You decide what a sentence may claim, whose failure a collapsed case is &mdash; then you write your own finding, interpretation and limit.<span class="ar">أربع شاشات بلا أداة. تقرّر ما يحقّ لجملة أن تدّعيه، و على من تقع مسؤولية قضية ساقطة — ثم تكتب finding و interpretation و حدًّا من عندك.</span></p>
+  <p class="divider-meta">4 screens &middot; solo, with one pairing</p>
+</div>
+    </section>
+
+<section class="page" id="p17">
+<span class="kicker">T01 &middot; On your own &middot; 4 min</span>
+<h2>Exercise &mdash; what you may and may not write
+  <span class="ar">تمرين — ما يجوز و ما لا يجوز كتابته</span></h2>
+<p>Each statement goes in a column, with <b>one line saying why</b>. Cards are in
+   <code>student_activity.md</code>.
+   <span class="ar">ضع كل عبارة في العمود المناسب، و اكتب معها <b>سببًا واحدًا</b>. السبب أهم من التصنيف نفسه.</span></p>
+<details><summary>The line this exercise exists to break</summary>
+  <div class="table-wrap"><table>
+    <thead><tr><th>You may write</th><th>You may not write</th></tr></thead>
+    <tbody>
+      <tr><td>the artifact recorded X at time T<span class="ar">صيغة صحيحة: الـ artifact سجّل finding في وقت محدد</span></td><td>the user did X<span class="ar">صيغة خاطئة: نسبت الفعل إلى شخص</span></td></tr>
+      <tr><td>the file was not present in the collected set<span class="ar">صيغة صحيحة: لم أجده فيما جمعت</span></td><td>the file was never on the machine<span class="ar">صيغة خاطئة: عدم وجوده عندك لا يعني أنه لم يوجد قط</span></td></tr>
+      <tr><td>the process was running at collection time<span class="ar">صيغة صحيحة: هذا ما رأيته لحظة الجمع</span></td><td>the process was running at the time of compromise<span class="ar">صيغة خاطئة: مددت الـ finding إلى وقت لم تشهده</span></td></tr>
+    </tbody></table></div>
+</details>
+<div class="key-takeaway" style="margin-top:18px">
+  <p><b>Artifacts record accounts, processes and devices. They do not record people.</b>
+     Almost everyone writes <i>&ldquo;the user did X&rdquo;</i> first time &mdash; because that is what a
+     SIEM alert says.
+     <span class="ar"><b>الـ artifact يسجّل حسابًا أو عملية أو جهازًا. لا يسجّل إنسانًا.</b> أغلب الطلبة يكتبون «المستخدم فعل كذا» في المرة الأولى، لأن هذه هي صيغة تنبيه الـ SIEM — و هي أول جملة تُشطب من أي تقرير أمام المحكمة.</span></p></div>
+    </section>
+
+<section class="page" id="p18">
+<span class="kicker">T01 &middot; On your own &middot; 8 min</span>
+<h2>Exercise &mdash; admissible or not, and whose failure
+  <span class="ar">تمرين — مقبول أم لا، و خطأ من</span></h2>
+<p>Five scenarios in <code>student_activity.md</code>. For each: a verdict, and an owner.
+  <span class="ar">خمس حالات. حدّد لكل منها: هل يُقبل الدليل؟ و على من تقع المسؤولية إن رُفض؟</span></p>
+<div class="limitation"><span class="cl-label">Success criteria</span>
+  <p><b>At least one is nobody&rsquo;s failure.</b> If all five are somebody&rsquo;s fault, go back to
+     the three tests &mdash; you have merged two of them.
+     <span class="ar"><b>واحدة على الأقل ليست خطأ أحد.</b> إن وجدت أن الخمس جميعًا أخطاء بشرية فقد دمجت شرطين من الثلاثة — راجعها.</span></p></div>
+<div class="note warn" style="margin-top:18px"><b>Does NOT prove</b>
+  A hash matching the baseline proves the tool has not changed <i>since the baseline</i>. It does not
+  prove the binary is what the vendor shipped &mdash; nobody here checked that.
+  <span class="ar">تطابق الـ hash مع الأساس يثبت شيئًا واحدًا: أن الأداة لم تتغيّر <i>منذ لحظة تسجيل الأساس</i>. لا يثبت أن الملف هو الذي أصدرته الشركة — فلم يتحقق أحد هنا من ذلك.</span></div>
+    </section>
+
+<section class="page" id="p19">
+<span class="kicker">T02 &middot; On your own &middot; 5 min</span>
+<h2>Exercise &mdash; write your own three boxes
+  <span class="ar">تمرين — اكتب صناديقك الثلاثة</span></h2>
+<div class="wu" style="margin:0 0 18px">
+  <div class="wu-tb"><span class="t">your artifact line</span></div>
+  <div class="wu-term"><span class="k">Amcache.hve</span> on FIN-WKS-07
+key         Root\InventoryApplicationFile\rclone.exe|...
+SHA-1       a1b2c3...
+written     <span class="w">2026-08-25 20:49:11 UTC</span>
+path        C:\Users\l.bennett\Downloads\rclone.exe</div>
+</div>
+<p>Then <b>swap with your neighbour</b> and mark theirs against criteria 3 and 4.
+   This is the only pairing on this page &mdash; every investigation in this course is individual.
+   <span class="ar">ثم <b>بادل زميلك</b> و قيّم ما كتبه على المعيارين الثالث و الرابع. هذه هي المرة الوحيدة التي تعملان فيها معًا — أما التحقيق فيبقى فرديًا دائمًا.</span></p>
+<div class="limitation"><span class="cl-label">Success criteria</span>
+  <p><b>F-01</b> survives the <i>because</i> test, no banned word &middot; <b>I-01</b> cites F-01, states a
+     confidence, names an alternative it could not exclude &middot; the cannot-prove line says something
+     <b>Amcache genuinely does not record</b> &mdash; and if you know what Amcache is, that one is easy.
+     <span class="ar">و أن يذكر سطر الحدود شيئًا <b>لا يسجّله Amcache فعلاً</b>. من يعرف ما الذي يسجّله هذا الـ artifact بالضبط سيجد الإجابة بسهولة.</span></p></div>
+    </section>
+
+<section class="page" id="p20">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check
+  <span class="ar">اختبار الفهم</span></h2>
+<div class="q mcq" data-correct="b">
+  <p class="qtext">A disk image verifies perfectly against its acquisition hash. The examiner cannot say
+    who handed them the drive, or when. Which is true?
+    <span class="ar">نسخة قرص طابقت الـ hash الخاصة بها hash الـ acquisition تمامًا، لكن المحلل لا يستطيع تحديد من سلّمه القرص و لا متى. أي العبارات صحيح؟</span></p>
+  <label><input type="radio" name="q1" value="a"> The evidence is authentic, because the hash matched</label>
+  <label><input type="radio" name="q1" value="b"> The hash proves the image matches what was acquired; it says nothing about where the drive came from &mdash; authenticity is broken, and it is the examiner&rsquo;s failure</label>
+  <label><input type="radio" name="q1" value="c"> The evidence is inadmissible for relevance</label>
+  <label><input type="radio" name="q1" value="d"> This is the lawyer&rsquo;s failure, not the examiner&rsquo;s</label>
+  <div class="feedback">A hash is an <b>integrity</b> control, not a <b>provenance</b> control. It proves
+    the image matches what was acquired &mdash; it cannot say <i>what</i> was acquired, or from whom.
+    And authenticity is the one test that is yours.</div>
+</div>
+<details style="margin-top:20px"><summary>Nine more questions</summary>
+  <p>Full quiz in <code>quiz.md</code>, with the answer key. Two of them &mdash; Q3 and Q10 &mdash; are the
+     same idea at different depths: getting Q3 right and Q10 wrong means the table was memorised, not
+     understood.
+  <span class="ar">الاختبار الكامل في <code>quiz.md</code> و معه نموذج الإجابة. السؤالان الثالث و العاشر يقيسان الفكرة نفسها بعمقين مختلفين: إصابة الثالث مع الخطأ في العاشر تعني أن الجدول حُفظ و لم يُفهم.</span></p></details>
+    </section>
+
+<section class="page divider" id="p21">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Every rule and format on this page, in the form you actually reach for it in the next lab.<span class="ar">كل قاعدة و صيغة في هذه الصفحة، بالشكل الذي ستحتاجه فعلاً في الـ lab القادم.</span></p>
+  <p class="divider-meta">1 screen &middot; print it</p>
+</div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet &mdash; the method and the report
+  <span class="ar">ورقة المراجعة — المنهج و التقرير</span></h2>
+<p>The whole page, condensed to what you use. Print it and keep it beside every later lab.
+  <span class="ar">الصفحة كلها مختصرة فيما تستعمله فعلاً. اطبعها و أبقها بجوارك في كل lab قادم.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b>Lifecycle</b> &mdash; ACQUIRE &rarr; PRESERVE &rarr; ANALYSE &rarr; VALIDATE &rarr; PRESENT. Four are one-shot; only ANALYSE repeats.<span class="ar">أربع مراحل لا تتكرر، و التحليل وحده يُعاد.</span></li>
+    <li><b>Three principles</b> &mdash; minimal footprint &middot; work on a copy &middot; repeatable <i>and</i> reproducible.<span class="ar">أقل تغيير ممكن · اعمل على نسخة · قابل للتكرار و لإعادة الإنتاج.</span></li>
+    <li><b>Admissibility</b> &mdash; relevant &middot; reliable &middot; competent. <b>Only reliability (authenticity) is yours.</b><span class="ar">الصلة · الموثوقية · المشروعية — و الأصالة وحدها مسؤوليتك.</span></li>
+    <li><b>Finding test</b> &mdash; if it needs <i>because</i>, it is not a finding. Past tense, no adjective, no actor.<span class="ar">إذا احتاجت «لأن» فهي ليست finding: ماضٍ، بلا نعت، و بلا فاعل بشري.</span></li>
+    <li><b>Interpretation</b> &mdash; cite findings &middot; state a confidence &middot; name an alternative you could not exclude.<span class="ar">الـ findings · درجة الثقة · تفسير بديل لم تستبعده.</span></li>
+    <li><b>Cannot prove</b> &mdash; say what the artifact does <i>not</i> record. Graded every session.<span class="ar">قل ما لا يسجّله الـ artifact — و تُقيَّم عليه في كل جلسة.</span></li>
+    <li><b>Banned in Findings</b> &mdash; <i>clearly &middot; obviously &middot; we are sure &middot; proves that &middot; the attacker &middot; malicious &middot; unauthorised</i>.<span class="ar">ألفاظ ممنوعة في قسم الـ findings.</span></li>
+    <li><b>Snapshot</b> &mdash; <code>CLEAN-TOOLS</code>, taken after tool verification, before any case data.<span class="ar">تُؤخذ بعد التحقق من الأدوات و قبل أي بيانات قضية.</span></li>
+    <li><b>Report</b> &mdash; one document, twelve sections, filled in <b>learning order</b>. Summary written last.<span class="ar">مستند واحد، اثنا عشر قسمًا، تُملأ بترتيب التعلّم، و الملخص أخيرًا.</span></li>
+  </ul>
+  <button class="btn ghost" type="button" onclick="window.print()">&#128424; Print</button>
+</div>
+    </section>
+
+<section class="page divider" id="p23">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Handed in before P02<span class="ar">يُسلَّم قبل P02</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">You run the demo yourself, you start the report, and you write one artifact three ways &mdash; graded on the limitation most reports never write.<span class="ar">تنفّذ الـ demo بنفسك، و تبدأ التقرير، و تكتب artifact واحدًا بثلاث طرق — و تُقيَّم على الحد الذي لا تكتبه أغلب التقارير.</span></p>
+  <p class="divider-meta">3 screens &middot; the report advances</p>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">Task &middot; handed in before P02</span>
+<h2>Task &mdash; verify your toolkit, open the report
+  <span class="ar">الـ task — تحقّق من أدواتك، و افتح التقرير</span></h2>
+<p>You watched the toolkit sealed and one artifact written three ways. Now you do both yourself.<span class="ar">شاهدت كيف تُختم الأدوات و كيف يُكتب artifact واحد بثلاث طرق. الآن تفعل الاثنين بنفسك.</span></p>
+<ol>
+  <li>Pick <b>any two tools</b> from <code>C:\Forensics\Tools</code>. Compute each SHA-256, find its line
+      in <code>TOOLS.sha256</code>, record both digests and <b>the result</b>.
+      <span class="ar">اختر <b>أي أداتين</b>. احسب hash كل منهما، و استخرج سطرها من ملف الأساس، ثم سجّل قيمتَي الـ hash و <b>نتيجة المقارنة صراحةً</b> — مطابقة أو غير مطابقة.</span></li>
+  <li>Record each tool&rsquo;s <b>version</b> &mdash; from the binary&rsquo;s properties or its
+      <code>--version</code> output, <b>not from the folder name</b>.
+      <span class="ar">سجّل <b>رقم إصدار</b> كل أداة من خصائص الملف نفسه أو من مخرجات <code>--version</code> — <b>لا من اسم المجلد</b>، فاسم المجلد ليس إصدارًا.</span></li>
+  <li>Complete report <b>Section 1</b>, <b>Section 3</b> and <b>Section 6</b>.<span class="ar">أكمل أقسام التعريف و النطاق و الأدوات في التقرير.</span></li>
+  <li>Write one triple from the <code>Prefetch</code> line in <code>homework.md</code>.<span class="ar">اكتب الثلاثة — finding و interpretation و حد — من سطر artifact التشغيل المرفق.</span></li>
+</ol>
+<div class="limitation"><span class="cl-label">How it is graded</span>
+  <p><b>A perfect F-01 with a decorative cannot-prove line loses criterion 4.</b> The limitation is the
+     part most reports do not have, and it is the part this course grades hardest.
+     <span class="ar"><b>finding مكتوبة بإتقان مع سطر حدود شكلي تُفقدك المعيار الرابع كاملاً.</b> ذكر الحدود هو ما تخلو منه معظم التقارير، و هو أشد ما تُحاسَب عليه في هذه الدبلومة.</span></p></div>
+<ul id="taskList" data-task-counter-target></ul>
+<span data-task-counter></span>
+    </section>
+
+<section class="page" id="p25">
+<span class="kicker">T01 &middot; Report stage &middot; 4 min</span>
+<h2>Report &mdash; Sections 1 and 3
+  <span class="ar">التقرير — القسمان الأول و الثالث</span></h2>
+<p>Fill <b>Section 1 Case identification</b> and <b>Section 3 Authorisation &amp; scope</b> &mdash; including
+   <b>one thing that is out of scope</b>.
+   <span class="ar">املأ القسم الأول و الثالث. و لا بد أن يتضمن الثالث <b>شيئًا واحدًا خارج نطاق الفحص</b> — ما لم يُطلب منك النظر فيه.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Weak &mdash; and what most people write first</th><th>What it should say</th></tr></thead>
+  <tbody><tr>
+    <td><i>&ldquo;Investigate the incident on FIN-WKS-07.&rdquo;</i><br>A task, not a scope. No questions, no boundary, nothing that can later be shown to have been respected.<span class="ar">هذه مهمة لا نطاق. لا تتضمن أسئلة يُجاب عنها، و لا حدًا يُقاس الالتزام به لاحقًا.</span></td>
+    <td>Three questions the examination must answer &mdash; plus: <i>the Kali host was part of the incident but was not made available for examination. No conclusion here rests on it.</i><span class="ar">ثلاثة أسئلة محددة يلتزم الفحص بالإجابة عنها، يليها ما استُبعد صراحةً: <i>«جهاز Kali كان طرفًا في الحادثة و لم يُتَح للفحص، و لا تستند أي نتيجة في هذا التقرير إليه.»</i></span></td>
+  </tr></tbody></table></div>
+<div class="limitation" style="margin-top:18px"><span class="cl-label">The rule that governs the rest of the course</span>
+  <p>The sections fill <b>in learning order, not report order</b>. You will write Section 8 long before you
+     finish Section 3, and that is correct.
+     <span class="ar">تُملأ الأقسام <b>بترتيب ما تتعلّمه، لا بترتيب أرقامها</b>. ستكتب قسم الـ findings قبل أن تُنهي قسم النطاق بوقت طويل — و هذا هو السلوك الصحيح في القضايا الحقيقية.</span></p></div>
+<p><a class="btn" href="../report/index.html">Open the report template &rarr;</a></p>
+    </section>
+
+<section class="page" id="p26">
+<span class="kicker">T02 &middot; Report stage &middot; 2 min</span>
+<h2>Report &mdash; the sections written last
+  <span class="ar">التقرير — الأقسام التي تُكتب أخيرًا</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Section</th><th>Why it waits</th></tr></thead>
+  <tbody>
+    <tr><td><b>Section 2</b> Executive summary<span class="ar">الملخص التنفيذي</span></td><td>a summary written first becomes a conclusion you then look for evidence to support &mdash; the exact failure this course exists to prevent<span class="ar">الملخص المكتوب أولاً يتحوّل إلى نتيجة مسبقة تبحث عن دليل يسندها — و هذا بالضبط الخلل الذي وُجدت هذه الدبلومة لمنعه.</span></td></tr>
+    <tr><td><b>Section 9</b> Interpretation<span class="ar">الـ interpretation</span></td><td>it rests on findings; there are none yet<span class="ar">يقوم على الـ findings، و لم تُسجَّل بعد أي finding.</span></td></tr>
+    <tr><td><b>Section 11</b> Conclusions<span class="ar">النتائج</span></td><td>it answers Section 3, and only from Section 8<span class="ar">يجيب عن أسئلة النطاق، و من الـ findings المسجّلة وحدها — لا يظهر فيه شيء جديد.</span></td></tr>
+  </tbody></table></div>
+<p style="margin-top:16px">Create the Section 8 and Section 9 headings now, with the format line under each, so
+   you write into a shape rather than a blank page.
+   <span class="ar">أنشئ عنواني الـ findings و الـ interpretation الآن، و ضع تحت كل منهما سطر الصيغة — لتكتب داخل قالب جاهز لا في صفحة بيضاء.</span></p>
+<div class="wu" style="margin-top:14px">
+  <div class="wu-tb"><span class="t">the two formats &mdash; from memory</span></div>
+  <div class="wu-term"><span class="p">F-nn</span>  &lt;artifact&gt; at &lt;exact path&gt;, &lt;UTC timestamp&gt;: &lt;one observable fact, past tense&gt;
+
+<span class="p">I-nn</span>  &lt;claim&gt; is assessed with &lt;confidence&gt; confidence, resting on F-xx, F-yy.
+      Considered and not excluded: &lt;alternative&gt;, because &lt;reason&gt;.</div>
+</div>
+    </section>
+
+<section class="page" id="p27">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="key-takeaway">
+  <ul>
+    <li>That your examination platform was in a <b>known, described state</b> before any evidence touched
+        it &mdash; and you can name the snapshot.
+        <span class="ar">أن جهاز الفحص كان في <b>حالة معروفة موصوفة</b> قبل أن يمسّه أي دليل — و تستطيع تسمية الـ snapshot الذي يُثبت ذلك.</span></li>
+    <li>That a statement in your report is a <b>finding</b> and not an opinion, and you can show which
+        test it passed.
+        <span class="ar">أن ما كتبته في التقرير <b>finding</b> لا رأي، و تستطيع بيان المعيار الذي اجتازته.</span></li>
+    <li>That the scope of your examination was <b>written down before you started</b>, including what you
+        were not asked to look at.
+        <span class="ar">أن نطاق الفحص كان <b>مكتوبًا قبل أن تبدأ</b>، و يتضمن ما لم يُطلب منك النظر فيه.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p28">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<ul>
+  <li>INE eCDFP &mdash; <b>Module 1</b>, introduction: the mandate, the evidence life cycle, admissibility.<span class="ar">المهمة، و دورة حياة الدليل، و شروط القبول.</span></li>
+  <li>INE eCDFP &mdash; <b>Module 5 Section 2</b>: report structure.<span class="ar">هيكل التقرير المعتمد.</span></li>
+  <li>SWGDE <b>18-Q-002</b> (report content) &middot; SWGDE <b>18-F-002</b> (chain of custody) &mdash; the
+      standards Section 4 and Section 5 follow.
+      <span class="ar">المعياران اللذان يلتزم بهما قسما الـ chain of custody و جرد الأدلة.</span></li>
+</ul>
+<div class="key-takeaway" style="margin-top:22px"><span class="cl-label">Next &mdash; P02 &middot; Evidence integrity</span>
+  <p>You now know what has to be true for evidence to survive, and what the document that carries it
+     looks like. <b>You have not touched a single piece of evidence.</b> Next: proving that a file is
+     exactly what it was when you got it &mdash; and <b>the four things a hash cannot tell you</b>.
+     <span class="ar">تعرف الآن شروط صمود الدليل، و شكل المستند الذي يحمله. <b>و لم تفحص بعدُ دليلاً واحدًا.</b> الصفحة التالية: كيف تُثبت أن الملف كما وصلك تمامًا — و <b>الأربعة أشياء التي لا يخبرك بها الـ hash</b>.</span></p></div>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav" aria-label="Page navigation">
+  <button class="btn ghost" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 28</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P01</b> &middot; content from
+     <code>packages/page-01/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t01', [
+ {screen:'scExp', target:'h1',
+  en:'Open <b>C:\\Forensics\\Tools</b>. Beside the binaries is <b>TOOLS.sha256</b> — the SHA-256 of every tool, taken when the CLEAN-TOOLS snapshot was made. <b>Read its header before you use it:</b> it is the lab baseline, not a vendor manifest.',
+  ar:'افتح المجلد <b>C:\\Forensics\\Tools</b>. بجوار الأدوات ملف <b>TOOLS.sha256</b> يحوي قيمة الـ hash لكل أداة لحظة إنشاء الـ snapshot المسمّى <code>CLEAN-TOOLS</code>. <b>اقرأ الـ header الخاص بالملف قبل الاعتماد عليه:</b> فهو أساس المعمل، لا بيان صادر عن الشركة المنتجة.'},
+ {screen:'scPS1', target:'h2',
+  en:'Pick any line from the manifest and <b>hash that file yourself</b>. Do not assume the tool is sound — prove it. Note the <code>-Algorithm SHA256</code>: leave it out and you get MD5.',
+  ar:'اختر أي سطر من الملف و <b>احسب الـ hash الخاص بالأداة بنفسك</b>. لا تفترض سلامتها — أثبتها. و انتبه إلى <code>-Algorithm SHA256</code>: بدونها ينتج الأمر hash بصيغة MD5 و هي ليست المطلوبة.'},
+ {screen:'scPS2', target:'h3',
+  en:'Compare against the baseline. <b>Read the first eight and the last eight characters</b> — a digest that differs in the middle differs, and eyeballing the whole string is how mismatches get missed. Then say the result out loud: <i>match</i> or <i>mismatch</i>.',
+  ar:'قارن الـ hash القديمة بالجديدة. <b>اقرأ أول ثمانية أحرف و آخر ثمانية</b> — فالاختلاف في المنتصف اختلاف كامل، و محاولة قراءة السلسلة كلها بالعين هي ما يجعل الفروق تمر دون انتباه. ثم أعلن النتيجة صراحة: مطابقة أم غير مطابقة.'},
+ {screen:'scVM', target:'h4',
+  en:'In VMware with <b>FOR-WS01</b> selected: <b>VM → Snapshot → Take Snapshot…</b> Check the VM name in the title bar before you go further.',
+  ar:'في VMware و الجهاز <b>FOR-WS01</b> محدَّد: <b>VM ← Snapshot ← Take Snapshot…</b> و تأكد من اسم الجهاز في شريط عنوان النافذة قبل المتابعة.'},
+ {screen:'scSnap', target:'h5', key:true,
+  en:'<b>Name it exactly CLEAN-TOOLS.</b> Every case you run this year starts from this snapshot. Take it <b>before</b> any case data touches the machine and you can always return to a state you can describe. Take it after — and <i>"my tools were clean"</i> becomes something you believe rather than something you can show.',
+  ar:'<b>سمّها <code>CLEAN-TOOLS</code> بهذا الاسم تحديدًا.</b> كل قضية تعمل عليها هذا العام تبدأ من هذا الـ snapshot. خذها <b>قبل</b> أن تمسّ الجهازَ أي بيانات قضية، فتستطيع العودة في أي وقت إلى حالة تعرف وصفها بدقة. أما إن أخذتها بعد ذلك، فتتحول عبارة <i>«كانت أدواتي سليمة»</i> من شيء تُثبته إلى مجرد شيء تعتقده.'},
+ {screen:'scMgr', target:'h6',
+  en:'<b>Confirm it. Do not assume it worked.</b> You want <code>CLEAN-BASE → CLEAN-TOOLS</code>, with <i>You Are Here</i> on the second. One snapshot means step 5 replaced the base instead of branching from it — stop and tell the instructor.',
+  ar:'<b>تحقّق. لا تفترض أن الخطوة نجحت.</b> يجب أن ترى <code>CLEAN-BASE ← CLEAN-TOOLS</code> و مؤشر <i>You Are Here</i> على الثانية. أما وجود snapshot واحد فيعني أن الخطوة السابقة استبدلت الأساس بدل أن تتفرع منه — توقّف و أبلغ المدرّب.'}
+]);
+</script>
+
+<script>
+Dgm.init('#dg-life', [
+ {en:'<b>Identify</b> &mdash; decide what is evidence. Miss an exhibit here and it is simply not in the case.', ar:'<b>التحديد</b> — أن تقرّر ما هو الدليل. و ما يفوتك هنا لا يدخل القضية أصلاً.'},
+ {en:'<b>Preserve</b> &mdash; stop it changing. Get this wrong and the state you needed no longer exists <b>anywhere</b>.', ar:'<b>الحفظ</b> — أن توقف تغيّره. و الخطأ هنا يعني أن الحالة التي احتجتها لم تعد موجودة <b>في أي مكان</b>.'},
+ {en:'<b>Collect</b> &mdash; take a copy. Whatever you did not copy is gone once you hand the original back.', ar:'<b>الجمع</b> — أن تأخذ نسخة. و ما لم تنسخه يضيع بمجرد إعادتك الأصل.'},
+ {en:'<b>Analyse</b> &mdash; and this is the <b>only</b> stage you can redo. Wrong conclusion? Run it again on the same copy.', ar:'<b>التحليل</b> — و هذه المرحلة <b>الوحيدة</b> التي يمكن إعادتها. نتيجة خاطئة؟ أعد التحليل على النسخة نفسها.'},
+ {en:'<b>Present</b> &mdash; defend it. If the first four were weak, this is where the case is lost.', ar:'<b>العرض</b> — أن تدافع عنه. و إن كانت المراحل الأربع الأولى ضعيفة، فهنا تُخسر القضية.'},
+ {en:'Four of five are <b>one-shot</b>. That single fact decides how this whole diploma is taught.', ar:'أربع من الخمس <b>لا تتكرر</b>. و هذه الحقيقة وحدها هي التي تقرّر طريقة تدريس هذه الدبلومة كلها.', key:true}
+]);
+Dgm.init('#dg-adm', [
+ {en:'<b>Relevant</b> &mdash; does it bear on a question in the case? Lawyers decide this, not you.', ar:'<b>الصلة</b> — هل يمسّ مسألة في القضية؟ يقرّر ذلك المحامون لا أنت.'},
+ {en:'<b>Reliable</b> &mdash; is it what it claims to be, and unaltered? Inside this sits <b>authenticity</b>.', ar:'<b>الموثوقية</b> — هل هو ما يدّعي أنه هو، و غير معدَّل؟ و داخل هذا الشرط تقع <b>الأصالة</b>.'},
+ {en:'<b>Competent</b> &mdash; was it obtained lawfully? Warrant and policy, decided before you arrived.', ar:'<b>المشروعية</b> — هل حُصل عليه بطريق قانوني؟ إذن و سياسة، تُقرَّر قبل وصولك.'},
+ {en:'Only the green strip is the examiner\\u2019s. <b>Everything in this diploma exists to defend it</b> &mdash; and that is the part a hash alone does not deliver.', ar:'الشريط الأخضر وحده مسؤولية الفاحص. <b>و كل ما في هذه الدبلومة قائم للدفاع عنه</b> — و هو الجزء الذي لا يكفي الـ hash وحده لتحقيقه.', key:true}
+]);
+Dgm.init('#dg-touch', [
+ {en:'The disk is attached to a running Windows machine. <b>Nobody has typed a command.</b>', ar:'وُصِّل القرص بجهاز ويندوز يعمل. <b>و لم يكتب أحد أمرًا واحدًا.</b>'},
+ {en:'And it keeps going: recycle-bin and volume metadata, indexing, a scan, possibly a restore point.', ar:'و الأمر مستمر: بيانات سلة المحذوفات و وحدة التخزين، و الفهرسة، و فحص، و ربما نقطة استعادة.'},
+ {en:'<b>Attaching the disk was the write.</b> That is the whole argument for a write blocker &mdash; and for never treating an original as a workspace.', ar:'<b>مجرد توصيل القرص كان هو الكتابة.</b> و هذه هي الحجة كاملة لاستخدام الـ write blocker — و لعدم التعامل مع الأصل بوصفه مساحة عمل.', key:true}
+]);
+</script>
+
+<script>
+Dgm.init('#dg-lc-p01', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>الجمع.</b> أن تأخذ الدليل من الجهاز دون أن تغيّره.'},
+ {en:'<b>PRESERVE.</b> Prove the copy still equals what you took, months later.', ar:'<b>الحفظ.</b> أن تُثبت أن النسخة ما زالت تساوي ما أخذته، بعد شهور.'},
+ {en:'<b>ANALYSE.</b> Read what is inside the copy. Most of this diploma lives here.', ar:'<b>التحليل.</b> أن تقرأ ما داخل النسخة. و معظم الدبلومة يقع هنا.'},
+ {en:'<b>VALIDATE.</b> Check your own result &mdash; a second tool, a second examiner, a repeated test.', ar:'<b>التحقق.</b> أن تراجع نتيجتك أنت — بأداة ثانية، أو فاحص ثانٍ، أو إعادة الاختبار.'},
+ {en:'<b>PRESENT.</b> Write it so someone who was not there can follow it.', ar:'<b>العرض.</b> أن تكتبها بحيث يتابعها من لم يحضر.'},
+ {en:'This page is the <b>map</b>, not a stage on it. It sets the three principles every stage obeys, and introduces the document all five feed &mdash; the forensic report.', ar:'هذه الصفحة هي <b>الخريطة</b>، لا مرحلة عليها. فهي تضع المبادئ الثلاثة التي تلتزم بها كل مرحلة، و تعرّفك بالمستند الذي تنتهي إليه المراحل الخمس — التقرير الجنائي.',key:true}
+]);
+</script>
+
+</body>
+</html>

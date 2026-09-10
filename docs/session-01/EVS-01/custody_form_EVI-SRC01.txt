@@ -1,0 +1,34 @@
+CHAIN OF CUSTODY — one exhibit, one form
+Case reference : ITG-2026-014
+Exhibit        : ITG-2026-014-A1
+Description    : Internal 3.5in SATA hard disk removed from EVI-SRC01
+Storage        : Evidence store, cabinet 2, shelf B. Access logged.
+
+TRANSFERS  (all times UTC; no transfer without two signatures)
+
+ # | When              | From             | To               | Hash recorded | Sig
+---+-------------------+------------------+------------------+---------------+-----
+ 1 | 2026-03-04 09:07 | Responder 1      | Responder 2      | yes           | RS/RT
+ 2 | 2026-03-04 10:22 | Responder 2      | Evidence store   | yes           | RT/ES
+ 3 | 2026-03-04 13:40 | Evidence store   | Examiner 1       | yes           | ES/E1
+ 4 | 2026-03-05 08:55 | Examiner 1       | Evidence store   | yes           | E1/ES
+
+ACTIONS PERFORMED ON THE EXHIBIT
+ 2026-03-04 09:12  Source hashed before imaging. Value recorded in the
+                     examiner's notebook, page 41, stored separately from the
+                     exhibit and separately from the image.
+ 2026-03-04 09:14  Imaging started, hardware write blocker inline.
+                     Blocker recorded as: make/model/serial/firmware on
+                     notebook page 41 and photographed with the rig, frames
+                     011-013, before anything was disconnected.
+ 2026-03-04 11:47  Imaging completed.
+ 2026-03-04 11:52  Source re-hashed after the imaging run. The before and
+                     after source values match. This pair is the technical
+                     evidence that nothing was written across the run.
+ 2026-03-05 08:50  Working copy taken. Original image shelved and not
+                     worked on.
+
+DECLARATION
+ The exhibit was sealed in an antistatic bag with tamper tape signed across
+ the seal at 2026-03-04 09:02 UTC and the seal was intact at every transfer
+ above. No transfer in this record is unaccounted for.

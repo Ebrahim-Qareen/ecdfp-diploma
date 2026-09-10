@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P07 &middot; Malicious files &middot; eCDFP Diploma</title>
+<meta name="description" content="OLE and OOXML document structure, where a macro lives and what its presence proves, PE headers, section entropy and import tables — page 7 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P07 &middot; Malicious files</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>Objectives</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; What a document is made of</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>Two document families</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>A .docx is a ZIP</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>Reading a document&rsquo;s properties</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>What a macro proves</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>The tools the courseware does not name</span></a></li>
+      <li class="is-part"><a href="#p10"><span class="n">10</span><span>PART 2 &mdash; What an executable declares</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>From MZ to the real header</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>The file header</span></a></li>
+      <li><a href="#p13"><span class="n">13</span><span>The optional header</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>Sections, and what entropy is for</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>Imports are a capability list</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>What strings prove</span></a></li>
+      <li class="is-part"><a href="#p17"><span class="n">17</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>Taking both apart</span></a></li>
+      <li class="is-part"><a href="#p19"><span class="n">19</span><span>YOUR TURN</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>Exercise &mdash; five claims about a document</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>Exercise &mdash; read an import table</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Knowledge check</span></a></li>
+      <li class="is-part"><a href="#p23"><span class="n">23</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p25"><span class="n">25</span><span>TASK</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Task &mdash; read structure, write the finding</span></a></li>
+      <li><a href="#p27"><span class="n">27</span><span>Report &mdash; a structural finding</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>Summary</span></a></li>
+      <li><a href="#p29"><span class="n">29</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+<main class="main">
+
+<section class="page" id="p1">
+<span class="kicker">P07 &middot; Page 7 of 14 &middot; 75 topic minutes</span>
+<h2>Malicious files
+  <span class="ar">الملفات الخبيثة</span></h2>
+<p class="lede"><code>P06</code> found things hidden <i>inside</i> a file. This page is about files whose <b>whole purpose</b> is to run something &mdash; and about reading them <b>without running them</b>, which is the only way a forensic examiner is allowed to read them at all.
+  <span class="ar">وجد <code>P06</code> أشياء مخفية <i>داخل</i> ملف. و هذه الصفحة عن ملفات <b>غرضها كله</b> أن تشغّل شيئًا — و عن قراءتها <b>دون تشغيلها</b>، و هي الطريقة الوحيدة التي يُسمح للفاحص الجنائي بقراءتها بها أصلاً.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Topic</th><th>Minutes</th><th>Hands-on</th></tr></thead>
+  <tbody>
+    <tr><td><b>T11</b> Malicious Documents &amp; Executables<span class="ar">المستندات و الملفات التنفيذية الخبيثة</span></td><td>75</td><td>Yes</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Static analysis only.</b> Nothing on this page is executed, and nothing on this page needs to be. Every question here is answered by <b>reading structure</b> &mdash; which is also why it is safe to teach in a classroom.
+    <span class="ar"><b>تحليل ساكن فقط.</b> لا شيء على هذه الصفحة يُشغَّل، و لا شيء فيها يحتاج إلى تشغيل. فكل سؤال هنا يُجاب بـ<b>قراءة البنية</b> — و هذا أيضًا سبب أمان تدريسه في قاعة درس.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T11 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن</span></h2>
+<figure class="dgm" id="dg-lc-p07" data-mode="story" data-reveal="upto" data-interval="8000">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p07">
+  <title id="t-dg-lc-p07">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="78" text-anchor="middle" fill="#00ff9d">ANALYSE</text>
+    <text class="xs" x="388" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 3.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p>A document and an executable are both <b>containers with a declared structure</b>. That structure can be read field by field, cheaply, offline, and with the file never handed to the thing that would run it.
+  <span class="ar">المستند و الملف التنفيذي كلاهما <b>container ذات بنية مُعلَنة</b>. و يمكن قراءة تلك البنية حقلاً حقلاً، بتكلفة قليلة، دون اتصال، و دون أن يُسلَّم الملف أبدًا إلى ما قد يشغّله.</span></p>
+<div class="key-takeaway"><span class="cl-label">The rule that governs this whole page</span>
+  <ul>
+    <li><b>Static analysis reads. It never runs.</b> A file that is opened is a file that has already acted.
+      <span class="ar"><b>التحليل الساكن يقرأ و لا يشغّل أبدًا.</b> فالملف الذي يُفتح ملفٌّ قد فعل فعله بالفعل.</span></li>
+    <li>Everything you can state from this page comes from <b>bytes and offsets</b>, which another examiner can reproduce.
+      <span class="ar">كل ما تستطيع تقريره من هذه الصفحة مصدره <b>bytes و إزاحات</b>، يستطيع فاحص آخر إعادة إنتاجها.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P07 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستكون قادرًا عليه</span></h2>
+<div class="key-takeaway"><span class="cl-label">By the end of this page you can</span>
+  <ul>
+    <li>tell an <b>OLE</b> document from an <b>OOXML</b> one, and say where a macro is stored in each.
+      <span class="ar">أن تميّز مستند <b>OLE</b> من مستند <b>OOXML</b>، و تحدّد أين يُخزَّن الـ macro في كلٍّ منهما.</span></li>
+    <li>list a document&rsquo;s parts and its properties <b>without opening it in Office</b>.
+      <span class="ar">أن تسرد أجزاء مستند و خصائصه <b>دون فتحه في Office</b>.</span></li>
+    <li>state what the presence of a macro proves &mdash; and the <b>four things it does not</b>.
+      <span class="ar">أن تحدّد ما يُثبته وجود macro — و <b>الأشياء الأربعة التي لا يُثبتها</b>.</span></li>
+    <li>walk from <code>MZ</code> through <code>e_lfanew</code> to the real PE header, and read its fields.
+      <span class="ar">أن تنتقل من <code>MZ</code> عبر <code>e_lfanew</code> إلى الـ PE header الحقيقي، و تقرأ حقولها.</span></li>
+    <li>read <b>section entropy</b> against a measured baseline, and say what a high value does and does not mean.
+      <span class="ar">أن تقرأ <b>entropy الأقسام</b> مقابل خط أساس مقيس، و تحدّد ما تعنيه القيمة المرتفعة و ما لا تعنيه.</span></li>
+    <li>read an <b>import table</b> as a capability list, including what is absent from it.
+      <span class="ar">أن تقرأ <b>جدول الـ imports</b> بوصفه قائمة قدرات، بما في ذلك ما هو غائب عنه.</span></li>
+  </ul>
+</div>
+<div class="note">
+  <p><b>Prerequisite:</b> `T04` (signatures) and `T10` (what a file carries beyond its content). This page is the third step of the same staircase.
+    <span class="ar"><b>المتطلَّب السابق:</b> `T04` (الـ signatures) و `T10` (ما يحمله الملف وراء محتواه). و هذه الصفحة هي الدرجة الثالثة من السلّم نفسه.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 2</span>
+  <h2>What a document is made of<span class="ar">ممّ يتكوّن المستند</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Two container families, one of which is a ZIP you can list. Then the sentence that separates a finding from an accusation.<span class="ar">عائلتا containers، إحداهما أرشيف ZIP تستطيع سرد محتوياته. ثم الجملة التي تفصل الـ finding عن الاتهام.</span></p>
+  <p class="divider-meta">6 screens &middot; about 25 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T11 &middot; Theory</span>
+<h2>Two document families
+  <span class="ar">عائلتا المستندات</span></h2>
+<p>Microsoft Office has written documents in two fundamentally different containers, and <b>both are still in evidence today</b> because Word opens both.
+  <span class="ar">كتب Microsoft Office المستندات في حاويتين مختلفتين اختلافًا جذريًّا، و <b>كلتاهما ما زالت تظهر في الأدلة اليوم</b>، لأن Word يفتحهما معًا.</span></p>
+<figure class="dgm" id="dg-p07-f1" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P07-F1</span><span class="dgm-tag">TWO FAMILIES</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 250" role="img" aria-labelledby="t7f1">
+  <title id="t7f1">The two Microsoft Office document families and where code sits in each</title>
+  <text class="xs mut" x="14" y="24">TWO FAMILIES, TWO CONTAINERS</text>
+  <g data-step="1">
+    <rect class="box warn" x="14" y="38" width="360" height="150" rx="6"/>
+    <text class="lbl" x="194" y="64" text-anchor="middle">OLE  &#183;  .doc .xls .ppt</text>
+    <text class="xs mut" x="30" y="90">a binary compound file &#8212; streams and storages</text>
+    <text class="sm" x="30" y="116">signature  D0 CF 11 E0</text>
+    <text class="sm" x="30" y="140">macro lives in a stream inside the file</text>
+    <text class="xs mut" x="30" y="166">pre-2007, and still opened by Word today</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="398" y="38" width="360" height="150" rx="6"/>
+    <text class="lbl" x="578" y="64" text-anchor="middle">OOXML  &#183;  .docx .xlsx .docm</text>
+    <text class="xs mut" x="414" y="90">a ZIP archive of XML parts</text>
+    <text class="sm" x="414" y="116">signature  50 4B 03 04</text>
+    <text class="sm" x="414" y="140">macro lives in word/vbaProject.bin</text>
+    <text class="xs mut" x="414" y="166">and that part is itself an OLE file</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="200" width="744" height="34" rx="5"/>
+    <text class="sm" x="30" y="222">50 4B 03 04 also means JAR, APK, ODF and every other ZIP. It is not a document check.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">Why the signature check is not enough here</span>
+  <p>Every OOXML document, every JAR, every APK and every ODF file begins <code>50 4B 03 04</code>. So a signature match tells you <b>&ldquo;some ZIP&rdquo;</b> and nothing more &mdash; you have to <b>open the container and read the parts</b> to know what kind of document you are holding.
+    <span class="ar">كل مستند OOXML، و كل ملف JAR، و كل APK، و كل ODF يبدأ بـ<code>50 4B 03 04</code>. فتطابق الـ signature يقول لك <b>«أرشيف ZIP ما»</b> و لا شيء أكثر — و عليك <b>فتح الـ container و قراءة الأجزاء</b> لتعرف أي نوع من المستندات بين يديك.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T11 &middot; Theory &middot; measured</span>
+<h2>A .docx is a ZIP
+  <span class="ar">ملف الـ .docx أرشيف ZIP</span></h2>
+<p>Take an ordinary Word document and unzip it. This is <code>handover_notes.docx</code>, authored for this page: <b>3,111 bytes, five parts</b>, and the text you can see is the smallest of them.
+  <span class="ar">خذ مستند Word عاديًّا و فُكّ ضغطه. هذا هو <code>handover_notes.docx</code>، المؤلَّف من أجل هذه الصفحة: <b>٣٬١١١ byte، و خمسة أجزاء</b>، و النص الذي تراه هو أصغرها.</span></p>
+<figure class="dgm" id="dg-p07-f2" data-mode="loop" data-reveal="upto" data-interval="5000">
+  <div class="dgm-head"><span class="dgm-id">FIG P07-F2</span><span class="dgm-tag">FIVE PARTS &#183; MEASURED</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t7f2">
+  <title id="t7f2">The five parts inside an ordinary Word document</title>
+  <text class="xs mut" x="14" y="26">handover_notes.docx &#183; 3,111 BYTES &#183; 5 PARTS</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="46" width="744" height="30" rx="4"/>
+    <text class="m sm" x="28" y="66">[Content_Types].xml</text>
+    <text class="xs mut" x="280" y="66">674 B</text>
+    <text class="xs mut" x="360" y="66">what each part IS</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="14" y="82" width="744" height="30" rx="4"/>
+    <text class="m sm" x="28" y="102">_rels/.rels</text>
+    <text class="xs mut" x="280" y="102">593 B</text>
+    <text class="xs mut" x="360" y="102">how the parts point at each other</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="14" y="118" width="744" height="30" rx="4"/>
+    <text class="m sm" x="28" y="138">word/document.xml</text>
+    <text class="xs mut" x="280" y="138">257 B</text>
+    <text class="xs mut" x="360" y="138">the text you can see</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="154" width="744" height="30" rx="4"/>
+    <text class="m sm" x="28" y="174">docProps/core.xml</text>
+    <text class="xs mut" x="280" y="174">688 B</text>
+    <text class="xs mut" x="360" y="174">author, revision, timestamps</text>
+  </g>
+  <g data-step="5">
+    <rect class="box ok" x="14" y="190" width="744" height="30" rx="4"/>
+    <text class="m sm" x="28" y="210">docProps/app.xml</text>
+    <text class="xs mut" x="280" y="210">337 B</text>
+    <text class="xs mut" x="360" y="210">application, company, edit time</text>
+  </g>
+  <g data-step="6">
+    <rect class="box warn" x="14" y="226" width="744" height="28" rx="4"/>
+    <text class="sm" x="28" y="246">A .docm adds one more part: word/vbaProject.bin</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">What listing the parts answers, for free</span>
+  <p><b>Whether the document contains code.</b> A macro lives in <code>word/vbaProject.bin</code>. If that part is not in the listing, there is no VBA project in the file &mdash; and you established that <b>without opening Word and without executing anything</b>.
+    <span class="ar"><b>هل يحتوي المستند على كود.</b> فالـ macro يعيش في <code>word/vbaProject.bin</code>. و إن لم يكن هذا الجزء في القائمة فلا مشروع VBA في الملف — و قد أثبتّ ذلك <b>دون فتح Word و دون تنفيذ أي شيء</b>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T11 &middot; Theory</span>
+<h2>Reading a document&rsquo;s properties
+  <span class="ar">قراءة خصائص المستند</span></h2>
+<p><code>docProps/core.xml</code> is plain XML inside the ZIP. It carries the author, the last editor, a revision count and two timestamps &mdash; all readable with <code>unzip -p</code>.
+  <span class="ar">ملف <code>docProps/core.xml</code> نصّ XML عادي داخل الـ ZIP. و يحمل المؤلف و آخر محرِّر و عدد المراجعات و طابعين زمنيين — و كلها تُقرأ بأمر <code>unzip -p</code>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Field</th><th>What it says, and how far it goes</th></tr></thead>
+  <tbody>
+    <tr><td><code>dc:creator</code><span class="ar">حقل المؤلف</span></td><td>the account that <b>created</b> the document. It is a string Office wrote from a profile setting &mdash; not an identity.<span class="ar">الحساب الذي <b>أنشأ</b> المستند. و هو نصّ كتبه Office من إعداد في الحساب — لا هوية.</span></td></tr>
+    <tr><td><code>cp:lastModifiedBy</code><span class="ar">حقل آخر محرِّر</span></td><td>the account that <b>saved it last</b>. When this differs from the creator it is a <b>lead</b>, and nothing more.<span class="ar">الحساب الذي <b>حفظه آخر مرة</b>. و اختلافه عن المؤلف <b>خيط</b>، و لا شيء أكثر.</span></td></tr>
+    <tr><td><code>cp:revision</code><span class="ar">حقل رقم المراجعة</span></td><td>how many save cycles Office counted. Useful for <i>this was worked on</i>, useless for <i>by whom</i>.<span class="ar">عدد دورات الحفظ التي أحصاها Office. مفيد لإثبات <i>أن العمل جرى عليه</i>، عديم الفائدة في <i>مَن</i>.</span></td></tr>
+    <tr><td><code>dcterms:created</code> / <code>modified</code><span class="ar">حقلا الإنشاء و التعديل</span></td><td>two dates <b>inside the document</b> &mdash; independent of the file system, and both editable text.<span class="ar">تاريخان <b>داخل المستند</b> — مستقلان عن نظام الملفات، و كلاهما نصّ قابل للتعديل.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">All of it is text in a ZIP</span>
+  <p>Every field above can be changed with a text editor and a re-zip. They are <b>useful because they are usually true</b>, not because they are protected &mdash; and a report should say which of the two it is relying on.
+    <span class="ar">كل حقل مما سبق يمكن تغييره بمحرِّر نصوص و إعادة ضغط. فهي <b>مفيدة لأنها صادقة في الغالب</b>، لا لأنها محميّة — و ينبغي للتقرير أن يذكر على أيٍّ من الاثنين يعتمد.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p8">
+<span class="kicker">T11 &middot; Theory &middot; the sentence this half turns on</span>
+<h2>What a macro proves
+  <span class="ar">ما الذي يُثبته وجود الـ macro</span></h2>
+<p>Finding <code>word/vbaProject.bin</code> in a document is a real finding. It is also a <b>much narrower</b> finding than almost everyone writes.
+  <span class="ar">العثور على <code>word/vbaProject.bin</code> داخل مستند finding حقيقي. و هو أيضًا finding <b>أضيق بكثير</b> مما يكتبه الجميع تقريبًا.</span></p>
+<div class="finding">
+  <span class="cl-label">What it proves</span>
+  <p><b>Code is present in the file.</b> That is the whole of it, and it is worth stating precisely because it is reproducible: the part is either in the container or it is not.
+    <span class="ar"><b>أن كودًا موجود في الملف.</b> هذا كل ما فيه، و يستحق الصياغة الدقيقة لأنه قابل لإعادة الإنتاج: فالجزء إمّا في الـ container و إمّا ليس فيها.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">The four things it does not prove</span>
+  <p><b>#1</b> That the macro <b>ran</b>. <b>#2</b> That macros were <b>enabled</b> on the host. <b>#3</b> That the user clicked <b>Enable Content</b>. <b>#4</b> That the code is <b>hostile</b> &mdash; legitimate business documents carry macros every day.
+    <span class="ar"><b>١</b> أن الـ macro <b>عمل</b>. <b>٢</b> أن الـ macros كانت <b>مفعَّلة</b> على الجهاز. <b>٣</b> أن المستخدم ضغط <b>Enable Content</b>. <b>٤</b> أن الكود <b>خبيث</b> — فالمستندات المهنية المشروعة تحمل macros كل يوم.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">And the reverse fails too</span>
+  <p>The <b>absence</b> of a macro does not make a document harmless. The second delivery path needs no macro at all: a crafted file that exploits a vulnerability in the application that opens it. <b>&ldquo;No macro found&rdquo; is not &ldquo;not malicious&rdquo;.</b>
+    <span class="ar">و <b>غياب</b> الـ macro لا يجعل المستند سليمًا. فمسار التسليم الثاني لا يحتاج macro إطلاقًا: ملف مُعَدّ يستغل ثغرة في التطبيق الذي يفتحه. <b>فـ«لم يُعثر على macro» ليست «غير خبيث».</b></span></p>
+</div>
+<div class="interpretation">
+  <span class="cl-label">The report sentence</span>
+  <p><i>&ldquo;The document contains a VBA project at <code>word/vbaProject.bin</code>. No evidence in this file establishes whether it was executed.&rdquo;</i> Two sentences, both reproducible, and the second one is the reason the first will survive.
+    <span class="ar"><i>«يحتوي المستند على مشروع VBA في <code>word/vbaProject.bin</code>. و لا يوجد في هذا الملف ما يُثبت ما إذا كان قد نُفِّذ.»</i> جملتان، كلتاهما قابلة لإعادة الإنتاج، و الثانية هي سبب صمود الأولى.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p9">
+<span class="kicker">T11 &middot; Tool currency</span>
+<h2>The tools the courseware does not name
+  <span class="ar">الأدوات التي لا يذكرها ماتريال الكورس</span></h2>
+<p>Our courseware teaches document structure at <b>hex level only</b>. That is good for understanding and slow for triage. The tools an analyst actually uses are not in it.
+  <span class="ar">يعلّم ماتريال الكورس بنية المستندات <b>على مستوى الـ hex فقط</b>. و هذا جيد للفهم، بطيء للفرز. أما الأدوات التي يستخدمها المحلل فعلاً فليست فيه.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Tool</th><th>What it answers in one command</th></tr></thead>
+  <tbody>
+    <tr><td><code>oleid</code></td><td>is this OLE or OOXML, does it contain VBA, are there embedded objects, is it encrypted<span class="ar">هل هذا OLE أم OOXML، و هل يحتوي VBA، و هل فيه كائنات مضمَّنة، و هل هو مشفَّر</span></td></tr>
+    <tr><td><code>olevba</code></td><td>extracts VBA source and flags auto-execute entry points &mdash; <b>reading the code, not running it</b><span class="ar">يستخرج شفرة VBA و يشير إلى نقاط التشغيل التلقائي — <b>قراءةً للكود لا تشغيلاً له</b></span></td></tr>
+    <tr><td><code>oledump.py</code></td><td>lists every stream in an OLE container with its size, so an oversized stream stands out<span class="ar">يسرد كل stream في container OLE بحجمه، فيبرز أي stream أكبر من المتوقَّع</span></td></tr>
+    <tr><td><code>unzip -l</code></td><td>the whole OOXML question, with a tool that is already on every machine<span class="ar">سؤال OOXML كله، بأداة موجودة أصلاً على كل جهاز</span></td></tr>
+  </tbody>
+</table></div>
+<div class="interpretation">
+  <span class="cl-label">Read this as the `P04` rule again</span>
+  <p>Assessed with <b>high</b> confidence that a course teaching structure will outlive a course teaching commands. The hex-level lesson from our courseware is <b>still exactly right</b>; it is the tool list that aged. <b>Learn the structure, then pick this year&rsquo;s tool for it.</b>
+    <span class="ar">أُقدّر بثقة <b>عالية</b> أن الدرس الذي يعلّم البنية يعمّر أطول من الدرس الذي يعلّم الأوامر. فدرس مستوى الـ hex في ماتريال الكورس <b>ما زال صحيحًا تمامًا</b>، و الذي تقادم هو قائمة الأدوات. <b>تعلّم البنية، ثم اختر لها أداة هذا العام.</b></span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p10">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 2</span>
+  <h2>What an executable declares<span class="ar">ما يُعلنه الملف التنفيذي</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">A PE announces its architecture, its build time, its sections and every operating-system function it intends to call &mdash; all before a single instruction runs.<span class="ar">يُعلن ملف الـ PE معماريته، و وقت بنائه، و أقسامه، و كل دالة في نظام التشغيل ينوي استدعاءها — و ذلك كله قبل تنفيذ أي تعليمة واحدة.</span></p>
+  <p class="divider-meta">6 screens &middot; about 25 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T11 &middot; Theory &middot; measured</span>
+<h2>From MZ to the real header
+  <span class="ar">من MZ إلى الـ header الحقيقي</span></h2>
+<p>Every Windows executable begins <code>4D 5A</code>. Those two bytes are a <b>1980s DOS header</b> that no modern system uses &mdash; the real header is somewhere else, and the file tells you where.
+  <span class="ar">يبدأ كل ملف تنفيذي في Windows بـ<code>4D 5A</code>. و هذان الـ byte <b>header بصيغة DOS من الثمانينيات</b> لا يستخدمها أي نظام حديث — فالـ header الحقيقي في مكان آخر، و الملف نفسه يدلّك عليه.</span></p>
+<figure class="dgm" id="dg-p07-f3" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P07-F3</span><span class="dgm-tag">FOLLOW THE POINTER</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 240" role="img" aria-labelledby="t7f3">
+  <title id="t7f3">Walking from the first two bytes of a PE to its real header</title>
+  <text class="xs mut" x="14" y="24">_imagingmorph.cp312-win_amd64.pyd &#183; 12,288 BYTES</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="38" width="230" height="56" rx="6"/>
+    <text class="m sm" x="30" y="62">offset 0x00: 4D 5A</text>
+    <text class="xs mut" x="30" y="82">&#8220;MZ&#8221; &#8212; a 1980s DOS header</text>
+  </g>
+  <g data-step="2">
+    <path class="arw" d="M246 66 L282 66"/><path class="arw" d="M276 61 L282 66 L276 71"/>
+    <rect class="box warn" x="284" y="38" width="230" height="56" rx="6"/>
+    <text class="m sm" x="300" y="62">offset 0x3C: e_lfanew</text>
+    <text class="xs mut" x="300" y="82">a pointer. here: 0x110</text>
+  </g>
+  <g data-step="3">
+    <path class="arw" d="M516 66 L552 66"/><path class="arw" d="M546 61 L552 66 L546 71"/>
+    <rect class="box ok" x="554" y="38" width="204" height="56" rx="6"/>
+    <text class="m sm" x="570" y="62">0x110: 50 45 00 00</text>
+    <text class="xs mut" x="570" y="82">the real header</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="14" y="110" width="744" height="30" rx="5"/>
+    <text class="sm" x="30" y="131">The signature check reads MZ. The FILE reads the pointer.</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="152" width="744" height="30" rx="5"/>
+    <text class="sm" x="30" y="173">Two files can both start MZ and have their real headers anywhere.</text>
+  </g>
+  <text class="xs mut" x="14" y="212">Machine AMD64 &#183; 6 sections &#183; PE32+ &#183; ImageBase 0x180000000</text>
+  <text class="xs mut" x="14" y="230">TimeDateStamp 1782900552 &#8594; 2026-07-01 10:09:12 UTC</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">Measured from a published, benign binary</span>
+  <p>The file used throughout this page is <code>_imagingmorph.cp312-win_amd64.pyd</code> from <b>Pillow 12.3.0</b>, <b>12,288 bytes</b>. Its <code>e_lfanew</code> is <b>0x110</b>, and <code>50 45 00 00</code> sits at exactly that offset.
+    <span class="ar">الملف المستخدم في هذه الصفحة كلها هو <code>_imagingmorph.cp312-win_amd64.pyd</code> من <b>Pillow 12.3.0</b>، و حجمه <b>١٢٬٢٨٨ byte</b>. و قيمة <code>e_lfanew</code> فيه <b>0x110</b>، و <code>50 45 00 00</code> يقع عند تلك الإزاحة بالضبط.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p12">
+<span class="kicker">T11 &middot; Theory &middot; measured</span>
+<h2>The file header
+  <span class="ar">header الملف</span></h2>
+<p>Four fields, and each one answers a question you would otherwise guess at.
+  <span class="ar">أربعة حقول، و كلٌّ منها يجيب عن سؤال كنت ستخمّنه لولاه.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Field</th><th>This file, and what it tells you</th></tr></thead>
+  <tbody>
+    <tr><td><code>Machine</code><span class="ar">حقل المعمارية</span></td><td><b>0x8664 &mdash; AMD64.</b> The architecture it was built for. A 32-bit host cannot run it, which is sometimes the whole answer to <i>&ldquo;did this run here?&rdquo;</i><span class="ar"><b>0x8664 — أي AMD64.</b> المعمارية التي بُني لها. و لا يستطيع جهاز ٣٢-bit تشغيله، و هذه أحيانًا هي الإجابة كاملة عن سؤال <i>«هل عمل هذا هنا؟»</i></span></td></tr>
+    <tr><td><code>NumberOfSections</code><span class="ar">حقل عدد الأقسام</span></td><td><b>6.</b> Ordinary. A packer often collapses a binary to one or two, and an inflated count is its own kind of odd.<span class="ar"><b>٦.</b> عدد عادي. و الـ packer غالبًا ما يختصر الملف إلى قسم أو قسمين، و العدد المتضخّم غرابة من نوع آخر.</span></td></tr>
+    <tr><td><code>TimeDateStamp</code><span class="ar">حقل وقت البناء</span></td><td><b>1782900552 &rarr; 2026-07-01 10:09:12 UTC.</b> When the linker built it. <b>Trivially forged</b>, and famously set to a fixed 1997 value by some toolchains.<span class="ar"><b>1782900552 ← 2026-07-01 10:09:12 بتوقيت UTC.</b> وقت بناء الـ linker له. <b>يسهل تزويره</b>، و بعض أدوات البناء تضبطه على قيمة ثابتة من عام ١٩٩٧.</span></td></tr>
+    <tr><td><code>Characteristics</code><span class="ar">حقل الخصائص</span></td><td><b>0x2022</b>, with the DLL bit set &mdash; so this is a library, not a program. It cannot be double-clicked.<span class="ar"><b>0x2022</b>، و فيه bit الـ DLL مضبوط — أي أن هذا مكتبة لا برنامج. و لا يمكن تشغيله بالنقر المزدوج.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">The timestamp is the field most often over-read</span>
+  <p>It records what the <b>linker wrote</b>, not when the file arrived, was copied, or ran. It is <b>a claim inside the file</b> &mdash; the same class of thing as the EXIF <code>DateTime</code> in `T10`, and it fails the same way.
+    <span class="ar">يسجّل ما <b>كتبه الـ linker</b>، لا وقت وصول الملف أو نسخه أو تشغيله. فهو <b>ادّعاء داخل الملف</b> — من فئة حقل <code>DateTime</code> في الـ EXIF من `T10`، و يفشل بالطريقة نفسها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p13">
+<span class="kicker">T11 &middot; Theory</span>
+<h2>The optional header
+  <span class="ar">الـ optional header</span></h2>
+<p>Badly named &mdash; it is not optional for an executable. It carries the fields that decide <b>how the file becomes a running process</b>.
+  <span class="ar">اسمها مُضلِّل — فهي ليست اختيارية بالنسبة لملف تنفيذي. و هي تحمل الحقول التي تقرّر <b>كيف يصير الملف عمليةً تعمل</b>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Field</th><th>This file</th></tr></thead>
+  <tbody>
+    <tr><td><code>Magic</code><span class="ar">حقل Magic</span></td><td><b>0x020B</b> &mdash; PE32+, a 64-bit image<span class="ar"><b>0x020B</b> — أي PE32+، صورة ٦٤-bit</span></td></tr>
+    <tr><td><code>AddressOfEntryPoint</code><span class="ar">حقل نقطة البدء</span></td><td><b>0x00001B40</b> &mdash; where execution would begin<span class="ar"><b>0x00001B40</b> — حيث سيبدأ التنفيذ</span></td></tr>
+    <tr><td><code>ImageBase</code><span class="ar">حقل عنوان التحميل</span></td><td><b>0x180000000</b> &mdash; the standard base for a 64-bit DLL<span class="ar"><b>0x180000000</b> — العنوان القياسي لمكتبة ٦٤-bit</span></td></tr>
+    <tr><td><code>Subsystem</code><span class="ar">حقل النظام الفرعي</span></td><td><b>2</b> &mdash; Windows GUI, not a console program<span class="ar"><b>٢</b> — واجهة رسومية، لا برنامج طرفية</span></td></tr>
+    <tr><td><code>FileAlignment</code><span class="ar">حقل محاذاة الملف</span></td><td><b>0x200</b>, and section alignment <b>0x1000</b><span class="ar"><b>0x200</b>، و محاذاة الأقسام <b>0x1000</b></span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The one to notice on a triage pass</span>
+  <p><b><code>Subsystem</code>.</b> A file that claims to be a document viewer but declares itself a <b>console</b> subsystem, or an installer that declares GUI and has no resources, is <b>describing itself inconsistently</b> &mdash; and inconsistency is cheaper to spot than intent.
+    <span class="ar"><b>حقل <code>Subsystem</code>.</b> فالملف الذي يدّعي أنه عارض مستندات و يُعلن نفسه نظامًا فرعيًّا <b>طرفيًّا</b>، أو المثبِّت الذي يُعلن واجهة رسومية و لا موارد فيه، <b>يصف نفسه وصفًا متناقضًا</b> — و رصد التناقض أرخص من رصد النية.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T11 &middot; Theory &middot; measured</span>
+<h2>Sections, and what entropy is for
+  <span class="ar">الأقسام، و ما فائدة الـ entropy</span></h2>
+<p>A PE is divided into named sections, each with a size and a set of permissions. <b>Entropy</b> measures how unpredictable a section&rsquo;s bytes are &mdash; and its value is only useful if you know what <b>normal</b> reads.
+  <span class="ar">ينقسم ملف الـ PE إلى أقسام مسمّاة، لكلٍّ منها حجم و مجموعة صلاحيات. و يقيس <b>الـ entropy</b> مدى صعوبة توقُّع bytes القسم — و قيمته لا تفيد إلا إذا كنت تعرف قراءة <b>الطبيعي</b>.</span></p>
+<figure class="dgm" id="dg-p07-f4" data-mode="loop" data-reveal="upto" data-interval="5600">
+  <div class="dgm-head"><span class="dgm-id">FIG P07-F4</span><span class="dgm-tag">MEASURED SCALE</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 320" role="img" aria-labelledby="t7f4">
+  <title id="t7f4">A measured entropy scale from zero to eight</title>
+  <text class="xs mut" x="14" y="26">SHANNON ENTROPY &#183; 0 TO 8 &#183; ALL MEASURED</text>
+  <g data-step="1">
+    <rect class="box no" x="14" y="42" width="42" height="28" rx="4"/>
+    <text class="sm" x="26" y="61">0.00</text>
+    <text class="xs mut" x="590" y="61">a run of zeroes</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="78" width="61" height="28" rx="4"/>
+    <text class="sm" x="26" y="97">0.88</text>
+    <text class="xs mut" x="590" y="97">.reloc of this PE</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="114" width="79" height="28" rx="4"/>
+    <text class="sm" x="26" y="133">1.14</text>
+    <text class="xs mut" x="590" y="133">.data of this PE</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="150" width="355" height="28" rx="4"/>
+    <text class="sm" x="26" y="169">5.08</text>
+    <text class="xs mut" x="590" y="169">this PE, whole file</text>
+  </g>
+  <g data-step="5">
+    <rect class="box ok" x="14" y="186" width="419" height="28" rx="4"/>
+    <text class="sm" x="26" y="205">5.99</text>
+    <text class="xs mut" x="590" y="205">.text &#8212; real code</text>
+  </g>
+  <g data-step="5">
+    <rect class="box warn" x="14" y="222" width="557" height="28" rx="4"/>
+    <text class="sm" x="26" y="241">7.96</text>
+    <text class="xs mut" x="590" y="241">the same PE, compressed</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="258" width="556" height="28" rx="4"/>
+    <text class="sm" x="26" y="277">7.95</text>
+    <text class="xs mut" x="590" y="277">random bytes</text>
+  </g>
+  <text class="xs mut" x="14" y="304">Compressed 7.96 and random 7.95. Entropy cannot tell them apart.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">What a high entropy value establishes</span>
+  <p>That the region is <b>compressed, encrypted, or random</b>. Measured here: compressed reads <b>7.96</b> and random reads <b>7.95</b> &mdash; <b>entropy cannot distinguish them</b>, and it certainly cannot distinguish either from malice. Installers, media and legitimate protected software all read high.
+    <span class="ar">أن المنطقة <b>مضغوطة أو مشفَّرة أو عشوائية</b>. و القياس هنا: المضغوط <b>٧٫٩٦</b> و العشوائي <b>٧٫٩٥</b> — <b>فالـ entropy لا يفرّق بينهما</b>، و لا يفرّق بالتأكيد بين أيٍّ منهما و بين سوء النية. فالمثبِّتات و ملفات الوسائط و البرامج المحمية المشروعة كلها تقرأ عاليًا.</span></p>
+</div>
+<div class="finding">
+  <span class="cl-label">So what it is actually for</span>
+  <p><b>Triage.</b> It is a cheap way to sort a thousand files into <i>ordinary</i> and <i>look at this one</i>. That is a real and useful job. It is <b>a reason to look, never a finding you write down</b>.
+    <span class="ar"><b>الفرز.</b> فهو طريقة رخيصة لتقسيم ألف ملف إلى <i>عادي</i> و <i>انظر إلى هذا</i>. و هذه وظيفة حقيقية و مفيدة. لكنه <b>سبب للنظر، لا finding تكتبه</b>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">T11 &middot; Theory &middot; measured</span>
+<h2>Imports are a capability list
+  <span class="ar">جدول الـ imports قائمة قدرات</span></h2>
+<p>A PE declares, in the file, every operating-system function it intends to call. Reading that list tells you <b>what the file is able to do</b> &mdash; before it does anything.
+  <span class="ar">يُعلن ملف الـ PE، داخل الملف نفسه، كل دالة في نظام التشغيل ينوي استدعاءها. و قراءة تلك القائمة تخبرك <b>بما يستطيع الملف فعله</b> — قبل أن يفعل أي شيء.</span></p>
+<figure class="dgm" id="dg-p07-f5" data-mode="loop" data-reveal="upto" data-interval="5200">
+  <div class="dgm-head"><span class="dgm-id">FIG P07-F5</span><span class="dgm-tag">CAPABILITY LIST</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 268" role="img" aria-labelledby="t7f5">
+  <title id="t7f5">The import table of a benign PE, and what it declares</title>
+  <text class="xs mut" x="14" y="26">WHAT THIS FILE ASKS THE OPERATING SYSTEM FOR</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="46" width="270" height="40" rx="5"/>
+    <text class="m sm" x="28" y="72">python312.dll</text>
+    <text class="xs mut" x="300" y="72">12 functions</text>
+    <text class="sm" x="400" y="72">talk to the Python runtime</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="96" width="270" height="40" rx="5"/>
+    <text class="m sm" x="28" y="122">KERNEL32.dll</text>
+    <text class="xs mut" x="300" y="122">6 functions</text>
+    <text class="sm" x="400" y="122">timers, process id, module hooks</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="146" width="270" height="40" rx="5"/>
+    <text class="m sm" x="28" y="172">VCRUNTIME140.dll</text>
+    <text class="xs mut" x="300" y="172">4 functions</text>
+    <text class="sm" x="400" y="172">memcpy, memset, exception plumbing</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="196" width="270" height="40" rx="5"/>
+    <text class="m sm" x="28" y="222">api-ms-win-crt-...</text>
+    <text class="xs mut" x="300" y="222">8 functions</text>
+    <text class="sm" x="400" y="222">C runtime start-up and exit</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="240" width="744" height="24" rx="4"/>
+    <text class="xs" x="28" y="257">No network. No registry. No process creation. That is the finding.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">What the absence says</span>
+  <p>This binary imports <b>30 functions across four libraries</b>, and <b>none</b> of them opens a socket, writes to the registry, creates a process or enumerates a directory. <b>That is a statement about capability, and it is reproducible from the file.</b>
+    <span class="ar">يستورد هذا الملف <b>٣٠ دالة من أربع مكتبات</b>، و <b>لا واحدة</b> منها تفتح socket أو تكتب في الـ registry أو تُنشئ عملية أو تُعدّد مجلدًا. <b>و هذه عبارة عن القدرة، و هي قابلة لإعادة الإنتاج من الملف.</b></span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">And the trap on the other side</span>
+  <p>A binary that imports <b>only two or three functions</b> is not simple &mdash; it is usually <b>packed</b>, and it will resolve everything else at run time where a static reader cannot see it. <b>A short import table is a louder signal than a long one.</b>
+    <span class="ar">أما الملف الذي يستورد <b>دالتين أو ثلاثًا فقط</b> فليس بسيطًا — بل غالبًا <b>محزوم</b>، و سيستدعي كل ما عداها وقت التشغيل حيث لا يراها القارئ الساكن. <b>فجدول الـ imports القصير إشارة أقوى من الطويل.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p16">
+<span class="kicker">T11 &middot; Theory</span>
+<h2>What strings prove
+  <span class="ar">ما تُثبته الـ strings</span></h2>
+<p>Running <code>strings</code> over a binary is the cheapest check there is, and the most over-read. It returns <b>every printable run of bytes</b> &mdash; which is not the same as every message the program has.
+  <span class="ar">تشغيل <code>strings</code> على ملف ثنائي أرخص فحص موجود، و أكثرها تحميلاً فوق طاقته. فهو يُعيد <b>كل تتابع bytes قابل للطباعة</b> — و هذا ليس كل رسالة في البرنامج.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>What a string is</th><th>What it is not</th></tr></thead>
+  <tbody>
+    <tr><td>a byte sequence that <b>happens to be printable</b><span class="ar">تتابع bytes <b>يصادف أنه قابل للطباعة</b></span></td><td>proof the program uses it &mdash; compilers leave dead data behind<span class="ar">دليلاً على استخدام البرنامج له — فالمترجمات تترك بيانات ميتة</span></td></tr>
+    <tr><td>sometimes a URL, a path, a registry key<span class="ar">أحيانًا رابط أو مسار أو مفتاح registry</span></td><td>proof it was contacted or written &mdash; that needs `T21` or `T18`<span class="ar">دليلاً على الاتصال به أو كتابته — و ذلك يحتاج `T21` أو `T18`</span></td></tr>
+    <tr><td>a fast way to find a lead<span class="ar">طريقة سريعة للعثور على خيط</span></td><td>a way to establish absence &mdash; a packed binary has almost none<span class="ar">طريقة لإثبات الغياب — فالملف المحزوم يكاد لا يحوي شيئًا منها</span></td></tr>
+  </tbody>
+</table></div>
+<div class="interpretation">
+  <span class="cl-label">How a strings result is written honestly</span>
+  <p><i>&ldquo;The file contains the printable sequence <code>http://&lt;host&gt;/update</code> at offset 0x2A40.&rdquo;</i> That is a finding. <i>&ldquo;The malware contacts &lt;host&gt;&rdquo;</i> is an interpretation that <b>this file cannot support</b> &mdash; contact is proved by network or host evidence, not by a byte sequence.
+    <span class="ar"><i>«يحتوي الملف على التتابع القابل للطباعة <code>http://&lt;host&gt;/update</code> عند الإزاحة 0x2A40.»</i> هذه finding. أما <i>«البرمجية الخبيثة تتصل بـ&lt;host&gt;»</i> فتفسير <b>لا يحتمله هذا الملف</b> — إذ يُثبَت الاتصال بدليل شبكي أو دليل من الجهاز، لا بتتابع bytes.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p17">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>One document and one binary, without running either<span class="ar">المعمل — مستند و ملف ثنائي، دون تشغيل أيٍّ منهما</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Six commands. Every one of them reads. None of them executes, and none of them needs to.<span class="ar">ستة أوامر. كلها تقرأ، و لا واحد منها ينفّذ، و لا واحد منها يحتاج إلى ذلك.</span></p>
+  <p class="divider-meta">1 screen &middot; the instructor drives</p>
+</div>
+    </section>
+
+<section class="page" id="p18">
+<span class="kicker">T11 &middot; Instructor demo</span>
+<h2>Lab &mdash; taking both apart
+  <span class="ar">المعمل — تفكيك الاثنين</span></h2>
+<p>The document first, then the binary. The two halves use the same discipline: <b>read the container, list what is in it, and never hand the file to the thing that would run it</b>.
+  <span class="ar">المستند أولاً، ثم الملف الثنائي. و النصفان يستخدمان الانضباط نفسه: <b>اقرأ الـ container، و اسرد ما فيها، و لا تسلّم الملف أبدًا إلى ما قد يشغّله</b>.</span></p>
+<div class="simscreen" id="ss-t11" data-title="SIMSCREEN T11-1 &middot; ONE DOCUMENT AND ONE BINARY, WITHOUT RUNNING EITHER" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="t1Doc" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@triage</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># a Word document, and not one byte of it opened in Word</span>
+
+<span class="p">analyst@triage:~$</span> <span class="k">file handover_notes.docx</span>
+  Microsoft Word 2007+
+
+<span class="p">analyst@triage:~$</span> <span class="k">xxd -l 4 handover_notes.docx</span>
+  <span id="h1"><span class="w">50 4B 03 04</span>   <span class="d"># PK.. — a ZIP. So is a JAR. So is an APK.</span></span>
+
+<span class="d"># "some ZIP" is the whole of what four bytes can tell you here.</span></div>
+  </div>
+
+  <div class="wu" id="t1Parts" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@triage</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">analyst@triage:~$</span> <span class="k">unzip -l handover_notes.docx</span>
+
+   674  [Content_Types].xml
+   593  _rels/.rels
+   257  word/document.xml        <span class="d"># the visible text</span>
+   688  docProps/core.xml
+   337  docProps/app.xml
+  ----  -------
+<span id="h2">  2549  5 files                  <span class="d"># no vbaProject.bin -> no macro</span></span>
+
+<span class="d"># listing the parts answers "is there code in here" without running anything.</span></div>
+  </div>
+
+  <div class="wu" id="t1Props" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@triage</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">analyst@triage:~$</span> <span class="k">unzip -p handover_notes.docx docProps/core.xml</span>
+
+  <dc:creator><span class="w">l.bennett</span></dc:creator>
+  <span id="h3"><cp:lastModifiedBy><span class="e">WKSTN-ADMIN</span></cp:lastModifiedBy></span>
+  <cp:revision>7</cp:revision>
+  <dcterms:created>2026-08-19T08:41:00Z</dcterms:created>
+  <dcterms:modified>2026-08-31T16:12:00Z</dcterms:modified>
+
+<span class="d"># author and last-modified-by are two different names. That is a lead, not a conclusion.</span></div>
+  </div>
+
+  <div class="wu" id="t1Mz" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@triage</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># now the binary. same discipline: read structure, run nothing.</span>
+
+<span class="p">analyst@triage:~$</span> <span class="k">xxd -l 2 _imagingmorph.pyd</span>
+  <span class="w">4D 5A</span>   <span class="d"># "MZ"</span>
+
+<span class="p">analyst@triage:~$</span> <span class="k">python3 -c "import pefile;p=pefile.PE(f);print(hex(p.DOS_HEADER.e_lfanew))"</span>
+  <span id="h4"><span class="w">0x110</span>   <span class="d"># a POINTER to the real header</span></span>
+
+<span class="p">analyst@triage:~$</span> <span class="k">xxd -s 0x110 -l 4 _imagingmorph.pyd</span>
+  <span class="w">50 45 00 00</span>   <span class="d"># "PE\0\0". Everything useful starts here.</span></div>
+  </div>
+
+  <div class="wu" id="t1Sect" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@triage</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">analyst@triage:~$</span> <span class="k">python3 sections.py _imagingmorph.pyd</span>
+
+  name      virt    raw   entropy
+  .text     5400   5632   <span class="k">5.99</span>   <span class="d"># normal compiled code</span>
+  .rdata    3436   3584   4.20
+  .data      528    512   1.14
+  .pdata     456    512   3.42
+  .rsrc      248    512   2.51
+<span id="h5">  .reloc      68    512   <span class="k">0.88</span>   <span class="d"># structured, repetitive</span></span>
+
+<span class="d"># nothing here is above 6. A packed binary would show a section near 8.</span></div>
+  </div>
+
+  <div class="wu" id="t1Imp" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@triage</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">analyst@triage:~$</span> <span class="k">python3 imports.py _imagingmorph.pyd</span>
+
+  python312.dll        12   PyErr_SetString, _Py_Dealloc, ...
+  KERNEL32.dll          6   GetCurrentProcessId, QueryPerformanceCounter
+  VCRUNTIME140.dll      4   memcpy, memset
+  api-ms-win-crt-...    8   _cexit, _initialize_onexit_table
+
+<span id="h6"><span class="d"># absent: sockets, registry writes, CreateProcess, file enumeration.</span></span>
+<span class="d"># the absence is as readable as the presence, and it is the finding.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="finding">
+  <span class="cl-label">What the lab established, all of it reproducible</span>
+  <p>The document is a ZIP of <b>five parts</b> with <b>no <code>vbaProject.bin</code></b>, whose creator and last editor are different accounts. The binary is a <b>64-bit DLL</b> built <b>2026-07-01</b>, <b>six sections</b> with a maximum entropy of <b>5.99</b>, importing <b>30 functions</b> and reaching no network, registry or process API.
+    <span class="ar">المستند أرشيف ZIP من <b>خمسة أجزاء</b>، <b>بلا <code>vbaProject.bin</code></b>، و مؤلفه و آخر محرِّر له حسابان مختلفان. و الملف الثنائي <b>مكتبة ٦٤-bit</b> بُنيت في <b>2026-07-01</b>، فيها <b>ستة أقسام</b> أعلى entropy فيها <b>٥٫٩٩</b>، و تستورد <b>٣٠ دالة</b>، و لا تصل إلى شبكة أو registry أو واجهة عمليات.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p19">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>Two exercises with no sample at all<span class="ar">تمرينان بلا عيّنة إطلاقًا</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Both are done on paper. If you can only reason about a file with the file in front of you, you cannot review somebody else&rsquo;s report &mdash; and reviewing is most of the job.<span class="ar">كلاهما يُحلّ على الورق. فإن كنت لا تستطيع التفكير في ملف إلا و هو أمامك، فلن تستطيع مراجعة تقرير غيرك — و المراجعة هي معظم العمل.</span></p>
+  <p class="divider-meta">2 screens &middot; 20 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p20">
+<span class="kicker">T11 &middot; On your own &middot; 10 min</span>
+<h2>Exercise &mdash; five claims about a document
+  <span class="ar">تمرين — خمسة ادّعاءات عن مستند</span></h2>
+<p>An analyst hands you a triage note about <code>invoice_aug.docm</code>. For each line: <b>supported, over-claimed, or needs a different evidence source?</b>
+  <span class="ar">يسلّمك محلل ملاحظة فرز عن <code>invoice_aug.docm</code>. لكل سطر حدّد: <b>مدعوم، أم مبالَغ فيه، أم يحتاج مصدر دليل آخر؟</b></span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>The line in the triage note</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>The file is a ZIP archive containing <code>word/vbaProject.bin</code>.<span class="ar">الملف أرشيف ZIP يحتوي على <code>word/vbaProject.bin</code>.</span></td></tr>
+    <tr><td>2</td><td>The document contains a malicious macro.<span class="ar">يحتوي المستند على macro خبيث.</span></td></tr>
+    <tr><td>3</td><td>The macro executed on the workstation.<span class="ar">نُفِّذ الـ macro على الجهاز.</span></td></tr>
+    <tr><td>4</td><td><code>docProps/core.xml</code> gives <code>lastModifiedBy</code> as <code>WKSTN-ADMIN</code>.<span class="ar">يعطي <code>docProps/core.xml</code> قيمة <code>lastModifiedBy</code> بأنها <code>WKSTN-ADMIN</code>.</span></td></tr>
+    <tr><td>5</td><td>The document was created by the administrator account.<span class="ar">أنشأ حسابُ المسؤول هذا المستند.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The pattern across all five</span>
+  <p>Lines <b>1</b> and <b>4</b> are structure &mdash; another examiner unzips the file and sees the same thing. Lines <b>2</b>, <b>3</b> and <b>5</b> each add a word the container cannot carry: <i>malicious</i>, <i>executed</i>, <i>created by</i>. <b>Every over-claim on this page is one adjective past the evidence.</b>
+    <span class="ar">السطران <b>١</b> و <b>٤</b> بنية — يفكّ فاحص آخر ضغط الملف فيرى الشيء نفسه. أما السطور <b>٢</b> و <b>٣</b> و <b>٥</b> فيضيف كلٌّ منها كلمة لا تحتملها الـ container: <i>خبيث</i>، و <i>نُفِّذ</i>، و <i>أنشأه</i>. <b>فكل مبالغة على هذه الصفحة صفةٌ واحدة بعد حدّ الدليل.</b></span></p>
+</div>
+<div class="note">
+  <p>Line 3 is the one to argue about in class. <b>What evidence would settle it?</b> Prefetch (`T18`), process creation events (`T20`), or the memory image from `P04` &mdash; and none of them is the document.
+    <span class="ar">السطر الثالث هو ما يستحق النقاش في القاعة. <b>أي دليل يحسمه؟</b> الـ prefetch في `T18`، أو أحداث إنشاء العمليات في `T20`، أو الـ memory image من `P04` — و لا واحد منها هو المستند.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p21">
+<span class="kicker">T11 &middot; On your own &middot; 10 min</span>
+<h2>Exercise &mdash; read an import table
+  <span class="ar">تمرين — اقرأ جدول imports</span></h2>
+<p>You have no sample. You have a list. For each binary: <b>what is it able to do, and what would you look at next?</b>
+  <span class="ar">ليست معك عيّنة، بل قائمة. لكل ملف ثنائي: <b>ما الذي يستطيع فعله، و ما الذي ستنظر فيه بعده؟</b></span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Binary</th><th>Its import table</th></tr></thead>
+  <tbody>
+    <tr><td><b>A</b><span class="ar">الملف <b>أ</b></span></td><td><code>KERNEL32</code> 41 &middot; <code>USER32</code> 18 &middot; <code>GDI32</code> 22 &middot; <code>COMCTL32</code> 9<span class="ar">أربع مكتبات بأعداد كبيرة من الدوال</span></td></tr>
+    <tr><td><b>B</b><span class="ar">الملف <b>ب</b></span></td><td><code>KERNEL32</code> <b>2</b> &mdash; <code>LoadLibraryA</code>, <code>GetProcAddress</code><span class="ar">مكتبة واحدة و <b>دالتان</b> فقط</span></td></tr>
+    <tr><td><b>C</b><span class="ar">الملف <b>ج</b></span></td><td><code>KERNEL32</code> 12 &middot; <code>WS2_32</code> 7 &middot; <code>ADVAPI32</code> 5 &middot; <code>WININET</code> 6<span class="ar">أربع مكتبات، منها مكتبتا شبكة و مكتبة registry</span></td></tr>
+  </tbody>
+</table></div>
+<div class="interpretation">
+  <span class="cl-label">The three answers</span>
+  <p><b>A</b> is a GUI application &mdash; windows, drawing, common controls. Ordinary. <b>B</b> imports the two functions used to resolve everything else <b>at run time</b>: this is the shape of a <b>packed</b> binary, and the static import table is deliberately empty. <b>C</b> declares <b>network</b> (<code>WS2_32</code>, <code>WININET</code>) and <b>registry or service</b> capability (<code>ADVAPI32</code>) &mdash; which is a <b>capability finding</b>, and still not a verdict.
+    <span class="ar"><b>أ</b> تطبيق بواجهة رسومية — نوافذ و رسم و عناصر تحكم. عادي. <b>ب</b> يستورد الدالتين المستخدمتين لاستدعاء كل شيء آخر <b>وقت التشغيل</b>: و هذا شكل ملف <b>محزوم</b>، و جدول الـ imports الساكن فارغ عمدًا. <b>ج</b> يُعلن قدرة <b>شبكية</b> (<code>WS2_32</code> و <code>WININET</code>) و قدرة على <b>الـ registry أو الخدمات</b> (<code>ADVAPI32</code>) — و هذه <b>finding عن القدرة</b>، و ليست حكمًا بعد.</span></p>
+</div>
+<div class="note">
+  <p>Notice that <b>B</b> is the one that says the most while importing the least. <b>An empty import table is not an absence of capability; it is a statement about when the capability gets resolved.</b>
+    <span class="ar">لاحظ أن <b>ب</b> هو الذي يقول أكثر شيء بأقل استيراد. <b>فجدول الـ imports الفارغ ليس غيابًا للقدرة، بل عبارة عن توقيت استدعاء تلك القدرة.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check
+  <span class="ar">اختبار سريع</span></h2>
+<div class="q mcq" data-correct="b">
+  <p class="qtext">A <code>.docm</code> is unzipped and <code>word/vbaProject.bin</code> is present. Which sentence can go in Section 8 as written?
+    <span class="ar">فُكّ ضغط ملف <code>.docm</code> فوُجد <code>word/vbaProject.bin</code>. فأي جملة يمكن وضعها في القسم الثامن كما هي؟</span></p>
+  <label><input type="radio" name="q1" value="a"> The document contains a malicious macro</label>
+  <label><input type="radio" name="q1" value="b"> The document contains a VBA project at <code>word/vbaProject.bin</code></label>
+  <label><input type="radio" name="q1" value="c"> The user enabled macros and the code ran</label>
+  <label><input type="radio" name="q1" value="d"> No conclusion can be drawn from the file</label>
+  <div class="feedback"><b>b.</b> The part is either in the container or it is not, and another examiner reproduces that with <code>unzip -l</code>. <b>a</b> adds <i>malicious</i>, <b>c</b> adds <i>ran</i> &mdash; neither is in the file. And <b>d</b> is the opposite error: <b>the presence of code is a real finding</b>, and refusing to state it is as wrong as over-stating it.
+    <span class="ar"><b>ب.</b> الجزء إمّا في الـ container و إمّا ليس فيها، و يُعيد فاحص آخر إنتاج ذلك بأمر <code>unzip -l</code>. أما <b>أ</b> فتضيف <i>خبيث</i>، و <b>ج</b> تضيف <i>عمل</i> — و لا واحدة منهما في الملف. و <b>د</b> هي الخطأ المعاكس: <b>فوجود الكود finding حقيقي</b>، و الامتناع عن تقريره خطأ كالمبالغة فيه تمامًا.</span></div>
+</div>
+    </section>
+
+<section class="page divider" id="p23">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The document families, the PE layout, and the one rule that governs all of it &mdash; every over-claim is one adjective past the evidence.<span class="ar">عائلتا المستندات، و بنية الـ PE، و القاعدة الحاكمة كلها — كل ادّعاء زائد صفة واحدة بعد الدليل.</span></p>
+  <p class="divider-meta">1 screen &middot; print it</p>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet &mdash; documents, PEs, and the one rule
+  <span class="ar">ورقة المراجعة — المستندات و الـ PE و القاعدة الواحدة</span></h2>
+<p>The page condensed to what you read off a file without running it.
+  <span class="ar">الصفحة مختصرة فيما تقرؤه من ملف دون تشغيله.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b>Two document families</b> &mdash; legacy OLE (<code>.doc</code>/<code>.xls</code>) &middot; OOXML (<code>.docx</code>/<code>.xlsx</code>), which is a ZIP of XML parts.<span class="ar">عائلتان: OLE القديمة و OOXML الحديثة، و الثانية ZIP من أجزاء XML.</span></li>
+    <li><b>A <code>.docx</code> is a ZIP.</b> <code>unzip -l</code> lists its parts; <code>word/vbaProject.bin</code> means a macro is present. Present is a finding; malicious is not.<span class="ar">الـ <code>.docx</code> عبارة عن ZIP. <code>unzip -l</code> يسرد أجزاءه، و <code>vbaProject.bin</code> يعني وجود macro. الوجود finding؛ أما &ldquo;خبيث&rdquo; فلا.</span></li>
+    <li><b>PE layout</b> &mdash; MZ header &rarr; <code>e_lfanew</code> &rarr; PE signature &rarr; optional header &rarr; section table.<span class="ar">بنية الـ PE: MZ header ← <code>e_lfanew</code> ← PE signature ← optional header ← جدول الـ sections.</span></li>
+    <li><b>Entropy is a reason to look, never a finding.</b> <code>.text</code> ~5&ndash;6 &middot; packed or encrypted ~8 &mdash; but compressed and random both read ~8.<span class="ar">الـ entropy سبب للنظر لا finding: <code>.text</code> ~5&ndash;6، و المضغوط أو المشفّر ~8 — و المضغوط و العشوائي يقرآن ~8 معًا.</span></li>
+    <li><b>Imports are a capability list</b> &mdash; what the binary CAN call, not what it did. Socket, registry and process APIs are candidates, not acts.<span class="ar">الـ imports قائمة قدرات — ما يستطيع الملف استدعاءه، لا ما فعله. دوال الشبكة و الـ registry و العمليات مرشّحات لا أفعال.</span></li>
+    <li><b>Strings are candidates, not proof.</b> A URL in a binary is a string; that it was contacted needs other evidence.<span class="ar">الـ strings مرشّحات لا إثبات. الـ URL داخل ملف مجرد نص؛ و أن يكون اتُّصل به يحتاج دليلاً آخر.</span></li>
+    <li><b>Every over-claim is one adjective past the evidence.</b> &ldquo;<code>vbaProject.bin</code> present&rdquo; is reproducible; &ldquo;contains a malicious macro&rdquo; is not.<span class="ar">كل ادّعاء زائد صفة واحدة بعد الدليل. &ldquo;<code>vbaProject.bin</code> موجود&rdquo; قابل للتكرار؛ &ldquo;يحوي macro خبيثًا&rdquo; لا.</span></li>
+  </ul>
+  <p><button class="btn" type="button" onclick="window.print()">&#128424; Print the cheat sheet</button></p>
+</div>
+    </section>
+
+<section class="page divider" id="p25">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Handed in before P08<span class="ar">يُسلَّم قبل P08</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Your homework, then the report stage: this page produces findings of one kind &mdash; this byte, at this offset, means this &mdash; and writing them is mostly resisting one extra word.<span class="ar">واجبك، ثم مرحلة التقرير: تُنتج الصفحة findings من نوع واحد — هذا الـ byte عند هذه الإزاحة معناه كذا — و كتابتها في معظمها مقاومة لكلمة واحدة زائدة.</span></p>
+  <p class="divider-meta">2 screens &middot; the report advances</p>
+</div>
+    </section>
+
+<section class="page" id="p26">
+<span class="kicker">Task &middot; handed in before P08</span>
+<h2>Task &mdash; read structure, write the finding
+  <span class="ar">الـ task — اقرأ البنية، و اكتب الـ finding</span></h2>
+<p>Three items, all on files you already have. <b>Nothing to download and nothing to run.</b>
+  <span class="ar">ثلاثة بنود، كلها على ملفات لديك بالفعل. <b>لا شيء يُنزَّل و لا شيء يُشغَّل.</b></span></p>
+<div id="taskList" class="steps"></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Task</th><th>Deliverable</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Take any <code>.docx</code> on your machine, rename it to <code>.zip</code> and list it. Then read <code>docProps/core.xml</code>.<span class="ar">خذ أي ملف <code>.docx</code> على جهازك، و أعد تسميته إلى <code>.zip</code> و اسرد محتوياته. ثم اقرأ <code>docProps/core.xml</code>.</span></td><td>the part list and the properties</td></tr>
+    <tr><td>2</td><td>Run a PE parser over any <code>.dll</code> in <code>C:\Windows\System32</code>. Record machine, section count, subsystem, and the entropy of every section.<span class="ar">شغّل أداة تحليل PE على أي ملف <code>.dll</code> في <code>C:\Windows\System32</code>. و سجّل المعمارية و عدد الأقسام و النظام الفرعي و قيمة entropy لكل قسم.</span></td><td>one table</td></tr>
+    <tr><td>3</td><td>Write the Section 8 lines for what you found in item 2 &mdash; then write, underneath, the sentence you were <b>tempted</b> to write and could not support.<span class="ar">اكتب سطور القسم الثامن لما وجدته في البند الثاني — ثم اكتب تحتها الجملة التي <b>راودتك</b> و لم تستطع دعمها.</span></td><td>the lines, and the temptation</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>Item 3 is the assessment. <b>Everyone has that second sentence</b>, and the skill is noticing it before a reviewer does.
+    <span class="ar">البند الثالث هو التقييم. <b>فالجملة الثانية موجودة عند الجميع</b>، و المهارة أن تنتبه إليها قبل أن ينتبه إليها المراجع.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p27">
+<span class="kicker">T11 &middot; Report stage &middot; 5 min</span>
+<h2>Report &mdash; writing a structural finding
+  <span class="ar">التقرير — كتابة finding بنيوي</span></h2>
+<p>A structural finding has three parts and no adjectives: <b>the file</b>, <b>the location</b>, and <b>what is there</b>. Anything else belongs in Section 9 with a confidence attached.
+  <span class="ar">الـ finding البنيوي ثلاثة أجزاء بلا صفات: <b>الملف</b>، و <b>الموضع</b>، و <b>ما هو موجود</b>. و كل ما عدا ذلك مكانه القسم التاسع مقرونًا بدرجة ثقة.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Do not write</th><th>Write</th></tr></thead>
+  <tbody>
+    <tr><td>the document contains a malicious macro<span class="ar">macro خبيث</span></td><td>the document contains a VBA project at <code>word/vbaProject.bin</code><span class="ar">يحتوي المستند على مشروع VBA في <code>word/vbaProject.bin</code></span></td></tr>
+    <tr><td>the binary is packed<span class="ar">ملف محزوم</span></td><td>section <code>.text</code> has an entropy of 7.94 and the import table lists two functions<span class="ar">قسم <code>.text</code> قيمة entropy فيه ٧٫٩٤، و جدول الـ imports يسرد دالتين</span></td></tr>
+    <tr><td>the malware was compiled in July 2026<span class="ar">صُرِّفت في يوليو ٢٠٢٦</span></td><td>the <code>TimeDateStamp</code> field reads 2026-07-01 10:09:12 UTC<span class="ar">حقل <code>TimeDateStamp</code> يقرأ 2026-07-01 10:09:12 بتوقيت UTC</span></td></tr>
+    <tr><td>the program connects to <code>&lt;host&gt;</code><span class="ar">يتصل بـ<code>&lt;host&gt;</code></span></td><td>the file contains the printable sequence <code>http://&lt;host&gt;/…</code> at offset 0x2A40<span class="ar">يحتوي الملف على التتابع القابل للطباعة <code>http://&lt;host&gt;/…</code> عند الإزاحة 0x2A40</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The test, one line</span>
+  <p>If another examiner with the same file <b>could not produce your sentence with a command</b>, it is not a Section 8 finding. Move it to Section 9, give it a confidence, and name the alternative you considered.
+    <span class="ar">إن كان فاحص آخر معه الملف نفسه <b>لا يستطيع إنتاج جملتك بأمر</b>، فهي ليست finding في القسم الثامن. انقلها إلى القسم التاسع، و امنحها درجة ثقة، و اذكر البديل الذي نظرت فيه.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p28">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>You can state</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>whether a document contains code, without opening it<span class="ar">هل يحتوي المستند على كود، دون فتحه</span></td><td>OOXML is a ZIP, and a macro is one named part in it<span class="ar">الـ OOXML أرشيف ZIP، و الـ macro جزء مسمّى فيه</span></td></tr>
+    <tr><td>the four things a macro&rsquo;s presence does <b>not</b> prove<span class="ar">الأشياء الأربعة التي <b>لا</b> يُثبتها وجود macro</span></td><td>present is not enabled, is not clicked, is not run, is not hostile<span class="ar">الوجود ليس تفعيلاً و لا نقرًا و لا تشغيلاً و لا عداءً</span></td></tr>
+    <tr><td>where a PE&rsquo;s real header is, and what its fields say<span class="ar">أين الـ PE header الحقيقي، و ما تقوله حقولها</span></td><td><code>MZ</code>, then the pointer at 0x3C, then <code>PE\0\0</code><span class="ar">أولاً <code>MZ</code>، ثم المؤشّر عند 0x3C، ثم <code>PE\0\0</code></span></td></tr>
+    <tr><td>what an entropy of 7.9 does and does not mean<span class="ar">ما تعنيه قيمة entropy تبلغ ٧٫٩ و ما لا تعنيه</span></td><td>compressed 7.96 and random 7.95 are indistinguishable<span class="ar">المضغوط ٧٫٩٦ و العشوائي ٧٫٩٥ لا يُفرَّق بينهما</span></td></tr>
+    <tr><td>what a binary is able to do, from the file alone<span class="ar">ما يستطيع ملف ثنائي فعله، من الملف وحده</span></td><td>the import table declares it, and a short one declares more<span class="ar">جدول الـ imports يُعلنها، و القصير منها يُعلن أكثر</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this page turns on</span>
+  <ul>
+    <li><b>Every over-claim in malware triage is one adjective past the evidence.</b>
+      <span class="ar"><b>كل مبالغة في فرز البرمجيات الخبيثة صفةٌ واحدة بعد حدّ الدليل.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p29">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td><b><code>handover_notes.docx</code></b> &mdash; authored for this page<span class="ar">ملف <code>handover_notes.docx</code> المؤلَّف لهذه الصفحة</span></td><td>the part list, sizes and properties &mdash; 3,111 bytes, five parts<span class="ar">قائمة الأجزاء و أحجامها و الخصائص — ٣٬١١١ byte و خمسة أجزاء</span></td></tr>
+    <tr><td><b>Pillow 12.3.0</b> &mdash; <code>_imagingmorph.cp312-win_amd64.pyd</code><span class="ar">مكتبة Pillow 12.3.0 و ملفها الثنائي</span></td><td>every PE number on this page: headers, six sections, entropies, 30 imports<span class="ar">كل رقم PE على هذه الصفحة: الـ headers و الأقسام الستة و قيم الـ entropy و الـ imports الثلاثين</span></td></tr>
+    <tr><td><b>INE eCDFP</b> module 2<span class="ar">وحدة INE eCDFP الثانية</span></td><td>OLE and OOXML structure, PE header fields, the two delivery paths<span class="ar">بنية OLE و OOXML، و حقول الـ PE header، و مسارا التسليم</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Evidence note.</b> `T11`&rsquo;s third part &mdash; the carry-through malicious document &mdash; needs <code>EVS-06</code>, which is not acquired. It is <b>not substituted here</b>: this page deliberately contains <b>no malicious sample and no macro source</b>. Everything above is <b>structure and evidential limits</b>, taught on a benign document and a published benign binary &mdash; which is the half of the topic that transfers to every future file anyway. The investigation runs when <code>EVS-06</code> exists, in a lab VM, and never on a classroom machine.
+    <span class="ar"><b>ملاحظة عن الدليل.</b> يحتاج الجزء الثالث من `T11` — المستند الخبيث المتّصل بالقضية — إلى <code>EVS-06</code> الذي لم يُجهَّز بعد. و <b>لم يُستبدَل هنا</b>: فهذه الصفحة لا تحتوي عمدًا على <b>أي عيّنة خبيثة و لا أي شفرة macro</b>. و كل ما سبق <b>بنية و حدود دليلية</b>، مشروحة على مستند سليم و ملف ثنائي منشور سليم — و هو نصف الموضوع الذي ينتقل أثره إلى كل ملف قادم على أي حال. و يجري التحقيق حين يوجد <code>EVS-06</code>، داخل جهاز افتراضي في المعمل، و لا يجري أبدًا على جهاز في قاعة الدرس.</span></p>
+</div>
+<p><b>Next: `P08` &mdash; The disk.</b> Six pages have treated a file as the unit. `T12` and `T13` go under it: sectors, clusters, slack, and how a disk is divided before any file exists.
+  <span class="ar"><b>التالي: `P08` — القرص.</b> عاملت ستّ صفحات الملف بوصفه الوحدة. و ينزل `T12` و `T13` تحته: الـ sectors و الـ clusters و الـ slack، و كيف يُقسَّم القرص قبل وجود أي ملف.</span></p>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 29</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P07</b> &middot; content from
+     <code>packages/page-07/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t11', [
+ {screen:'t1Doc', target:'h1',
+  en:'Four bytes say <code>50 4B 03 04</code>. That means <b>ZIP</b> &mdash; and a JAR, an APK, an ODF and a renamed archive say exactly the same thing. <b>The signature check from `T04` cannot identify a document</b>; it identifies a container family.',
+  ar:'أربعة bytes تقول <code>50 4B 03 04</code>. و معناها <b>ZIP</b> — و ملفات JAR و APK و ODF و أي أرشيف أُعيدت تسميته تقول الشيء نفسه بالضبط. <b>ففحص الـ signature من `T04` لا يستطيع تحديد مستند</b>، بل يحدّد عائلة containers.'},
+ {screen:'t1Parts', target:'h2',
+  en:'List the parts. Five of them, and <b>no <code>word/vbaProject.bin</code></b> &mdash; so there is no macro in this document. <b>You answered that without opening Word and without running anything.</b>',
+  ar:'اسرد الأجزاء. خمسة، و <b>لا يوجد <code>word/vbaProject.bin</code></b> — أي لا macro في هذا المستند. <b>و قد أجبت عن ذلك دون فتح Word و دون تشغيل أي شيء.</b>'},
+ {screen:'t1Props', target:'h3',
+  en:'<code>docProps/core.xml</code> gives you author, last editor, revision and two timestamps. Here the creator and the last editor are <b>different accounts</b>. That is a <b>lead</b> &mdash; and every one of these fields is editable text.',
+  ar:'يعطيك <code>docProps/core.xml</code> المؤلف و آخر محرِّر و رقم المراجعة و طابعين زمنيين. و المؤلف هنا و آخر محرِّر <b>حسابان مختلفان</b>. و هذا <b>خيط</b> — و كل حقل من هذه الحقول نصّ قابل للتعديل.'},
+ {screen:'t1Mz', target:'h4',
+  en:'The binary, same discipline. <code>MZ</code> gets you two bytes of certainty; <b>the pointer at <code>0x3C</code> gets you the file</b>. Here it reads <code>0x110</code>, and <code>PE\0\0</code> is waiting there.',
+  ar:'الملف الثنائي، بالانضباط نفسه. <code>MZ</code> يعطيك يقين اثنين من الـ bytes، أما <b>المؤشّر عند <code>0x3C</code> فيعطيك الملف</b>. و هو هنا <code>0x110</code>، و <code>PE\0\0</code> بانتظارك هناك.'},
+ {screen:'t1Sect', target:'h5',
+  en:'Six sections with their entropies. <b>Nothing above 6.</b> Learn this shape now, on a file you know is ordinary &mdash; so that a section reading 7.9 later is <b>recognisable rather than alarming</b>.',
+  ar:'ستة أقسام بقيم الـ entropy الخاصة بها. <b>و لا شيء فوق الستة.</b> تعلّم هذا الشكل الآن على ملف تعرف أنه عادي — ليكون القسم الذي يقرأ ٧٫٩ لاحقًا <b>مألوفًا لا مفزعًا</b>.'},
+ {screen:'t1Imp', target:'h6',
+  en:'And the import table. Read what is <b>absent</b>: no sockets, no registry, no process creation. <b>The finding is the capability list, not a verdict</b> &mdash; and a file that imports two functions is telling you it unpacks itself at run time.',
+  ar:'ثم جدول الـ imports. اقرأ ما هو <b>غائب</b>: لا شبكة، و لا registry، و لا إنشاء عمليات. <b>فالـ finding هو قائمة القدرات، لا حكم</b> — و الملف الذي يستورد دالتين فقط يخبرك أنه يفكّ حزم نفسه وقت التشغيل.'}
+]);
+Dgm.init('#dg-lc-p07', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>الجمع.</b> أن تأخذ الدليل من الجهاز دون أن تغيّره.'},
+ {en:'<b>PRESERVE.</b> Prove the copy still equals what you took.', ar:'<b>الحفظ.</b> أن تُثبت أن النسخة ما زالت تساوي ما أخذته.'},
+ {en:'<b>ANALYSE.</b> Read what is inside the copy.', ar:'<b>التحليل.</b> أن تقرأ ما داخل النسخة.'},
+ {en:'<b>VALIDATE.</b> Check your own result.', ar:'<b>التحقق.</b> أن تراجع نتيجتك أنت.'},
+ {en:'<b>PRESENT.</b> Write it so someone who was not there can follow it.', ar:'<b>العرض.</b> أن تكتبها بحيث يتابعها من لم يحضر.'},
+ {en:'<b>Stage 3.</b> `T04` read four bytes. `T10` read past the end of the file. This page reads the <b>internal structure</b> of two formats that were designed to carry code.', ar:'<b>المرحلة الثالثة.</b> قرأ `T04` أربعة bytes، و قرأ `T10` ما بعد نهاية الملف. و هذه الصفحة تقرأ <b>البنية الداخلية</b> لصيغتين صُمّمتا لحمل كود.',key:true}
+]);
+Dgm.init('#dg-p07-f1', [
+ {en:'<b>OLE</b> is the pre-2007 binary format &mdash; a compound file of streams and storages, signature <code>D0 CF 11 E0</code>. Word still opens it, so it is still in evidence.', ar:'<b>الـ OLE</b> هو الصيغة الثنائية لما قبل ٢٠٠٧ — ملف مركّب من streams و storages، و signature <code>D0 CF 11 E0</code>. و Word ما زال يفتحه، فهو ما زال يظهر في الأدلة.'},
+ {en:'<b>OOXML</b> is a <b>ZIP archive of XML parts</b>. A macro sits in <code>word/vbaProject.bin</code> &mdash; which is itself an OLE file, so the old format never really went away.', ar:'<b>الـ OOXML</b> عبارة عن <b>أرشيف ZIP من أجزاء XML</b>. و الـ macro يقع في <code>word/vbaProject.bin</code> — و هذا الجزء نفسه ملف OLE، فالصيغة القديمة لم تختفِ فعلاً.',key:true},
+ {en:'And the OOXML signature is <b>not a document signature</b>. <code>50 4B 03 04</code> is the ZIP header: JAR, APK, ODF and a renamed archive all start the same way. <b>&ldquo;PK&rdquo; narrows the answer to &ldquo;some ZIP&rdquo; and nothing more.</b>', ar:'و الـ signature الخاص بـ OOXML <b>ليس signature لمستند</b>. فـ<code>50 4B 03 04</code> هو ZIP header: و ملفات JAR و APK و ODF و أي أرشيف أُعيدت تسميته تبدأ به جميعًا. <b>فـ«PK» تُضيّق الإجابة إلى «أرشيف ZIP ما» و لا شيء أكثر.</b>',key:true}
+]);
+Dgm.init('#dg-p07-f2', [
+ {en:'Unzip a Word document and you get parts, not a document. <b><code>[Content_Types].xml</code></b> declares what each part is.', ar:'فُكّ ضغط مستند Word فتحصل على أجزاء، لا على مستند. و <b><code>[Content_Types].xml</code></b> يُعلن ما هو كل جزء.'},
+ {en:'<b><code>_rels/.rels</code></b> is the wiring &mdash; which part points at which. Embedded objects appear here before they appear anywhere else.', ar:'<b><code>_rels/.rels</code></b> هو التوصيل — أي جزء يشير إلى أي جزء. و الكائنات المضمَّنة تظهر هنا قبل أن تظهر في أي مكان آخر.'},
+ {en:'<b><code>word/document.xml</code></b> is the text. In this file it is <b>257 bytes</b> of a 3,111-byte document &mdash; the visible content is the smallest part.', ar:'<b><code>word/document.xml</code></b> هو النص. و هو في هذا الملف <b>٢٥٧ byte</b> من مستند حجمه ٣٬١١١ — أي أن المحتوى الظاهر هو أصغر الأجزاء.',key:true},
+ {en:'<b><code>docProps/core.xml</code></b> carries author, <code>lastModifiedBy</code>, revision number and two timestamps &mdash; readable <b>without opening Word at all</b>.', ar:'<b><code>docProps/core.xml</code></b> يحمل المؤلف و <code>lastModifiedBy</code> و رقم المراجعة و طابعين زمنيين — و يمكن قراءته <b>دون فتح Word إطلاقًا</b>.'},
+ {en:'<b><code>docProps/app.xml</code></b> adds the application, the company, and total editing time.', ar:'<b><code>docProps/app.xml</code></b> يضيف اسم التطبيق و الشركة و إجمالي وقت التحرير.'},
+ {en:'A macro-enabled document adds <b>one part</b>: <code>word/vbaProject.bin</code>. Listing the parts <b>answers &ldquo;is there a macro&rdquo; without running anything</b>.', ar:'و المستند المفعَّل للـ macros يضيف <b>جزءًا واحدًا</b>: <code>word/vbaProject.bin</code>. فسرد الأجزاء <b>يجيب عن سؤال «هل يوجد macro» دون تشغيل أي شيء</b>.',key:true}
+]);
+Dgm.init('#dg-p07-f3', [
+ {en:'Every Windows executable still starts <code>4D 5A</code> &mdash; <b>&ldquo;MZ&rdquo;</b>, the initials of a DOS engineer from the 1980s. That is the whole of what the signature check tells you.', ar:'كل ملف تنفيذي في Windows ما زال يبدأ بـ<code>4D 5A</code> — <b>«MZ»</b>، و هي الأحرف الأولى لاسم مهندس DOS من الثمانينيات. و هذا كل ما يقوله لك فحص الـ signature.'},
+ {en:'At offset <code>0x3C</code> there is a <b>pointer</b>, <code>e_lfanew</code>. In this file it reads <b>0x110</b>. Nothing forces that value; it is wherever the linker put the real header.', ar:'و عند الإزاحة <code>0x3C</code> يوجد <b>مؤشّر</b> اسمه <code>e_lfanew</code>. و هو في هذا الملف <b>0x110</b>. و لا شيء يفرض هذه القيمة، فهي حيث وضع الـ linker الـ header الحقيقي.',key:true},
+ {en:'Follow it and you land on <code>50 45 00 00</code> &mdash; <b>PE\0\0</b>. Everything a forensic question needs is from here on.', ar:'اتبعه فتصل إلى <code>50 45 00 00</code> — أي <b>PE\0\0</b>. و كل ما يحتاجه سؤال جنائي يبدأ من هنا.'},
+ {en:'So the four-byte signature check from `T04` gets you to the door and no further. <b>Reading a PE means following a pointer</b>, and a tool that does not follow it is describing 1985.', ar:'إذن فحص الأربعة bytes من `T04` يوصلك إلى الباب و لا يتجاوزه. <b>فقراءة ملف PE تعني اتّباع مؤشّر</b>، و الأداة التي لا تتّبعه إنما تصف عام ١٩٨٥.'},
+ {en:'And this is the first place a file can lie cheaply. Two files can both start <code>MZ</code>, and where their real headers sit is <b>whatever the pointer says</b>.', ar:'و هذا أول موضع يستطيع فيه الملف أن يكذب بثمن رخيص. فملفان قد يبدآن كلاهما بـ<code>MZ</code>، و موضع الـ headers الحقيقية لهما <b>هو ما يقوله المؤشّر</b>.',key:true}
+]);
+Dgm.init('#dg-p07-f4', [
+ {en:'Entropy measures <b>how unpredictable the bytes are</b>, from 0 to 8. A run of zeroes is <b>0.00</b>: perfectly predictable.', ar:'الـ entropy يقيس <b>مدى صعوبة توقُّع الـ bytes</b>، من صفر إلى ثمانية. فسلسلة أصفار قيمتها <b>٠٫٠٠</b>: متوقَّعة تمامًا.'},
+ {en:'Structured, repetitive regions sit low. This file&rsquo;s <code>.reloc</code> is <b>0.88</b> and its <code>.data</code> is <b>1.14</b>.', ar:'المناطق المنظَّمة المتكرّرة تقع منخفضة. فقسم <code>.reloc</code> في هذا الملف <b>٠٫٨٨</b>، و قسم <code>.data</code> <b>١٫١٤</b>.'},
+ {en:'<b>Real compiled code sits near 6.</b> This PE&rsquo;s <code>.text</code> measures <b>5.99</b>, and the whole file <b>5.08</b>. That is what normal looks like, and you should know the number.', ar:'<b>الكود المُصرَّف الحقيقي يقع قرب الستة.</b> فقسم <code>.text</code> هنا يقيس <b>٥٫٩٩</b>، و الملف كله <b>٥٫٠٨</b>. و هذا هو شكل الطبيعي، و ينبغي أن تعرف رقمه.',key:true},
+ {en:'Compress the same file and it jumps to <b>7.96</b>. A packed executable does the same thing, which is why a section above ~7 is worth a second look.', ar:'اضغط الملف نفسه فتقفز القيمة إلى <b>٧٫٩٦</b>. و الملف التنفيذي المحزوم يفعل الشيء نفسه، و لهذا يستحق أي قسم يتجاوز ٧ تقريبًا نظرة ثانية.'},
+ {en:'And here is the limit. <b>Compressed measures 7.96. Random measures 7.95.</b> Entropy cannot tell compression from encryption from random &mdash; and it certainly cannot tell any of them from malice. <b>It is a reason to look, never a finding.</b>', ar:'و هنا الحدّ. <b>المضغوط يقيس ٧٫٩٦، و العشوائي يقيس ٧٫٩٥.</b> فالـ entropy لا يفرّق بين الضغط و التشفير و العشوائية — و لا يفرّق بالتأكيد بين أيٍّ منها و بين سوء النية. <b>إنه سبب للنظر، لا finding.</b>',key:true}
+]);
+Dgm.init('#dg-p07-f5', [
+ {en:'An import table is <b>a list of what the file needs the OS to do for it</b> &mdash; declared in the file, before anything runs. This one asks the Python runtime for 12 functions.', ar:'جدول الـ imports هو <b>قائمة بما يحتاج الملف أن يفعله النظام نيابةً عنه</b> — مُعلَنة داخل الملف، قبل تشغيل أي شيء. و هذا الملف يطلب ١٢ دالة من بيئة تشغيل Python.'},
+ {en:'Six from <code>KERNEL32</code>: process id, a performance counter, a thread-library hook. Ordinary housekeeping.', ar:'و ست دوال من <code>KERNEL32</code>: رقم العملية، و عدّاد أداء، و ربط بمكتبة الخيوط. أعمال روتينية.'},
+ {en:'Four from the C runtime: <code>memcpy</code>, <code>memset</code>, exception plumbing.', ar:'و أربع من C runtime: <code>memcpy</code> و <code>memset</code> و آليات الاستثناءات.'},
+ {en:'Eight more for start-up and exit.', ar:'و ثماني أخرى للبدء و الإنهاء.'},
+ {en:'Now read what is <b>absent</b>: no socket calls, no registry writes, no process creation, no file enumeration. <b>The import table is a capability list, and absence is as readable as presence</b> &mdash; which is exactly why a packer strips it down to two entries.', ar:'و الآن اقرأ ما هو <b>غائب</b>: لا استدعاءات شبكة، و لا كتابة في الـ registry، و لا إنشاء عمليات، و لا تعداد ملفات. <b>فجدول الـ imports قائمة قدرات، و الغياب فيه مقروء كالحضور</b> — و لهذا بالضبط يختصره الـ packer إلى مدخلين.',key:true}
+]);
+</script>
+
+</body>
+</html>

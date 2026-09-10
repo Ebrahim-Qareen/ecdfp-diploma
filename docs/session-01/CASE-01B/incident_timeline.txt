@@ -1,0 +1,6 @@
+INCIDENT TIMELINE (working draft)
+Case ......: ITG-2026-014
+2026-03-03 17:05 UTC  device last seen in the drawer by the administrator
+2026-03-04 08:33 UTC  drawer found open, device present
+2026-03-04 09:14 UTC  device seized
+2026-03-04 10:22 UTC  handed to exhibits

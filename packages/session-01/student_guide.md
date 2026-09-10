@@ -54,23 +54,6 @@ Linux and macOS forensics are out of scope for this diploma — decided, not ove
 
 ## 2 · Forensic principles
 
-### Order of volatility — collect the most fragile first
-
-| # | Store | Survives |
-|--:|---|---|
-| 1 | CPU registers and cache | nanoseconds |
-| 2 | RAM — processes, connections, sessions, clipboard | until power loss |
-| 3 | Network state | seconds to minutes |
-| 4 | Temporary and paging areas | until overwritten |
-| 5 | Disk | power loss |
-| 6 | Remote logs | retention policy |
-| 7 | Removable and archival media | years |
-
-Collection takes time. Every minute spent on the disk is a minute RAM is being overwritten.
-
-**The rule has an exception, and knowing it is the point.** If a wiper is actively running,
-pulling power is correct — you lose RAM deliberately to save the disk. A rule you can only recite
-is a rule you cannot apply.
 
 ### Minimal footprint
 
@@ -198,6 +181,37 @@ Check a tool's licence for the version you use **and the version one ahead**. Li
 between releases, and three tools in this course have been caught by exactly that.
 
 ---
+
+## 7 · Inside a file — hex and magic bytes
+
+A file is bytes. Its **name is a label stored beside it**, not part of it. Renaming rewrites the
+label and does not touch a single byte of the content.
+
+The first few bytes are the **signature** (or magic number), written by whatever program created the
+file so other programs can recognise the format.
+
+| Type | Signature | Note |
+|---|---|---|
+| JPEG | `FF D8 FF` | ends `FF D9` — remember that for Session 3 |
+| PNG | `89 50 4E 47 0D 0A 1A 0A` | the `89` is set so a 7-bit transfer corrupts it visibly |
+| ZIP / DOCX | `50 4B 03 04` | ASCII `PK`. A `.docx` **is** a ZIP of XML |
+| PDF | `25 50 44 46` | literally `%PDF` in ASCII |
+
+**When the name and the bytes disagree, the bytes win.**
+
+### Self-review
+
+Open a file in HxD and read the first four bytes. Then rename it to something else and read them
+again — they are identical, because renaming changed a directory entry, not the file.
+
+### What you may and may not write
+
+**May:** *the file at `\path\holiday_snap.jpg` begins `50 4B 03 04`, which is the ZIP signature.*
+
+**May not:** ~~the user renamed it to hide it.~~ A mismatch has innocent causes — a bad export, a
+download that guessed the type, a tool that appends its own extension. The bytes tell you **what a
+file is**. They never tell you **who named it, or why**.
+
 
 ## 6 · Cryptographic hashing — what it proves, and what it does not
 
@@ -389,7 +403,7 @@ This is the habit the exam tests, not a formality.
 | **Integrity** | that the data has not changed — what a hash shows |
 | **Interpretation** | reasoning drawn from findings, citing them, with a confidence and an alternative |
 | **Limitation** | what the evidence cannot show, however it is read |
-| **Order of volatility** | collect from the most fragile store first |
+| **File signature (magic bytes)** | the first bytes of a file, which say what it really is |
 | **Preimage resistance** | that an input cannot feasibly be recovered from a digest. **Still holds for MD5** — which is why lookup survives |
 | **Provenance** | where the evidence came from |
 | **Repeatable** | same lab, same tools, same result |

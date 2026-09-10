@@ -40,343 +40,181 @@ wrong. It appears in `S2-05`, is proved in `S2-06`, and is examined in the quiz.
 
 ## 2 · Per-block teaching notes
 
-### `S2-01` — Order of volatility in practice · 15 min
+### `S2-01` — Live response, and the order of volatility · 30 min · 🔴 this session OWNS volatility
 
-**The move:** S1 taught the *list*. Today it is a **race against a clock**.
+**Do not re-teach the ladder as theory.** Session 1 no longer covers it (`D58`). Define it once, here,
+at the moment the decision is actually made, then apply it for the rest of the session.
 
-Draw the seven stores and start a timer on them:
+**Open with the paradox:** to preserve a running machine you must touch it, and every command changes
+it. There is no clean option — only a **recorded** one.
 
-| # | Store | Gone in |
-|--:|---|---|
-| 1 | CPU registers and cache | nanoseconds |
-| 2 | RAM | on power loss |
-| 3 | Network state — connections, ARP, routing | seconds to minutes |
-| 4 | Running processes | on reboot |
-| 5 | Disk | survives |
-| 6 | Remote and centralised logs | log rotation |
-| 7 | Archival media | months to years |
+**Then the race.** Registers/cache → RAM → network state → processes → disk → central logs → archival.
+The point to land: *while you collect RAM, network state is decaying; while you image the disk, both
+are already gone.* Order is a decision about what you accept losing.
 
-**The point to land:** collection is not free. *While you collect RAM, network state is decaying.
-While you image the disk, both are already gone.* Order is a choice about what you are willing to
-lose.
+🔴 **Name the tool. The first build of this session did not, and it was the defect the instructor
+caught.** It is **BriMor Labs Live Response Collection** — `Windows_Live_Response.bat`, run as
+administrator **from external media**, menu **Triage / Memory Dump / Complete** plus the `Secure-`
+variants (`[U2 p116–125]`).
 
-🔴 **The Case 01 contrast — use it, it is why the case exists.** Session 1's first responder received
-`EVI-SRC01` powered down and recorded that **no memory capture was taken**. Everything in stores 1 to 4
-was destroyed before the examiner touched it. Ask the room what questions can now never be answered:
-running processes, open network connections, injected code, anything decrypted only in memory.
+**Then the output tree**, and the point that makes it defensible: `Processing_Details.txt` and the
+per-file hash list are a record of **your own conduct**, not the host's state. ISO/IEC 27037 wants a
+third party able to reconstruct what you did; on a live host that needs a contemporaneous record.
 
-**Micro-lab 1 · 7 min.** Give a scenario — a running host, a suspect at the desk, one hour. Students
-write the collection order and one line per step saying what that step costs. Check: the order matches
-and each cost is named.
+🟢 **Say the Velociraptor sentence out of the licence discussion, not into it:** Apache 2.0, builds a
+standalone offline collector, and **may be used on a paid engagement — where KAPE may not.**
 
----
+**And the limit:** a collector asks the OS what is running. A subverted OS answers with the attacker's
+list. A clean report is evidence of *what the host said about itself*. That is the reason memory is
+captured too, and it plants `S6-10`.
 
-### `S2-02` — Live response · 25 min · 🔴 new
-
-**The paradox to state plainly:** to preserve what is on a running machine, you must touch it — and
-every command you run changes it. There is no clean option. There is only a **recorded** one.
-
-**What the OS tells you is not what is true.** A live collector asks the operating system for the
-process list. If the operating system has been subverted, it answers with the list the attacker wants
-you to see. Show the two columns: what the collector reports, and what is actually running.
-
-> **What catches it:** compare the live answer against the memory image later. `pslist` walks the
-> same structures the OS uses; `psscan` scans memory for process objects directly. **Run both and
-> diff them** — that is `S6-10`, and today is where the reason for it is planted.
-
-**Minimal footprint rules — these are the graded habits:**
-
-1. Run the collector from **external media**, never install it on the evidence host.
-2. Write output to **external media**, never to the evidence disk.
-3. Record **every command and its time**, as you go.
-4. Isolate the network **before** collecting, and record when.
-5. Prefer one tool that does many things over many separate commands — fewer footprints.
-
-**The output tree** — this is the shape students must recognise:
-
-```
-FIN-WKS-07_2026-09-02_1412\
-├── ForensicImages\
-│   └── Memory\                    the raw memory capture
-├── LiveResponseData\
-│   ├── ProcessInfo\               process list, DLLs, handles
-│   ├── NetworkInfo\               connections, ARP, routing, DNS cache
-│   ├── UserInfo\                  logged-on users, sessions
-│   └── SystemInfo\                uptime, patches, services, scheduled tasks
-├── <hostname>_hashes.csv          one hash per collected file
-└── Processing_Details.txt         every command, its start and finish time
-```
-
-**Why `Processing_Details.txt` is the important file.** ISO/IEC 27037 asks that a qualified third
-party can reconstruct what you did. On a live host that is only possible if every command and its time
-were recorded while you ran them. The hash list proves the collected files did not change afterwards;
-the details file proves what you did to get them.
-
-**Micro-lab 2 · 12 min.** WATCH: run the collector once. DO: each student runs it on their own VM.
-CHECK: the output tree exists and the per-file hash list has an entry for every collected file.
-WHY: *this proves the files have not changed since collection. It does not prove the operating system
-told the truth when it listed them.*
+**Micro-lab 1 · 8 min.** Run it on their own VM, output to external media.
+**Check:** the tree exists and the hash list has one row per collected file.
 
 ---
 
-### `S2-03` — Memory acquisition · 20 min · 🔴 new
+### `S2-02` — Memory acquisition · 20 min
 
-**Why memory comes first:** it holds what exists nowhere else — running processes, open network
-connections, injected code, loaded drivers, and data that is only ever decrypted in RAM. Power off and
-it is gone. There is no second chance and no partial recovery.
+Free tools: **WinPmem**, **DumpIt**, or FTK Imager's `File > Capture Memory`.
 
-🔴 **The key idea of the block: a memory capture is a smear, not a snapshot.**
+🔴 **The one idea: a capture is a smear, not a snapshot.** The read takes minutes and the machine keeps
+running, so the top and bottom of the dump are from different moments.
 
-The capture tool reads memory from low addresses to high, and it takes time — minutes on a large host.
-**The system keeps running the whole time.** So the top of the dump was read at one moment and the
-bottom at a later one. A process that existed when the read started may be gone by the time the read
-reaches its pages.
-
-| What the smear makes unreliable | What it does **not** affect |
+| Unreliable | Unaffected |
 |---|---|
-| a claim that two structures were consistent **with each other** at one instant | the presence of an artifact you find — it was really there |
-| page-level counts that must add up exactly | strings, injected code and connections that are recovered intact |
-| "the process table proves the exact state at 14:12" | "this process was present during the capture window" |
+| two structures being consistent **with each other** at one instant | an artifact you find — it was really there |
+| counts that must add up | strings, injected code, connections recovered intact |
 
-**Say the sentence students should write:** *"the capture ran from 14:12 to 14:19 UTC; findings
-describe the state during that window, not at a single instant."*
+**The sentence they should write:** *the capture ran 14:12–14:19 UTC; findings describe that window.*
 
-**What blocks a capture — and what you actually see:**
+**Blockers, and what is actually seen:** driver signing (driver refuses to load) · Secure Boot (blocked
+below the OS) · a hypervisor (guest sees only its own memory) · anti-cheat/EDR (blocked, or bugcheck).
+⚠️ **A failed capture is a finding** — tool, version, exact error, time.
 
-| Blocker | What you see | The way round |
-|---|---|---|
-| Driver signing enforcement | the tool's driver refuses to load | use a signed acquisition tool |
-| Secure Boot | driver load blocked at boot level | signed tool, or document that capture was not possible |
-| A hypervisor | the guest sees only its own memory | capture at the host, or take the VM's memory file |
-| An anti-cheat or EDR driver | the tool is blocked or the host crashes | coordinate with the vendor; record the attempt and the refusal |
-
-⚠️ **A failed capture is a finding.** Record the tool, the version, the error and the time. "We could
-not capture memory because Secure Boot blocked the driver" is a defensible sentence. Silence is not.
-
-**Sizes:** the dump is roughly the size of physical RAM. A 16 GB host gives a ~16 GB file. If it is
-dramatically smaller, the capture did not complete — check before you power down, because after that
-there is nothing to re-run.
-
-**Micro-lab 3 · 8 min.** WATCH: capture memory, note the elapsed time out loud. DO: each student
-captures their own VM's RAM. CHECK: dump size is about equal to the VM's assigned RAM, and they wrote
-down **start and finish** times. WHY: *the two times define the window your findings describe.*
+**Micro-lab 2 · 8 min.** Capture their own RAM; record start **and** finish.
+**Check:** dump ≈ assigned RAM. Much smaller means it did not finish — catch it **before** power-down.
 
 ---
 
-### `S2-04` — Physical vs logical acquisition · 20 min
+### `S2-03` — Acquisition scope and image formats · 25 min
 
-One disk, drawn once, with two envelopes over it.
+Two blocks merged under `D58`; they were 35 minutes and overlapped heavily.
 
-| | **Physical** | **Logical** |
-|---|---|---|
-| Reaches | every sector on the device | allocated files only, as the file system presents them |
-| Includes | slack space, unallocated space, deleted file remnants, HPA/DCO, partition gaps | the files you can see, and their metadata |
-| Misses | nothing on the device | everything not currently allocated to a file |
-| Size | the full device size | the size of the selected data |
-| Use when | you can take the whole device, and the case may need deleted data | the device is huge, encrypted at rest, or legal scope is narrow |
+**Physical vs logical**, drawn as two envelopes over one disk. 🔴 **Tie it forward by name:** Session 4
+recovers deleted staging files from **unallocated space**. A logical image today makes that session
+impossible. **The acquisition decision caps every later session.**
 
-🔴 **Tie it forward, by name:** `S4` recovers deleted staging files from **unallocated space** and
-parses the `$MFT`. A logical acquisition taken today would make that session impossible. **The
-acquisition decision made in S2 sets the ceiling on every later session.**
+**The four methods** — disk-to-image (default) · clone · sparse · logical — each named with what it
+forfeits.
 
-**The four methods:**
+**Then the three containers.** raw = bytes and nothing else. E01 = per-chunk CRC, embedded hash, case
+metadata. AD1 = selected files, ⚠️ **and Autopsy cannot open it**. 🔴 **The catch that sets up the next
+block:** E01's embedded hash verifies the image **against itself**; it never re-reads the source.
 
-| Method | What it produces | Forfeits |
-|---|---|---|
-| **Disk-to-image** | one or more image files from the source device | nothing — this is the default |
-| **Disk-to-disk (clone)** | a second physical disk, sector for sector | no compression, no metadata, no embedded hash; needs a disk as big as the source |
-| **Sparse** | selected portions of the device | everything outside the selection |
-| **Logical** | selected files as a container | slack, unallocated, deleted data |
-
-**Micro-lab 4 · 8 min.** WATCH: image the 100 MB scratch volume physically, then logically. DO: both.
-CHECK: the two output files differ in size — and the student can say **why** (the physical image
-includes free space; the logical one holds only the files). WHY: *the size difference is the evidence
-you did not collect.*
+**Micro-labs 3 and 4 · 9 min.** Image the scratch volume physically then logically (sizes differ, and
+they can say why); then as E01 and raw (`ewfverify` SUCCESS; the raw has no embedded hash at all).
 
 ---
 
-### `S2-05` — Image formats · 15 min · 🔴 new
-
-| | **raw (`dd`)** | **E01 (EWF)** | **AD1** |
-|---|---|---|---|
-| Contents | bytes, and nothing else | bytes plus structure | selected files only |
-| Metadata | none | case number, examiner, notes, acquisition times | logical container metadata |
-| Compression | no | yes | yes |
-| Integrity | none built in | **per-chunk CRC + embedded image hash** | container hash |
-| Segments | one large file (or split by hand) | split automatically | container |
-| Read by | everything | most forensic tools | AccessData tools ⚠️ **Autopsy cannot open AD1** |
-
-**Why E01 is the default here:** it carries its own verification and its own case metadata, so the
-image is self-describing. **Why raw still matters:** every tool on earth reads it, and some tools —
-including several Linux utilities the course uses later — want a raw device.
-
-🔴 **The catch, and it is the whole point of the next block:** E01's embedded hash verifies **the image
-against itself**. It proves the container is internally intact. It does **not** re-read the source
-device and does not prove the image still matches the original drive.
-
-**Micro-lab 5 · 7 min.** WATCH: create the same scratch volume as E01 and as raw. DO: both.
-CHECK: the E01 is smaller (compression); `ewfverify` passes on it; the raw file has **no embedded hash
-to verify at all** — its integrity depends entirely on a manifest you keep separately.
-WHY: *format is a decision about what verification you will be able to do later.*
-
----
-
-### `S2-06` — FTK Imager, and what `verified` covers · 20 min · ★ the `D7` block
+### `S2-04` — FTK Imager, and what `verified` covers · 20 min · ★ the `D7` block
 
 **Version:** FTK Imager **8.3**, free edition. 🔴 Not *FTK Imager Pro*, which is paid.
 
-**Demo — imaging `FIN-WKS-07`, end to end.** Narrate every step; students watch, then repeat on their
-scratch volume.
+**Demo, narrated:** record the write blocker **before** connecting the source → `Create Disk Image` →
+read the size and model against the exhibit record → destination E01, fields filled → 🔴 tick
+**Verify images after they are created** → start.
 
-1. Engage the write blocker. **Record it before connecting the source** — a blocker written down
-   afterwards proves nothing, because the write you are ruling out would already have happened.
-2. `File > Create Disk Image` → source `Physical Drive`.
-3. Select the source device. **Read the size and model aloud and match them to the exhibit record.**
-4. Destination: `E01`, evidence-item fields filled — case number, examiner, description.
-5. Compression on. Segment size default.
-6. 🔴 **`Verify images after they are created` — ticked.** This is the checkbox the block is about.
-7. Start. It takes real time — this is why the demo starts before the break.
+**Then read the log aloud and ask what was actually checked:**
 
-**The verification log — read it out loud, line by line:**
-
-```
-[Computed Hashes]
- MD5 checksum    : <placeholder-md5>
- SHA1 checksum   : <placeholder-sha1>
-
-Image Verification Results:
- Verification started: 2026-09-02 14:41:07
- Verification finished: 2026-09-02 15:02:55
- MD5 checksum    : <placeholder-md5>   : verified
- SHA1 checksum   : <placeholder-sha1>  : verified
-```
-
-🔴 **Now the question the whole session builds to:** *what did the tool actually check?*
-
-| The tool **did** | The tool **did not** |
+| The tool did | The tool did not |
 |---|---|
-| hash the data as it wrote the image | re-read the source drive |
-| read the image back and hash it again | prove the image matches the original **now** |
-| prove the two match — the write was clean | prove nothing was altered before you arrived |
+| hash the data as it wrote | re-read the source drive |
+| read the image back and hash again | prove the image matches the original **now** |
+| prove the two match | prove nothing was altered before you arrived |
 
-**The sentence a student may write:**
-> *`F-02` — The acquisition log for `EVS-02` records the image hash as `<value>` and the read-back
-> verification as `verified` (FTK Imager 8.3, 2026-09-02 15:02 UTC).*
-
-**The sentence a student may not write:**
-> ~~*The image is verified, so the disk was not tampered with.*~~ That is an interpretation, and an
-> unsupported one. Verification covers the copy, not the history of the original.
-
-**Micro-lab 6 · 10 min.** DO: each student images their scratch volume with verification ticked.
-CHECK: the `.txt` log shows both digests and the word `verified`.
-WHY: *it proves the copy is faithful. It says nothing about the source's history.*
+**Micro-lab 5 · 8 min.** Image the scratch volume with verification ticked.
+**Check:** the `.txt` log shows both digests and `verified`.
 
 ---
 
-### `S2-07` — `dc3dd` and targeted triage · 15 min · 🔴 new
+### `S2-05` — `dc3dd` and targeted triage · 15 min
 
-**Three tools, three jobs.** Compare them on four axes: hashes on the fly? · writes a log? · handles
-read errors? · scope.
-
-| | `dd` | `dc3dd` **7.3.1** | KAPE |
-|---|:-:|:-:|:-:|
-| Hashes while imaging | ✗ | ✅ | ✅ (per collected file) |
-| Writes a log | ✗ | ✅ | ✅ |
-| Handles read errors well | ✗ | ✅ | n/a |
-| Scope | whole device | whole device | **selected artifacts only** |
-
-**The `dc3dd` command students run:**
+`dd` produces no hash and no log. `dc3dd` hashes while imaging and writes a log, so the digest is
+provably from acquisition time. **The bytes are identical — only the record is better.**
 
 ```
 sudo dc3dd if=/dev/sdX of=/evidence/scratch.dd hash=sha256 log=/evidence/scratch.log
 ```
 
-**Expected tail of the log:**
+**Triage** collects what answers the question instead of the whole disk. **What it forfeits:**
+unallocated, slack, deleted files, anything off the target list. *You cannot answer a question about
+data you chose not to collect* — so the choice is recorded.
 
-```
-   204800 sectors in
-   204800 sectors out
-   [sha256] <placeholder-sha256>
-```
+🔴 **KAPE licence, stated in the room** (`D37`): no commercial use since 1 January 2026. Classroom use
+is educational and free. Pair every KAPE step with the free path — the EZ Tools underneath are
+separately free, and a target set is a list of paths a script can collect. ⚠️ Also correct the common
+claim: the core binary is 1.3.0.2 but **KapeFiles ships by commit and is current** — "KAPE is stale"
+is wrong.
 
-**The catch to state:** `dd` produces no hash and no log. If you image with plain `dd` you must hash
-the source and the image yourself, in separate steps, and record them by hand — and if the two do not
-match you have no log to tell you where the read failed.
-
-**KAPE — targeted triage.** Collect the artifacts that answer the question, not the whole disk. Used
-when the disk is huge, the system cannot be taken offline, or time is short.
-
-🔴 **Licence — say this in class, do not let a student find out mid-engagement** (`D37`):
-KAPE's own FAQ states it is **no longer available for commercial use** as of 1 January 2026 — that is,
-on a third-party network or as part of a paid engagement. **Classroom and educational use remain
-free.** So it is taught for the concepts, and **every KAPE step is paired with a free alternative**:
-the EZ Tools underneath it are separately free, and a target set is only a list of file paths that
-`robocopy` or a short script can collect.
-
-⚠️ Also correct a common claim: the KAPE core binary is **1.3.0.2 (Dec 2022)**, but **KapeFiles ships
-by commit and is current**. "KAPE is stale" is wrong and should not be taught.
-
-**What triage forfeits — the part that matters:** unallocated space, slack, deleted files, and
-anything not on the target list. **You cannot later answer a question about data you chose not to
-collect.** Triage is a decision to trade completeness for speed, and the decision has to be recorded.
-
-**Micro-lab 7 · 7 min.** On the **clean Kali snapshot** (`D56`). DO: run the `dc3dd` command above on
-the scratch volume. CHECK: the log file contains the SHA-256 — which plain `dd` never produces.
-WHY: *the log is the proof the hash was computed at acquisition time, not afterwards.*
+**Micro-lab 6 · 7 min.** On the **clean Kali snapshot**, never the compromised host.
 
 ---
 
-### `S2-08` — Case 02a · 35 min · blocked investigation
+### `S2-06` — File signature vs extension · 20 min · 🔴 new (`D58`)
 
-Individual at the keyboard (`D16`). The brief, the evidence and the questions are in
-`student_activity.md`. **Q1 is always hash verification.**
+They met magic bytes in `S1-09`. Now they run it across a whole image — the first question an examiner
+asks of a file set is *are these what they claim to be?*
 
-**Run it like this:** hand out the brief, give the acquisition decision tree once, then stay quiet.
-Answer questions with questions. The block is about students making the acquisition decision
-themselves — the thing no external lab teaches (`D46`).
+| Type | Signature | Worth saying |
+|---|---|---|
+| JPEG | `FF D8 FF` | **ends** `FF D9` — Session 3 finds things after that marker |
+| PNG | `89 50 4E 47 0D 0A 1A 0A` | the `89` catches a 7-bit transfer |
+| ZIP / OOXML | `50 4B 03 04` | ASCII `PK`. A `.docx` **is** a ZIP of XML |
+| OLE | `D0 CF 11 E0 A1 B1 1A E1` | legacy `.doc` — a macro lives somewhere different from OOXML |
 
-**The decision tree they apply:** is the host running? → is the data encrypted? → is time short? →
-which method, and what does it forfeit?
+**Micro-lab 7 · 10 min** on `EVS-05`, which is **verified and ready**. There are exactly **five**
+extension mismatches.
+🟢 **The best file in the set is `policy_v2.docx`:** a student who learned *".docx is really a ZIP"*
+predicts `50 4B 03 04` and is wrong — it is a PNG. It punishes pattern-matching and rewards looking.
+🟢 **And the two truncated files** have perfect headers with damaged bodies: a valid signature does not
+mean a valid file, which is the bridge back to `S1-06` hashing.
 
-**Watch for the two failures:** a student who images without recording the write blocker first, and a
-student who writes *"the USB was used to steal data"* as a finding. The second is the `D7` error and
-it costs marks under criterion 4.
-
----
-
-### `S2-09` — Case 02b · 25 min · blocked investigation
-
-Examine the acquired image's **structure** — partition table, partition type, file system, volume
-size, and whether the sizes reconcile.
-
-**The lesson buried in it:** an unallocated gap between partitions, or a partition smaller than the
-device, is a *finding* worth writing. What it means is an *interpretation*, and often the honest
-answer is *"this evidence cannot show why the gap is there."* One question in the set is answerable
-only that way — that is deliberate.
-
-Tools: OSFMount 3.3.1000 or Arsenal Image Mounter 3.13.368, mounted **read-only**.
+🔴 **The error to catch:** *"the user renamed it to hide it"* — two interpretations stacked on one
+observation.
 
 ---
 
-### `S2-10` — The closing ritual · 15 min
+### `S2-07` — Case 02a · 35 min · blocked investigation
 
-Identical in shape to `S1-10`, and it must stay identical — that is what makes six sessions one
-document.
+Individual at the keyboard (`D16`). Hand out the brief, give the decision tree once, then stay quiet
+and answer questions with questions. **Q1 is always hash verification.**
 
-1. Re-verify the evidence hashes against the published manifest.
-2. Each student completes **one custody line** on their own record.
+**Watch for:** imaging without recording the blocker first; and *"the USB was used to steal data"* as a
+finding — the `D7` error, and it costs marks under criterion 4.
+
+---
+
+### `S2-08` — Case 02b · 25 min · blocked investigation
+
+Partition table, types, file systems, and whether the sizes reconcile. Mount **read-only** with
+OSFMount 3.3.1000 or Arsenal 3.13.368 — and ask *how they know* it was read-only.
+
+**The buried lesson:** an unallocated gap is a *finding*; what it means is an *interpretation*; and one
+question is answerable only as *"this evidence cannot show why"*. That is deliberate.
+
+---
+
+### `S2-09` — The closing ritual · 15 min
+
+Identical in shape to `S1-11`, and it must stay identical.
+
+1. Re-verify hashes against the manifest. 2. Each student completes **one custody line**.
 3. Close the session's steps on `docs/session-02/record.html`.
-
-**Micro-lab 8.** DO: fill one custody line. CHECK: the record page shows the step closed.
-WHY: *the record is the deliverable that carries forward; a session that does not close it leaves the
-chain broken.*
 
 ⚠️ The custody-transfer log and the disposition are **case-level** — rendered once, never cleared with
 a session. Do not let a student "reset" the page to tidy it.
 
----
-
-## 3 · Where students reliably go wrong — the six
+## 3 · Where students reliably go wrong — the seven
 
 | # | The error | The correction |
 |--:|---|---|
@@ -385,6 +223,7 @@ a session. Do not let a student "reset" the page to tidy it.
 | 3 | Writing collector output to the evidence disk | it overwrites unallocated space — the space `S4` needs |
 | 4 | Treating a memory dump as an instant snapshot | it is a smear across the capture window; say the window |
 | 5 | Choosing logical acquisition because it is faster | it forfeits deleted data and caps every later session |
+| 7 | **Believing the extension over the bytes** | when the name and the signature disagree, the signature wins |
 | 6 | Recording the write blocker after connecting the source | written afterwards it proves nothing |
 
 ---

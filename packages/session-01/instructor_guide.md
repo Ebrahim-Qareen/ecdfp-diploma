@@ -79,21 +79,13 @@ should have existed and did not.
 
 ### `S1-02` — Forensic principles · 20 min
 
-**Teach:** order of volatility · minimal footprint · repeatable vs reproducible · always work on a
+**Teach:** minimal footprint · repeatable vs reproducible · always work on a
 copy.
 
-**Order of volatility (figure `S1-F4`)** — the full ladder, most volatile first:
+⚠️ **Order of volatility is no longer taught here** (`D58`). `S2-01` owns it and teaches it
+operationally, at the moment the collection decision is actually made. Do not re-explain it —
+one clause in passing is enough if a student raises it.
 
-1. CPU registers and cache
-2. RAM — processes, connections, sessions, clipboard
-3. Network state
-4. Temporary and paging areas
-5. Disk
-6. Remote logs
-7. Removable and archival media
-
-⚠️ **The INE source page for this is a graphic and only the two ends survived OCR.** The ladder
-above is reconstructed and is what you teach. Do not slide the source page.
 
 **Then invert it.** The rule has a reason, not a chant: if a wiper is actively running, pulling
 power is correct and the RAM is lost on purpose. Ask the room which rule wins, and why. A student
@@ -401,7 +393,33 @@ is time for it. Describe it here in one sentence.)*
 
 ---
 
-### `S1-09` — Case 01 · 60 min · blocked investigation
+### `S1-09` — Inside a file: hex and magic bytes · 22 min · 🔴 new (`D58`)
+
+**The move:** they have just proved a hash detects one changed byte. So ask the obvious next question —
+*what are the bytes?* This is the first time they open a file and look at what it actually is.
+
+**The one idea:** a file is bytes; the name is a label stored **beside** it, in a directory entry.
+Renaming rewrites the label and touches nothing in the file.
+
+| Type | Signature | Worth saying |
+|---|---|---|
+| JPEG | `FF D8 FF` | also **ends** `FF D9` — Session 3 finds things after that marker |
+| PNG | `89 50 4E 47 0D 0A 1A 0A` | the `89` is set so a 7-bit transfer corrupts it visibly |
+| ZIP / DOCX | `50 4B 03 04` | ASCII `PK`. A `.docx` **is** a ZIP of XML — rename one and it opens |
+| PDF | `25 50 44 46` | literally `%PDF` |
+
+**Micro-lab · 10 min.** They open the four supplied files in HxD and write down the first four bytes
+of each. One file's bytes disagree with its extension.
+**Check:** every file has its four bytes recorded and a type named.
+**Why:** *the bytes say what a file is. They never say who named it, or why.*
+
+🔴 **The error to catch:** a student writing *&ldquo;the user renamed it to hide it&rdquo;*. That is two
+interpretations stacked on one observation, and it is the same `D7` failure the report template exists
+to prevent. Feeds `S2-06` directly, where they run this across a whole image.
+
+---
+
+### `S1-10` — Case 01 · 60 min · blocked investigation
 
 Students work **alone at the keyboard** (`D16`). You unblock, you do not lead.
 
@@ -432,7 +450,7 @@ answers it with a guess, that is the teaching moment of the session.
 
 ---
 
-### `S1-10` — The closing ritual · 15 min
+### `S1-11` — The closing ritual · 15 min
 
 Every session ends this way, all six. It is not a formality; it is the habit the exam tests.
 
@@ -454,7 +472,7 @@ Reference list. Each has a countermeasure above.
 | 2 | **"Verified means verified against the disk."** It means the tool checked its own output | `S1-04` · `S1-06` |
 | 3 | **"We didn't find it, so it isn't there."** The permitted sentence is *"not present in the collected set"* | `S1-01` · `S1-09` |
 | 4 | **"Live response tells you what's on the machine."** It tells you what the machine *says* is on it | `S1-01` |
-| 5 | **Order of volatility inverted under pressure** — they reach for the disk | `S1-02` |
+| 5 | **Believing the extension over the bytes** — they read `.pdf` and stop looking | `S1-09` |
 | 6 | **Working on the first image.** Stated twice in the source and they still do it | `S1-02` |
 | 7 | **Motive smuggled into a finding.** "to hide", "to avoid", "deliberately" | `S1-04` · `S1-09` |
 

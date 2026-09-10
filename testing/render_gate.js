@@ -64,6 +64,21 @@ async function auditOnePage(ctx, fileUrl, hash, label) {
   /* trap 2: a full load per page under test, hash included in the URL. */
   await page.goto(fileUrl + (hash || ''), { waitUntil: 'load' });
   await page.waitForTimeout(90);
+  /* The SIMSCREEN ring animates into place (500ms), and place() can re-run when
+     the figure scrolls into view -- so a fixed timeout is a guess that fails at
+     some widths and not others. Wait for the ring to STOP MOVING instead: that
+     is the condition the check actually needs, and it cannot go stale. */
+  if (await page.$('.page.is-active .simscreen')) {
+    await page.waitForFunction(() => {
+      const r = document.querySelector('.page.is-active .ss-ring');
+      if (!r) return true;
+      const now = r.getBoundingClientRect().top;
+      const was = window.__ringWas;
+      window.__ringWas = now;
+      return was !== undefined && Math.abs(now - was) < 0.5;
+    }, { timeout: 4000, polling: 160 }).catch(() => {});
+    await page.evaluate(() => { delete window.__ringWas; });
+  }
 
   const res = await page.evaluate(() => {
     const de = document.documentElement;
@@ -141,10 +156,138 @@ async function auditOnePage(ctx, fileUrl, hash, label) {
 
     const activeCount = document.querySelectorAll('.page.is-active').length;
 
+    /* D105 -- a container so narrow that the Arabic inside it cannot read.
+       The bug always shows in a DIFFERENT column from the one that causes it,
+       so the check is on the victim: any .ar whose available content width is
+       under 260px on a screen wider than 700px is a starved column. */
+    const pgActive = document.querySelector('.page.is-active');
+    const arStarved = [];
+    /* D108 -- the Arabic box must sit UNDER the English it explains: its box
+       starts at the same edge the English starts at. Checked as a coordinate,
+       because `margin-inline-end` silently resolves the wrong way on an rtl
+       element and the rule then reads correct while doing the opposite. */
+    const arDrift = [];
+    if (pgActive && vw > 700) {
+      pgActive.querySelectorAll('.ar').forEach(a => {
+        /* D119 part dividers centre their title and their Arabic together.
+           "Arabic starts where the English starts" is a rule about left-aligned
+           prose; on a centred card both are centred, which is the same
+           relationship expressed differently. */
+        if (a.closest('.divider-inner')) return;
+        const par = a.parentElement, ps = getComputedStyle(par);
+        const avail = par.clientWidth - parseFloat(ps.paddingLeft) - parseFloat(ps.paddingRight);
+        const lh = parseFloat(getComputedStyle(a).lineHeight) || 20;
+        const lines = Math.round(a.getBoundingClientRect().height / lh);
+        if (lines > 1 && avail < 260) {
+          arStarved.push(pgActive.id + ' :: ' + Math.round(avail) + 'px container, ' +
+                         lines + ' lines :: ' + a.textContent.slice(0, 40));
+        }
+        /* Assert the PAINTED TEXT, not the box. A full-width right-aligned .ar
+           and a fit-content one both START their box at the parent's content
+           edge -- the difference is where the glyphs land, so a box-edge check
+           passes the very layout it is meant to reject (it did).
+           Only single-line blocks discriminate: a wrapping .ar fills the
+           column either way. getBoundingClientRect().left is the BORDER box, so
+           the content edge is border + padding in -- miss the border and every
+           .note reads as 3px adrift. */
+        if (lines === 1) {
+          const rng = document.createRange(); rng.selectNodeContents(a);
+          const tr = rng.getBoundingClientRect();
+          const contentLeft = par.getBoundingClientRect().left +
+                              parseFloat(ps.borderLeftWidth) + parseFloat(ps.paddingLeft);
+          const gap = Math.round(tr.left - contentLeft);
+          if (gap > 3) {
+            arDrift.push(pgActive.id + ' :: starts ' + gap + 'px right of the English it ' +
+                         'explains :: ' + a.textContent.slice(0, 40));
+          }
+        }
+      });
+    }
+
+    /* D107 -- every SIMSCREEN step must land its ring on its own target.
+       Read the declared targets off the instance, never re-derive them. */
+    const simBad = [];
+    /* ONLY the visible page. A SIMSCREEN inside a hidden .page measures 0x0 and
+       place() deliberately declines to run (D103) -- checking it there would
+       fail 20 of 21 screens for doing the right thing. */
+    (pgActive ? pgActive.querySelectorAll('.simscreen') : []).forEach(root => {
+      const ring = root.querySelector('.ss-ring');
+      const win  = root.querySelector('.wu.on');
+      if (!ring || !win) { simBad.push(root.id + ' :: no ring or no visible screen'); return; }
+      if (!win.getBoundingClientRect().width) return;   // not laid out yet
+      const r = ring.getBoundingClientRect(), w = win.getBoundingClientRect();
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      if (cx < w.left - 4 || cx > w.right + 4 || cy < w.top - 4 || cy > w.bottom + 4) {
+        simBad.push(root.id + ' :: ring at ' + Math.round(cx) + ',' + Math.round(cy) +
+                    ' is outside its window');
+        return;
+      }
+      /* the real assertion: the ring must sit on the element the step DECLARES
+         it points at. "Inside the window" passes a 30px offset; this does not. */
+      const tid = root.dataset.ssTarget;
+      const tgt = tid && document.getElementById(tid);
+      if (!tid) { simBad.push(root.id + ' :: step published no target (place() never ran)'); return; }
+      if (!tgt) { simBad.push(root.id + ' :: declared target #' + tid + ' is not in the DOM'); return; }
+      const t = tgt.getBoundingClientRect();
+      if (cx < t.left - 6 || cx > t.right + 6 || cy < t.top - 6 || cy > t.bottom + 6) {
+        simBad.push(root.id + ' :: ring at ' + Math.round(cx) + ',' + Math.round(cy) +
+                    ' misses its target #' + tid + ' [' + Math.round(t.left) + '..' +
+                    Math.round(t.right) + ' x ' + Math.round(t.top) + '..' + Math.round(t.bottom) + ']');
+      }
+      /* The spotlight must indicate the same place as the pointer (D107).
+         Compare what place() COMPUTED for each, not the rendered ring: the ring
+         animates over 500ms and place() can re-run when the figure scrolls into
+         view, so a rendered frame measures the transition, not the maths. */
+      const spot = (root.dataset.ssSpot || '').split(',').map(Number);
+      const want = (root.dataset.ssRing || '').split(',').map(Number);
+      if (spot.length === 2 && !spot.some(isNaN) && want.length === 2 && !want.some(isNaN)) {
+        const d = Math.round(Math.hypot(spot[0] - want[0], spot[1] - want[1]));
+        if (d > 6) {
+          simBad.push(root.id + ' :: spotlight is ' + d + 'px from the pointer ' +
+                      '(spot ' + spot[0] + ',' + spot[1] + ' vs ring ' + want[0] +
+                      ',' + want[1] + ')');
+        }
+      }
+    });
+
+    /* ---- D124: ONE RIGHT EDGE ------------------------------------------
+       Every block in the page flow must end at the same x. Three different
+       right edges on one screen (1476 / 1298 / 1086) is what "empty space on
+       the right" looks like, and no single rule was wrong -- `ch` caps
+       resolve against each element's OWN font-size, so equal numbers give
+       unequal pixels. The assertion is on the RESULT, which is the only
+       place the defect is visible.
+       Exempt by design: a divider is a centred title card, a photograph has
+       a natural size, a SIMSCREEN window sits on a desktop (D117).         */
+    const ragged = [];
+    (function () {
+      const pg = document.querySelector('.page.is-active');
+      if (!pg) return;
+      const EX = '.divider-inner, figure.photo, .kicker, .ss-holder';
+      const seen = [];
+      for (const el of pg.children) {
+        if (el.matches(EX) || el.querySelector(EX)) continue;
+        const cs = getComputedStyle(el);
+        if (cs.display === 'none' || cs.display === 'inline') continue;
+        const b = el.getBoundingClientRect();
+        if (b.width < 40) continue;
+        seen.push({ t: el.tagName.toLowerCase() + '.' + ((el.className||'').split(' ')[0]||''),
+                    r: Math.round(b.right) });
+      }
+      if (seen.length < 2) return;
+      const edges = seen.map(x => x.r);
+      const spread = Math.max.apply(null, edges) - Math.min.apply(null, edges);
+      if (spread > 2) {
+        ragged.push(pg.id + ' :: ' + spread + 'px of ragged right edge -- ' +
+                    seen.map(x => x.t + '@' + x.r).join(', '));
+      }
+    })();
+
     return {
       docScroll: de.scrollWidth > de.clientWidth + 1,
       scrollW: de.scrollWidth, clientW: de.clientWidth,
       over, svgBad, pairing, pageCount, navCount, minWidthOK, activeCount,
+      arStarved, arDrift, simBad, ragged,
       hrefs: [...document.querySelectorAll('[href], [src], [download]')]
               .map(e => e.getAttribute('href') || e.getAttribute('src'))
               .filter(Boolean)
@@ -154,6 +297,7 @@ async function auditOnePage(ctx, fileUrl, hash, label) {
   if (res.docScroll) fail(label, 'document horizontal overflow', `scrollWidth ${res.scrollW} > clientWidth ${res.clientW}`);
   res.over.forEach(o => fail(label, 'element wider than viewport outside a scroll container', o));
   res.svgBad.forEach(s => fail(label, 'SVG outside viewBox', s));
+  res.ragged.forEach(r => fail(label, 'ragged right edge (D124)', r));
   res.pairing.forEach(p => fail(label, 'data-node / data-detail pairing', p));
   if (!res.minWidthOK) fail(label, 'load-bearing CSS missing', '.page-layout > * { min-width: 0 } is not in effect');
   if (res.pageCount && res.pageCount !== res.navCount) {
@@ -162,6 +306,9 @@ async function auditOnePage(ctx, fileUrl, hash, label) {
   if (res.pageCount && res.activeCount !== 1) {
     fail(label, 'exactly one page visible', `${res.activeCount} pages carry .is-active`);
   }
+  (res.arStarved || []).forEach(a => fail(label, 'Arabic in a starved container (D105)', a));
+  (res.arDrift   || []).forEach(a => fail(label, 'Arabic not under its English (D108)', a));
+  (res.simBad    || []).forEach(a => fail(label, 'SIMSCREEN pointer off its window (D107)', a));
   consoleErrors.forEach(e => fail(label, 'console error', e));
   netFailures.forEach(e => fail(label, 'failed request', e));
 

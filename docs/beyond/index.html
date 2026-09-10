@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond the Certificate &middot; eCDFP Diploma</title>
+<meta name="description" content="Fourteen self-study units that the eCDFP syllabus does not cover — Linux, mobile, macOS, cloud, encryption, anti-forensics, legal and expert testimony.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <nav class="topnav">
+      <a href="../index.html#pages">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="index.html" class="active">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <h1>Beyond the certificate</h1>
+    <p class="lede">Fourteen units the eCDFP syllabus does not cover, for the student who wants to be a
+       complete practitioner rather than a certified one. <b>None of it is taught in class</b> and none of
+       it takes session time — it is here to be studied after the diploma.</p>
+    <div class="stats">
+      <div class="stat"><b>14</b><span>units</span></div>
+      <div class="stat"><b>0</b><span>built</span></div>
+      <div class="stat"><b>0</b><span>class minutes</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section-sm">
+  <div class="note">
+    <b>A unit ships complete, or it does not ship.</b> Same six-box artifact standard as the taught
+    material, the same findings-versus-interpretation discipline, real licensed evidence, and an answer
+    key for anything it sets. There are no placeholder pages here and there never will be — a card
+    becomes a link the day the unit behind it is finished.
+  </div>
+</section>
+
+<main class="wrap section" id="units">
+  <h2 class="sec">Other platforms</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="card-top"><span class="snum">M01</span><h3>Linux Forensics — Filesystem</h3></div>
+      <p>ext4 internals · inodes · the four timestamps · superblock · /etc · users and groups · what deletion leaves on ext4</p>
+      <div class="chips"><span class="tag evs">public Linux DFIR images</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M02</span><h3>Linux Forensics — Logs & User Activity</h3></div>
+      <p>/var/log · journald · auth.log · bash_history · cron · systemd persistence · .ssh · sudo</p>
+      <div class="chips"><span class="tag evs">same corpus as M01</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M03</span><h3>Mobile — Acquisition & Its Limits</h3></div>
+      <p>logical vs filesystem vs physical · backups · encryption · what cannot be obtained, and saying so</p>
+      <div class="chips"><span class="tag">purpose-built research image required</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M04</span><h3>Mobile — Android & iOS Artifacts</h3></div>
+      <p>SQLite stores · WAL and journals · app data · chat · location · media metadata</p>
+      <div class="chips"><span class="tag">same — cut rather than faked if none licensable</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M05</span><h3>macOS Forensics</h3></div>
+      <p>APFS · plists · unified logs · FSEvents · Spotlight · quarantine</p>
+      <div class="chips"><span class="tag">scarce public corpora</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M06</span><h3>Virtual Machine Forensics</h3></div>
+      <p>VMDK/VHDX structure · snapshots · deleted VMs · the hypervisor's own logs</p>
+      <div class="chips"><span class="tag evs">we can build this ourselves</span><span class="status planned">Not built</span></div>
+    </div>
+  </div>
+  <h2 class="sec">Other evidence sources</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="card-top"><span class="snum">M07</span><h3>Cloud Forensics</h3></div>
+      <p>M365 unified audit log · Workspace admin log · AWS CloudTrail · what a provider will and will not give you</p>
+      <div class="chips"><span class="tag evs">published sample log sets</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M08</span><h3>Database Forensics</h3></div>
+      <p>SQLite deep — WAL, journals, freelist, recovering deleted rows · server-side transaction logs</p>
+      <div class="chips"><span class="tag evs">trivial to produce ourselves</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M09</span><h3>Encryption in an Examination</h3></div>
+      <p>BitLocker · VeraCrypt · recovery keys · memory-resident keys · what is genuinely unrecoverable</p>
+      <div class="chips"><span class="tag evs">our own lab</span><span class="status planned">Not built</span></div>
+    </div>
+  </div>
+  <h2 class="sec">Examiner skills</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="card-top"><span class="snum">M10</span><h3>Anti-Forensics Detection</h3></div>
+      <p>timestomping · wiping · log clearing · trace removal · proving absence, and its limits</p>
+      <div class="chips"><span class="tag evs">our own lab</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M11</span><h3>Advanced Memory Forensics</h3></div>
+      <p>Volatility 3 deep · process injection · rootkit traces · page-file and hibernation analysis</p>
+      <div class="chips"><span class="tag evs">public memory samples</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M12</span><h3>Enterprise DFIR at Scale</h3></div>
+      <p>KAPE and Velociraptor across many hosts · triage-first collection · what changes when it is 500 machines</p>
+      <div class="chips"><span class="tag evs">documented workflows</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M13</span><h3>Legal, Admissibility & Expert Testimony</h3></div>
+      <p>admissibility · scope and authorisation · the expert's duty · cross-examination · "you are not the judge"</p>
+      <div class="chips"><span class="tag evs">none needed</span><span class="status planned">Not built</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="snum">M14</span><h3>Malware Triage for Examiners</h3></div>
+      <p>static triage · strings and imports · packing · IOC extraction · where an examiner stops and hands over</p>
+      <div class="chips"><span class="tag evs">our own lab</span><span class="status planned">Not built</span></div>
+    </div>
+  </div>
+</main>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; generated from <code>design/beyond_map.md</code>.</p>
+</footer>
+
+</body>
+</html>

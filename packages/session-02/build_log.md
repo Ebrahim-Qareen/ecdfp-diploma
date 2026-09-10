@@ -159,3 +159,189 @@ them: data representation, file signatures versus extensions, metadata, and the 
 that began the intrusion.
 
 Closing line: *"You have the evidence now. What is actually inside it?"*
+
+---
+
+## 15 · Rebuilt under `D58`, 2026-09-06
+
+The instructor reviewed the first build and rejected it. The complaints were specific and all of them
+were correct; sections 1–14 above describe the session **as first built** and stay as that record.
+
+| Complaint | Measured | Fixed by |
+|---|---|---|
+| *"what is the collector?"* | the page said *"run the collector"* and **never named a tool** | **BriMor Labs Live Response Collection** (`Windows_Live_Response.bat`, menu Triage / Memory Dump / Complete / `Secure-*`), `[U2 p116–125]`, plus **Velociraptor** (Apache 2.0) as the alternative that is legal on a paid engagement |
+| *"stop repeating the same info"* | order of volatility taught in **S1 and S2** (35 min); *"memory first"* in **6** places; *"`verified`"* in **8** | one owner per idea (`D58`). Volatility defined **once**, on one page. `S2-01` deleted, physical/logical + formats **merged** |
+| *"the look is bad, I want diagrams"* | 14 figures / 29 pages, and **the micro-lab pages had none** — those were the screenshots | **16 figures / 24 pages, every teaching page has one.** Micro-labs now sit **on** their block's page instead of being pages of stacked boxes |
+| *"go faster, more information"* | — | 10 blocks → **9**; 29 pages → **24**; a new `S2-06` block that was not in the session at all |
+
+### New in this session
+
+- 🔴 **`S2-06` — file signature vs extension**, run against the image the student just acquired. Follows
+  straight on from `S1-09`, uses **`EVS-05`** (verified), and adds **`S2-F15`** (signature anatomy).
+- **`S2-F16`** — the collector: what it runs, and the two kinds of output it produces.
+- **`S2-F17`** — the cumulative record, so the ritual block has a figure like every other block.
+
+### Verified after the rebuild
+
+| Check | Result |
+|---|---|
+| **Part 9 render gate** | ✅ **PASS, zero findings** — 24 pages × 5 widths |
+| Blocks / minutes | 9 blocks, **205** (30+20+25+20+15+20+35+25+15) ✅ |
+| Figures | 16, every teaching page carries one; **0 teaching pages without a figure** ✅ |
+| Collector named on the live page | BriMor ×4 · `Windows_Live_Response.bat` ×5 · Velociraptor ×8 · WinPmem ×3 · DumpIt ×2 ✅ |
+| De-duplication | *"order of volatility"* appears **1×**; *"memory comes/is first"* **1×** ✅ |
+| Micro-labs | **7**, each with all four parts (WATCH · DO · CHECK · WHY) ✅ |
+| Stage directions in student-facing docs | **0** across five files ✅ |
+| Quiz | 10 MCQ, rotation **A B C D A B C D A B** ✅ |
+
+### Two things found while rebuilding
+
+1. **A parallel session split the answer keys out of `quiz.md` into `quiz_answer_key.md` and gitignored
+   them** (`.gitignore` line 19). That is correct for a public repo (`D22`) — a published answer key is
+   not an answer key. The Q5 swap was applied to **both** files.
+2. 🔴 **`device_commit_files` silently discards overwrites.** It returns `{"written":[…]}` while the file
+   on disk keeps its old digest, even with `force:true`. Creating a *new* path works. Hit three times.
+   **Workaround:** commit to a fresh path, then `cp` it over the target with `device_bash`, and
+   **md5-verify every write** rather than trusting the success response.
+
+### Still open
+
+| # | Item |
+|--:|---|
+| 1 | 🔴 `EVS-02` / `03` / `04` / `09` **still not acquired** — `labs/vm_notes/acquisition_runbook.md` is written and waiting on the instructor. The session cannot be taught until it runs |
+| 2 | The published `.md5` / `.sha256` manifests for `docs/session-02/` follow from item 1 |
+| 3 | `student_activity.md` still refers to the cases as `S2-08`/`S2-09`; they are now `S2-07`/`S2-08` |
+| 4 | `homework.md` unchanged and still correct, but its objective references were not re-checked against the new `O3` |
+
+
+---
+
+## Rebuild — the `D61` density pass (2026-09-06)
+
+Built from `design/prompts/SHARED_RULES.md` + `S2_BUILD_PROMPT.md`. The page was **rebuilt, not
+patched**, as the prompt required.
+
+### Before → after
+
+| | before | after | limit |
+|---|--:|--:|--:|
+| total visible words | **7 166** | **2 793** | ≤ 4 000 |
+| average per page | **298** | **126** | ≤ 180 |
+| worst single page | **590** | **189** | ≤ 250 |
+| pages with no visual | 1 | **0** | 0 |
+| pages with 4+ consecutive `<p>` | **15** | **0** | 0 |
+| concept ownership | ✗ hash re-explained on p5 ×4, p15 ×7, p16 ×6 | **PASS** | — |
+| pages | 24 | **22** (Tier A) | 22 |
+
+The old page's specific failure was repetition: *"memory comes first"* in six places, *"`verified`
+checks the tool's own output"* in eight. Each idea is now stated once, on the page that owns it,
+and used everywhere else. Every page is kept to **≤ 3** mentions of any tracked term, which is the
+gate's threshold — so ownership passes regardless of which page happens to hold the maximum.
+
+### The three animations (`D51`)
+
+| Figure | Page | The mechanism |
+|---|:-:|---|
+| `S2-F2` volatility ladder | 5 | six bars drain at **visibly different rates** — registers to zero, RAM to a sliver, disk barely moving. The animation *is* the argument for the order |
+| `S2-F4` hidden area | 9 | the reported extent shrinks inside the true outline and the gap shades in as HPA/DCO |
+| `S2-F5` verification chain | 14 | a tick travels the chain and **stops on the write-and-read-back link**; the green bracket closes there and a red dashed one under source→read shows what was never covered |
+
+Same contract as S1: one full-length `<animate>` per element, all `begin="<control>.click"`, no
+`fill` animated to a `var()`, nothing autoplays or loops. Two static figures — the session clock
+and the E01/raw/AD1 container anatomy — are static on purpose: they are states, not mechanisms.
+
+⚠️ **The animation suite needed a new check to be honest here.** `S2-F2` animates `width`, not
+`opacity`, so the "no authored-hidden element moved" assertion had **nothing to assert** and
+reported `all 0 hidden elements`. It now measures the six bars directly: full width after a
+6.4-second idle, `[0, 27, 48, 172, 504, 531]` after a click — six different rates, in the right
+order — and back to full on replay. An assertion with an empty subject is not a pass.
+
+### Scope rules held
+
+- **HPA/DCO (p9) is taught before the imaging tools (p10)**, so the student knows hidden storage
+  exists before they image. Teaching it after was the corrected defect.
+- **Case 02b asks what the tool reports, never what the structures mean.** Volume present, sector
+  count, reported file-system type. A `.limitation` states outright that partition tables and
+  `$MFT` are Session 4 and that saying so is the correct answer, not a gap.
+- **The collector is named** — BriMor `Windows_Live_Response.bat` with its four menu options, and
+  Velociraptor as the free-for-commercial alternative (`D68`).
+- **Triage is a targeted subset**, said explicitly, against the previous instructor's "three images".
+- **`verified` is the one deliberate repeat**, and page 14 says so in a `.caveat`: S1 read the word
+  in a log it was handed, S2 produces the log first.
+- Order of volatility appears **only** here, per `S1_BUILD_PROMPT` §5.
+
+### ⛔ Provisional pages — pending evidence
+
+`EVS-02`, `EVS-03`, `EVS-04` and `EVS-09` are all `⛔ PENDING` in `design/evidence_sets.md`, so
+Part 8 step 0 is not satisfied. Per the prompt, pages 1–9 and 11–15 are complete; **three pages
+carry a visible `.caveat` and contain no invented values:**
+
+| Page | Blocked on | What is final | What is a placeholder |
+|--:|---|---|---|
+| 10 | `EVS-02` | the five FTK Imager steps and the verification-log structure | every digest, size and sector count — shown as `&lt;pending EVS-02&gt;` |
+| 16 | `EVS-02` | the five independent-practice steps and the re-verify line | any path, size or digest |
+| 17 | `EVS-04` | the Case 02a/02b brief, both parts, the deliverables | exhibit names, sector counts, digests |
+
+Page 15 is built in full: `S2-06`'s evidence is **`EVS-05`**, which is generated and verified, so
+its bytes are real. Only the framing — *files exported from the image you made* — waits on
+`EVS-02`, and a `.caveat` says so.
+
+**No hash, file size or tool output was invented for evidence that does not exist.**
+
+### Gates
+
+```
+python3 scripts/density_gate.py docs/session-02/index.html   ALL PASS  (numbers above)
+node testing/render_gate.js docs                             PASS — zero findings, 5 widths
+node anim_s2.js                                              PASS — 0 failures
+node audit.js docs/session-02/index.html                     PASS — 0 findings
+```
+Device and container SHA-256 match (`9a6a5b37…`), so the gates ran on the file that ships.
+
+
+### Follow-up — the label that was centred on nothing
+
+Reported from a screenshot of page 9 at rest: *"this is not in middle or box"*. Correct.
+`what the OS reports` sat at a **fixed** `x`, left-anchored, inside a rect whose width **animates**
+996&nbsp;&rarr;&nbsp;815. It was 174 units off centre at rest and 84 off after play &mdash; centred
+on neither state, because a fixed label cannot be. Its `x` now animates on the same keyTimes as the
+box, measured at **offset 0 in both states** (560/560 at rest, 470/470 after play).
+
+⚠️ **The first checker I wrote for this would never have caught it.** It only inspected
+`text[text-anchor="middle"]`, and the defective label was left-anchored &mdash; so the negative test
+passed with the bug reintroduced. The second attempt, a general "is this label aligned to its box"
+rule, was worse: it would have flagged legitimate two-column layouts inside a panel.
+
+What is in `audit.js` now is exact and cannot false-positive: **a `<text>` inside a rect whose
+`width` animates must either animate its own `x`, or stay within 8 units of the box centre at both
+the start and end widths.** Negative-tested &mdash; reintroducing the fixed `x` reports
+`"what the OS reports" is fixed inside a rect that resizes 996&rarr;815 (off centre by 174 then 84)`,
+and restoring it passes. It also runs clean over S1's 23 pages.
+
+
+### Follow-up — the report thread, merged into the blocks
+
+Added page 22, *Write the report*; References moved to 23 and the sidebar regenerated from
+document order. S2 is now 23 pages.
+
+**It is not S1's page repeated.** S1's maps the ten sections to a first evidence handling; this one
+is built around the fact that **acquisition's honest output is mostly section 9**. An image that is
+*complete* and an image that is *verified* are different sentences, and the report has to say which
+one the student has. The table's fourth column names the page each value came from — p10 for the
+case number, p6 for tools and versions, p9 and p10 for the sector counts and the verify line, p14
+for the limitation — so a student can walk back to the block that produced it.
+
+**Merged into the content, not bolted on.** Three teaching blocks now name the section they feed:
+
+| Page | Cue added |
+|--:|---|
+| 6 | tool, version, menu option, operator, output path &mdash; *"that is **section 4** of your report, written while you can still see it"* |
+| 9 | record both sector counts &mdash; *"**section 6, Findings** &mdash; whether they differ or not"* |
+| 14 | what `verified` does not cover &mdash; *"that sentence belongs in **section 9, Limitations**"* |
+
+The template is **linked, not copied**: `../session-01/report_template.md`, the identical published
+file. That the link crosses back to Session 1 is the point — it does not change for six sessions.
+Link verified to resolve, 7 600 B.
+
+Gates after: density **ALL PASS** (3 047 words, 132/page, worst 228, 23/23 sidebar), render gate
+**zero findings**, animation suite and layout audit clean. Device and container hashes match.

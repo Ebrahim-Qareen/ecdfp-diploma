@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P04 &middot; Volatile evidence &middot; eCDFP Diploma</title>
+<meta name="description" content="The order of volatility, what a live collection writes to the machine it collects from, memory acquisition, and why a RAM capture is a smear and not a snapshot &mdash; page 4 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P04 &middot; Volatile evidence</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>Objectives</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; Live response</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>What is live response?</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>The order of volatility</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>Why the order is not a preference</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>What your own collection destroys</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>The live response collection tree</span></a></li>
+      <li class="is-part"><a href="#p10"><span class="n">10</span><span>PART 2 &mdash; Memory</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>What is a memory image?</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>A smear, not a snapshot</span></a></li>
+      <li><a href="#p13"><span class="n">13</span><span>Where the image must not be written</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>From Volatility 2 to Volatility 3</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>The four questions memory answers</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>What a memory image does not prove</span></a></li>
+      <li class="is-part"><a href="#p17"><span class="n">17</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>Collect volatile state in order</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>Acquiring memory with WinPmem</span></a></li>
+      <li class="is-part"><a href="#p20"><span class="n">20</span><span>YOUR TURN</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>Exercise &mdash; order six sources</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Exercise &mdash; which did you cause?</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>Knowledge check</span></a></li>
+      <li class="is-part"><a href="#p24"><span class="n">24</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p26"><span class="n">26</span><span>TASK</span></a></li>
+      <li><a href="#p27"><span class="n">27</span><span>Task &mdash; acquire memory, prove it</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>Report &mdash; Section 6</span></a></li>
+      <li><a href="#p29"><span class="n">29</span><span>Report &mdash; an exhibit that cannot be re-taken</span></a></li>
+      <li><a href="#p30"><span class="n">30</span><span>Summary</span></a></li>
+      <li><a href="#p31"><span class="n">31</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+<main class="main">
+
+<section class="page" id="p1">
+<span class="kicker">P04 &middot; Page 4 of 14 &middot; 60 topic minutes</span>
+<h2>Volatile evidence
+  <span class="ar">الدليل المتطاير</span></h2>
+<p class="lede">Two topics that share one deadline. <b>T06</b> decides what you collect first when a machine is still running; <b>T07</b> takes the highest-value thing on that list and shows you how to read it.
+  <span class="ar">موضوعان يجمعهما موعد نهائي واحد. <b>T06</b> يقرّر ما الذي تجمعه أولاً و الجهاز لا يزال يعمل، و <b>T07</b> يأخذ أعلى ما في تلك القائمة قيمةً و يعلّمك كيف تقرؤه.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Topic</th><th>Minutes</th><th>Hands-on</th></tr></thead>
+  <tbody>
+    <tr><td><b>T06</b> Live Response &mdash; Order of Volatility<span class="ar">الاستجابة الحيّة — ترتيب التطاير</span></td><td>25</td><td>Yes</td></tr>
+    <tr><td><b>T07</b> Memory Forensics &mdash; Acquire and Analyse<span class="ar">تحليل الذاكرة — الالتقاط ثم القراءة</span></td><td>35</td><td>Yes</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>This is the first page where <b>doing nothing is also a decision</b>. On `P01`&ndash;`P03` the evidence waited for you. Here it does not.
+    <span class="ar">هذه أول صفحة يكون فيها <b>عدم الفعل قرارًا أيضًا</b>. ففي `P01`–`P03` كان الدليل ينتظرك، أما هنا فلا ينتظر.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T06 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن</span></h2>
+<figure class="dgm" id="dg-lc-p04" data-mode="story" data-reveal="upto" data-interval="9000">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p04">
+  <title id="t-dg-lc-p04">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="78" text-anchor="middle" fill="#00ff9d">ACQUIRE</text>
+    <text class="xs" x="84" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="86" text-anchor="middle">ANALYSE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 1.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p>Every case so far started with a disk that was already sealed. This one starts with a machine that is <b>still on</b>, and a beacon still running on it. Pull the plug and you keep the disk and lose the memory. Take the memory and every minute of it is a minute the disk is being written to.
+  <span class="ar">كل قضية حتى الآن بدأت بقرص مختوم بالفعل. أما هذه فتبدأ بجهاز <b>لا يزال يعمل</b>، و beacon لا يزال نشطًا عليه. فإن فصلت الكهرباء ربحت القرص و خسرت الذاكرة، و إن أخذت الذاكرة فكل دقيقة فيها دقيقة يُكتب فيها على القرص.</span></p>
+<div class="key-takeaway"><span class="cl-label">The case you are about to work</span>
+  <ul>
+    <li><code>FIN-WKS-07</code> is found powered on, user session locked, network cable still in.
+      <span class="ar">يوجد <code>FIN-WKS-07</code> و هو يعمل، و جلسة المستخدم مقفلة، و كابل الشبكة موصول.</span></li>
+    <li>You have about ten minutes before someone senior asks you to shut it down.
+      <span class="ar">أمامك نحو عشر دقائق قبل أن يطلب منك مسؤول أعلى إطفاءه.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P04 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستكون قادرًا عليه</span></h2>
+<div class="key-takeaway"><span class="cl-label">By the end of this page you can</span>
+  <ul>
+    <li>order any set of volatile sources by <b>RFC 3227</b>, and say what each one costs if you take it second.
+      <span class="ar">أن ترتّب أي مجموعة من المصادر المتطايرة وفق <b>RFC 3227</b>، و تحدّد ثمن تأخير كل منها.</span></li>
+    <li>name the artifacts <b>your own collection</b> writes to the suspect machine, before a defence expert names them for you.
+      <span class="ar">أن تُسمّي الـ artifacts التي تكتبها <b>عملية جمعك أنت</b> على جهاز المشتبه به، قبل أن يُسمّيها خبير الدفاع بدلاً منك.</span></li>
+    <li>acquire a memory image to the correct destination, and hash it before the machine is powered down.
+      <span class="ar">أن تلتقط memory image إلى الوجهة الصحيحة، و تحسب الـ hash قبل إطفاء الجهاز.</span></li>
+    <li>explain why a memory image is a <b>smear and not a snapshot</b>, and what that forbids you from writing.
+      <span class="ar">أن تشرح لماذا الـ memory image <b>صورة تُلتقط على مدى دقائق، لا لحظة واحدة</b>، و ما الذي يمنعك ذلك من كتابته.</span></li>
+    <li>read <code>pslist</code>, <code>pstree</code>, <code>netscan</code> and <code>malfind</code> output and state what each one establishes &mdash; and what none of them do.
+      <span class="ar">أن تقرأ مخرجات <code>pslist</code> و <code>pstree</code> و <code>netscan</code> و <code>malfind</code> و تحدّد ما يُثبته كلٌّ منها — و ما لا يُثبته أيٌّ منها.</span></li>
+  </ul>
+</div>
+<div class="note">
+  <p><b>Prerequisite:</b> `T01` chain of custody and `T03` hashing. You will be sealing an exhibit that <b>cannot be re-taken</b>, so the integrity rules matter more here than anywhere so far.
+    <span class="ar"><b>المتطلَّب السابق:</b> `T01` الـ chain of custody و `T03` حساب الـ hash. فستختم هنا exhibit <b>لا يمكن إعادة أخذه</b>، و لذلك تصبح قواعد الـ integrity أهم مما كانت في أي موضع سابق.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 2</span>
+  <h2>Live response &mdash; what to collect first<span class="ar">الاستجابة الحيّة — ما الذي تجمعه أولاً</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">A running machine is a clock. This part is the published order for beating it, the reason the order is not negotiable, and the price your own tooling charges for using it.<span class="ar">الجهاز الذي يعمل ساعةٌ تجري. و هذا الجزء عن الترتيب المنشور الذي تسبقها به، و عن سبب كون هذا الترتيب غير قابل للتفاوض، و عن الثمن الذي تتقاضاه أدواتك أنت مقابل استخدامه.</span></p>
+  <p class="divider-meta">6 screens &middot; about 25 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T06 &middot; Theory</span>
+<h2>What is live response?
+  <span class="ar">ما هي الاستجابة الحيّة؟</span></h2>
+<p><b>Live response</b> is collecting evidence from a machine <b>while it is still running</b>, through its own operating system. That last clause is the whole subject: every answer you get is the OS answering a question, not you reading the hardware.
+  <span class="ar"><b>الاستجابة الحيّة</b> هي جمع الدليل من جهاز <b>لا يزال يعمل</b>، عبر نظام تشغيله هو. و هذه العبارة الأخيرة هي الموضوع كله: فكل إجابة تحصل عليها هي إجابة النظام عن سؤال، لا قراءتك أنت للعتاد.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th></th><th>Reads through</th><th>Machine state</th><th>What it can miss</th></tr></thead>
+  <tbody>
+    <tr><td><b>Live</b><span class="ar">حيّة</span></td><td>the suspect OS<span class="ar">نظام تشغيل المشتبه به</span></td><td>running<span class="ar">يعمل</span></td><td>anything the OS is lying about<span class="ar">كل ما يكذب النظام بشأنه</span></td></tr>
+    <tr><td><b>Dead</b><span class="ar">ميتة</span></td><td>your own OS, or hardware<span class="ar">نظامك أنت أو العتاد</span></td><td>powered off<span class="ar">مطفأ</span></td><td>everything volatile &mdash; all of it<span class="ar">كل ما هو متطاير — بأكمله</span></td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">What live response can never establish</span>
+  <p>On a rootkitted host, the collection <b>faithfully records the rootkit&rsquo;s answers</b>. A clean process list gathered live is not evidence of a clean machine &mdash; it is evidence of what the OS was willing to say.
+    <span class="ar">على جهاز مُصاب بـ rootkit، تسجّل عملية الجمع <b>إجابات الـ rootkit بأمانة</b>. فقائمة عمليات نظيفة جُمعت حيًّا ليست دليلاً على نظافة الجهاز — بل دليل على ما وافق النظام أن يقوله.</span></p>
+  <div class="eg"><b>Example:</b> ask a compromised kernel to list processes and it lists the ones it wants you to see. The same kernel serves the answer and hides the exception.
+    <span class="ar">اطلب من kernel مُخترَق أن يعرض العمليات فيعرض ما يريدك أن تراه. فالـ kernel نفسه هو من يقدّم الإجابة و هو من يُخفي الاستثناء.</span></div>
+</div>
+<div class="note">
+  <p>So why do it at all? Because the alternative is <b>losing the volatile tiers entirely</b>. A possibly-lied-to process list plus a memory image you can check it against beats no process list and no memory.
+    <span class="ar">فلماذا نفعلها إذن؟ لأن البديل هو <b>خسارة المستويات المتطايرة كلها</b>. فقائمة عمليات قد تكون مضلِّلة، مع memory image تستطيع مقارنتها به، أفضل من لا قائمة و لا ذاكرة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T06 &middot; Theory</span>
+<h2>The order of volatility
+  <span class="ar">ترتيب التطاير</span></h2>
+<p><b>Volatility</b> is how likely a data set is to change or vanish. The <b>order of volatility</b> says: collect from the most volatile store first. It is not a rule of thumb &mdash; it is published, in <b>RFC 3227</b> (Brezinski &amp; Killalea, February 2002), and it has not needed revising since.
+  <span class="ar"><b>التطاير</b> هو مدى احتمال تغيّر مجموعة بيانات أو اختفائها. و <b>ترتيب التطاير</b> يقول: اجمع من أكثر المصادر تطايرًا أولاً. و هي ليست قاعدة تقريبية — بل منشورة في <b>RFC 3227</b> (Brezinski و Killalea، فبراير ٢٠٠٢)، و لم تحتج إلى تعديل منذ ذلك الحين.</span></p>
+<figure class="dgm" id="dg-p04-f1" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P04-F1</span><span class="dgm-tag">SEQUENCE &#183; TOP DOWN</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 384" role="img" aria-labelledby="t-f1">
+  <title id="t-f1">RFC 3227 order of volatility, most volatile first</title>
+  <text class="xs mut" x="14" y="24">RFC 3227 &#167;2.1 &#183; COLLECT FROM THE TOP DOWN</text>
+  <text class="xs mut" x="576" y="24">TYPICAL LIFETIME</text>
+  <g data-step="1">
+    <rect class="box no" x="14" y="42" width="546" height="32" rx="5"/>
+    <text class="sm" x="30" y="63">1. registers, cache</text>
+    <text class="xs mut" x="576" y="63">nanoseconds</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="14" y="80" width="546" height="32" rx="5"/>
+    <text class="sm" x="30" y="101">2. MEMORY, kernel stats, processes, network state</text>
+    <text class="xs mut" x="576" y="101">seconds</text>
+  </g>
+  <g data-step="3">
+    <rect class="box warn" x="14" y="118" width="546" height="32" rx="5"/>
+    <text class="sm" x="30" y="139">3. temporary file systems</text>
+    <text class="xs mut" x="576" y="139">minutes</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="156" width="546" height="32" rx="5"/>
+    <text class="sm" x="30" y="177">4. disk</text>
+    <text class="xs mut" x="576" y="177">until wiped</text>
+  </g>
+  <g data-step="5">
+    <rect class="box ok" x="14" y="194" width="546" height="32" rx="5"/>
+    <text class="sm" x="30" y="215">5. remote logging and monitoring data</text>
+    <text class="xs mut" x="576" y="215">per retention</text>
+  </g>
+  <g data-step="6">
+    <rect class="box ok" x="14" y="232" width="546" height="32" rx="5"/>
+    <text class="sm" x="30" y="253">6. physical configuration, network topology</text>
+    <text class="xs mut" x="576" y="253">stable</text>
+  </g>
+  <g data-step="7">
+    <rect class="box ok" x="14" y="270" width="546" height="32" rx="5"/>
+    <text class="sm" x="30" y="291">7. archival media</text>
+    <text class="xs mut" x="576" y="291">indefinite</text>
+  </g>
+  <g data-step="7">
+    <rect class="box key" x="14" y="314" width="746" height="34" rx="5"/>
+    <text class="sm" x="30" y="336">Memory first inside tier 2 &#8212; it is the only one nothing else can rebuild.</text>
+  </g>
+  <text class="xs mut" x="14" y="370">Brezinski &amp; Killalea, February 2002. The list is an ORDER, not a menu.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">What the RFC actually says</span>
+  <p>RFC 3227 section 2.1 lists the order and section 2.2 adds the constraint that makes it workable: <i>&ldquo;Minimise changes to the data as you are collecting it. This is not limited to content changes; you should avoid updating file or directory access times.&rdquo;</i>
+    <span class="ar">يسرد القسم ٢٫١ من RFC 3227 الترتيب، و يضيف القسم ٢٫٢ القيد الذي يجعله قابلاً للتطبيق: <i>«قلّل تغييرك للبيانات أثناء جمعها. و لا يقتصر ذلك على تغيير المحتوى؛ بل عليك تجنّب تحديث أوقات الوصول إلى الملفات و المجلدات.»</i></span></p>
+  <div class="eg"><b>Example:</b> which is why you never open a suspect folder in Explorer to &ldquo;have a quick look&rdquo; &mdash; that is a write.
+    <span class="ar">و لهذا لا تفتح مجلد المشتبه به في Explorer «لتلقي نظرة سريعة» — فتلك عملية كتابة.</span></div>
+</div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T06 &middot; Theory</span>
+<h2>Why the order is not a preference
+  <span class="ar">لماذا هذا الترتيب ليس تفضيلاً</span></h2>
+<p>Two responders arrive at the same machine. One images the disk first because it is the biggest and feels most important. One takes memory first. <b>Ninety minutes later they have completely different cases.</b>
+  <span class="ar">يصل مستجيبان إلى الجهاز نفسه. الأول يصوّر القرص أولاً لأنه الأكبر و يبدو الأهم، و الثاني يأخذ الذاكرة أولاً. <b>و بعد تسعين دقيقة تكون لديهما قضيتان مختلفتان تمامًا.</b></span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th></th><th>Disk first</th><th>Memory first</th></tr></thead>
+  <tbody>
+    <tr><td><b>Disk image</b><span class="ar">نسخة القرص</span></td><td>complete<span class="ar">كاملة</span></td><td>complete, 5 minutes later<span class="ar">كاملة، متأخرة خمس دقائق</span></td></tr>
+    <tr><td><b>Running processes</b><span class="ar">العمليات العاملة</span></td><td>gone<span class="ar">ضاعت</span></td><td>captured<span class="ar">التُقطت</span></td></tr>
+    <tr><td><b>Network connections</b><span class="ar">اتصالات الشبكة</span></td><td>gone<span class="ar">ضاعت</span></td><td>captured<span class="ar">التُقطت</span></td></tr>
+    <tr><td><b>Decrypted C2 config</b><span class="ar">إعدادات الـ C2 بعد فكّ تشفيرها</span></td><td>gone &mdash; it only ever existed in RAM<span class="ar">ضاعت — لم توجد إلا في الـ RAM</span></td><td>captured<span class="ar">التُقطت</span></td></tr>
+    <tr><td><b>Full-disk-encryption key</b><span class="ar">مفتاح تشفير القرص الكامل</span></td><td>gone &mdash; and the disk image is now unreadable<span class="ar">ضاع — و صورة القرص الآن غير قابلة للقراءة</span></td><td>captured<span class="ar">التُقط</span></td></tr>
+  </tbody>
+</table></div>
+<div class="interpretation">
+  <span class="cl-label">The asymmetry is the whole argument</span>
+  <p>Taking memory first costs the disk <b>five minutes of nothing</b> &mdash; it is powered off and imaged either way. Taking the disk first costs the memory <b>everything</b>. When one order is recoverable and the other is not, there is no trade-off to weigh.
+    <span class="ar">أخذ الذاكرة أولاً يكلّف القرص <b>خمس دقائق لا يحدث فيها شيء</b> — فسيُطفأ و يُصوَّر في الحالتين. أما أخذ القرص أولاً فيكلّف الذاكرة <b>كل شيء</b>. و حين يكون أحد الترتيبين قابلاً للاسترجاع و الآخر لا، فلا موازنة أصلاً.</span></p>
+</div>
+<div class="note">
+  <p>The one exception INE flags, and it is a real one: if a <b>destructive program is running</b> &mdash; a wipe in progress &mdash; pulling power immediately may be correct. You lose memory to save the disk. That is a judgement call, and it is the only one on this page.
+    <span class="ar">الاستثناء الوحيد الذي ينبّه إليه INE، و هو استثناء حقيقي: إن كان <b>برنامج تدميري يعمل</b> — عملية مسح جارية — فقد يكون فصل الكهرباء فورًا هو الصواب. تخسر الذاكرة لتنقذ القرص. و هذا قرار تقديري، و هو القرار التقديري الوحيد على هذه الصفحة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p8">
+<span class="kicker">T06 &middot; Theory</span>
+<h2>What your own collection destroys
+  <span class="ar">ما الذي تُتلفه عملية جمعك أنت</span></h2>
+<p>You cannot observe a running Windows machine without changing it. INE states this plainly: <i>&ldquo;running your forensic tool will change part of the memory.&rdquo;</i> The question is never how to avoid it. It is <b>whether you can account for it afterwards</b>.
+  <span class="ar">لا يمكنك ملاحظة جهاز Windows يعمل دون أن تغيّره. و يقول INE ذلك صراحةً: <i>«تشغيل أداتك الجنائية سيغيّر جزءًا من الذاكرة.»</i> فالسؤال ليس كيف تتجنّب ذلك أبدًا، بل <b>هل تستطيع تفسيره لاحقًا</b>.</span></p>
+<figure class="dgm" id="dg-p04-f2" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P04-F2</span><span class="dgm-tag">ACCUMULATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 264" role="img" aria-labelledby="t-f2">
+  <title id="t-f2">What a live collection writes to the machine it is collecting from</title>
+  <text class="xs mut" x="14" y="22">THE SUSPECT MACHINE, WHILE YOU COLLECT</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="36" width="240" height="52" rx="6"/>
+    <text class="lbl" x="30" y="60">YOUR USB</text>
+    <text class="xs mut" x="30" y="78">collector + imager</text>
+  </g>
+  <g data-step="2">
+    <path class="arw" d="M256 62 L316 62"/><path class="arw" d="M310 57 L316 62 L310 67"/>
+    <rect class="box warn" x="318" y="36" width="240" height="52" rx="6"/>
+    <text class="lbl" x="334" y="60">RUNNING PROCESS</text>
+    <text class="xs mut" x="334" y="78">allocates RAM, loads a driver</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="318" y="108" width="440" height="32" rx="5"/>
+    <text class="sm" x="332" y="129">PREFETCH</text>
+    <text class="xs mut" x="530" y="129">a .pf for your tool</text>
+    <path class="arw" d="M438 90 L438 106"/>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="318" y="148" width="440" height="32" rx="5"/>
+    <text class="sm" x="332" y="169">USBSTOR</text>
+    <text class="xs mut" x="530" y="169">your serial, first + last</text>
+    <path class="arw" d="M438 128 L438 146"/>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="318" y="188" width="440" height="32" rx="5"/>
+    <text class="sm" x="332" y="209">$MFT / $LogFile</text>
+    <text class="xs mut" x="530" y="209">every write you made</text>
+    <path class="arw" d="M438 168 L438 186"/>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="188" width="290" height="32" rx="5"/>
+    <text class="sm" x="28" y="209">WRITE IT DOWN FIRST</text>
+  </g>
+  <text class="xs mut" x="14" y="246">You cannot avoid this. You can only be the examiner who documented it.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">Why this is not a footnote</span>
+  <p>In `T17` you will read <b>USBSTOR</b> to prove an exfiltration device was connected. Your own drive is in that same key, with the same fields. An examiner who did not record their serial number cannot later tell the two apart &mdash; and neither can the defence, which is worse.
+    <span class="ar">في `T17` ستقرأ <b>USBSTOR</b> لتُثبت أن جهاز تسريب قد وُصل. و قرصك أنت في المفتاح نفسه، بالحقول نفسها. فالفاحص الذي لم يسجّل رقمه التسلسلي لا يستطيع لاحقًا التمييز بينهما — و لا يستطيع الدفاع ذلك أيضًا، و هذا أسوأ.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p9">
+<span class="kicker">T06 &middot; Theory</span>
+<h2>The live response collection tree
+  <span class="ar">شجرة مخرجات الاستجابة الحيّة</span></h2>
+<p>An automated collector writes one folder per host, named <code>HOSTNAME_yyyymmdd_hhmmss</code>. Learning the shape now means that in an incident you are <b>reading</b> it, not exploring it.
+  <span class="ar">تكتب أداة الجمع الآلية مجلدًا واحدًا لكل جهاز، اسمه <code>HOSTNAME_yyyymmdd_hhmmss</code>. و تعلُّم شكله الآن يعني أنك في الحادثة ستكون <b>تقرؤه</b> لا تستكشفه.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Path</th><th>What is in it, and what you read it for</th></tr></thead>
+  <tbody>
+    <tr><td><code>ForensicImages\Memory\</code><span class="ar">صور الذاكرة</span></td><td>the RAM capture &mdash; <b>goes to Volatility</b><span class="ar">التقاط الـ RAM — <b>يذهب إلى Volatility</b></span></td></tr>
+    <tr><td><code>LiveResponseData\BasicInfo\</code><span class="ar">معلومات الجهاز الأساسية</span></td><td>host identity, OS build, uptime &mdash; <b>is this the right machine?</b><span class="ar">هوية الجهاز و إصدار النظام و مدة التشغيل — <b>هل هذا هو الجهاز الصحيح؟</b></span></td></tr>
+    <tr><td><code>LiveResponseData\NetworkInfo\</code><span class="ar">معلومات الشبكة</span></td><td>connections, ARP, routing &mdash; <b>who was it talking to</b><span class="ar">الاتصالات و الـ ARP و التوجيه — <b>إلى من كان يتّصل</b></span></td></tr>
+    <tr><td><code>LiveResponseData\PersistenceMechanisms\</code><span class="ar">آليات البقاء</span></td><td>autoruns, services, tasks &mdash; <b>how it survives a reboot</b><span class="ar">التشغيل التلقائي و الخدمات و المهام — <b>كيف ينجو من إعادة التشغيل</b></span></td></tr>
+    <tr><td><code>CopiedFiles\event logs\</code><span class="ar">السجلات المنسوخة</span></td><td>the <code>.evtx</code> set &mdash; <b>`P12` reads these</b><span class="ar">مجموعة ملفات <code>.evtx</code> — <b>يقرؤها `P12`</b></span></td></tr>
+    <tr><td><code>Processing_Details.txt</code><span class="ar">تفاصيل التنفيذ</span></td><td>every command the tool ran &mdash; <b>this is Section 6 of your report</b><span class="ar">كل أمر شغّلته الأداة — <b>و هذا هو القسم السادس من تقريرك</b></span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The two files people skip</span>
+  <p><code>Processing_Details.txt</code> and the per-file hash list. The first is your <b>method section, written for you</b>. The second proves the collection was not altered after the fact.
+    <span class="ar">ملف <code>Processing_Details.txt</code> و قائمة الـ hash لكل ملف. الأول هو <b>قسم المنهج، مكتوبًا نيابةً عنك</b>. و الثاني يُثبت أن المجموعة لم تُعدَّل بعد جمعها.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">And what that hash list does not say</span>
+  <p>A hash of every collected file proves the <b>collection</b> was not altered afterwards. It says nothing about whether the file was <b>authentic on the host</b> &mdash; the same distinction `T03` drew between integrity and authenticity, arriving here as a practical trap.
+    <span class="ar">حساب الـ hash لكل ملف مجموع يُثبت أن <b>المجموعة</b> لم تُعدَّل بعد جمعها. و لا يقول شيئًا عن كون الملف <b>أصيلاً على الجهاز</b> — و هو التمييز نفسه الذي رسمه `T03` بين الـ integrity و الـ authenticity، عائدًا هنا في صورة فخٍّ عملي.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p10">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 2</span>
+  <h2>Memory &mdash; acquire it, then read it<span class="ar">الذاكرة — التقاطها ثم قراءتها</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The highest tier on the list you can actually carry away. Everything here follows from one fact: the machine keeps running while you copy it.<span class="ar">أعلى مستوى في القائمة تستطيع فعلاً أن تحمله معك. و كل ما هنا يقوم على حقيقة واحدة: أن الجهاز يظلّ يعمل بينما تنسخه.</span></p>
+  <p class="divider-meta">6 screens &middot; about 30 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T07 &middot; Theory</span>
+<h2>What is a memory image?
+  <span class="ar">ما هو الـ memory image؟</span></h2>
+<p>A capture of physical memory from a running machine, taken by loading a <b>kernel driver</b> that reads the physical address space and streams it to a file. That definition already contains the tool&rsquo;s own footprint, which is why it is worth reading twice.
+  <span class="ar">التقاط للذاكرة الفيزيائية من جهاز يعمل، يتمّ بتحميل <b>driver في الـ kernel</b> يقرأ مساحة العناوين الفيزيائية و يكتبها إلى ملف. و هذا التعريف يحوي أثر الأداة نفسها، و لهذا يستحق قراءتين.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th></th><th>Memory holds it</th><th>Disk holds it</th></tr></thead>
+  <tbody>
+    <tr><td>running processes and their arguments<span class="ar">العمليات العاملة و وسائطها</span></td><td>yes</td><td>partly, after the fact<span class="ar">جزئيًا، بعد وقوعها</span></td></tr>
+    <tr><td>open network connections<span class="ar">الاتصالات المفتوحة</span></td><td>yes</td><td>no</td></tr>
+    <tr><td><b>decrypted</b> buffers and unpacked executables<span class="ar">المخازن <b>بعد فكّ التشفير</b> و الملفات بعد فكّ الحزم</span></td><td>yes</td><td>encrypted or packed only<span class="ar">مشفّرة أو محزومة فقط</span></td></tr>
+    <tr><td>the <b>full-disk-encryption key</b><span class="ar"><b>مفتاح تشفير القرص الكامل</b></span></td><td>yes</td><td>no</td></tr>
+    <tr><td>RAM-only malware that never touches disk<span class="ar">برمجيات خبيثة لا تلمس القرص أصلاً</span></td><td><b>the only place it exists</b><span class="ar"><b>الموضع الوحيد لوجودها</b></span></td><td>no</td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The row that decides cases</span>
+  <p>The <b>full-disk-encryption key</b>. Power the machine off before capturing memory and a perfectly acquired, perfectly hashed 1 TB disk image becomes <b>an unreadable block of ciphertext</b>. The order of volatility is not academic here; it is the difference between having the evidence and having a file.
+    <span class="ar"><b>مفتاح تشفير القرص الكامل</b>. فإن أطفأت الجهاز قبل التقاط الذاكرة، تحوّلت نسخة قرص سعتها تيرابايت، مأخوذة بإتقان و محسوب لها hash، إلى <b>كتلة نصٍّ مشفَّر لا تُقرأ</b>. فترتيب التطاير هنا ليس كلامًا نظريًّا، بل هو الفرق بين أن تملك الدليل و أن تملك ملفًا لا يُقرأ.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p12">
+<span class="kicker">T07 &middot; Theory &middot; the idea this topic turns on</span>
+<h2>A smear, not a snapshot
+  <span class="ar">صورة على مدى دقائق، لا لحظة واحدة</span></h2>
+<p>A memory capture takes minutes, and <b>the machine does not pause for it</b>. Pages read at the start and pages read at the end are from different moments, so the file can contain structures that <b>never coexisted</b>.
+  <span class="ar">يستغرق التقاط الذاكرة دقائق، و <b>الجهاز لا يتوقّف من أجله</b>. فالصفحات المقروءة في البداية و المقروءة في النهاية من لحظتين مختلفتين، و لذلك قد يحوي الملف بنى <b>لم توجد معًا في أي لحظة</b>.</span></p>
+<figure class="dgm" id="dg-p04-f3" data-mode="loop" data-reveal="upto" data-interval="5600">
+  <div class="dgm-head"><span class="dgm-id">FIG P04-F3</span><span class="dgm-tag">TIMELINE &#183; ACCUMULATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 280" role="img" aria-labelledby="t-f3">
+  <title id="t-f3">Memory capture streams while the machine keeps running</title>
+  <text class="xs mut" x="14" y="22">PHYSICAL MEMORY, 16 GB &#183; CAPTURE TAKES ~4 MINUTES</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="34" width="744" height="44" rx="6"/>
+    <text class="xs mut" x="28" y="60">t = 0:00 &#183; the machine as it is when you press Enter</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="96" width="172" height="40" rx="5"/>
+    <text class="sm" x="30" y="121">read at 0:00</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="200" y="96" width="172" height="40" rx="5"/>
+    <text class="sm" x="216" y="121">read at 1:00</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="386" y="96" width="172" height="40" rx="5"/>
+    <text class="sm" x="402" y="121">read at 2:00</text>
+  </g>
+  <g data-step="5">
+    <rect class="box ok" x="572" y="96" width="172" height="40" rx="5"/>
+    <text class="sm" x="588" y="121">read at 3:00</text>
+  </g>
+  <g data-step="6">
+    <rect class="box no" x="200" y="152" width="358" height="38" rx="5"/>
+    <text class="sm" x="216" y="176">process EXITED at 1:40</text>
+    <path class="arw" d="M300 150 L300 138"/>
+  </g>
+  <g data-step="7">
+    <rect class="box key" x="14" y="206" width="744" height="40" rx="5"/>
+    <text class="sm" x="28" y="231">One file. Four different moments. Structures that never coexisted.</text>
+  </g>
+  <text class="xs mut" x="14" y="268">This is normal. An inconsistent process list is an artifact of the method, not anti-forensics.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">What this forbids you from writing</span>
+  <p>You may not write <i>&ldquo;the process list is inconsistent, indicating anti-forensic activity&rdquo;</i>. An inconsistency is the <b>expected artifact of the method</b>. It becomes evidence only when you can show it is of a kind the smear cannot produce &mdash; and that is a separate argument you have to make.
+    <span class="ar">لا يجوز لك أن تكتب <i>«قائمة العمليات غير متّسقة، مما يشير إلى نشاط مضادّ للتحليل الجنائي»</i>. فعدم الاتساق <b>أثرٌ متوقَّع للأسلوب نفسه</b>. و لا يصير دليلاً إلا إذا أظهرت أنه من نوع لا يمكن أن ينتج عن التقاط استمر دقائق — و تلك حجّة منفصلة عليك أنت أن تقيمها.</span></p>
+</div>
+<div class="note">
+  <p>Nothing else on this page is as easy to get wrong in a report, and nothing else is as easy for an opposing expert to take apart. <b>A smear, not a snapshot</b> &mdash; if you keep one sentence from `T07`, this is it.
+    <span class="ar">لا شيء آخر على هذه الصفحة أسهل في الخطأ داخل تقرير، و لا شيء أسهل على خبير الطرف الآخر في تفكيكه. <b>الصورة تُلتقط على مدى دقائق، لا في لحظة واحدة</b> — إن حفظت جملة واحدة من `T07` فلتكن هذه.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p13">
+<span class="kicker">T07 &middot; Theory</span>
+<h2>Where the image must not be written
+  <span class="ar">أين يُمنع كتابة الصورة</span></h2>
+<p>Before the command, one decision: <b>where does 16 GB land?</b> Two of the three obvious answers damage the case, and one of them damages it in a way you will not notice for weeks.
+  <span class="ar">قبل الأمر، قرار واحد: <b>أين تحطّ الستة عشر جيجابايت؟</b> اثنان من الأجوبة الثلاثة البديهية يضرّان بالقضية، و أحدهما يضرّ بها ضررًا لن تلاحظه إلا بعد أسابيع.</span></p>
+<figure class="dgm" id="dg-p04-f6" data-mode="loop" data-reveal="upto" data-interval="5000">
+  <div class="dgm-head"><span class="dgm-id">FIG P04-F6</span><span class="dgm-tag">THREE PATHS &#183; ONE CORRECT</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 236" role="img" aria-labelledby="t-f6">
+  <title id="t-f6">Three destinations for a memory capture, two of them wrong</title>
+  <text class="xs mut" x="14" y="22">16 GB OF RAM HAS TO LAND SOMEWHERE</text>
+  <g data-step="1">
+    <rect class="box no" x="14" y="36" width="240" height="62" rx="6"/>
+    <text class="sm" x="28" y="60">C:\ on the suspect</text>
+    <text class="xs mut" x="28" y="80">overwrites the evidence</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="268" y="36" width="240" height="62" rx="6"/>
+    <text class="sm" x="282" y="60">a network share</text>
+    <text class="xs mut" x="282" y="80">adds a live connection</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="522" y="36" width="236" height="62" rx="6"/>
+    <text class="sm" x="536" y="60">your removable drive</text>
+    <text class="xs mut" x="536" y="80">documented, and yours</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="14" y="120" width="744" height="40" rx="5"/>
+    <text class="sm" x="28" y="145">Writing 16 GB to C: can free-space-overwrite exactly what you came for.</text>
+  </g>
+  <g data-step="5">
+    <rect class="box warn" x="14" y="172" width="744" height="38" rx="5"/>
+    <text class="sm" x="28" y="196">Even the right choice writes: USBSTOR, prefetch, $MFT. Record it.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">The rule, stated once</span>
+  <p>The capture is written to <b>your own removable media</b>, wiped and verified before you left the office &mdash; never to the suspect disk, and never over a network connection you opened during collection.
+    <span class="ar">يُكتب الالتقاط على <b>وسيطك المحمول أنت</b>، مُمسوحًا و متحقَّقًا منه قبل مغادرة المكتب — لا على قرص المشتبه به، و لا عبر اتصال شبكي فتحتَه أنت أثناء الجمع.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T07 &middot; Theory &middot; tool currency</span>
+<h2>From Volatility 2 to Volatility 3
+  <span class="ar">من Volatility 2 إلى Volatility 3</span></h2>
+<p>Our courseware teaches <code>imageinfo</code> and <code>--profile=Win7SP0x64</code>. <b>Neither exists in the current release line.</b> This is not a criticism of the material &mdash; it is the normal fate of any procedure written against a version.
+  <span class="ar">يعلّم ماتريال الكورس <code>imageinfo</code> و <code>--profile=Win7SP0x64</code>. و <b>لا وجود لأيٍّ منهما في الإصدار الحالي.</b> و هذا ليس طعنًا في المادة — بل هو المصير الطبيعي لأي إجراء كُتب في مواجهة إصدار بعينه.</span></p>
+<figure class="dgm" id="dg-p04-f4" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P04-F4</span><span class="dgm-tag">BEFORE / AFTER</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 268" role="img" aria-labelledby="t-f4">
+  <title id="t-f4">How Volatility 2 and Volatility 3 decide what the bytes mean</title>
+  <text class="xs mut" x="14" y="22">VOLATILITY 2 &#183; WHAT OUR COURSEWARE TEACHES</text>
+  <g data-step="1">
+    <rect class="box warn" x="14" y="34" width="200" height="46" rx="6"/>
+    <text class="sm" x="28" y="55">imageinfo</text>
+    <text class="xs mut" x="28" y="72">guess the OS build</text>
+    <path class="arw" d="M216 57 L266 57"/><path class="arw" d="M260 52 L266 57 L260 62"/>
+    <rect class="box warn" x="268" y="34" width="220" height="46" rx="6"/>
+    <text class="sm" x="282" y="55">--profile=Win7SP0x64</text>
+    <text class="xs mut" x="282" y="72">from a fixed built-in list</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="502" y="34" width="256" height="46" rx="6"/>
+    <text class="sm" x="516" y="55">no profile? no analysis</text>
+    <text class="xs mut" x="516" y="72">and the string is case-sensitive</text>
+  </g>
+  <text class="xs mut" x="14" y="118">VOLATILITY 3 &#183; WHAT THE TOOL DOES NOW</text>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="130" width="200" height="46" rx="6"/>
+    <text class="sm" x="28" y="151">-f image.raw</text>
+    <text class="xs mut" x="28" y="168">no profile argument</text>
+    <path class="arw" d="M216 153 L266 153"/><path class="arw" d="M260 148 L266 153 L260 158"/>
+    <rect class="box ok" x="268" y="130" width="220" height="46" rx="6"/>
+    <text class="sm" x="282" y="151">reads the build itself</text>
+    <text class="xs mut" x="282" y="168">from the image</text>
+  </g>
+  <g data-step="4">
+    <path class="arw" d="M490 153 L540 153"/><path class="arw" d="M534 148 L540 153 L534 158"/>
+    <rect class="box ok" x="542" y="130" width="216" height="46" rx="6"/>
+    <text class="sm" x="556" y="151">ISF symbol table</text>
+    <text class="xs mut" x="556" y="168">built from Microsoft PDBs</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="192" width="744" height="38" rx="5"/>
+    <text class="sm" x="28" y="216">Same evidence. The tool that reads it changed underneath the courseware.</text>
+  </g>
+  <text class="xs mut" x="14" y="256">Volatility 3 is the current release line. Profiles do not exist in it.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="table-wrap"><table>
+  <thead><tr><th></th><th>Volatility 2</th><th>Volatility 3</th></tr></thead>
+  <tbody>
+    <tr><td>telling it the OS build<span class="ar">إخبارها بالإصدار</span></td><td><code>imageinfo</code>, then <code>--profile=</code><span class="ar">خطوتان</span></td><td>nothing &mdash; it reads the image<span class="ar">لا شيء</span></td></tr>
+    <tr><td>type information from<span class="ar">مصدر البنى</span></td><td>a built-in profile list<span class="ar">قائمة مدمجة</span></td><td>a JSON <b>ISF</b> symbol table<span class="ar">جدول رموز <b>ISF</b></span></td></tr>
+    <tr><td>a build with no profile written for it<span class="ar">إصدار بلا profile</span></td><td>unsupported<span class="ar">غير مدعوم</span></td><td>symbols built from Microsoft PDBs<span class="ar">رموز من ملفات PDB</span></td></tr>
+    <tr><td>plugin name<span class="ar">اسم الأداة</span></td><td><code>malfind</code><span class="ar"><code>malfind</code></span></td><td><code>windows.malware.malfind</code><span class="ar"><code>windows.malware.malfind</code></span></td></tr>
+  </tbody>
+</table></div>
+<div class="interpretation">
+  <span class="cl-label">Read this as a rule, not as a version note</span>
+  <p>Assessed with <b>high</b> confidence that any tool procedure in this diploma will outlive its accuracy: RFC 3227 is from <b>2002</b> and is still exact, while a command line from <b>2019</b> is already wrong. <b>Principles age well and procedures do not</b> &mdash; so verify the flag against the binary in your hand before an incident, not during one.
+    <span class="ar">أُقدّر بثقة <b>عالية</b> أن أي إجراء أدوات في هذه الدبلومة سيعيش أطول من صحّته: فـ RFC 3227 صادر عام <b>٢٠٠٢</b> و لا يزال دقيقًا، بينما سطر أوامر من <b>٢٠١٩</b> صار خاطئًا بالفعل. <b>فالمبادئ تبقى صحيحة، و الإجراءات لا</b> — تحقّق من الأمر في مواجهة البرنامج الذي بين يديك قبل الحادثة، لا أثناءها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">T07 &middot; Theory</span>
+<h2>The four questions memory answers
+  <span class="ar">الأسئلة الأربعة التي تجيب عنها الذاكرة</span></h2>
+<p>You do not run plugins; you ask questions. Four of them cover most of what a memory image is for, and knowing which question you asked keeps you from over-reading the answer.
+  <span class="ar">أنت لا تشغّل أدوات، بل تطرح أسئلة. و أربعة منها تغطّي معظم ما يُستخدم فيه الـ memory image، و معرفة السؤال الذي طرحته تمنعك من تحميل الإجابة أكثر مما تحتمل.</span></p>
+<figure class="dgm" id="dg-p04-f5" data-mode="loop" data-reveal="upto" data-interval="5000">
+  <div class="dgm-head"><span class="dgm-id">FIG P04-F5</span><span class="dgm-tag">PARALLEL ROWS</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 276" role="img" aria-labelledby="t-f5">
+  <title id="t-f5">Four Volatility 3 plugins and the question each one answers</title>
+  <text class="xs mut" x="14" y="22">ONE IMAGE &#183; FOUR QUESTIONS</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="34" width="250" height="46" rx="6"/>
+    <text class="sm" x="28" y="62">windows.pslist</text>
+    <path class="arw" d="M266 57 L306 57"/>
+    <path class="arw" d="M300 52 L306 57 L300 62"/>
+    <rect class="box" x="308" y="34" width="450" height="46" rx="6"/>
+    <text class="sm" x="322" y="56">WHAT WAS RUNNING?</text>
+    <text class="xs mut" x="322" y="72">process list from the kernel structure</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="92" width="250" height="46" rx="6"/>
+    <text class="sm" x="28" y="120">windows.pstree</text>
+    <path class="arw" d="M266 115 L306 115"/>
+    <path class="arw" d="M300 110 L306 115 L300 120"/>
+    <rect class="box" x="308" y="92" width="450" height="46" rx="6"/>
+    <text class="sm" x="322" y="114">WHO STARTED IT?</text>
+    <text class="xs mut" x="322" y="130">the same list, as parent and child</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="150" width="250" height="46" rx="6"/>
+    <text class="sm" x="28" y="178">windows.netscan</text>
+    <path class="arw" d="M266 173 L306 173"/>
+    <path class="arw" d="M300 168 L306 173 L300 178"/>
+    <rect class="box" x="308" y="150" width="450" height="46" rx="6"/>
+    <text class="sm" x="322" y="172">WHERE WAS IT TALKING?</text>
+    <text class="xs mut" x="322" y="188">sockets and connections at capture</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="208" width="250" height="46" rx="6"/>
+    <text class="sm" x="28" y="236">windows.malware.malfind</text>
+    <path class="arw" d="M266 231 L306 231"/>
+    <path class="arw" d="M300 226 L306 231 L300 236"/>
+    <rect class="box" x="308" y="208" width="450" height="46" rx="6"/>
+    <text class="sm" x="322" y="230">WHAT IS IN MEMORY BUT NOT ON DISK?</text>
+    <text class="xs mut" x="322" y="246">executable pages with no file behind them</text>
+  </g>
+  <text class="xs mut" x="14" y="270">Malware plugins moved namespace in 2.26.2: windows.malfind is now windows.malware.malfind.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="note">
+  <p>Syntax, current release: <code>vol -f mem.raw windows.pslist</code>. No <code>imageinfo</code> step and no profile argument. If your command line has <code>--profile</code> in it, you are running the old major version.
+    <span class="ar">الصيغة في الإصدار الحالي: <code>vol -f mem.raw windows.pslist</code>. بلا خطوة <code>imageinfo</code> و بلا وسيط profile. فإن كان أمرك يحوي <code>--profile</code> فأنت تشغّل الإصدار الرئيسي القديم.</span></p>
+</div>
+<div class="finding">
+  <span class="cl-label">The pairing worth memorising</span>
+  <p><code>pslist</code> answers <i>what was running</i>. <code>pstree</code> answers <i>what started it</i> &mdash; and it is the second that catches a document spawning a shell, because in a flat list those two lines sit nowhere near each other.
+    <span class="ar">يجيب <code>pslist</code> عن <i>ما الذي كان يعمل</i>، و يجيب <code>pstree</code> عن <i>ما الذي شغّله</i> — و الثاني هو ما يكشف مستندًا أنتج shell، لأن السطرين في قائمة مسطّحة لا يقع أحدهما قرب الآخر أصلاً.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p16">
+<span class="kicker">T07 &middot; Theory</span>
+<h2>What a memory image does not prove
+  <span class="ar">ما الذي لا يُثبته الـ memory image</span></h2>
+<p>Three limits &mdash; each a sentence someone wrote into a report and lost under cross-examination.
+  <span class="ar">أربعة حدود. و كلٌّ منها جملة كتبها أحدهم في تقرير ثم حُذفت أثناء الاستجواب.</span></p>
+<div class="limitation">
+  <span class="cl-label">#1 It does not establish WHEN</span>
+  <p>The image proves state <b>at capture time</b> &mdash; your arrival, not the incident. A process present here need not have run during the incident; one absent need not never have run.
+    <span class="ar">تُثبت الصورة الحالة <b>لحظة الالتقاط</b> — أي لحظة وصولك أنت، لا لحظة الحادثة. فالعملية الموجودة هنا لم تكن بالضرورة تعمل أثناء الحادثة، و غياب عملية هنا لا يعني أنها لم تعمل من قبل.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">#2 Part of it is you</span>
+  <p>Your collector allocated memory and loaded a driver. Some of what you are analysing is <b>your own process</b>, and it appears in <code>pslist</code> exactly like anything else.
+    <span class="ar">حجزت أداتك ذاكرة و حمّلت driver. فبعض ما تحلّله هو <b>عمليتك أنت</b>، و تظهر في <code>pslist</code> تمامًا كأي شيء آخر.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">#3 RAM has no structure to help you</span>
+  <p>Unlike a file system, there is no allocation table and no directory. <b>Everything above raw bytes is a reconstruction</b> from a symbol table &mdash; and a wrong one produces confident, well-formatted, false output.
+    <span class="ar">بخلاف نظام الملفات، لا يوجد جدول تخصيص و لا دليل مجلدات. <b>فكل ما فوق الـ bytes الخام إعادة بناء</b> يقودها جدول رموز — فجدول رموز خاطئ يُنتج مخرجات واثقة، حسنة التنسيق، و خاطئة تمامًا.</span></p>
+</div>
+<div class="interpretation">
+  <span class="cl-label">How to write a memory finding without over-reading it</span>
+  <p>State the observation and its timestamp, then stop. <i>&ldquo;At 11:54 the process list recovered from the memory image contained <code>svch0st.exe</code> running from <code>AppData\Roaming</code>, with an established connection to <code>198.51.100.42:443</code>.&rdquo;</i> When it started, who started it, and why belong in Section 9, and need other evidence.
+    <span class="ar">اذكر الملاحظة و وقتها ثم قف. <i>«عند الساعة 11:54 احتوت قائمة العمليات المستخرجة من الـ memory image على <code>svch0st.exe</code> يعمل من <code>AppData\Roaming</code>، مع اتصال قائم بـ <code>198.51.100.42:443</code>.»</i> أما كل ما يخصّ متى بدأ و من شغّله و لماذا، فمكانه القسم التاسع و يحتاج أدلة أخرى.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p17">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>Collect the volatile state, then image memory<span class="ar">اجمع الحالة المتطايرة، ثم التقط الذاكرة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Watch two collections run on a machine that is still on: the volatile state in order, then a memory image with WinPmem. You repeat both on your own VM in the task.<span class="ar">شاهد عمليتَي جمع على جهاز ما زال يعمل: الحالة المتطايرة بترتيبها، ثم صورة ذاكرة بـ WinPmem. و تعيد الاثنتين على جهازك الافتراضي في الـ task.</span></p>
+  <p class="divider-meta">2 screens &middot; the instructor drives</p>
+</div>
+    </section>
+
+<section class="page" id="p18">
+<span class="kicker">T06 &middot; Instructor demo</span>
+<h2>Lab &mdash; collect volatile state in order
+  <span class="ar">المعمل — جمع الحالة المتطايرة بترتيبها</span></h2>
+<p>Six actions on <code>FIN-WKS-07</code>. <b>The first one uses no tool at all</b>, and it is the reason the other five survive cross-examination.
+  <span class="ar">ست خطوات على <code>FIN-WKS-07</code>. <b>أولاها لا تستخدم أي أداة</b>، و هي السبب في أن الخمس الأخرى تصمد أمام الاستجواب.</span></p>
+<div class="simscreen" id="ss-t06" data-title="SIMSCREEN T06-1 &middot; COLLECT IN ORDER OF VOLATILITY" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="lrNote" style="width:700px">
+    <div class="wu-tb"><span class="t">Notepad &mdash; examiner notes</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">EXAMINER NOTES</span> 
+Case ITG-2026-014   Host FIN-WKS-07   Arrived 2026-03-04 11:52
+Responder      E. Mohamed
+<span id="a1">My USB      SanDisk Ultra  serial 4C530001120830117382</span>
+Tooling        Live Response Collection 20240115, WinPmem mini 4.0
+Machine state  powered on, user session locked, network cable IN
+
+<span class="d"># written BEFORE anything was plugged in. This is the subtraction key.</span></div>
+  </div>
+
+  <div class="wu" id="lrRun" style="width:700px">
+    <div class="wu-tb"><span class="t">Windows Live Response Collection</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">C:\&gt;</span> <span class="k">Windows Live Response Collection.exe</span>
+
+  1  Secure-Complete      4  Complete
+  2  Secure-Memory Dump   5  Memory Dump
+<span id="a2">  3  Secure-Triage        6  Triage</span>
+
+Select> <span class="w">5</span>
+<span class="d"># Memory Dump first. Everything below it survives the next four minutes.</span></div>
+  </div>
+
+  <div class="wu" id="lrOrder" style="width:720px">
+    <div class="wu-tb"><span class="t">collection order</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># the collector works DOWN the RFC 3227 list, not across the disk</span>
+
+<span class="w">[1/6]</span> physical memory ......... <span class="k">16,777,216 KB</span>  4m 11s
+<span class="w">[2/6]</span> network connections ..... <span class="k">netstat -anob</span>
+<span class="w">[3/6]</span> running processes ....... <span class="k">tasklist /v</span>
+<span class="w">[4/6]</span> logged-on users ......... <span class="k">psloggedon</span>
+<span class="w">[5/6]</span> ARP + routing ........... <span class="k">arp -a, route print</span>
+<span id="a3"><span class="w">[6/6]</span> copied files ............ <span class="k">event logs, $MFT</span></span>
+
+<span class="d"># memory is [1] because it is the only one that cannot wait.</span></div>
+  </div>
+
+  <div class="wu" id="lrTree" style="width:660px">
+    <div class="wu-tb"><span class="t">FIN-WKS-07_20260304_115400</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body">
+      <div class="wu-tx dis" style="margin-bottom:10px">&#128193; &nbsp; E: (EXAMINER-01) &rsaquo; ITG-2026-014 &rsaquo; FIN-WKS-07_20260304_115400</div>
+      <div class="wu-cols">
+        <span class="h">Name</span><span class="h">Type</span><span class="h">Size</span>
+        <span class="c">&#128193; ForensicImages</span><span class="c">Folder</span><span class="c"></span>
+        <span class="c">&#128193; LiveResponseData</span><span class="c">Folder</span><span class="c"></span>
+        <span class="c sel" id="a4">&#128220; Processing_Details.txt</span><span class="c sel">Text</span><span class="c sel">61 KB</span>
+        <span class="c">&#128220; FIN-WKS-07_hashes.txt</span><span class="c">Text</span><span class="c">188 KB</span>
+      </div>
+      <div class="wu-sb" style="margin-top:10px">4 items &nbsp; 1 item selected</div>
+    </div>
+  </div>
+
+  <div class="wu" id="lrProc" style="width:720px">
+    <div class="wu-tb"><span class="t">Processing_Details.txt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># every command the framework ran, with its own timestamp</span>
+
+2026-03-04 11:54:02  <span class="k">winpmem_mini_x64.exe</span> <span class="w">E:\...\Memory\mem.raw</span>
+2026-03-04 11:58:13  <span class="k">netstat -anob</span>
+2026-03-04 11:58:14  <span class="k">tasklist /v /fo csv</span>
+2026-03-04 11:58:16  <span class="k">arp -a</span>
+<span id="a5">2026-03-04 11:58:41  <span class="k">reg save HKLM\SYSTEM</span></span>
+
+<span class="d"># this file IS your Section 6. You did not write it; the tool did.</span></div>
+  </div>
+
+  <div class="wu" id="lrHash" style="width:720px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">C:\&gt;</span> <span class="k">Get-FileHash .\ForensicImages\Memory\mem.raw -Algorithm SHA256</span>
+
+Algorithm  Hash
+---------  ----
+<span id="a6">SHA256     9F2C4A...E17B03  mem.raw</span>
+
+<span class="d"># hashed on the examiner drive, before the machine was powered down.</span>
+<span class="d"># a capture nobody can re-take must be sealed the moment it exists.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="finding">
+  <span class="cl-label">What the lab produced</span>
+  <p>One collection folder, one memory image of <b>16,777,216 KB</b> written to the examiner drive, one <code>Processing_Details.txt</code> listing every command with its timestamp, and one SHA-256 taken <b>before</b> the machine was powered down.
+    <span class="ar">مجلد جمع واحد، و memory image حجمه <b>16,777,216 KB</b> مكتوب على قرص الفاحص، و ملف <code>Processing_Details.txt</code> يسرد كل أمر بوقته، و قيمة SHA-256 حُسبت <b>قبل</b> إطفاء الجهاز.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p19">
+<span class="kicker">T07 &middot; Instructor demo</span>
+<h2>Acquiring memory with WinPmem
+  <span class="ar">التقاط الذاكرة بـ WinPmem</span></h2>
+<p>Five steps. The middle one takes four minutes, and the last two are what separate an exhibit from a file on a stick.
+  <span class="ar">خمس خطوات. أوسطها يستغرق أربع دقائق، و الأخيرتان هما ما يفصل الـ exhibit عن ملف على فلاشة.</span></p>
+<div class="simscreen" id="ss-t07" data-title="SIMSCREEN T07-1 &middot; ACQUIRE MEMORY, AND COUNT WHAT IT COST" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="mpChk" style="width:720px">
+    <div class="wu-tb"><span class="t">Command Prompt (Administrator)</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">C:\&gt;</span> <span class="k">winpmem_mini_x64.exe</span> <span class="w">--help</span>
+
+WinPmem mini &#183; RAW output only
+<span id="b1">The AFF4 imager is not updated to the new driver.</span>
+
+<span class="d"># read the tool BEFORE the incident, not during it.</span>
+<span class="d"># what it produced three years ago is not what it produces now.</span></div>
+  </div>
+
+  <div class="wu" id="mpDest" style="width:720px">
+    <div class="wu-tb"><span class="t">Command Prompt (Administrator)</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">C:\&gt;</span> <span class="k">wmic logicaldisk get name,volumename,freespace</span>
+
+FreeSpace      Name  VolumeName
+4102834176     C:    OS               <span class="e"><-- the evidence</span>
+<span id="b2">246803821568   E:    EXAMINER-01      <span class="w"><-- 246 GB, wiped Monday</span></span>
+
+<span class="d"># 16 GB of RAM has to land on E:, never on C:.</span></div>
+  </div>
+
+  <div class="wu" id="mpRun" style="width:720px">
+    <div class="wu-tb"><span class="t">Command Prompt (Administrator)</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">C:\&gt;</span> <span class="k">winpmem_mini_x64.exe</span> <span class="w">E:\ITG-2026-014\mem.raw</span>
+
+Driver loaded.
+Physical memory ranges:
+  0x00001000 - 0x0009F000
+  0x00100000 - 0x3FFFFFFF
+<span id="b3">Writing 16,777,216 KB ......... 100%  [4m 11s]</span>
+Driver unloaded.
+
+<span class="d"># "Driver loaded" is the whole ethical problem in two words.</span></div>
+  </div>
+
+  <div class="wu" id="mpFoot" style="width:720px">
+    <div class="wu-tb"><span class="t">Command Prompt (Administrator)</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># what those four minutes cost, on the machine you are investigating</span>
+
+<span class="e">+</span> one process in the process list ......... yours
+<span class="e">+</span> one kernel driver loaded and unloaded ... yours
+<span class="e">+</span> a prefetch entry ........................ yours
+<span id="b4"><span class="e">+</span> a USBSTOR key with your serial .......... yours</span>
+
+<span class="d"># none of this is avoidable. All of it is recordable.</span></div>
+  </div>
+
+  <div class="wu" id="mpVol" style="width:740px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">C:\&gt;</span> <span class="k">vol -f E:\ITG-2026-014\mem.raw windows.pslist</span>
+
+<span class="d"># no imageinfo. no --profile. Volatility 3 reads the build itself.</span>
+<span id="b5">Volatility 3 Framework</span>
+Progress: 100.00   PDB scanning finished
+
+PID   PPID  ImageFileName   CreateTime
+4     0     System          ...
+628   4     smss.exe        ...
+
+<span class="d"># the courseware still teaches --profile=Win7SP0x64. That flag is gone.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="finding">
+  <span class="cl-label">What the tool actually is, this year</span>
+  <p><b>WinPmem mini</b> writes <b>RAW only</b>. The AFF4 imager older material describes has not been carried over to the current driver. Write support is disabled in the signed binaries &mdash; the behaviour you want, and worth naming in your method.
+    <span class="ar">يكتب <b>WinPmem mini</b> بصيغة <b>RAW فقط</b>. أما أداة AFF4 التي تصفها المواد الأقدم فلم تُنقل إلى الـ driver الحالي. و دعم الكتابة معطَّل في النسخ الموقَّعة — و هو السلوك المطلوب، و يستحق الذكر في منهجك.</span></p>
+  <div class="eg"><b>Example:</b> the other common imager, <b>DumpIt</b>, is now <b>Magnet DumpIt for Windows</b> &mdash; Comae was acquired. A procedure naming &ldquo;DumpIt by Comae&rdquo; is describing a tool that changed hands.
+    <span class="ar">و الأداة الشائعة الأخرى، <b>DumpIt</b>، صارت الآن <b>Magnet DumpIt for Windows</b> بعد استحواذ Magnet على Comae. فأي إجراء يذكر «DumpIt من Comae» يصف أداة تغيّر مالكها.</span></div>
+</div>
+    </section>
+
+<section class="page divider" id="p20">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>Two exercises in ordering and accounting<span class="ar">تمرينان في الترتيب و في المحاسبة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">No tool runs. You are deciding what goes first when everything is urgent, and then separating the attacker&rsquo;s traces from your own.<span class="ar">لا أداة تعمل هنا. أنت تقرّر ما الذي يتقدّم حين يكون كل شيء عاجلاً، ثم تفصل آثار المهاجم عن آثارك أنت.</span></p>
+  <p class="divider-meta">3 screens &middot; solo</p>
+</div>
+    </section>
+
+<section class="page" id="p21">
+<span class="kicker">T06 &middot; On your own &middot; 5 min</span>
+<h2>Exercise &mdash; order these six sources
+  <span class="ar">تمرين — رتّب هذه المصادر الستة</span></h2>
+<p>A domain controller is compromised and still running. You have <b>one</b> responder and roughly twenty minutes before the business demands it be isolated. Number these 1 to 6.
+  <span class="ar">خادم Domain Controller مُخترَق و لا يزال يعمل. لديك <b>مستجيب واحد</b> و نحو عشرين دقيقة قبل أن تطالب الإدارة بعزله. رقّم هذه من ١ إلى ٦.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Your order</th><th>What it costs to take it late</th></tr></thead>
+  <tbody>
+    <tr><td>the switch <b>CAM table</b> the host is plugged into<span class="ar">جدول الـ CAM في السويتش الموصول به الجهاز</span></td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr><td>the <b>system disk</b>, 1 TB<span class="ar">قرص النظام، ١ تيرابايت</span></td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr><td><b>physical memory</b>, 32 GB<span class="ar">الذاكرة الفيزيائية، ٣٢ جيجابايت</span></td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr><td>the <b>firewall logs</b> on a separate appliance, 30-day retention<span class="ar">سجلات الجدار الناري على جهاز منفصل، احتفاظ ٣٠ يومًا</span></td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr><td><b>%TEMP%</b> for the compromised service account<span class="ar">مجلد <b>%TEMP%</b> لحساب الخدمة المُخترَق</span></td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr><td>the <b>ARP cache and netstat</b> output on the host<span class="ar">الـ ARP cache و مخرجات netstat على الجهاز</span></td><td>&nbsp;</td><td>&nbsp;</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>The third column is worth more than the first. Anyone can memorise a list; the mark is for saying <b>what is lost</b> when a source slips one place down it.
+    <span class="ar">العمود الثالث أهم من الأول. فأي شخص يستطيع حفظ قائمة، أما الدرجة فعلى تحديد <b>ما الذي يُفقد</b> حين ينزل مصدر مرتبة واحدة.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">One of the six is a trap</span>
+  <p>The firewall logs feel safe because they are <b>on another box</b>. They are &mdash; for thirty days. That is not &ldquo;safe&rdquo;, it is <b>a deadline you did not set and cannot extend</b>. Slow is not the same as permanent.
+    <span class="ar">تبدو سجلات الجدار الناري آمنة لأنها <b>على جهاز آخر</b>. و هي كذلك — لثلاثين يومًا. و هذا ليس «أمانًا»، بل <b>موعد نهائي لم تضعه أنت و لا تستطيع تمديده</b>. فالبطء ليس هو الدوام.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">T06 &middot; On your own &middot; 7 min</span>
+<h2>Exercise &mdash; which of these did you cause?
+  <span class="ar">تمرين — أيٌّ من هذه سببتَه أنت؟</span></h2>
+<p>Three weeks later you are examining the disk image of <code>FIN-WKS-07</code>. You find all six of the following. For each: <b>attacker, examiner, or cannot tell</b> &mdash; and say what evidence would settle it.
+  <span class="ar">بعد ثلاثة أسابيع تفحص صورة قرص <code>FIN-WKS-07</code>، فتجد الستة الآتية. لكلٍّ منها حدّد: <b>مهاجم، أم فاحص، أم لا يمكن التحديد</b> — و بيّن أي دليل يحسم الأمر.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Artifact found on the disk image</th><th>Whose?</th></tr></thead>
+  <tbody>
+    <tr><td>a <code>USBSTOR</code> key for a <b>SanDisk Ultra</b>, first connected 2026-03-04 11:53<span class="ar">مفتاح <code>USBSTOR</code> لقرص <b>SanDisk Ultra</b>، أول توصيل 2026-03-04 11:53</span></td><td>&nbsp;</td></tr>
+    <tr><td>a <code>USBSTOR</code> key for a <b>Kingston DataTraveler</b>, first connected 2026-02-27 18:41<span class="ar">مفتاح <code>USBSTOR</code> لقرص <b>Kingston DataTraveler</b>، أول توصيل 2026-02-27 18:41</span></td><td>&nbsp;</td></tr>
+    <tr><td>a prefetch entry for <code>WINPMEM_MINI_X64.EXE</code><span class="ar">سجل prefetch لملف <code>WINPMEM_MINI_X64.EXE</code></span></td><td>&nbsp;</td></tr>
+    <tr><td>a prefetch entry for <code>7Z.EXE</code>, run 14 times<span class="ar">سجل prefetch لملف <code>7Z.EXE</code>، شُغّل ١٤ مرة</span></td><td>&nbsp;</td></tr>
+    <tr><td>a kernel driver loaded and unloaded at 11:54<span class="ar">driver في الـ kernel حُمّل و أُلغي عند 11:54</span></td><td>&nbsp;</td></tr>
+    <tr><td><code>$MFT</code> entries for 40,000 files created 2026-03-04 11:54&ndash;11:58<span class="ar">مدخلات <code>$MFT</code> لأربعين ألف ملف أُنشئت بين 11:54 و 11:58 من 2026-03-04</span></td><td>&nbsp;</td></tr>
+  </tbody>
+</table></div>
+<div class="interpretation">
+  <span class="cl-label">What makes this answerable at all</span>
+  <p>Only one thing: the examiner <b>wrote down their serial number and their start time before touching the machine</b>. Without that note, half this table is <i>cannot tell</i>, and an opposing expert gets to suggest which half.
+    <span class="ar">شيء واحد فقط: أن الفاحص <b>دوّن رقمه التسلسلي و وقت بدئه قبل أن يلمس الجهاز</b>. فبدون تلك الملاحظة يصبح نصف هذا الجدول <i>لا يمكن التحديد</i>، و يصبح لخبير الطرف الآخر أن يقترح أي نصف.</span></p>
+</div>
+<div class="note">
+  <p>Row 6 is the interesting one. Forty thousand <code>$MFT</code> entries in four minutes is either a mass staging operation or a collector copying files. <b>The timestamps alone cannot separate them.</b> Your notes can.
+    <span class="ar">الصف السادس هو الأهم. فأربعون ألف مدخل في <code>$MFT</code> خلال أربع دقائق إمّا عملية تجهيز جماعية للتسريب و إمّا أداة جمع تنسخ ملفات. <b>و الطوابع الزمنية وحدها لا تفصل بينهما.</b> أما ملاحظاتك فتفعل.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p23">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check
+  <span class="ar">اختبار سريع</span></h2>
+<div class="q mcq" data-correct="c">
+  <p class="qtext">A memory image is analysed and <code>pslist</code> shows a process whose parent PID refers to a process that is not in the list. What follows?
+    <span class="ar">حُلِّل memory image فأظهر <code>pslist</code> عمليةً يشير رقم أبيها إلى عملية غير موجودة في القائمة. فما الذي يلزم من ذلك؟</span></p>
+  <label><input type="radio" name="q1" value="a"> A rootkit is hiding the parent process</label>
+  <label><input type="radio" name="q1" value="b"> The image is corrupt and must be re-taken</label>
+  <label><input type="radio" name="q1" value="c"> Nothing yet &mdash; a parent that exited during the capture produces exactly this</label>
+  <label><input type="radio" name="q1" value="d"> The symbol table is wrong</label>
+  <div class="feedback"><b>c.</b> The capture is a smear: the child was read early, the parent&rsquo;s exit was read late, and an orphan is the ordinary result. It is <i>also</i> what a hidden parent looks like &mdash; which is why this is a <b>lead</b> and not a finding. And option b is impossible: the machine is off, so there is nothing left to re-take.
+    <span class="ar"><b>ج.</b> الالتقاط استمر دقائق: قُرئ الابن مبكرًا و قُرئ خروج الأب متأخرًا، فالعملية اليتيمة نتيجة عادية. و هي <i>أيضًا</i> شكل الأب المخفيّ — و لهذا فهذا <b>خيط</b> لا finding. أما الخيار (ب) فمستحيل: الجهاز مطفأ، فلم يبقَ شيء يُعاد التقاطه.</span></div>
+</div>
+    </section>
+
+<section class="page divider" id="p24">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The order of volatility, what an acquisition changes, and the four things memory cannot tell you &mdash; in the form you reach for at the keyboard.<span class="ar">ترتيب التطاير، و ما الذي يغيّره الالتقاط، و ما لا تخبرك به الذاكرة — بالشكل الذي ستحتاجه على الجهاز.</span></p>
+  <p class="divider-meta">1 screen &middot; print it</p>
+</div>
+    </section>
+
+<section class="page" id="p25">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet &mdash; volatility, acquisition, memory
+  <span class="ar">ورقة المراجعة — التطاير و الالتقاط و الذاكرة</span></h2>
+<p>The page condensed to what you use at the keyboard and in the report.
+  <span class="ar">الصفحة مختصرة فيما تستعمله على الجهاز و في التقرير.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b>Order of volatility (RFC 3227)</b> &mdash; CPU &amp; registers &rarr; memory &amp; network state &rarr; running processes &rarr; disk &rarr; remote logs &rarr; archival media. Most volatile first.<span class="ar">ترتيب التطاير: المعالج و الـ registers ← الذاكرة و حالة الشبكة ← العمليات ← القرص ← السجلات البعيدة ← وسائط الأرشفة. الأكثر تطايرًا أولًا.</span></li>
+    <li><b>Memory before the network structures.</b> Processes and connections can be rebuilt from a memory image; nothing rebuilds memory.<span class="ar">الذاكرة قبل بُنى الشبكة. العمليات و الاتصالات يمكن إعادة بنائها من صورة الذاكرة؛ و لا شيء يعيد بناء الذاكرة.</span></li>
+    <li><b>Your collection is a write</b> &mdash; every tool loads a process, a driver, a prefetch entry. Record what you changed first.<span class="ar">جمعك أنت كتابة. كل أداة تشغّلها تُحمّل process و driver و مدخل prefetch — سجّل ما غيّرته قبل أن تمسّ أي شيء.</span></li>
+    <li><b>A memory image is copied over seconds</b> while the machine runs &mdash; internally inconsistent, not one frozen instant.<span class="ar">صورة الذاكرة تُنسخ عبر عدة ثوانٍ و الجهاز يعمل، فتكون غير متسقة داخليًا — لا لحظة واحدة مجمّدة.</span></li>
+    <li><b>WinPmem writes RAW</b> (its AFF4 output was dropped); <b>DumpIt is now Magnet&rsquo;s</b>. Write to external media, never the suspect disk.<span class="ar">WinPmem يكتب بصيغة RAW (أُسقطت صيغة AFF4)؛ و DumpIt صار تابعًا لـ Magnet. اكتب على وسيط خارجي، لا على قرص المشتبه به.</span></li>
+    <li><b>Volatility 3 has no profiles</b> &mdash; no <code>imageinfo</code>, no <code>--profile=</code>. Courseware teaching them has aged.<span class="ar">Volatility 3 بلا profiles — لا <code>imageinfo</code> و لا <code>--profile=</code>. المناهج التي تعلّمها تجاوزها الزمن.</span></li>
+    <li><b>Memory answers four questions</b> &mdash; what ran, what connected, what was injected, what was hidden.<span class="ar">الذاكرة تجيب عن أربعة أسئلة — ماذا عمل، و بماذا اتصل، و ما الذي حُقن، و ما الذي أُخفي.</span></li>
+    <li><b>Memory cannot prove a time.</b> It is one capture&rsquo;s state, read after the fact &mdash; it carries no clock.<span class="ar">الذاكرة لا تُثبت وقتًا. فهي حالة التقاط واحد تُقرأ بعد وقوعها — لا تحمل ساعة تقول متى حدث الشيء.</span></li>
+  </ul>
+  <p><button class="btn" type="button" onclick="window.print()">&#128424; Print the cheat sheet</button></p>
+</div>
+    </section>
+
+<section class="page divider" id="p26">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Handed in before P05<span class="ar">يُسلَّم قبل P05</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">You acquire memory on your own VM, then fill the two report sections for an exhibit that cannot be re-taken &mdash; the first time the report describes evidence whose source no longer exists.<span class="ar">تلتقط الذاكرة على جهازك الافتراضي، ثم تملأ القسمين الخاصين بـ exhibit لا يمكن إعادة أخذه — أول مرة يصف فيها التقرير دليلاً لم يعد مصدره موجودًا.</span></p>
+  <p class="divider-meta">3 screens &middot; the report advances</p>
+</div>
+    </section>
+
+<section class="page" id="p27">
+<span class="kicker">Task &middot; handed in before P05</span>
+<h2>Task &mdash; acquire memory, and prove it was yours
+  <span class="ar">الـ task — التقط الذاكرة، و أثبت أنها منك</span></h2>
+<p>Three items. The third is graded hardest.
+  <span class="ar">ثلاثة بنود. و الثالث يُصحَّح بأقسى معيار.</span></p>
+<div id="taskList" class="steps"></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Task</th><th>Deliverable</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Run a memory acquisition on <b>your own lab VM</b> with WinPmem. Record the tool version, the destination, the elapsed time and the SHA-256.<span class="ar">نفّذ التقاط ذاكرة على <b>جهازك الافتراضي في المعمل</b> باستخدام WinPmem. سجّل إصدار الأداة و وجهة الحفظ و الزمن المستغرق و قيمة SHA-256.</span></td><td>a filled Section 6<span class="ar">قسم سادس</span></td></tr>
+    <tr><td>2</td><td>Then examine <b>that same VM</b> and find the four artifacts your own acquisition created. Prove each one is yours.<span class="ar">ثم افحص <b>الجهاز الافتراضي نفسه</b> و اعثر على الـ artifacts الأربعة التي أنشأها التقاطك أنت. و أثبت أن كلًّا منها منك.</span></td><td>four findings<span class="ar">أربع findings</span></td></tr>
+    <tr><td>3</td><td>Complete the free <b>Volatility</b> room on TryHackMe. Then write <b>one paragraph</b> naming a claim the room makes that this page would not let you write, and say why.<span class="ar">أكمل غرفة <b>Volatility</b> المجانية على TryHackMe. ثم اكتب <b>فقرة واحدة</b> تسمّي فيها ادّعاءً تقوله الغرفة و لا تسمح لك هذه الصفحة بكتابته، و تشرح السبب.</span></td><td>one paragraph<span class="ar">فقرة</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>Item 3 is the point of the page. A walkthrough that says <i>&ldquo;this proves the attacker ran X at 14:02&rdquo;</i> is asserting a <b>time</b> from an image that carries none. <b>Finding that sentence is the skill.</b>
+    <span class="ar">البند الثالث هو مقصد الصفحة. فالشرح الذي يقول <i>«هذا يُثبت أن المهاجم شغّل X عند 14:02»</i> يدّعي <b>وقتًا</b> من صورة لا تحمله. <b>و العثور على تلك الجملة هو المهارة.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p28">
+<span class="kicker">T06 &middot; Report stage &middot; 4 min</span>
+<h2>Report &mdash; Section 6, tools and method
+  <span class="ar">التقرير — القسم السادس، الأدوات و المنهج</span></h2>
+<p>Fill <b>Section 6</b> for the live response. Most of it is a copy job &mdash; and that is the point: a method section you <b>reconstruct from memory</b> weeks later is the weakest paragraph in any report.
+  <span class="ar">املأ <b>القسم السادس</b> الخاص بالاستجابة الحيّة. و معظمه عملية نسخ — و هذا هو المقصود: فقسم المنهج الذي <b>تعيد بناءه من ذاكرتك</b> بعد أسابيع هو أضعف فقرة في أي تقرير.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Field</th><th>Where it comes from</th></tr></thead>
+  <tbody>
+    <tr><td><b>Tool name and version</b><span class="ar">اسم الأداة و إصدارها</span></td><td>your pre-arrival note, confirmed against the binary<span class="ar">ملاحظتك قبل الوصول، مؤكَّدة من البرنامج نفسه</span></td></tr>
+    <tr><td><b>Commands executed, in order</b><span class="ar">الأوامر المنفَّذة بترتيبها</span></td><td><code>Processing_Details.txt</code>, pasted<span class="ar"><code>Processing_Details.txt</code>، منسوخًا</span></td></tr>
+    <tr><td><b>Start and end time</b><span class="ar">وقت البدء و الانتهاء</span></td><td>same file, first and last line<span class="ar">الملف نفسه، أول سطر و آخره</span></td></tr>
+    <tr><td><b>Destination media</b><span class="ar">وسيط الحفظ</span></td><td>your serial number, from the pre-arrival note<span class="ar">رقمك التسلسلي، من ملاحظة ما قبل الوصول</span></td></tr>
+    <tr><td><b>Known effects on the source</b><span class="ar">الـ effects المعروفة على المصدر</span></td><td>you write this. Nobody generates it for you.<span class="ar">هذا تكتبه أنت. و لا أحد يولّده نيابةً عنك.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The row that separates a professional report</span>
+  <p>The last one. <b>Known effects on the source</b> is where you state, before anyone asks, that your collection created a USBSTOR entry, a prefetch record and a driver load. Volunteering it makes it method. Being caught with it makes it contamination.
+    <span class="ar">الصف الأخير. ففي <b>الـ effects المعروفة على المصدر</b> تُقرّ، قبل أن يسألك أحد، بأن عملية جمعك أنشأت مدخل USBSTOR و سجل prefetch و تحميل driver. إن ذكرتها أنت صارت جزءًا من المنهج، و إن اكتشفها غيرك صارت تلوّثًا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p29">
+<span class="kicker">T07 &middot; Report stage &middot; 4 min</span>
+<h2>Report &mdash; an exhibit that cannot be re-taken
+  <span class="ar">التقرير — exhibit لا يمكن إعادة أخذه</span></h2>
+<p><b>Section 4 Evidence received</b> normally records what arrived and in what condition. A memory capture is different: <b>you created it, and its source no longer exists in that state</b>. Three fields carry that.
+  <span class="ar">يسجّل <b>القسم الرابع: الدليل المستلَم</b> عادةً ما الذي وصل و بأي حالة. أما التقاط الذاكرة فمختلف: <b>أنت من أنشأته، و لم يعد مصدره موجودًا بتلك الحالة</b>. و ثلاثة حقول تحمل ذلك.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Field</th><th>What goes in it, and why</th></tr></thead>
+  <tbody>
+    <tr><td><b>Acquisition hash, and when it was taken</b><span class="ar">قيمة الـ hash، و متى حُسبت</span></td><td>SHA-256, computed on the examiner drive <b>before power-down</b> &mdash; because after power-down there is nothing left to compare it against.<span class="ar">SHA-256 محسوبة على قرص الفاحص <b>قبل الإطفاء</b> — لأنه بعد الإطفاء لا يبقى شيء تقارنها به.</span></td></tr>
+    <tr><td><b>Verification is one-way</b><span class="ar">التحقق أحادي الاتجاه</span></td><td>state plainly that the source cannot be re-read &mdash; a reader who assumes a re-image was possible will assume you chose not to take one.<span class="ar">اذكر صراحةً أن المصدر لا يمكن إعادة قراءته — فمن يفترض أن إعادة التصوير كانت ممكنة سيفترض أنك اخترت ألا تفعل.</span></td></tr>
+    <tr><td><b>Machine state on arrival</b><span class="ar">حالة الجهاز عند الوصول</span></td><td>powered on, session locked, network cable in &mdash; this is what justifies every ordering decision you made afterwards.<span class="ar">يعمل، و الجلسة مقفلة، و كابل الشبكة موصول — و هذا ما يبرّر كل قرار ترتيب اتّخذته بعد ذلك.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">And one line that is not optional</span>
+  <p>The <b>known effects on the source</b> line from Section 6, repeated here against the exhibit itself: this capture required loading a kernel driver, and the collector&rsquo;s own process is present inside the image. <b>An examiner who is in the evidence says so in the section that describes the evidence.</b>
+    <span class="ar">يُكرَّر هنا سطر <b>الـ effects المعروفة على المصدر</b> من القسم السادس، لكن في مواجهة الـ exhibit نفسه: فهذا الالتقاط تطلّب تحميل driver في الـ kernel، و عملية أداة الجمع نفسها موجودة داخل الصورة. <b>و الفاحص الموجود داخل الدليل يقول ذلك في القسم الذي يصف الدليل.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p30">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>You can state</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>the order to collect six volatile sources in, and the cost of delaying each<span class="ar">ترتيب جمع ستة مصادر متطايرة، و ثمن تأخير كلٍّ منها</span></td><td>RFC 3227 &sect;2.1, and the asymmetry: the disk waits, the RAM does not<span class="ar">القسم ٢٫١ من RFC 3227، و الفرق: القرص ينتظر، و الـ RAM لا ينتظر</span></td></tr>
+    <tr><td>which artifacts on the suspect machine are <b>yours</b><span class="ar">أيّ الـ artifacts على جهاز المشتبه به <b>آثارك أنت</b></span></td><td>you recorded your serial, tool and start time before touching it<span class="ar">لأنك سجّلت رقمك التسلسلي و أداتك و وقت بدئك قبل أن تلمسه</span></td></tr>
+    <tr><td>that a memory image is a <b>smear, not a snapshot</b><span class="ar">أن الـ memory image <b>صورة على مدى دقائق، لا لحظة واحدة</b></span></td><td>the capture streams for minutes while the machine runs<span class="ar">لأن الالتقاط يستمر دقائق بينما الجهاز يعمل</span></td></tr>
+    <tr><td>what <code>pslist</code>, <code>pstree</code>, <code>netscan</code> and <code>malfind</code> each establish<span class="ar">ما يُثبته كلٌّ من <code>pslist</code> و <code>pstree</code> و <code>netscan</code> و <code>malfind</code></span></td><td>four questions &mdash; and none of them is <i>when</i><span class="ar">أربعة أسئلة — و ليس فيها سؤال <i>متى</i></span></td></tr>
+    <tr><td>that a 2019 procedure can be wrong while a 2002 principle is exact<span class="ar">أن إجراءً من ٢٠١٩ قد يكون خاطئًا بينما مبدأ من ٢٠٠٢ دقيق</span></td><td>profiles are gone from Volatility 3; RFC 3227 has not changed<span class="ar">اختفت الـ profiles من Volatility 3، و لم يتغيّر RFC 3227</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this page turns on</span>
+  <ul>
+    <li><b>The evidence is disappearing while you decide &mdash; and part of what you collect is you.</b>
+      <span class="ar"><b>الدليل يختفي بينما أنت تقرّر — و جزء مما تجمعه هو أنت.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p31">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td><b>RFC 3227</b> &mdash; Brezinski &amp; Killalea, February 2002, IETF<span class="ar">RFC 3227 — Brezinski و Killalea، فبراير ٢٠٠٢، IETF</span></td><td>the order of volatility, quoted from &sect;2.1 and &sect;2.2<span class="ar">ترتيب التطاير، منقولاً عن القسمين ٢٫١ و ٢٫٢</span></td></tr>
+    <tr><td><b>WinPmem</b> &mdash; Velocidex project documentation<span class="ar">WinPmem — وثائق مشروع Velocidex</span></td><td>current output format, driver behaviour, supported Windows versions<span class="ar">صيغة المخرجات الحالية و سلوك الـ driver و إصدارات Windows المدعومة</span></td></tr>
+    <tr><td><b>Volatility 3</b> &mdash; Volatility Foundation documentation<span class="ar">Volatility 3 — وثائق مؤسسة Volatility</span></td><td>symbol tables replacing profiles; the plugin namespace change<span class="ar">جداول الرموز بديلاً عن الـ profiles، و تغيّر مساحة أسماء الأدوات</span></td></tr>
+    <tr><td><b>Magnet DumpIt for Windows</b> &mdash; Magnet Forensics<span class="ar">Magnet DumpIt for Windows — من Magnet Forensics</span></td><td>the tool formerly published by Comae<span class="ar">الأداة التي كانت تنشرها Comae سابقًا</span></td></tr>
+    <tr><td><b>INE eCDFP</b> modules 1 and 4<span class="ar">وحدتا INE eCDFP الأولى و الرابعة</span></td><td>the live response tree; memory as a smear; what RAM proves and does not<span class="ar">شجرة الاستجابة الحيّة، و الذاكرة كصورة ممتدة لا لحظية، و ما تُثبته الـ RAM و ما لا تُثبته</span></td></tr>
+    <tr><td><b>TryHackMe</b> &mdash; Volatility room, free<span class="ar">TryHackMe — غرفة Volatility المجانية</span></td><td>the hands-on analysis, in the homework<span class="ar">التحليل العملي، ضمن الواجب</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Evidence note.</b> The hands-on analysis for `T07` runs against a public image rather than our own case, because <code>EVS-03</code> &mdash; the memory capture of <code>FIN-WKS-07</code> &mdash; has not been acquired yet. When it is, the analysis moves onto the diploma&rsquo;s own case and the homework changes with it. Everything else on this page is already the case.
+    <span class="ar"><b>ملاحظة عن الدليل.</b> يجري التحليل العملي لـ `T07` على صورة عامّة لا على قضيتنا، لأن <code>EVS-03</code> — التقاط ذاكرة <code>FIN-WKS-07</code> — لم يُلتقط بعد. و حين يُلتقط، ينتقل التحليل إلى قضية الدبلومة نفسها و يتغيّر الواجب معه. أما كل ما عدا ذلك على هذه الصفحة فهو القضية بالفعل.</span></p>
+</div>
+<p><b>Next: `P05` &mdash; Acquisition.</b> The machine is powered down now. Everything volatile is either in your capture or gone, and the question becomes what format to image the disk in, and what that format can carry.
+  <span class="ar"><b>التالي: `P05` — الـ acquisition.</b> الجهاز مطفأ الآن. و كل ما هو متطاير إمّا في التقاطك و إمّا ضاع، و يصير السؤال: بأي صيغة تصوّر القرص، و ما الذي تستطيع تلك الصيغة أن تحمله.</span></p>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 31</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P04</b> &middot; content from
+     <code>packages/page-04/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t06', [
+ {screen:'lrNote', target:'a1',
+  en:'Before anything is plugged in, write down <b>your</b> serial, <b>your</b> tools and the time. Everything the machine records about you in the next ten minutes has to be subtractable later.',
+  ar:'قبل توصيل أي شيء، دوّن الرقم التسلسلي <b>الخاص بك</b>، و أدواتك، و الوقت. فكل ما يسجّله الجهاز عنك في الدقائق العشر القادمة لا بدّ أن تستطيع لاحقًا فصله عن أثر المهاجم.'},
+ {screen:'lrRun', target:'a2',
+  en:'Six options. Pick <b>Memory Dump</b>, not Complete. Complete images the disk too, and the disk is not going anywhere &mdash; the RAM is.',
+  ar:'ستة خيارات. اختر <b>Memory Dump</b> لا Complete. فـ Complete يصوّر القرص أيضًا، و القرص لن يذهب إلى أي مكان — أما الـ RAM فسيذهب.'},
+ {screen:'lrOrder', target:'a3',
+  en:'Watch the order it runs in: memory, then connections, then processes, then files. That is <b>RFC 3227 executed</b>. The tool encodes the rule so you cannot get it wrong under pressure.',
+  ar:'راقب الترتيب الذي تعمل به: الذاكرة، ثم الاتصالات، ثم العمليات، ثم الملفات. هذا هو <b>RFC 3227 منفَّذًا</b>. فالأداة تُرسّخ القاعدة كي لا تخطئ فيها تحت الضغط.'},
+ {screen:'lrTree', target:'a4',
+  en:'One folder per host, named <code>HOST_date_time</code>. Two subtrees: the images, and the volatile data. And one file that matters more than the rest.',
+  ar:'مجلد واحد لكل جهاز، اسمه <code>HOST_date_time</code>. و شجرتان فرعيتان: الصور، و البيانات المتطايرة. و ملف واحد أهم من الباقي كله.'},
+ {screen:'lrProc', target:'a5',
+  en:'<b><code>Processing_Details.txt</code> is your method section.</b> Every command, in order, with the time it ran. You will paste it into <b>Section 6</b> of the report rather than reconstructing it from memory.',
+  ar:'<b>ملف <code>Processing_Details.txt</code> هو قسم المنهج الخاص بك.</b> كل أمر، بترتيبه، و بوقت تنفيذه. و ستنسخه إلى <b>القسم السادس</b> من التقرير بدل أن تعيد بناءه من ذاكرتك.'},
+ {screen:'lrHash', target:'a6',
+  en:'Hash the capture <b>before you power down</b>. This is the one exhibit in the case that can never be re-taken &mdash; the machine it came from will not exist in that state again.',
+  ar:'احسب الـ hash للالتقاط <b>قبل إطفاء الجهاز</b>. فهذا هو الـ exhibit الوحيد في القضية الذي لا يمكن إعادة أخذه، فلن يعود الجهاز إلى تلك الحالة مرة أخرى.'}
+]);
+SimScreen.init('#ss-t07', [
+ {screen:'mpChk', target:'b1',
+  en:'Read your own tool first. WinPmem mini writes <b>RAW only</b> now &mdash; its AFF4 output was not carried over to the new driver. A procedure you learned two years ago may not describe the binary in your hand.',
+  ar:'اقرأ أداتك أنت أولاً. فـ WinPmem mini يكتب بصيغة <b>RAW فقط</b> الآن، لأن صيغة AFF4 لم تُنقل إلى الـ driver الجديد. فالإجراء الذي تعلّمته قبل عامين قد لا يصف البرنامج الذي بين يديك.'},
+ {screen:'mpDest', target:'b2',
+  en:'Choose the destination <b>before</b> you run the imager. Sixteen gigabytes onto <code>C:</code> would overwrite free space &mdash; the same free space `T15` will teach you to carve deleted files out of.',
+  ar:'اختر وجهة الحفظ <b>قبل</b> تشغيل الأداة. فستة عشر جيجابايت على <code>C:</code> ستكتب فوق المساحة الحرّة — و هي المساحة نفسها التي سيعلّمك `T15` استخراج الملفات المحذوفة منها.'},
+ {screen:'mpRun', target:'b3',
+  en:'Four minutes and eleven seconds. <b>The machine kept running for all of them</b>, which is why the file you just made is a smear and not a snapshot.',
+  ar:'أربع دقائق و إحدى عشرة ثانية. <b>و الجهاز ظلّ يعمل طوالها</b>، و لهذا فالملف الذي أنشأته الآن صورة على مدى أربع دقائق، لا لحظة واحدة.'},
+ {screen:'mpFoot', target:'b4',
+  en:'Four artifacts on the suspect machine, all of them yours. The defence will find every one. <b>The difference between a finding and an accusation is whether you wrote them down first.</b>',
+  ar:'أربعة آثار على جهاز المشتبه به، كلها منك أنت. و سيجدها الدفاع جميعًا. <b>و الفرق بين finding و اتهام هو ما إذا كنت قد دوّنتها أنت أولاً.</b>'},
+ {screen:'mpVol', target:'b5',
+  en:'And the analysis: no <code>imageinfo</code>, no <code>--profile</code>. Volatility 3 identifies the build from the image and fetches its symbol table. <b>Our courseware teaches the older workflow &mdash; check the tool, not the slide.</b>',
+  ar:'ثم التحليل: لا <code>imageinfo</code>، و لا <code>--profile</code>. فـ Volatility 3 يحدّد الإصدار من الصورة نفسها ثم يجلب جدول الرموز الخاص به. <b>و ماتريال الكورس لا يزال يعلّم الأسلوب القديم — فتحقّق من الأداة، لا من الشريحة.</b>'}
+]);
+Dgm.init('#dg-lc-p04', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it. That is where this page sits, and it is the only stage with a clock running.', ar:'<b>الجمع.</b> أن تأخذ الدليل من الجهاز دون أن تغيّره. و هنا تقع هذه الصفحة، و هي المرحلة الوحيدة التي يجري فيها الوقت ضدّك.'},
+ {en:'<b>PRESERVE.</b> Prove the copy still equals what you took, months later. <code>P02</code> did this.', ar:'<b>الحفظ.</b> أن تُثبت أن النسخة ما زالت تساوي ما أخذته، بعد شهور. و هذا ما فعله <code>P02</code>.'},
+ {en:'<b>ANALYSE.</b> Read what is inside the copy. <code>P03</code> started here.', ar:'<b>التحليل.</b> أن تقرأ ما داخل النسخة. و قد بدأ <code>P03</code> من هنا.'},
+ {en:'<b>VALIDATE.</b> Check your own result &mdash; a second tool, a second examiner, a repeated test.', ar:'<b>التحقق.</b> أن تراجع نتيجتك أنت — بأداة ثانية، أو فاحص ثانٍ، أو إعادة الاختبار.'},
+ {en:'<b>PRESENT.</b> Write it so someone who was not there can follow it. The report, from <code>P01</code> onward.', ar:'<b>العرض.</b> أن تكتبها بحيث يتابعها من لم يحضر. و هذا هو التقرير، منذ <code>P01</code>.'},
+ {en:'You are at <b>stage 1</b>. <code>P02</code> and <code>P03</code> both worked on evidence that sat still. This page is about evidence that is <b>disappearing while you decide</b>.', ar:'أنت في <b>المرحلة الأولى</b>. عمل <code>P02</code> و <code>P03</code> على دليل ساكن. أما هذه الصفحة فعن دليل <b>يختفي بينما أنت تفكّر</b>.',key:true}
+]);
+Dgm.init('#dg-p04-f1', [
+ {en:'<b>1 &mdash; registers and cache.</b> Gone before you finish reading this line. No tool collects them; they mark where the scale starts.', ar:'<b>١ — الـ registers و الـ cache.</b> تختفي قبل أن تنهي قراءة هذا السطر. لا توجد أداة تجمعها. و هي في القائمة لتعرف من أين يبدأ الترتيب.'},
+ {en:'<b>2 &mdash; memory, kernel structures, processes, network state.</b> One tier in the RFC. Inside it, <b>memory goes first</b>: the process list and the connections can be rebuilt from a memory image, but nothing rebuilds memory.', ar:'<b>٢ — الـ memory، و بنى الـ kernel، و العمليات، و حالة الشبكة.</b> هذه كلها مستوى واحد في الـ RFC. و داخل هذا المستوى نبدأ بـ<b>الـ memory</b>، لسبب واحد: قائمة العمليات و الاتصالات يمكن استخراجها من الـ memory image، لكن لا شيء يستخرج الـ memory نفسها.',key:true},
+ {en:'<b>3 &mdash; temporary file systems.</b> Minutes to hours. A cleanup task or a logoff can take them while you are still writing your notes.', ar:'<b>٣ — الملفات المؤقتة.</b> تعيش دقائق أو ساعات. و قد تمسحها مهمة تنظيف أو تسجيل خروج و أنت ما زلت تكتب ملاحظاتك.'},
+ {en:'<b>4 &mdash; disk.</b> The first tier that waits for you. Everything below here is why you can afford to spend your first minutes above it.', ar:'<b>٤ — القرص.</b> أول مستوى ينتظرك. و لأن ما تحته ينتظر أيضًا، تستطيع أن تنفق أول دقائقك فيما فوقه.'},
+ {en:'<b>5&ndash;7 &mdash; remote logs, topology, archives.</b> These follow somebody else&rsquo;s retention policy. Slow, but not permanent &mdash; a 30-day log is a deadline.', ar:'<b>٥ إلى ٧ — السجلات البعيدة و الـ topology و الأرشيف.</b> هذه تتبع سياسة احتفاظ يملكها غيرك. بطيئة، لكنها ليست دائمة: سجل مدته ثلاثون يومًا هو موعد نهائي.'},
+ {en:'And the last one still expires. <b>Slow is not the same as permanent</b>, which is the mistake people make with anything stored on another box.', ar:'و حتى آخر مستوى ينتهي. <b>البطيء ليس هو الدائم</b>، و هذه هي الغلطة المتكررة مع أي شيء مخزَّن على جهاز آخر.'},
+ {en:'The order is not a preference. <b>Every minute you spend on tier 4 costs you tiers 1&ndash;3</b>, and no later decision buys them back.', ar:'هذا الترتيب ليس تفضيلاً. <b>كل دقيقة تنفقها في المستوى الرابع تكلّفك المستويات من ١ إلى ٣</b>، و لا يوجد قرار لاحق يعيدها.',key:true}
+]);
+Dgm.init('#dg-p04-f2', [
+ {en:'You arrive with a USB holding the collector and the memory imager. Nothing has happened yet.', ar:'تصل و معك USB يحمل أداة الجمع و أداة تصوير الذاكرة. و لم يحدث شيء بعد.'},
+ {en:'You run it. That is a <b>process</b>: it allocates memory and loads a kernel driver &mdash; so part of the RAM you are about to capture is now <b>yours</b>.', ar:'تشغّلها. و هذا يعني <b>process</b> جديدة: تحجز ذاكرة و تُحمّل driver في الـ kernel — فجزء من الـ RAM الذي أنت على وشك التقاطه صار <b>ملكك أنت</b>.',key:true},
+ {en:'Windows writes a <b>prefetch</b> entry for your tool, exactly as it would for the attacker&rsquo;s.', ar:'يكتب Windows سجل <b>prefetch</b> لأداتك، تمامًا كما يفعل مع أداة المهاجم.'},
+ {en:'Your USB is now in <b>USBSTOR</b> &mdash; make, serial, first and last connect. It will look exactly like the exfil device in `T17`.', ar:'صار الـ USB الخاص بك مسجَّلاً في <b>USBSTOR</b> — النوع و الرقم التسلسلي و أول و آخر توصيل. و سيبدو تمامًا كجهاز التسريب في `T17`.'},
+ {en:'And the file system records every write in the <b>$MFT</b> and <b>$LogFile</b>.', ar:'و يسجّل نظام الملفات كل عملية كتابة في <b>$MFT</b> و <b>$LogFile</b>.'},
+ {en:'So the rule is not <i>leave no trace</i> &mdash; that is impossible. It is: <b>record your device serial, your tool, and your start time BEFORE you touch the machine</b>, so a later examiner can subtract you.', ar:'فالقاعدة ليست <i>لا تترك أثرًا</i> — فهذا مستحيل. القاعدة هي: <b>سجّل الرقم التسلسلي لجهازك و اسم أداتك و وقت البدء قبل أن تلمس الجهاز</b>، ليستطيع فاحصٌ لاحق أن يطرحك من المشهد.',key:true}
+]);
+Dgm.init('#dg-p04-f3', [
+ {en:'Sixteen gigabytes of physical memory, and a capture that takes about four minutes on a busy host.', ar:'ستة عشر جيجابايت من الذاكرة الفيزيائية، و التقاطٌ يستغرق نحو أربع دقائق على جهاز مشغول.'},
+ {en:'The imager starts at the bottom of the address space and streams upward. <b>The machine does not stop.</b>', ar:'تبدأ الأداة من أسفل مساحة العناوين و تكتب صعودًا. <b>و الجهاز لا يتوقّف.</b>'},
+ {en:'One minute in, it is reading addresses that <b>changed</b> while it was busy with the first quarter.', ar:'بعد دقيقة، تقرأ الأداة عناوين <b>تغيّرت</b> بالفعل بينما كانت مشغولة بالربع الأول.'},
+ {en:'Two minutes. Three. Every region carries the timestamp of the moment it happened to be read.', ar:'دقيقتان. ثلاث. و كل منطقة تحمل لحظة قراءتها هي، لا لحظة واحدة مشتركة.'},
+ {en:'Four minutes and the file is closed.', ar:'أربع دقائق ثم يُغلق الملف.'},
+ {en:'Now: a process that exited at <b>1:40</b>. Its structures were captured in the first pass and its exit was not. <b>Volatility will list a process that was already gone.</b>', ar:'و الآن: عملية انتهت عند <b>1:40</b>. التُقطت بناها في المرور الأول و لم يُلتقط خروجها. <b>فسيعرض Volatility عملية كانت قد انتهت بالفعل.</b>',key:true},
+ {en:'So a memory image is a <b>smear, not a snapshot</b>. It never shows one instant, and an inconsistency in it is the method showing through &mdash; never, on its own, evidence of tampering.', ar:'إذن الـ memory image <b>صورة تُلتقط على مدى دقائق، لا في لحظة واحدة</b>. فهو لا يُظهر لحظة واحدة أبدًا، و أي تناقض داخله سببه طريقة الالتقاط نفسها — و ليس دليلاً على العبث.',key:true}
+]);
+Dgm.init('#dg-p04-f6', [
+ {en:'The suspect&rsquo;s own disk. <b>Never.</b> You would be writing gigabytes into the free space you are about to carve deleted files out of.', ar:'قرص المشتبه به نفسه. <b>أبدًا.</b> فأنت تكتب جيجابايتات في المساحة الحرّة التي ستستخرج منها الملفات المحذوفة بعد قليل.'},
+ {en:'A network share. Better, but it opens a connection <b>while you are collecting the connection table</b>, and now your own session is in the evidence.', ar:'مشاركة شبكية. أفضل، لكنها تفتح اتصالاً <b>بينما تجمع أنت جدول الاتصالات</b>، فتصبح جلستك أنت جزءًا من الدليل.'},
+ {en:'Your own removable drive, wiped and verified before you left the office. This is the answer.', ar:'وسيطك المحمول أنت، مُمسوح و متحقَّق منه قبل مغادرة المكتب. هذه هي الإجابة.',key:true},
+ {en:'The size is the reason. Sixteen gigabytes into unallocated space can <b>destroy deleted files</b> &mdash; the exact evidence `T15` will teach you to recover.', ar:'الحجم هو السبب. فستة عشر جيجابايت داخل المساحة غير المخصّصة قد <b>تُتلف الملفات المحذوفة</b> — و هي الدليل الذي سيعلّمك `T15` استخراجه.'},
+ {en:'And the right choice is still not a clean one. Choose it, then <b>write down what it cost</b>: your serial, your tool, your times.', ar:'و حتى الخيار الصحيح ليس نظيفًا. اخترْه، ثم <b>دوّن ثمنه</b>: رقمك التسلسلي، و أداتك، و أوقاتك.',key:true}
+]);
+Dgm.init('#dg-p04-f4', [
+ {en:'Volatility 2 could not read an image until you told it <b>which Windows build</b> it was. You ran <code>imageinfo</code>, it guessed, and you passed the guess back.', ar:'لم يكن Volatility 2 يقرأ الصورة قبل أن تخبره <b>بأي إصدار Windows</b> هي. تشغّل <code>imageinfo</code> فيخمّن، ثم تُعيد إليه تخمينه.'},
+ {en:'Get the string wrong &mdash; wrong case, a build not on its list &mdash; and you got <b>nothing</b>. This is the workflow our courseware teaches.', ar:'و إن أخطأت في النص — حالة أحرف خاطئة، أو إصدار خارج قائمته — لم تحصل على <b>شيء</b>. و هذا هو الأسلوب الذي تعلّمه ماتريال الكورس.'},
+ {en:'Volatility 3 removed the concept. You pass <code>-f</code> and the image, and it works out the build <b>from the image itself</b>.', ar:'أزال Volatility 3 الفكرة كلها. تمرّر <code>-f</code> و الصورة، فيستنتج الإصدار <b>من الصورة نفسها</b>.',key:true},
+ {en:'Then it fetches the matching <b>symbol table</b> &mdash; a JSON ISF file, generated from the PDB symbols Microsoft publishes for that build.', ar:'ثم يجلب <b>جدول الرموز</b> المطابق — ملف ISF بصيغة JSON، مبنيّ من رموز الـ PDB التي تنشرها Microsoft لذلك الإصدار.'},
+ {en:'The lesson is not <i>Volatility changed</i>. It is that <b>a tool procedure has a shelf life and a principle does not</b> &mdash; the order of volatility is from 2002 and still exact.', ar:'الدرس ليس أن <i>Volatility تغيّر</i>. الدرس أن <b>إجراء الأداة له تاريخ صلاحية، أما المبدأ فلا</b> — فترتيب التطاير صادر عام ٢٠٠٢ و لا يزال دقيقًا.',key:true}
+]);
+Dgm.init('#dg-p04-f5', [
+ {en:'<b>What was running?</b> <code>pslist</code> walks the kernel&rsquo;s own process list. It is the fastest answer and the easiest one to lie to.', ar:'<b>ما الذي كان يعمل؟</b> يمشي <code>pslist</code> على قائمة العمليات داخل الـ kernel. أسرع إجابة، و أسهلها على التضليل.'},
+ {en:'<b>Who started it?</b> <code>pstree</code> is the same data drawn as parent and child &mdash; and a Word document that spawned a shell is visible here and invisible in a flat list.', ar:'<b>و من الذي شغّله؟</b> <code>pstree</code> هو البيانات نفسها مرسومة كأب و ابن — فمستند Word أنتج shell يظهر هنا، و يختفي في قائمة مسطّحة.',key:true},
+ {en:'<b>Where was it talking?</b> <code>netscan</code> recovers sockets and connections <b>as they were at capture time</b> &mdash; which is your arrival time, not the incident.', ar:'<b>و إلى أين كان يتّصل؟</b> يستخرج <code>netscan</code> الـ sockets و الاتصالات <b>كما كانت لحظة الالتقاط</b> — أي لحظة وصولك أنت، لا لحظة الحادثة.'},
+ {en:'<b>What is in memory with nothing on disk behind it?</b> <code>malfind</code> looks for executable pages with no mapped file &mdash; the shape of injected code.', ar:'<b>و ما الموجود في الذاكرة دون ملف على القرص خلفه؟</b> يبحث <code>malfind</code> عن صفحات قابلة للتنفيذ بلا ملف مرتبط — و هذا شكل الـ injected code.'},
+ {en:'Four plugins, four questions, and <b>not one of them is a timeline</b>. Memory answers <i>what is here now</i>; it does not answer <i>when</i>.', ar:'أربع أدوات، و أربعة أسئلة، و <b>لا واحدة منها تعطي خطًّا زمنيًّا</b>. فالذاكرة تجيب عن <i>ما الموجود الآن</i>، و لا تجيب عن <i>متى</i>.',key:true}
+]);
+</script>
+
+</body>
+</html>

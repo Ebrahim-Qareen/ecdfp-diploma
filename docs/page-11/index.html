@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P11 &middot; What ran, what was touched &middot; eCDFP Diploma</title>
+<meta name="description" content="Prefetch, ShimCache, UserAssist and Amcache for execution; shellbags, LNK files, jump lists, the Recycle Bin and Volume Shadow Copies for user activity — page 11 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P11 &middot; What ran, what was touched</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>What ran, what was touched</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>What you will be able to do</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; What ran</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>What is Prefetch?</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>Four artifacts, four different events</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>ShimCache and UserAssist, byte by byte</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>What it does NOT tell you</span></a></li>
+      <li class="is-part"><a href="#p9"><span class="n">09</span><span>PART 2 &mdash; Opened and browsed</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>LNK files and jump lists</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>What is a shellbag?</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>The Recycle Bin</span></a></li>
+      <li class="is-part"><a href="#p13"><span class="n">13</span><span>PART 3 &mdash; The disk before</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>Volume Shadow Copies</span></a></li>
+      <li class="is-part"><a href="#p15"><span class="n">15</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>Demo &mdash; five artifacts, five verbs</span></a></li>
+      <li class="is-part"><a href="#p17"><span class="n">17</span><span>YOUR TURN</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>Lab &mdash; read two more prefetch files</span></a></li>
+      <li class="is-part"><a href="#p19"><span class="n">19</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>Cheat sheet &mdash; artifacts, verbs, tools</span></a></li>
+      <li class="is-part"><a href="#p21"><span class="n">21</span><span>TASK</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Task &mdash; one timeline, three artifacts</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>Report &mdash; Section 8 for activity</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Summary &mdash; what you can now state</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+<main class="main">
+<section class="page" id="p1">
+<span class="kicker">P11 &middot; Page 11 of 14 &middot; 78 topic minutes</span>
+<h2>What ran, what was touched
+  <span class="ar">ما الذي عمل، و ما الذي لُمس</span></h2>
+<p class="lede">`P10` asked Windows what it <b>knew</b>. This page asks what the <b>user did</b>: which programs started, which files were opened, which folders were browsed, what was thrown away. Windows recorded all of it &mdash; not for you, but for itself &mdash; and that is why the record is honest.
+  <span class="ar">سألت `P10` ويندوز عمّا <b>يعرفه</b>. و تسأل هذه الصفحة عمّا <b>فعله المستخدم</b>: أي برامج بدأت، و أي ملفات فُتحت، و أي مجلدات تُصفِّحت، و ما الذي أُلقي في السلة. و سجّل ويندوز كل ذلك — لا من أجلك، بل من أجل نفسه — و لهذا السجل صادق.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Topic</th><th>Minutes</th><th>Hands-on</th></tr></thead>
+  <tbody>
+    <tr><td><b>T18</b> Evidence of Execution<span class="ar">أدلة التنفيذ</span></td><td>40</td><td>Yes</td></tr>
+    <tr><td><b>T19</b> User Activity &mdash; Shellbags, Recycle Bin, VSS<span class="ar">نشاط المستخدم — shellbags و سلة المحذوفات و VSS</span></td><td>38</td><td>Yes</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Every number on this page is read from real artifacts</b> &mdash; <code>EVS-13</code>: prefetch files, a ShimCache blob, shellbag hives, a LNK file, a jump list and two Recycle Bin records, all published by Eric Zimmerman for testing his parsers, fetched at pinned commits. <b>40 assertions</b> were run against them first.
+    <span class="ar"><b>كل رقم على هذه الصفحة مقروء من artifacts حقيقية</b> — <code>EVS-13</code>: ملفات prefetch و كتلة ShimCache و hives الـ shellbags و ملف LNK و jump list و سجلا سلة محذوفات، كلها نشرها Eric Zimmerman لاختبار أدواته، و جُلبت عند commits مثبَّتة. و جرى تنفيذ <b>٤٠ فحصًا</b> عليها أولاً.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T18 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن</span></h2>
+<figure class="dgm" id="dg-lc-p11" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p11">
+  <title id="t-dg-lc-p11">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="78" text-anchor="middle" fill="#00ff9d">ANALYSE</text>
+    <text class="xs" x="388" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 3.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p><b>From the last page to this one.</b> `P10` gave you the registry: six files, keys with a LastWrite, and the rule that a key records a <i>state</i>. Two of this page&rsquo;s artifacts live in those same files (ShimCache, UserAssist, ShellBags); the rest are ordinary files in ordinary folders. Everything here is a <b>side effect</b> of Windows doing its job &mdash; and the skill is the same one from `P09`: read the structure, quote the field, name the verb it supports.
+  <span class="ar"><b>من الصفحة السابقة إلى هذه.</b> أعطتك `P10` الـ registry: ستة ملفات، و مفاتيح لها LastWrite، و قاعدة أن المفتاح يسجّل <i>حالة</i>. و اثنان من artifacts هذه الصفحة يعيشان في تلك الملفات نفسها (ShimCache و UserAssist و ShellBags)؛ و البقية ملفات عادية في مجلدات عادية. و كل ما هنا <b>أثر جانبي</b> لقيام ويندوز بعمله — و المهارة هي نفسها من `P09`: اقرأ البنية، و اقتبس الحقل، و سمِّ الفعل الذي يدعمه.</span></p>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P11 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستكون قادرًا عليه</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>By the end of this page</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Read a prefetch file: run count, the eight start times, the files it loaded, the volumes<span class="ar">قراءة ملف prefetch: عدد مرات التشغيل و أزمنة البدء الثمانية و الملفات التي حمّلها و الـ volumes</span></td></tr>
+    <tr><td>2</td><td>Tell Prefetch, ShimCache, UserAssist and Amcache apart by <b>the event each records</b><span class="ar">التمييز بين Prefetch و ShimCache و UserAssist و Amcache بـ<b>الحدث الذي يسجّله كلٌّ منها</b></span></td></tr>
+    <tr><td>3</td><td>Walk a shellbag tree from <code>BagMRU</code> to a folder path, and read its three timestamps<span class="ar">السير في شجرة shellbag من <code>BagMRU</code> إلى مسار مجلد، و قراءة أزمنته الثلاثة</span></td></tr>
+    <tr><td>4</td><td>Read a LNK file, a jump list entry and a <code>$I</code> record, and say what each proves<span class="ar">قراءة ملف LNK و مدخل jump list و سجل <code>$I</code>، و تحديد ما يثبته كلٌّ منها</span></td></tr>
+    <tr><td>5</td><td>Explain what a shadow copy is and why it lets you run this whole page again on the past<span class="ar">شرح ما هي الـ shadow copy و لماذا تتيح لك تشغيل هذه الصفحة كلها مجدّدًا على الماضي</span></td></tr>
+    <tr><td>6</td><td>Write execution findings with the <b>right verb</b>: started, loaded, was present, browsed, binned<span class="ar">كتابة نتائج التنفيذ بـ<b>الفعل الصحيح</b>: بدأ، حمّل، كان موجودًا، تصفّح، ذهب إلى السلة</span></td></tr>
+  </tbody>
+</table></div>
+<figure class="dgm" id="dg11-f1" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P11-F1</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t11f1">
+  <title id="t11f1">The five questions this page answers, and the artifact for each</title>
+  <text class="xs mut" x="14" y="22">THE QUESTION</text>
+  <text class="xs mut" x="250" y="22">THE ARTIFACT</text>
+  <text class="xs mut" x="490" y="22">WHERE IT LIVES</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="34" width="752" height="32" rx="4"/>
+    <text class="sm" x="24" y="55">What RAN?</text>
+    <text class="xs" x="250" y="55">Prefetch &#183; ShimCache &#183; UserAssist</text>
+    <text class="xs mut" x="490" y="55">*.pf &#183; SYSTEM &#183; NTUSER &#183; Amcache</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="74" width="752" height="32" rx="4"/>
+    <text class="sm" x="24" y="95">What was OPENED?</text>
+    <text class="xs" x="250" y="95">LNK files &#183; Jump Lists &#183; RecentDocs</text>
+    <text class="xs mut" x="490" y="95">&#8230;\Recent\ &#183; NTUSER.DAT</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="114" width="752" height="32" rx="4"/>
+    <text class="sm" x="24" y="135">Where did they BROWSE?</text>
+    <text class="xs" x="250" y="135">ShellBags</text>
+    <text class="xs mut" x="490" y="135">UsrClass.dat &#183; NTUSER.DAT</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="154" width="752" height="32" rx="4"/>
+    <text class="sm" x="24" y="175">What was DELETED?</text>
+    <text class="xs" x="250" y="175">Recycle Bin $I / $R</text>
+    <text class="xs mut" x="490" y="175">C:\$Recycle.Bin\&lt;SID&gt;\</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="194" width="752" height="32" rx="4"/>
+    <text class="sm" x="24" y="215">What did the disk look like BEFORE?</text>
+    <text class="xs" x="250" y="215">Volume Shadow Copies</text>
+    <text class="xs mut" x="490" y="215">System Volume Information\</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="236" width="752" height="22" rx="4"/>
+    <text class="xs" x="24" y="251">Four questions have artifacts in EVS-13. The fifth needs a live volume &#8212; it is taught, not run.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 3</span>
+  <h2>What ran<span class="ar">ما الذي عمل</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Four artifacts say a program ran. They record four different events, and only two of them mean "ran".<span class="ar">أربعة artifacts تقول إن برنامجًا عمل. و هي تسجّل أربعة أحداث مختلفة، و اثنان منها فقط يعنيان «عمل».</span></p>
+  <p class="divider-meta">4 screens &middot; 22 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T18 &middot; Theory &middot; measured</span>
+<h2>What is Prefetch?
+  <span class="ar">ما هو الـ Prefetch؟</span></h2>
+<p><b>Definition.</b> Prefetch is a folder, <code>C:\Windows\Prefetch</code>, where Windows keeps one small file per program it has started, listing what that program loaded in its first ten seconds &mdash; so it can load those things earlier next time. <b>It exists to make programs start faster.</b> Investigators read it because it is also a record of every program that started.
+  <span class="ar"><b>التعريف.</b> الـ Prefetch مجلد، <code>C:\Windows\Prefetch</code>، يحتفظ فيه ويندوز بملف صغير لكل برنامج بدأه، يسرد ما حمّله ذلك البرنامج في ثوانيه العشر الأولى — ليحمّل تلك الأشياء أبكر في المرة القادمة. <b>و هو موجود ليجعل البرامج تبدأ أسرع.</b> و يقرؤه المحققون لأنه أيضًا سجل لكل برنامج بدأ.</span></p>
+<figure class="dgm" id="dg11-f2" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P11-F2</span><span class="dgm-tag">STRUCTURE</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 300" role="img" aria-labelledby="t11f2">
+  <title id="t11f2">The fields of CMD.EXE-D269B812.pf</title>
+  <text class="xs mut" x="14" y="22">CMD.EXE-D269B812.pf &#183; 6,298 BYTES &#183; WINDOWS 10 &#183; READ WITH libscca</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="34" width="752" height="34" rx="4"/>
+    <text class="sm" x="24" y="56">NAME   CMD.EXE-D269B812.pf  =  executable name  +  hash of its PATH  +  .pf</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="14" y="76" width="368" height="50" rx="4"/>
+    <text class="sm" x="24" y="96">RUN COUNT   55</text>
+    <text class="xs mut" x="24" y="115">how many times this program started</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="398" y="76" width="368" height="50" rx="4"/>
+    <text class="sm" x="408" y="96">LAST RUN   2016-01-12 20:07:03  and 7 more</text>
+    <text class="xs mut" x="408" y="115">Windows 8+ keeps the EIGHT most recent starts</text>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="14" y="136" width="752" height="50" rx="4"/>
+    <text class="sm" x="24" y="156">FILES REFERENCED   62  &#8212;  what the program touched in its first ten seconds</text>
+    <text class="xs" x="24" y="175">NTDLL.DLL &#183; KERNEL32.DLL &#183; &#8230; &#183; DISKPART.EXE &#183; INIT.BAT &#183; CLINK_X64.EXE &#183; CLINK.LOG</text>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="14" y="196" width="752" height="44" rx="4"/>
+    <text class="sm" x="24" y="216">VOLUMES   2  &#8212;  \VOLUME{01d12173f395296c-66f451bc}  serial 66F451BC  created 2015-11-17</text>
+    <text class="xs mut" x="24" y="233">the same serial an LNK file or a USB record would carry</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="250" width="752" height="40" rx="4"/>
+    <text class="sm" x="24" y="269">A prefetch file says a program RAN, when, how often, and what it reached for.</text>
+    <text class="xs mut" x="24" y="285">It does not say who ran it, or what the program did after ten seconds.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">What Prefetch cannot say</span>
+  <p>Not <b>who</b> started it (no user in the file), not <b>what arguments</b> it ran with, not what it did after ten seconds. And on servers and some SSD systems prefetching is <b>off</b> &mdash; so its absence proves nothing. Check <code>SYSTEM\&hellip;\PrefetchParameters\EnablePrefetcher</code> first.
+    <span class="ar">لا <b>مَن</b> بدأه (لا مستخدم في الملف)، و لا <b>بأي وسائط</b> عمل، و لا ما فعله بعد عشر ثوانٍ. و على الخوادم و بعض أنظمة الـ SSD يكون الـ prefetching <b>معطّلاً</b> — فغيابه لا يثبت شيئًا. افحص <code>SYSTEM\&hellip;\PrefetchParameters\EnablePrefetcher</code> أولاً.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T18 &middot; Theory &middot; measured</span>
+<h2>Four artifacts, four different events
+  <span class="ar">أربعة artifacts، أربعة أحداث مختلفة</span></h2>
+<p>The question <i>&ldquo;did this program run?&rdquo;</i> has four places to look, and a beginner treats them as four copies of the same answer. They are not. Each was written by a different part of Windows for a different reason, and each timestamp means something different.
+  <span class="ar">لسؤال <i>«هل عمل هذا البرنامج؟»</i> أربعة مواضع للنظر، و يعاملها المبتدئ كأربع نسخ من الإجابة نفسها. و ليست كذلك. فكلٌّ منها كتبه جزء مختلف من ويندوز لسبب مختلف، و كل زمن يعني شيئًا مختلفًا.</span></p>
+<figure class="dgm" id="dg11-f3" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P11-F3</span><span class="dgm-tag">INTERPRETATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t11f3">
+  <title id="t11f3">Four execution artifacts and the different event each one records</title>
+  <text class="xs mut" x="14" y="22">ARTIFACT</text><text class="xs mut" x="140" y="22">WHAT HAPPENED</text>
+  <text class="xs mut" x="380" y="22">WHAT THE TIME MEANS</text><text class="xs mut" x="600" y="22">EVS-13</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="34" width="752" height="38" rx="4"/>
+    <text class="sm" x="24" y="58">Prefetch</text>
+    <text class="xs" x="140" y="51">the program STARTED</text>
+    <text class="xs mut" x="380" y="51">run count + last 8 starts</text>
+    <text class="xs mut" x="140" y="66">CMD.EXE ran 55 times, last 2016-01-12</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="14" y="80" width="752" height="38" rx="4"/>
+    <text class="sm" x="24" y="104">ShimCache</text>
+    <text class="xs" x="140" y="97">the file EXISTED and was seen</text>
+    <text class="xs mut" x="380" y="97">the file&#8217;s modified time, NOT a run time</text>
+    <text class="xs mut" x="140" y="112">PowerShell.exe 2015-03-14 = its mtime</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="126" width="752" height="38" rx="4"/>
+    <text class="sm" x="24" y="150">UserAssist</text>
+    <text class="xs" x="140" y="143">the USER launched it in the GUI</text>
+    <text class="xs mut" x="380" y="143">run count, focus count, focus time</text>
+    <text class="xs mut" x="140" y="158">mstsc.exe 3 runs, last 2014-11-28</text>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="14" y="172" width="752" height="38" rx="4"/>
+    <text class="sm" x="24" y="196">Amcache</text>
+    <text class="xs" x="140" y="189">the file was INVENTORIED</text>
+    <text class="xs mut" x="380" y="189">SHA-1 of the first 31 MB, publisher</text>
+    <text class="xs mut" x="140" y="204">not in EVS-13 &#8212; THM room</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="222" width="752" height="34" rx="4"/>
+    <text class="sm" x="24" y="244">&#8220;It ran&#8221; needs Prefetch or UserAssist. ShimCache proves presence, and its date is a file date.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">Measured on EVS-13 and the EVS-12 user hive</span>
+  <p>ShimCache: <b>350 entries</b>; <code>PowerShell.exe</code> carries <b>2015-03-14 08:55:44</b>, which is the file&rsquo;s modification time. UserAssist: <b>578 entries</b>; <code>mstsc.exe</code> launched <b>3</b> times, last <b>2014-11-28 20:16:44</b>; <code>VisualStudio.12.0</code> launched 18 times with <b>555 focus events</b> and <b>43,392 seconds</b> of focus &mdash; twelve hours of a window being in front.
+    <span class="ar">ShimCache: <b>٣٥٠ مدخلاً</b>؛ يحمل <code>PowerShell.exe</code> الزمن <b>٢٠١٥-٠٣-١٤ ٠٨:٥٥:٤٤</b>، و هو زمن تعديل الملف. UserAssist: <b>٥٧٨ مدخلاً</b>؛ شُغِّل <code>mstsc.exe</code> <b>٣</b> مرات، آخرها <b>٢٠١٤-١١-٢٨ ٢٠:١٦:٤٤</b>؛ و شُغِّل <code>VisualStudio.12.0</code> ١٨ مرة بـ<b>٥٥٥ حدث تركيز</b> و <b>٤٣٬٣٩٢ ثانية</b> من التركيز — اثنتا عشرة ساعة من نافذة في المقدمة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T18 &middot; Theory</span>
+<h2>ShimCache and UserAssist, byte by byte
+  <span class="ar">ShimCache و UserAssist، byte بـ byte</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th></th><th>ShimCache (AppCompatCache)</th><th>UserAssist</th></tr></thead>
+  <tbody>
+    <tr><td>where<span class="ar">أين</span></td><td><code>SYSTEM\ControlSet001\Control\Session Manager\AppCompatCache</code>, one binary value</td><td><code>NTUSER.DAT\&hellip;\Explorer\UserAssist\{GUID}\Count</code>, one value per program</td></tr>
+    <tr><td>written by<span class="ar">يكتبه</span></td><td>the kernel, at shutdown (Win10 writes on shutdown, not per run)</td><td>Explorer, when the user launches something in the GUI</td></tr>
+    <tr><td>the name<span class="ar">الاسم</span></td><td>the full path, in order of most recent first</td><td>the path, <b>ROT13-encoded</b> &mdash; <code>zfgfp.rkr</code> is <code>mstsc.exe</code></td></tr>
+    <tr><td>the number<span class="ar">الرقم</span></td><td>none on Win10 &mdash; only order</td><td>run count, focus count, focus milliseconds</td></tr>
+    <tr><td>the time<span class="ar">الزمن</span></td><td><b>the file&rsquo;s modification time</b></td><td>the last launch time</td></tr>
+    <tr><td>what it proves<span class="ar">ما يثبته</span></td><td>the file was present and seen by the system</td><td><b>this user</b> launched it, and for how long it was in front</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>Two details that cost real cases. <b>ShimCache is written at shutdown</b> on Windows 10 &mdash; pull a live machine&rsquo;s plug and the last session&rsquo;s entries are never written. And <b>UserAssist only counts GUI launches</b>: a program run from <code>cmd</code>, a script or a scheduled task never appears in it, so its silence about malware means nothing.
+    <span class="ar">تفصيلتان كلّفتا قضايا حقيقية. <b>يُكتب ShimCache عند إيقاف التشغيل</b> في ويندوز ١٠ — انزع قابس جهاز حيّ فلا تُكتب مدخلات آخر جلسة أبدًا. و <b>لا يعدّ UserAssist إلا التشغيل عبر الواجهة الرسومية</b>: فالبرنامج الذي يعمل من <code>cmd</code> أو script أو مهمة مجدولة لا يظهر فيه أبدًا، فصمته عن البرمجيات الخبيثة لا يعني شيئًا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p8">
+<span class="kicker">T18 &middot; Theory</span>
+<h2>What it does NOT tell you
+  <span class="ar">ما لا يخبرك به</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>You will be asked &mdash; and the honest answer</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><b>&ldquo;Did the suspect run mimikatz?&rdquo;</b> &mdash; a prefetch file says <code>MIMIKATZ.EXE</code> <b>started</b>, n times, last at t. It does not name a person; the machine account or a scheduled task can start a program.<span class="ar"><b>«هل شغّل المشتبه به mimikatz؟»</b> — يقول ملف prefetch إن <code>MIMIKATZ.EXE</code> <b>بدأ</b>، n مرة، آخرها في t. و لا يسمّي شخصًا؛ فحساب الجهاز أو مهمة مجدولة يستطيعان بدء برنامج.</span></td></tr>
+    <tr><td>2</td><td><b>&ldquo;The ShimCache shows it ran on the 14th.&rdquo;</b> &mdash; it shows the file&rsquo;s <b>modified time</b> was the 14th. Nothing in a Win10 ShimCache entry is an execution time.<span class="ar"><b>«يُظهر ShimCache أنه عمل في الرابع عشر.»</b> — يُظهر أن <b>زمن تعديل</b> الملف كان الرابع عشر. و لا شيء في مدخل ShimCache على ويندوز ١٠ زمنَ تنفيذ.</span></td></tr>
+    <tr><td>3</td><td><b>&ldquo;There is no prefetch file, so it never ran.&rdquo;</b> &mdash; prefetch may be disabled, the folder holds at most 1,024 files and rotates, and a program can delete its own <code>.pf</code>. Absence is weak.<span class="ar"><b>«لا يوجد ملف prefetch، إذن لم يعمل أبدًا.»</b> — قد يكون الـ prefetch معطّلاً، و المجلد يحمل ١٬٠٢٤ ملفًّا على الأكثر و يدور، و يستطيع برنامج أن يحذف ملف <code>.pf</code> الخاص به. فالغياب ضعيف.</span></td></tr>
+    <tr><td>4</td><td><b>&ldquo;It ran 55 times.&rdquo;</b> &mdash; it <b>started</b> 55 times. A crash on start counts. A start that did nothing counts.<span class="ar"><b>«عمل ٥٥ مرة.»</b> — <b>بدأ</b> ٥٥ مرة. و الانهيار عند البدء يُعدّ. و البدء الذي لم يفعل شيئًا يُعدّ.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this part turns on</span>
+  <ul>
+    <li><b>Four artifacts, four verbs: started, was present, was launched, was inventoried. Pick the verb the artifact supports, and stop there.</b>
+      <span class="ar"><b>أربعة artifacts، أربعة أفعال: بدأ، كان موجودًا، شُغِّل، جُرد. اختر الفعل الذي يدعمه الـ artifact، و توقّف عنده.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page divider" id="p9">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 3</span>
+  <h2>What was opened and browsed<span class="ar">ما الذي فُتح و تُصفِّح</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">A shortcut for every file opened, and a folder tree for every place browsed -- both outliving what they point at.<span class="ar">اختصار لكل ملف فُتح، و شجرة مجلدات لكل مكان تُصفِّح — و كلاهما يعيش بعد ما يشير إليه.</span></p>
+  <p class="divider-meta">3 screens &middot; 18 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p10">
+<span class="kicker">T19 &middot; Theory &middot; measured</span>
+<h2>LNK files and jump lists
+  <span class="ar">ملفات LNK و jump lists</span></h2>
+<p>Open a file through Explorer and Windows writes a <b>shortcut</b> (<code>.lnk</code>) into the Recent folder, and adds an entry to that application&rsquo;s <b>jump list</b>. Both record the target&rsquo;s path, size and timestamps &mdash; and both <b>stay after the target is gone</b>.
+  <span class="ar">افتح ملفًّا عبر Explorer فيكتب ويندوز <b>اختصارًا</b> (<code>.lnk</code>) في مجلد Recent، و يضيف مدخلاً إلى <b>jump list</b> ذلك التطبيق. و كلاهما يسجّل مسار الهدف و حجمه و أزمنته — و كلاهما <b>يبقى بعد زوال الهدف</b>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>From the EVS-13 LNK file</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>target path<span class="ar">مسار الهدف</span></td><td><code>D:\Temp\osTriage2NonLE\SearchResults\&hellip;</code></td></tr>
+    <tr><td>target size at the time<span class="ar">حجم الهدف حينها</span></td><td><b>4,412 bytes</b></td></tr>
+    <tr><td>target created<span class="ar">أُنشئ الهدف</span></td><td><b>2016-01-29 15:38:32</b></td></tr>
+    <tr><td>drive serial of D:<span class="ar">الرقم التسلسلي للقرص D:</span></td><td><code>0xDAFFD9CE</code></td></tr>
+    <tr><td>the machine that made it<span class="ar">الجهاز الذي أنشأه</span></td><td><code>sagerez</code> (from the tracker block)</td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">What the jump list adds</span>
+  <p>The EVS-13 jump list is Explorer&rsquo;s own (AppID <code>f01b4d95cf55d32a</code>), with <b>9 entries</b>. <code>C:\Temp</code> was accessed <b>twice</b>, last on <b>2015-11-24 20:31:34</b>, on host <code>desktop-annfp9d</code>. A jump list keeps an <b>access count</b> a lone LNK does not &mdash; it is the closest these artifacts come to <i>how often</i>.
+    <span class="ar">الـ jump list في EVS-13 هو الخاص بـ Explorer (المعرّف <code>f01b4d95cf55d32a</code>)، و فيه <b>٩ مدخلات</b>. وُصِل إلى <code>C:\Temp</code> <b>مرتين</b>، آخرها <b>٢٠١٥-١١-٢٤ ٢٠:٣١:٣٤</b>، على الجهاز <code>desktop-annfp9d</code>. و يحتفظ الـ jump list بـ<b>عدد وصول</b> لا يحتفظ به الـ LNK وحده — و هو أقرب ما تصل إليه هذه الـ artifacts من <i>كم مرة</i>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T19 &middot; Theory &middot; measured</span>
+<h2>What is a shellbag?
+  <span class="ar">ما هو الـ shellbag؟</span></h2>
+<p><b>Definition.</b> A shellbag is Windows remembering <b>how you had a folder&rsquo;s window arranged</b> &mdash; its size, its view, its sort order. To remember that, it has to remember the folder existed and that you opened it. That record survives the folder, the drive, and the wipe.
+  <span class="ar"><b>التعريف.</b> الـ shellbag هو تذكُّر ويندوز <b>كيف رتّبت نافذة مجلد</b> — حجمها و طريقة عرضها و ترتيب الفرز. و ليتذكّر ذلك، عليه أن يتذكّر أن المجلد وُجد و أنك فتحته. و يبقى هذا السجل بعد المجلد و القرص و المحو.</span></p>
+<figure class="dgm" id="dg11-f4" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P11-F4</span><span class="dgm-tag">MECHANISM</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 286" role="img" aria-labelledby="t11f4">
+  <title id="t11f4">How the BagMRU key tree spells out a folder path</title>
+  <text class="xs mut" x="14" y="22">UsrClass.dat &#183; Local Settings\Software\Microsoft\Windows\Shell\BagMRU</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="40" width="752" height="40" rx="4"/>
+    <text class="sm" x="24" y="57">BagMRU   &#8594;   Desktop</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="124" y="70" width="642" height="40" rx="4"/>
+    <text class="sm" x="134" y="87">\0   &#8594;   My Computer</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="234" y="100" width="532" height="40" rx="4"/>
+    <text class="sm" x="244" y="117">\0\0   &#8594;   J:\</text>
+    <text class="xs mut" x="244" y="133">a removable drive, by letter only</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="344" y="130" width="422" height="40" rx="4"/>
+    <text class="sm" x="354" y="147">\0\0\2   &#8594;   woo</text>
+    <text class="xs mut" x="354" y="163">modified 2014-11-07 22:22:40</text>
+  </g>
+  <g data-step="5">
+    <rect class="box ok" x="454" y="160" width="312" height="40" rx="4"/>
+    <text class="sm" x="464" y="177">\0\0\2\1   &#8594;   bar</text>
+    <text class="xs mut" x="464" y="193">MRU 2014-11-07 22:23:51</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="238" width="752" height="40" rx="4"/>
+    <text class="sm" x="24" y="256">The path is spelled by the KEYS. The folder times are in the VALUES. The visit is the MRU.</text>
+    <text class="xs mut" x="24" y="272">J:\woo\bar was browsed on 2014-11-07 &#8212; on a drive that is not in this image.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="interpretation">
+  <span class="cl-label">Why this is one of the most powerful artifacts, and its trap</span>
+  <p><b>Powerful:</b> shellbags prove a folder was <b>browsed by this user</b>, name its path, and carry three timestamps &mdash; and they do it for <b>drives no longer attached</b>, exactly as EVS-13 shows folders on a vanished <b>J:</b>. <b>The trap:</b> a shellbag proves the folder was <b>viewed in Explorer</b>, not that its files were opened, copied, or ever existed as more than a name &mdash; and a drive <b>letter</b> is not a <b>device</b>. Do not silently equate this J: with `P10`&rsquo;s ADATA J:.
+    <span class="ar"><b>قوي:</b> تثبت الـ shellbags أن مجلدًا <b>تصفّحه هذا المستخدم</b>، و تسمّي مساره، و تحمل ثلاثة أزمنة — و تفعل ذلك لـ<b>أقراص لم تعد موصولة</b>، تمامًا كما تُظهر EVS-13 مجلدات على <b>J:</b> مختفٍ. <b>و الفخّ:</b> يثبت الـ shellbag أن المجلد <b>عُرض في Explorer</b>، لا أن ملفاته فُتحت أو نُسخت أو وُجدت أصلاً كأكثر من اسم — و <b>حرف</b> القرص ليس <b>جهازًا</b>. فلا تساوِ صامتًا بين J: هذا و J: قرص ADATA في `P10`.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p12">
+<span class="kicker">T19 &middot; Theory &middot; measured</span>
+<h2>The Recycle Bin
+  <span class="ar">سلة المحذوفات</span></h2>
+<p>&ldquo;Delete&rdquo; to the Recycle Bin is not the delete of `P09`. It is a <b>move</b> and a <b>rename</b>, and it writes a small record of exactly what moved.
+  <span class="ar">«الحذف» إلى سلة المحذوفات ليس حذف `P09`. إنه <b>نقل</b> و <b>إعادة تسمية</b>، و يكتب سجلاً صغيرًا لما نُقل بالضبط.</span></p>
+<figure class="dgm" id="dg11-f5" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P11-F5</span><span class="dgm-tag">STRUCTURE</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t11f5">
+  <title id="t11f5">The $I record and the $R data of one deleted item</title>
+  <text class="xs mut" x="14" y="22">C:\$Recycle.Bin\&lt;user SID&gt;\  &#183;  ONE DELETION = TWO FILES</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="34" width="368" height="120" rx="5"/>
+    <text class="sm" x="28" y="56">$I2JRX90   44 bytes   the RECORD</text>
+    <text class="xs" x="28" y="78">0x00  version        2   (Windows 10)</text>
+    <text class="xs" x="28" y="95">0x08  original size  14,155,310 B</text>
+    <text class="xs" x="28" y="112">0x10  deleted at     2018-08-07 19:54:58 UTC</text>
+    <text class="xs" x="28" y="129">0x18  name length    8  &#8594;  C:\temp</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="398" y="34" width="368" height="120" rx="5"/>
+    <text class="sm" x="412" y="56">$R2JRX90   the CONTENT</text>
+    <text class="xs mut" x="412" y="78">the file (or folder) itself, renamed, moved</text>
+    <text class="xs mut" x="412" y="95">same random suffix as its $I</text>
+    <text class="xs mut" x="412" y="112">not in EVS-13 &#8212; only the $I records are</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="166" width="752" height="40" rx="5"/>
+    <text class="sm" x="28" y="184">$IFATB0K &#8594; C:\vss, 3,276,800 B, deleted 2018-08-07 19:54:50 &#8212; EIGHT SECONDS earlier</text>
+    <text class="xs mut" x="28" y="200">two deletions, eight seconds apart, from the same user SID folder</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="14" y="216" width="752" height="40" rx="5"/>
+    <text class="sm" x="28" y="234">Empty the bin and the $R is gone. The $I is a 44-byte file &#8212; and it is often still there.</text>
+    <text class="xs mut" x="28" y="250">Recycle Bin deletion is a MOVE. Real deletion is P09.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">The two records in EVS-13</span>
+  <p><code>$I2JRX90</code>: original path <code>C:\temp</code>, size <b>14,155,310 bytes</b>, deleted <b>2018-08-07 19:54:58 UTC</b>. <code>$IFATB0K</code>: <code>C:\vss</code>, 3,276,800 bytes, deleted <b>19:54:50</b> &mdash; eight seconds before. Both are <b>44 and 42 bytes</b>: small enough that on NTFS the record is usually resident, the `P09` case that survives deletion.
+    <span class="ar"><code>$I2JRX90</code>: المسار الأصلي <code>C:\temp</code>، الحجم <b>١٤٬١٥٥٬٣١٠ byte</b>، حُذف <b>٢٠١٨-٠٨-٠٧ ١٩:٥٤:٥٨ UTC</b>. و <code>$IFATB0K</code>: <code>C:\vss</code>، ٣٬٢٧٦٬٨٠٠ byte، حُذف <b>١٩:٥٤:٥٠</b> — قبله بثماني ثوانٍ. و كلاهما <b>٤٤ و ٤٢ byte</b>: صغير بما يكفي ليكون السجل على الـ NTFS عادةً resident، و هي حالة `P09` التي تنجو من الحذف.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p13">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 3 of 3</span>
+  <h2>What the disk looked like before<span class="ar">كيف كان القرص من قبل</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The one artifact that lets you run every tool on this page a second time -- against the past.<span class="ar">الـ artifact الوحيد الذي يتيح لك تشغيل كل أداة في هذه الصفحة مرة ثانية — على الماضي.</span></p>
+  <p class="divider-meta">2 screens &middot; 10 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T19 &middot; Theory</span>
+<h2>Volume Shadow Copies
+  <span class="ar">نسخ الـ Volume Shadow</span></h2>
+<p><b>Definition.</b> A shadow copy is an <b>earlier version of the whole volume</b>, kept by Windows so it can undo changes &mdash; System Restore and &ldquo;Previous Versions&rdquo; are built on it. For an examiner it is a second disk from the past, sitting inside the disk you already have.
+  <span class="ar"><b>التعريف.</b> الـ shadow copy <b>نسخة أقدم من الـ volume كله</b>، يحتفظ بها ويندوز ليتراجع عن التغييرات — و System Restore و «الإصدارات السابقة» مبنيان عليها. و للفاحص هي قرص ثانٍ من الماضي، يجلس داخل القرص الذي بين يديك.</span></p>
+<figure class="dgm" id="dg11-f6" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P11-F6</span><span class="dgm-tag">MECHANISM</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t11f6">
+  <title id="t11f6">How a volume shadow copy stores an earlier state of the disk</title>
+  <text class="xs mut" x="14" y="22">VOLUME SHADOW COPY SERVICE &#183; System Volume Information\</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="34" width="752" height="40" rx="5"/>
+    <text class="sm" x="28" y="58">DAY 1   a snapshot is taken: the volume is frozen as a list of blocks, and NOTHING is copied yet</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="86" width="752" height="40" rx="5"/>
+    <text class="sm" x="28" y="110">DAY 2   a block is about to be overwritten &#8594; its OLD contents go to the shadow store first</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="14" y="138" width="368" height="50" rx="5"/>
+    <text class="sm" x="28" y="158">the live volume: today</text>
+    <text class="xs mut" x="28" y="176">new blocks, edited hives, emptied bin</text>
+    <rect class="box ok" x="398" y="138" width="368" height="50" rx="5"/>
+    <text class="sm" x="412" y="158">the shadow: Day 1, block by block</text>
+    <text class="xs mut" x="412" y="176">old hives, old $MFT, files deleted since</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="14" y="200" width="752" height="52" rx="5"/>
+    <text class="sm" x="28" y="220">vssadmin list shadows   &#8594;   mount one   &#8594;   run every parser on this page AGAIN, on the past</text>
+    <text class="xs mut" x="28" y="240">needs a live volume or a full physical image (P05) &#8212; so it is P14&#8217;s lab, not this page&#8217;s.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="note">
+  <p>This is why acquisition in `P05` insisted on a <b>physical</b> image. A logical copy of the files misses the shadow store entirely; a physical image contains it, and every tool on this page can be pointed at a mounted shadow to rebuild <b>last month&rsquo;s</b> registry, prefetch and Recycle Bin. <b>The lab for this is in `P14`</b>, where a full image is available.
+    <span class="ar">و لهذا أصرّ الـ acquisition في `P05` على صورة <b>physical</b>. فالنسخة المنطقية للملفات تفوت مخزن الـ shadow تمامًا؛ أما الصورة الـ physical فتحتويه، و يمكن توجيه كل أداة في هذه الصفحة إلى shadow مركَّب لإعادة بناء registry و prefetch و سلة محذوفات <b>الشهر الماضي</b>. <b>و معمل هذا في `P14`</b>، حيث تتوفّر صورة كاملة.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p15">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>What ran, what was touched<span class="ar">ما الذي عمل، و ما الذي لُمس</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The instructor drives four tools across four artifacts. Five commands, every value from the real files.<span class="ar">المدرّب يقود أربع أدوات على أربعة artifacts. خمسة أوامر، و كل قيمة من الملفات الحقيقية.</span></p>
+  <p class="divider-meta">1 screen &middot; 12 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p16">
+<span class="kicker">T18 &middot; Instructor demo &middot; 12 min</span>
+<h2>Demo &mdash; five artifacts, five verbs
+  <span class="ar">العرض — خمسة artifacts، خمسة أفعال</span></h2>
+<p><b>Tools:</b> PECmd (prefetch), RegRipper (shellbags), RBCmd (Recycle Bin) &mdash; all free, all on the classroom machines. <b>Evidence:</b> <code>EVS-13</code>. The prefetch and <code>$I</code> values are shown in each tool&rsquo;s own layout; the shellbag block is <b>verbatim RegRipper output</b>.
+  <span class="ar"><b>الأدوات:</b> PECmd (الـ prefetch) و RegRipper (الـ shellbags) و RBCmd (سلة المحذوفات) — كلها مجانية، كلها على أجهزة القاعة. <b>الدليل:</b> <code>EVS-13</code>. و قيم الـ prefetch و الـ <code>$I</code> معروضة بتنسيق كل أداة؛ و كتلة الـ shellbags <b>مخرجات RegRipper حرفية</b>.</span></p>
+<div class="simscreen" id="ss-t18" data-title="Instructor demo -- what ran, what was touched" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="e1" style="width:740px">
+    <div class="wu-tb"><span class="t">Command Prompt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 1 -- did cmd.exe run on this machine? the prefetch file answers.</span>
+
+<span class="p">C:\cases\EVS-13&gt;</span> <span class="k">PECmd.exe -f CMD.EXE-D269B812.pf</span>
+
+Executable name: CMD.EXE
+Hash: D269B812
+File size (bytes): 6,298
+Version: Windows 10 or Windows 11
+
+<span id="h1">Run count: <span class="w">55</span>
+Last run: <span class="w">2016-01-12 20:07:03</span></span>
+Other run times: 2016-01-10 02:29:02, 2016-01-04 23:27:28, 2016-01-04 23:27:28,
+  2016-01-04 18:38:10, 2016-01-04 18:38:11, 2015-12-31 21:42:29, 2015-12-17 22:34:21</div>
+  </div>
+
+  <div class="wu" id="e2" style="width:740px">
+    <div class="wu-tb"><span class="t">Command Prompt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 2 -- what did that shell reach for? scroll to the file list.</span>
+
+Files referenced: 62
+  ...
+  \VOLUME{01d1217a9c4c6779-8c9f49ec}\WINDOWS\SYSTEM32\CMD.EXE
+<span id="h2">  \VOLUME{01d1217a9c4c6779-8c9f49ec}\WINDOWS\SYSTEM32\<span class="e">DISKPART.EXE</span>
+  \VOLUME{01d1217a9c4c6779-8c9f49ec}\...\<span class="e">INIT.BAT</span></span>
+  \VOLUME{01d1217a9c4c6779-8c9f49ec}\...\CLINK_X64.EXE
+
+<span class="d"># a shell that loaded diskpart.exe and a batch file. Presence, not the command line.</span></div>
+  </div>
+
+  <div class="wu" id="e3" style="width:780px">
+    <div class="wu-tb"><span class="t">Command Prompt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 3 -- where did the user browse? shellbags, from the user hive. verbatim RegRipper.</span>
+
+<span class="p">C:\cases\EVS-13&gt;</span> <span class="k">rip.exe -r UsrClass.dat -p shellbags | findstr "J:"</span>
+
+                     |2014-11-07 17:02:48  | ... |My Computer\J:\1 [Desktop\0\0\0\]
+2014-11-07 17:02:59  |2014-11-07 17:02:48  | ... |My Computer\J:\1\2 [Desktop\0\0\0\0\]
+<span id="h3">                     |2014-11-07 22:22:40  | ... |My Computer\<span class="w">J:\woo</span> [Desktop\0\0\2\]</span>
+2014-11-07 22:23:51  |2014-11-07 22:22:44  | ... |My Computer\J:\woo\bar [Desktop\0\0\2\1\]
+
+<span class="d"># folders on a drive lettered J:, browsed 2014-11-07. Nothing from J: is in this evidence.</span></div>
+  </div>
+
+  <div class="wu" id="e4" style="width:760px">
+    <div class="wu-tb"><span class="t">Command Prompt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 4 -- what went to the Recycle Bin? two 44-byte records.</span>
+
+<span class="p">C:\cases\EVS-13&gt;</span> <span class="k">RBCmd.exe -f $I2JRX90</span>
+
+Version: 2 (Windows 10)
+<span id="h4">File name: <span class="w">C:\temp</span>
+File size: 14,155,310 (13.5MB)
+Deleted on: <span class="w">2018-08-07 19:54:58</span></span>
+
+<span class="p">C:\cases\EVS-13&gt;</span> <span class="k">RBCmd.exe -f $IFATB0K</span>
+File name: C:\vss    File size: 3,276,800    Deleted on: 2018-08-07 19:54:50
+
+<span class="d"># eight seconds apart. the $R content is not in this set -- only the records of the deletion are.</span></div>
+  </div>
+
+  <div class="wu" id="e5" style="width:790px">
+    <div class="wu-tb"><span class="t">Command Prompt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 5 -- four artifacts, four verbs. write the verb, not the story.</span>
+
+  Prefetch    cmd.exe <span class="k">STARTED</span>  55 times, last 2016-01-12 20:07:03
+  Prefetch    it <span class="k">LOADED</span> diskpart.exe and init.bat within 10 s of a start
+<span id="h5">  ShimCache   PowerShell.exe <span class="w">WAS PRESENT</span>  (2015-03-14 = the file's mtime, <span class="e">not a run</span>)</span>
+  ShellBags   a user <span class="k">BROWSED</span> J:\woo\bar on 2014-11-07
+  $I          C:\temp <span class="k">WAS BINNED</span> 2018-08-07 19:54:58
+
+<span class="d"># started, loaded, was present, browsed, binned. five verbs the evidence supports. "used" is not one of them.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="note">
+  <p><b>Ask while it runs:</b> after step 2, <i>the prefetch says diskpart loaded &mdash; does that prove the disk was wiped?</i> (No: presence in a load list, not a command.) After step 5, <i>which of the five verbs would survive a defence lawyer, and which would you soften?</i>
+    <span class="ar"><b>اسأل أثناء التشغيل:</b> بعد الخطوة الثانية، <i>يقول الـ prefetch إن diskpart حُمِّل — هل يثبت ذلك أن القرص مُسح؟</i> (لا: وجود في قائمة تحميل، لا أمر.) و بعد الخامسة، <i>أي الأفعال الخمسة سينجو أمام محامي الدفاع، و أيّها ستخفّفه؟</i></span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p17">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>The Chrome and Calc prefetch<span class="ar">الـ prefetch الخاص بـ Chrome و Calc</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Two more prefetch files, a contrast to read. Solo, or in a team of two.<span class="ar">ملفا prefetch آخران، تباين تقرؤه. فرديًّا، أو في فريق من اثنين.</span></p>
+  <p class="divider-meta">1 screen &middot; 20 minutes at the keyboard</p>
+</div>
+    </section>
+
+<section class="page" id="p18">
+<span class="kicker">T19 &middot; Your turn &middot; 20 min</span>
+<h2>Lab &mdash; read two more prefetch files
+  <span class="ar">المعمل — اقرأ ملفي prefetch آخرين</span></h2>
+<p>The demo read <code>CMD.EXE</code>. EVS-13 has two more: <code>CHROME.EXE-B3BA7868.pf</code> and <code>CALC.EXE-3FBEF7FD.pf</code>. Read both, then answer what the contrast between them tells you.
+  <span class="ar">قرأ العرض <code>CMD.EXE</code>. و في EVS-13 اثنان آخران: <code>CHROME.EXE-B3BA7868.pf</code> و <code>CALC.EXE-3FBEF7FD.pf</code>. اقرأ كليهما، ثم أجب عمّا يخبرك به التباين بينهما.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Step</th><th>Do</th><th>Write down</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>PECmd.exe -f CHROME.EXE-B3BA7868.pf</code><span class="ar"><code>PECmd.exe -f CHROME.EXE-B3BA7868.pf</code></span></td><td>run count, most recent run, files referenced</td></tr>
+    <tr><td>2</td><td><code>PECmd.exe -f CALC.EXE-3FBEF7FD.pf</code><span class="ar"><code>PECmd.exe -f CALC.EXE-3FBEF7FD.pf</code></span></td><td>run count, both run times, files referenced</td></tr>
+    <tr><td>3</td><td>Compare the two <b>run counts</b> and the two <b>files-referenced</b> counts<span class="ar">قارن <b>عددي مرات التشغيل</b> و <b>عددي الملفات المرجعية</b></span></td><td>which program was used more, and which loaded more</td></tr>
+  </tbody>
+</table></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Q</th><th>Answer in one sentence each</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>CHROME ran 20 times and CALC 2. Does &ldquo;ran more&rdquo; tell you which the user <b>relied on</b>? What would UserAssist add that Prefetch cannot?<span class="ar">شُغِّل CHROME ٢٠ مرة و CALC مرتين. هل يخبرك «عمل أكثر» بأيّهما <b>اعتمد عليه</b> المستخدم؟ و ما الذي يضيفه UserAssist و لا يستطيعه Prefetch؟</span></td></tr>
+    <tr><td>2</td><td>CHROME references 282 files, CALC 63. Why does a browser touch four times as many files in ten seconds &mdash; and is that suspicious?<span class="ar">يشير CHROME إلى ٢٨٢ ملفًّا، و CALC إلى ٦٣. لماذا يلمس متصفّح أربعة أضعاف الملفات في عشر ثوانٍ — و هل ذلك مريب؟</span></td></tr>
+    <tr><td>3</td><td>Both were last run in January 2016. If the <code>SYSTEM</code> hive from `P10` was from 2015, could these prefetch files be from the same machine? How would you check?<span class="ar">شُغِّل كلاهما آخر مرة في يناير ٢٠١٦. إن كان hive الـ <code>SYSTEM</code> من `P10` من ٢٠١٥، فهل يمكن أن يكون هذان الملفان من الجهاز نفسه؟ و كيف تتحقّق؟</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Team version:</b> one student reads CHROME, the other CALC, then they compare aloud before writing Q1&ndash;Q3 together. The point of the contrast is that <b>run count answers &ldquo;how often it started&rdquo; and nothing about what it was for.</b>
+    <span class="ar"><b>نسخة الفريق:</b> يقرأ طالب CHROME و الآخر CALC، ثم يقارنان بصوت عالٍ قبل كتابة الأسئلة معًا. و مغزى التباين أن <b>عدد مرات التشغيل يجيب عن «كم مرة بدأ» و لا شيء عمّا كان من أجله.</b></span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p19">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>Execution and activity on one screen<span class="ar">التنفيذ و النشاط في شاشة واحدة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Keep this open in the next lab.<span class="ar">أبقِ هذه مفتوحة في المعمل القادم.</span></p>
+  <p class="divider-meta">1 screen</p>
+</div>
+    </section>
+
+<section class="page" id="p20">
+<span class="kicker">P11 &middot; Cheat sheet</span>
+<h2>Cheat sheet &mdash; artifacts, verbs, tools
+  <span class="ar">الملخّص — الـ artifacts و الأفعال و الأدوات</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Artifact</th><th>Lives in</th><th>The verb it supports</th><th>Tool</th></tr></thead>
+  <tbody>
+    <tr><td>Prefetch</td><td><code>C:\Windows\Prefetch\*.pf</code></td><td>a program <b>STARTED</b> (count + last 8 times)</td><td>PECmd</td></tr>
+    <tr><td>ShimCache</td><td><code>SYSTEM</code> hive</td><td>a file <b>WAS PRESENT</b> (time = file mtime)</td><td>AppCompatCacheParser</td></tr>
+    <tr><td>UserAssist</td><td><code>NTUSER.DAT</code></td><td>a user <b>LAUNCHED via GUI</b> (count + focus)</td><td>RegRipper <code>-p userassist</code></td></tr>
+    <tr><td>Amcache</td><td><code>Amcache.hve</code></td><td>a file <b>WAS INVENTORIED</b> (SHA-1, publisher)</td><td>AmcacheParser</td></tr>
+    <tr><td>LNK</td><td><code>&hellip;\Recent\</code></td><td>a file <b>WAS OPENED</b> (target path, size, times)</td><td>LECmd</td></tr>
+    <tr><td>Jump list</td><td><code>&hellip;\AutomaticDestinations\</code></td><td>a target <b>WAS ACCESSED</b> (count, host)</td><td>JLECmd</td></tr>
+    <tr><td>ShellBags</td><td><code>UsrClass.dat</code></td><td>a folder <b>WAS BROWSED</b> by this user</td><td>RegRipper <code>-p shellbags</code></td></tr>
+    <tr><td>Recycle Bin</td><td><code>C:\$Recycle.Bin\</code></td><td>a file <b>WAS BINNED</b> (original path, size, time)</td><td>RBCmd</td></tr>
+    <tr><td>Shadow Copy</td><td><code>System Volume Information\</code></td><td>the disk <b>LOOKED LIKE THIS</b> earlier</td><td>vssadmin + mount</td></tr>
+  </tbody>
+</table></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Rule</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td>write the verb the artifact supports, never &ldquo;used&rdquo;<span class="ar">اكتب الفعل الذي يدعمه الـ artifact، لا «استُخدم» أبدًا</span></td><td>&ldquo;used&rdquo; hides which event you actually have<span class="ar">«استُخدم» يخفي أي حدث لديك فعلاً</span></td></tr>
+    <tr><td>a ShimCache time is a file time<span class="ar">زمن ShimCache زمن ملف</span></td><td>it is copied from the file system, not an execution<span class="ar">منسوخ من نظام الملفات، لا تنفيذ</span></td></tr>
+    <tr><td>a drive letter is not a device<span class="ar">حرف القرص ليس جهازًا</span></td><td>J: in a shellbag is not proven to be any USB<span class="ar">J: في shellbag غير مثبَت أنه أي USB</span></td></tr>
+    <tr><td>absence proves little<span class="ar">الغياب يثبت القليل</span></td><td>prefetch rotates and can be disabled; UserAssist only sees the GUI<span class="ar">الـ prefetch يدور و يُعطَّل؛ و UserAssist لا يرى إلا الواجهة</span></td></tr>
+    <tr><td>the Recycle Bin record outlives the emptied bin<span class="ar">سجل السلة يعيش بعد إفراغها</span></td><td>the $I is small and often resident (`P09`)<span class="ar">الـ $I صغير و غالبًا resident</span></td></tr>
+  </tbody>
+</table></div>
+    </section>
+
+<section class="page divider" id="p21">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Due before P12<span class="ar">يُسلَّم قبل P12</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Build one timeline from three artifacts, and mind the verbs.<span class="ar">ابنِ خطًّا زمنيًّا واحدًا من ثلاثة artifacts، و انتبه للأفعال.</span></p>
+  <p class="divider-meta">2 screens</p>
+</div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">P11 &middot; Task</span>
+<h2>Task &mdash; one timeline, three artifacts
+  <span class="ar">المهمة — خط زمني واحد، ثلاثة artifacts</span></h2>
+<p>Three items. Item 3 is the assessment, and it is graded on the verbs.
+  <span class="ar">ثلاثة بنود. البند الثالث هو التقييم، و الدرجة فيه على الأفعال.</span></p>
+<div id="taskList" class="steps"></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Task</th><th>Deliverable</th><th>Marks</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>On <b>your own machine</b>, copy a prefetch file out of <code>C:\Windows\Prefetch</code> and run PECmd on it. Record its run count and last-run times.<span class="ar">على <b>جهازك أنت</b>، انسخ ملف prefetch من <code>C:\Windows\Prefetch</code> و شغّل عليه PECmd. و سجّل عدد مرات تشغيله و أزمنة آخر تشغيل.</span></td><td>the output</td><td>2</td></tr>
+    <tr><td>2</td><td>Take the three EVS-13 artifacts with dates &mdash; the <code>CMD.EXE</code> prefetch, the two <code>$I</code> records, the jump list <code>C:\Temp</code> entry &mdash; and put every dated event on <b>one timeline</b>.<span class="ar">خذ الـ artifacts الثلاثة في EVS-13 التي لها تواريخ — prefetch الـ <code>CMD.EXE</code> و سجلي <code>$I</code> و مدخل <code>C:\Temp</code> في الـ jump list — و ضع كل حدث مؤرَّخ على <b>خط زمني واحد</b>.</span></td><td>the timeline, each row with its artifact</td><td>3</td></tr>
+    <tr><td>3</td><td>Write <b>five Section 8 lines</b>, one per artifact, each using the <b>correct verb</b> from the cheat sheet. Then write one line explaining why you cannot merge them into &ldquo;the user did X at time T&rdquo;.<span class="ar">اكتب <b>خمسة سطور للقسم السابع</b>، سطرًا لكل artifact، كلٌّ بـ<b>الفعل الصحيح</b> من الملخّص. ثم اكتب سطرًا واحدًا يشرح لماذا لا تستطيع دمجها في «فعل المستخدم X في الوقت T».</span></td><td>the five lines, and the caveat</td><td>5</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Grading item 3.</b> Each line must name its artifact and use its verb (started / was present / was launched / browsed / binned). <b>Minus a mark for every &ldquo;ran&rdquo; on a ShimCache line, and for every &ldquo;the user&rdquo; where the artifact names only an account or no one.</b> The caveat line must say that these five events come from five clocks and five mechanisms and were never one action.
+    <span class="ar"><b>تقييم البند الثالث.</b> كل سطر يجب أن يسمّي الـ artifact و يستخدم فعله (بدأ / كان موجودًا / شُغِّل / تصفّح / ذهب إلى السلة). <b>و يُخصم لكل «عمل» على سطر ShimCache، و لكل «المستخدم» حيث لا يسمّي الـ artifact إلا حسابًا أو لا أحد.</b> و سطر التحفّظ يجب أن يقول إن هذه الأحداث الخمسة من خمس ساعات و خمس آليات و لم تكن فعلاً واحدًا قط.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p23">
+<span class="kicker">T19 &middot; Report stage &middot; 5 min</span>
+<h2>Report &mdash; Section 8 for activity
+  <span class="ar">التقرير — القسم الثامن للنشاط</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Do not write</th><th>Write</th></tr></thead>
+  <tbody>
+    <tr><td>&ldquo;<code>mimikatz.exe</code> <b>was run</b> by the suspect&rdquo;<span class="ar">«<b>شغّل</b> المشتبه به <code>mimikatz.exe</code>»</span></td><td>&ldquo;the prefetch file <code>MIMIKATZ.EXE-&hellip;.pf</code> records <b>8 starts</b>, last <b>&lt;t&gt;</b>&rdquo;<span class="ar">«يسجّل ملف prefetch الـ <code>MIMIKATZ.EXE-&hellip;.pf</code> <b>٨ مرات بدء</b>، آخرها <b>&lt;t&gt;</b>»</span></td></tr>
+    <tr><td>&ldquo;the tool <b>ran on the 14th</b>&rdquo; (from ShimCache)<span class="ar">«<b>عملت</b> الأداة في الرابع عشر» (من ShimCache)</span></td><td>&ldquo;the ShimCache entry gives the file&rsquo;s <b>modified time</b> as the 14th&rdquo;<span class="ar">«يعطي مدخل ShimCache <b>زمن تعديل</b> الملف بأنه الرابع عشر»</span></td></tr>
+    <tr><td>&ldquo;the suspect <b>copied files to J:</b>&rdquo;<span class="ar">«<b>نسخ</b> المشتبه به ملفات إلى J:»</span></td><td>&ldquo;shellbags show the user <b>browsed</b> <code>J:\woo\bar</code> on &lt;date&gt;&rdquo;<span class="ar">«تُظهر الـ shellbags أن المستخدم <b>تصفّح</b> <code>J:\woo\bar</code> في &lt;التاريخ&gt;»</span></td></tr>
+    <tr><td>&ldquo;<code>C:\temp</code> was <b>destroyed</b>&rdquo;<span class="ar">«<b>أُتلف</b> <code>C:\temp</code>»</span></td><td>&ldquo;a <code>$I</code> record shows <code>C:\temp</code> <b>sent to the Recycle Bin</b> at &lt;t&gt;&rdquo;<span class="ar">«يُظهر سجل <code>$I</code> أن <code>C:\temp</code> <b>أُرسل إلى سلة المحذوفات</b> في &lt;t&gt;»</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The line that separates activity analysis from a story</span>
+  <p><b>The verb.</b> Every artifact on this page supports exactly one, and the whole discipline is choosing it and refusing to upgrade it. <b>Section 8 quotes the artifact and its verb; the story a reader builds from five correct verbs is the reader&rsquo;s, not yours to write for them.</b>
+    <span class="ar"><b>الفعل.</b> كل artifact على هذه الصفحة يدعم فعلاً واحدًا بالضبط، و الانضباط كله أن تختاره و ترفض ترقيته. <b>القسم الثامن يقتبس الـ artifact و فعله؛ و القصة التي يبنيها القارئ من خمسة أفعال صحيحة قصته هو، لا لك أن تكتبها له.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>You can state</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>that a program started, when, and how often<span class="ar">أن برنامجًا بدأ، و متى، و كم مرة</span></td><td>the prefetch run count and its last 8 start times<span class="ar">عدّاد الـ prefetch و أحدث ٨ أزمنة بدء له</span></td></tr>
+    <tr><td>the difference between &ldquo;ran&rdquo; and &ldquo;was present&rdquo;<span class="ar">الفرق بين «عمل» و «كان موجودًا»</span></td><td>Prefetch/UserAssist record a run; a ShimCache time is a file time<span class="ar">الـ Prefetch/UserAssist يسجّلان تشغيلاً؛ و زمن ShimCache زمن ملف</span></td></tr>
+    <tr><td>which user launched something in the GUI<span class="ar">أي مستخدم شغّل شيئًا في الواجهة</span></td><td>UserAssist is per user and counts GUI launches<span class="ar">الـ UserAssist لكل مستخدم و يعدّ التشغيل عبر الواجهة</span></td></tr>
+    <tr><td>that a folder was browsed, even off a vanished drive<span class="ar">أن مجلدًا تُصفِّح، حتى على قرص مختفٍ</span></td><td>the shellbag survives the folder and the drive<span class="ar">الـ shellbag يعيش بعد المجلد و القرص</span></td></tr>
+    <tr><td>what was deleted, from where, and when<span class="ar">ما الذي حُذف، و من أين، و متى</span></td><td>the 44-byte $I record keeps path, size and time<span class="ar">سجل الـ $I ذو الـ ٤٤ byte يحفظ المسار و الحجم و الزمن</span></td></tr>
+    <tr><td>why a physical image lets you redo all of this on the past<span class="ar">لماذا تتيح الصورة الـ physical إعادة كل هذا على الماضي</span></td><td>shadow copies hold the earlier volume, block by block<span class="ar">الـ shadow copies تحمل الـ volume الأقدم، كتلةً كتلة</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this page turns on</span>
+  <ul>
+    <li><b>Windows records what the user did as a side effect of working. Each record supports exactly one verb, and the analysis is refusing to upgrade it.</b>
+      <span class="ar"><b>يسجّل ويندوز ما فعله المستخدم كأثر جانبي لعمله. و كل سجل يدعم فعلاً واحدًا بالضبط، و التحليل هو رفض ترقيته.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p25">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td><b>Eric Zimmerman</b> &mdash; <code>Prefetch</code>, <code>Lnk</code>, <code>JumpList</code>, <code>RBCmd</code>, <code>AppCompatCacheParser</code> test files (MIT)<span class="ar">ملفات الاختبار من مستودعات Eric Zimmerman (MIT)</span></td><td>every prefetch, LNK, jump list, ShimCache and $I value on this page<span class="ar">كل قيمة prefetch و LNK و jump list و ShimCache و $I على هذه الصفحة</span></td></tr>
+    <tr><td><b>Eric Zimmerman</b> &mdash; <code>Registry</code> <code>UsrClass.dat</code> (MIT)<span class="ar">ملف <code>UsrClass.dat</code> من مستودع Registry (MIT)</span></td><td>the shellbag tree and the two deleted keys<span class="ar">شجرة الـ shellbag و المفتاحان المحذوفان</span></td></tr>
+    <tr><td><b>libscca</b> / <b>RegRipper 3.0</b><span class="ar">مكتبة libscca و أداة RegRipper 3.0</span></td><td>reading the prefetch files, and the verbatim shellbag output<span class="ar">قراءة ملفات الـ prefetch، و مخرجات الـ shellbags الحرفية</span></td></tr>
+    <tr><td><b>TryHackMe</b> &mdash; <i>Windows Forensics 1 &amp; 2</i><span class="ar">غرفتا TryHackMe — Windows Forensics 1 و 2</span></td><td>the Amcache lab and a live shadow-copy walkthrough (referenced, not embedded)<span class="ar">معمل الـ Amcache و شرح shadow copy حيّ (مُحال إليه، لا مُضمَّن)</span></td></tr>
+    <tr><td><b>INE eCDFP</b> module 4<span class="ar">وحدة INE eCDFP الرابعة</span></td><td>the execution-artifact set and the shellbag structure<span class="ar">مجموعة artifacts التنفيذ و بنية الـ shellbag</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Evidence note.</b> <code>EVS-13</code> is <b>Tier 2</b>: published parser-test files, fetched at pinned commits and hash-checked by <code>scripts/fetch_corpora.py</code>, credited and never rehosted. <b>Amcache and live Volume Shadow Copies are not in it</b> &mdash; both need a full disk image or a running system &mdash; so `T18`&rsquo;s Amcache and `T19`&rsquo;s VSS are taught here and <b>run in `P14`</b>, on the acquired image, and in the TryHackMe rooms in the references. Nothing on the page is a fabricated artifact (`D22`).
+    <span class="ar"><b>ملاحظة عن الدليل.</b> <code>EVS-13</code> من <b>المستوى الثاني</b>: ملفات اختبار منشورة، جُلبت عند commits مثبَّتة و فُحصت قيم الـ hash الخاصة بها بواسطة <code>scripts/fetch_corpora.py</code>، منسوبة و غير معاد استضافتها. <b>و الـ Amcache و الـ Volume Shadow Copies الحيّة ليست فيها</b> — كلاهما يحتاج صورة قرص كاملة أو نظامًا يعمل — فيُدرَّس Amcache في `T18` و VSS في `T19` هنا، و <b>يُشغَّلان في `P14`</b> على الصورة المكتسبة، و في غرف TryHackMe في المراجع. و لا شيء على الصفحة artifact مُلفَّق.</span></p>
+</div>
+<p><b>Next: `P12` &mdash; Windows event logs.</b> Every artifact here was a side effect. Event logs are Windows <b>deliberately writing down</b> what happened &mdash; logons, service installs, log clearing itself &mdash; and `T20` reads them on real attack recordings.
+  <span class="ar"><b>التالي: `P12` — سجلات أحداث ويندوز.</b> كان كل artifact هنا أثرًا جانبيًّا. أما سجلات الأحداث فهي ويندوز <b>يكتب عمدًا</b> ما حدث — تسجيلات الدخول و تثبيت الخدمات و مسح السجل نفسه — و يقرؤها `T20` على تسجيلات هجمات حقيقية.</span></p>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 25</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P11</b> &middot; content from
+     <code>packages/page-11/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t18', [
+ {screen:'e1', target:'h1',
+  en:'<b>PECmd</b> reads one prefetch file. Two numbers matter first: <b>run count 55</b>, and the most recent start. Windows 10 keeps the eight latest starts, so the other 47 are counted but not dated.',
+  ar:'يقرأ <b>PECmd</b> ملف prefetch واحدًا. و رقمان يهمّان أولاً: <b>عدد مرات التشغيل ٥٥</b>، و أحدث بدء. و يحتفظ ويندوز ١٠ بأحدث ثماني مرات، فالـ ٤٧ الأخرى معدودة و غير مؤرَّخة.'},
+ {screen:'e2', target:'h2',
+  en:'The file list is what <code>cmd.exe</code> loaded in its first ten seconds. <b><code>DISKPART.EXE</code> and <code>INIT.BAT</code></b> are in it. That is <i>presence</i> in a list, not the command line &mdash; but it tells you where to look next.',
+  ar:'قائمة الملفات هي ما حمّله <code>cmd.exe</code> في ثوانيه العشر الأولى. و فيها <b><code>DISKPART.EXE</code> و <code>INIT.BAT</code></b>. و هذا <i>وجود</i> في قائمة، لا سطر أوامر — لكنه يخبرك أين تنظر بعد ذلك.'},
+ {screen:'e3', target:'h3',
+  en:'Shellbags come from the <b>user</b> hive, so switch tools: RegRipper, and this output is verbatim. Folders named <code>1</code>, <code>333333</code>, <code>woo</code>, <code>woo\bar</code> on a drive lettered <b>J:</b>, on <b>2014-11-07</b>. <b>The drive is not in the evidence. The record of browsing it is.</b>',
+  ar:'تأتي الـ shellbags من hive <b>المستخدم</b>، فبدّل الأداة: RegRipper، و هذه المخرجات حرفية. مجلدات باسم <code>1</code> و <code>333333</code> و <code>woo</code> و <code>woo\bar</code> على قرص حرفه <b>J:</b>، في <b>٢٠١٤-١١-٠٧</b>. <b>القرص ليس في الدليل. و سجل تصفّحه موجود.</b>'},
+ {screen:'e4', target:'h4',
+  en:'Two <code>$I</code> records. <code>C:\temp</code>, 13.5 MB, binned at <b>19:54:58</b>; <code>C:\vss</code> eight seconds before it. The content files are not in the set &mdash; which is exactly what an emptied bin looks like, and the records survived it.',
+  ar:'سجلا <code>$I</code>. <code>C:\temp</code>، ١٣٫٥ ميجابايت، ذهب إلى السلة في <b>١٩:٥٤:٥٨</b>؛ و <code>C:\vss</code> قبله بثماني ثوانٍ. و ملفات المحتوى ليست في المجموعة — و هكذا تبدو السلة المفرَّغة بالضبط، و نجت السجلات منها.'},
+ {screen:'e5', target:'h5',
+  en:'Every artifact gets its own <b>verb</b>. <i>Started</i>, <i>loaded</i>, <i>was present</i>, <i>browsed</i>, <i>binned</i>. The ShimCache line is the trap: its date is the file&rsquo;s modified time, so the verb is <b>was present</b>, never <i>ran</i>. And <b>&ldquo;used&rdquo; is not a verb any of these supports.</b>',
+  ar:'لكل artifact <b>فعله</b> الخاص. <i>بدأ</i>، <i>حمّل</i>، <i>كان موجودًا</i>، <i>تصفّح</i>، <i>ذهب إلى السلة</i>. و سطر ShimCache هو الفخّ: تاريخه زمن تعديل الملف، فالفعل <b>كان موجودًا</b>، و ليس <i>عمل</i> أبدًا. و <b>«استُخدم» ليس فعلاً يدعمه أيٌّ منها.</b>'}
+]);
+Dgm.init('#dg-lc-p11', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>ACQUIRE.</b> إخراج الدليل من الجهاز دون تغييره.'},
+ {en:'<b>PRESERVE.</b> Prove it did not change afterwards.', ar:'<b>PRESERVE.</b> إثبات أنه لم يتغيّر بعد ذلك.'},
+ {en:'<b>ANALYSE.</b> Read what is there, and say only what the bytes support. <b>This page is here.</b>', ar:'<b>ANALYSE.</b> قراءة ما هو موجود، و قول ما تدعمه الـ bytes فقط. <b>و هذه الصفحة هنا.</b>',key:true},
+ {en:'<b>VALIDATE.</b> Check the finding against a second source.', ar:'<b>VALIDATE.</b> التحقّق من النتيجة بمصدر ثانٍ.'},
+ {en:'<b>PRESENT.</b> Write it so someone else can check it.', ar:'<b>PRESENT.</b> كتابتها بحيث يستطيع غيرك التحقّق منها.'}
+]);
+Dgm.init('#dg11-f1', [
+ {en:'<b>What ran?</b> Four artifacts, and they do <b>not</b> agree with each other on purpose &mdash; each records a different event. Part 1 is about telling them apart.', ar:'<b>ما الذي عمل؟</b> أربعة artifacts، و هي <b>لا</b> تتّفق فيما بينها عمدًا — فكلٌّ منها يسجّل حدثًا مختلفًا. و الجزء الأول عن التمييز بينها.'},
+ {en:'<b>What was opened?</b> Every time a file is opened through Explorer, Windows writes a shortcut about it. The shortcut outlives the file.', ar:'<b>ما الذي فُتح؟</b> في كل مرة يُفتح فيها ملف عبر Explorer، يكتب ويندوز اختصارًا عنه. و يعيش الاختصار بعد الملف.'},
+ {en:'<b>Where did they browse?</b> Explorer remembers how every folder was displayed &mdash; including folders on drives that are no longer attached.', ar:'<b>أين تصفّحوا؟</b> يتذكّر Explorer كيف عُرض كل مجلد — بما في ذلك مجلدات على أقراص لم تعد موصولة.'},
+ {en:'<b>What was deleted?</b> The Recycle Bin keeps a 44-byte record per file: the original path, the size, and the second it was deleted.', ar:'<b>ما الذي حُذف؟</b> تحتفظ سلة المحذوفات بسجل من ٤٤ byte لكل ملف: المسار الأصلي و الحجم و الثانية التي حُذف فيها.'},
+ {en:'<b>What did the disk look like before?</b> Shadow copies are earlier versions of the volume. They need a live volume or a full image to open, so this page teaches them and `P14` runs them.', ar:'<b>كيف كان القرص من قبل؟</b> الـ shadow copies نسخ أقدم من الـ volume. و تحتاج إلى volume حيّ أو صورة كاملة لفتحها، فتعلّمها هذه الصفحة و تشغّلها `P14`.'},
+ {en:'Every artifact on this page is a <b>side effect</b>. Nobody designed Prefetch for investigators &mdash; Windows wrote it to start programs faster. <b>That is why it is trustworthy: nobody thinks to lie to it.</b>', ar:'كل artifact على هذه الصفحة <b>أثر جانبي</b>. لم يصمّم أحد الـ Prefetch للمحققين — بل كتبه ويندوز ليبدأ البرامج أسرع. <b>و لهذا يُوثَق به: فلا أحد يفكّر في الكذب عليه.</b>',key:true}
+]);
+Dgm.init('#dg11-f2', [
+ {en:'The file name has three parts: the executable, a <b>hash of the path it ran from</b>, and <code>.pf</code>. Two copies of <code>cmd.exe</code> in two folders get two prefetch files.', ar:'لاسم الملف ثلاثة أجزاء: الملف التنفيذي، و <b>hash للمسار الذي عمل منه</b>، و <code>.pf</code>. و نسختان من <code>cmd.exe</code> في مجلدين تحصلان على ملفي prefetch.'},
+ {en:'<b>Run count: 55.</b> This <code>cmd.exe</code> started fifty-five times. That number is a finding on its own.', ar:'<b>عدد مرات التشغيل: ٥٥.</b> بدأ هذا الـ <code>cmd.exe</code> خمسًا و خمسين مرة. و هذا الرقم نتيجة بذاته.'},
+ {en:'Windows 8 and later keep the <b>eight</b> most recent start times. Here they run from 2015-12-17 to 2016-01-12. The other 47 starts are <b>counted but not dated</b>.', ar:'يحتفظ ويندوز ٨ و ما بعده بأحدث <b>ثماني</b> مرات بدء. و هنا تمتد من ٢٠١٥-١٢-١٧ إلى ٢٠١٦-٠١-١٢. أما المرات الـ ٤٧ الأخرى <b>فمعدودة و غير مؤرَّخة</b>.'},
+ {en:'The file list is what the program loaded in its first ten seconds. For <code>cmd.exe</code> that includes <b><code>DISKPART.EXE</code></b> and <b><code>INIT.BAT</code></b> &mdash; so the shell was used to run a disk tool and a script. <b>The list is a window into what the program was used for.</b>', ar:'قائمة الملفات هي ما حمّله البرنامج في ثوانيه العشر الأولى. و في <code>cmd.exe</code> تشمل <b><code>DISKPART.EXE</code></b> و <b><code>INIT.BAT</code></b> — فقد استُخدم الـ shell لتشغيل أداة أقراص و script. <b>و القائمة نافذة على ما استُخدم البرنامج من أجله.</b>'},
+ {en:'The volumes the files sat on, with their <b>serial numbers</b>. A volume serial ties this artifact to LNK files and USB records on other screens.', ar:'الـ volumes التي كانت الملفات عليها، مع <b>أرقامها التسلسلية</b>. و الرقم التسلسلي للـ volume يربط هذا الـ artifact بملفات LNK و سجلات الـ USB في شاشات أخرى.'},
+ {en:'<b>Ran, when, how often, what it reached for.</b> Not who, and not what happened after the tenth second. Those need a user hive and an event log.', ar:'<b>عمل، و متى، و كم مرة، و ما الذي وصل إليه.</b> لا مَن، و لا ما حدث بعد الثانية العاشرة. فتلك تحتاج إلى hive مستخدم و سجل أحداث.',key:true}
+]);
+Dgm.init('#dg11-f3', [
+ {en:'<b>Prefetch</b> is written when a program <b>starts</b>. Its timestamps are start times, its count is a start count. This is the artifact that says <i>ran</i>.', ar:'يُكتب <b>Prefetch</b> حين <b>يبدأ</b> برنامج. فأزمنته أزمنة بدء، و عدّاده عدّاد بدء. و هذا هو الـ artifact الذي يقول <i>عمل</i>.'},
+ {en:'<b>ShimCache</b> is a compatibility cache in the <code>SYSTEM</code> hive. An entry means the file was <b>seen</b> &mdash; listed, opened, or run &mdash; and <b>its timestamp is the file&rsquo;s own modified time</b>, copied from the file system. <code>PowerShell.exe</code>&rsquo;s entry says 2015-03-14 because that is when the file was last modified, whether or not it ever ran.', ar:'<b>ShimCache</b> ذاكرة توافق مؤقتة في hive الـ <code>SYSTEM</code>. و المدخل يعني أن الملف <b>رُئي</b> — سُرد أو فُتح أو عمل — و <b>زمنه هو زمن تعديل الملف نفسه</b>، منسوخًا من نظام الملفات. فمدخل <code>PowerShell.exe</code> يقول ٢٠١٥-٠٣-١٤ لأن ذلك وقت آخر تعديل للملف، سواء عمل يومًا أم لا.'},
+ {en:'<b>UserAssist</b> is in the <b>user&rsquo;s</b> hive, names stored in ROT13, and it counts launches made <b>through the GUI</b> &mdash; double-clicks, Start menu. A program started from a script never appears here. It also records how long the window had <b>focus</b>.', ar:'<b>UserAssist</b> في hive <b>المستخدم</b>، بأسماء مخزَّنة بترميز ROT13، و يعدّ مرات التشغيل <b>عبر الواجهة الرسومية</b> — النقر المزدوج و قائمة ابدأ. و البرنامج الذي يبدأ من script لا يظهر هنا أبدًا. و يسجّل أيضًا كم بقيت النافذة في <b>التركيز</b>.'},
+ {en:'<b>Amcache</b> inventories executables with a <b>SHA-1</b> of their first 31 MB &mdash; the only artifact here that can say <i>which</i> <code>cmd.exe</code>. It is not in this corpus; the TryHackMe room in the references runs it.', ar:'يُجري <b>Amcache</b> جردًا للملفات التنفيذية بقيمة <b>SHA-1</b> لأول ٣١ ميجابايت منها — و هو الـ artifact الوحيد هنا الذي يستطيع أن يقول <i>أيّ</i> <code>cmd.exe</code>. و ليس في هذه المجموعة؛ و غرفة TryHackMe في المراجع تشغّله.'},
+ {en:'<b>&ldquo;It ran&rdquo; is a Prefetch or UserAssist sentence.</b> A ShimCache entry supports <i>&ldquo;was present&rdquo;</i> and its date is a file date. Mixing these up is the most common error in execution analysis, and it is an error of one word.', ar:'<b>«عمل» جملة Prefetch أو UserAssist.</b> أما مدخل ShimCache فيدعم <i>«كان موجودًا»</i> و تاريخه تاريخ ملف. و الخلط بينهما أشيع خطأ في تحليل التنفيذ، و هو خطأ في كلمة واحدة.',key:true}
+]);
+Dgm.init('#dg11-f4', [
+ {en:'<code>BagMRU</code> is the root. Each subkey is <b>one folder</b>, and each subkey&rsquo;s numbered value holds a <b>shell item</b> describing it &mdash; name, timestamps, and for some types the MFT reference.', ar:'<code>BagMRU</code> هو الجذر. و كل مفتاح فرعي <b>مجلد واحد</b>، و القيمة المرقّمة في كل مفتاح تحمل <b>shell item</b> يصفه — الاسم و الأزمنة و في بعض الأنواع مرجع الـ MFT.'},
+ {en:'Key <code>0</code> under the root is <i>My Computer</i>. The tree mirrors what the user saw in Explorer.', ar:'المفتاح <code>0</code> تحت الجذر هو <i>My Computer</i>. و الشجرة تعكس ما رآه المستخدم في Explorer.'},
+ {en:'<code>0\0</code> is a drive: <b>J:</b>. For a removable drive the item carries the <b>letter only</b> &mdash; no serial, no label. Hold that thought.', ar:'<code>0\0</code> قرص: <b>J:</b>. و في القرص القابل للإزالة يحمل العنصر <b>الحرف فقط</b> — بلا رقم تسلسلي و بلا اسم. احتفظ بهذه الفكرة.'},
+ {en:'<code>0\0\2</code> is a folder named <code>woo</code>, and its shell item carries the folder&rsquo;s <b>modified time from the file system</b> at the moment it was displayed: 2014-11-07 22:22:40.', ar:'<code>0\0\2</code> مجلد اسمه <code>woo</code>، و يحمل الـ shell item الخاص به <b>زمن التعديل من نظام الملفات</b> لحظة عرضه: ٢٠١٤-١١-٠٧ ٢٢:٢٢:٤٠.'},
+ {en:'<code>0\0\2\1</code> is <code>bar</code> inside it. The parent key&rsquo;s <b>MRUListEx</b> order and LastWrite give the <b>MRU time</b> &mdash; when this folder was most recently the one being looked at: 22:23:51.', ar:'<code>0\0\2\1</code> هو <code>bar</code> بداخله. و ترتيب <b>MRUListEx</b> في المفتاح الأب و زمن LastWrite يعطيان <b>زمن الـ MRU</b> — متى كان هذا المجلد آخر ما يُنظر إليه: ٢٢:٢٣:٥١.'},
+ {en:'So a user browsed <code>J:\woo\bar</code> on 2014-11-07 &mdash; and <b>nothing on J: is in this evidence</b>. The shellbag survives the drive. <b>But a letter is not a device</b>: nothing here proves J: was the ADATA drive of `P10`, and the report must not say so.', ar:'إذن تصفّح مستخدم <code>J:\woo\bar</code> في ٢٠١٤-١١-٠٧ — و <b>لا شيء ممّا على J: في هذا الدليل</b>. فالـ shellbag يعيش بعد القرص. <b>لكن الحرف ليس جهازًا</b>: لا شيء هنا يثبت أن J: كان قرص ADATA من `P10`، و يجب ألا يقول التقرير ذلك.',key:true}
+]);
+Dgm.init('#dg11-f5', [
+ {en:'When a file goes to the Recycle Bin, Windows writes a tiny <code>$I</code> record: version, original size, the deletion time <b>to the second</b>, and the original path. This one is <b>44 bytes</b>.', ar:'حين يذهب ملف إلى سلة المحذوفات، يكتب ويندوز سجل <code>$I</code> صغيرًا: الإصدار و الحجم الأصلي و زمن الحذف <b>بالثانية</b> و المسار الأصلي. و هذا حجمه <b>٤٤ byte</b>.'},
+ {en:'The content moves to a matching <code>$R</code> file with the same random suffix. Nothing is erased &mdash; <b>the file was renamed and moved</b>, and the <code>$I</code> remembers where from.', ar:'و ينتقل المحتوى إلى ملف <code>$R</code> مقابل بالمقطع العشوائي نفسه. و لا يُمسح شيء — <b>فقد أُعيدت تسمية الملف و نُقل</b>، و يتذكّر الـ <code>$I</code> من أين.'},
+ {en:'The second record in EVS-13 is <code>C:\vss</code>, deleted <b>eight seconds earlier</b>. Two folders binned in one gesture, and the records preserve the order.', ar:'و السجل الثاني في EVS-13 هو <code>C:\vss</code>، حُذف <b>قبله بثماني ثوانٍ</b>. مجلدان ذهبا إلى السلة في حركة واحدة، و تحفظ السجلات الترتيب.'},
+ {en:'Emptying the bin deletes the <code>$R</code> in the `P09` sense &mdash; the entry goes, the clusters stay. The <code>$I</code> is so small it is often <b>resident in its MFT record</b>, which is exactly the case `P09` showed survives deletion. <b>The record of the deletion outlives the deletion.</b>', ar:'إفراغ السلة يحذف الـ <code>$R</code> بمعنى `P09` — يذهب المدخل و تبقى الـ clusters. أما الـ <code>$I</code> فمن صغره كثيرًا ما يكون <b>resident في سجل الـ MFT الخاص به</b>، و هي الحالة نفسها التي أظهرت `P09` أنها تنجو من الحذف. <b>فسجل الحذف يعيش بعد الحذف.</b>',key:true}
+]);
+Dgm.init('#dg11-f6', [
+ {en:'A shadow copy is not a backup. When Windows takes one, it <b>freezes a list of blocks</b> and copies nothing. That is why it is instant.', ar:'الـ shadow copy ليست نسخة احتياطية. حين يأخذها ويندوز <b>يجمّد قائمة كتل</b> و لا ينسخ شيئًا. و لهذا تكون فورية.'},
+ {en:'From then on, whenever a block is about to be overwritten, its <b>old contents are saved first</b>. The shadow store grows only by what changed.', ar:'و منذ ذلك الحين، كلما أوشك أن يُكتب فوق كتلة، <b>يُحفظ محتواها القديم أولاً</b>. و لا يكبر مخزن الـ shadow إلا بمقدار ما تغيّر.'},
+ {en:'So there are two volumes: <b>today</b>, and <b>the day the snapshot was taken</b> &mdash; with the old registry hives, the old <code>$MFT</code>, and files deleted since.', ar:'إذن يوجد volume-ان: <b>اليوم</b>، و <b>يوم أخذ الـ snapshot</b> — بالـ hives القديمة و الـ <code>$MFT</code> القديم و الملفات التي حُذفت منذ ذلك الحين.'},
+ {en:'Mount the shadow and <b>run every tool on this page a second time</b>, against the past. A run key that was removed last week is still in last month&rsquo;s <code>SOFTWARE</code>. This needs a full image or a live volume, so `P14` runs it and this page only explains it.', ar:'ركّب الـ shadow و <b>شغّل كل أداة في هذه الصفحة مرة ثانية</b>، على الماضي. فمفتاح Run الذي أُزيل الأسبوع الماضي ما زال في <code>SOFTWARE</code> الشهر الماضي. و هذا يحتاج إلى صورة كاملة أو volume حيّ، فتشغّله `P14` و تكتفي هذه الصفحة بشرحه.',key:true}
+]);
+</script>
+
+</body>
+</html>

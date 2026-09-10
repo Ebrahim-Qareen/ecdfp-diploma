@@ -48,7 +48,33 @@ Use the two line formats from the report template. Number them `F-01`, `I-01`, a
 
 ---
 
-## Activity 2 — Case 01: the tampered file
+## Activity 2 — Identify twelve files by their bytes
+
+**Time box: 15 minutes.** Evidence: `EVS-05` (verify it against its manifest first).
+
+You are handed twelve files. Their names may or may not be true.
+
+| # | Task |
+|--:|---|
+| 1 | For each file, record: name, extension, **first four bytes**, and the type those bytes indicate. |
+| 2 | How many files' signatures disagree with their extensions? |
+| 3 | Two files have a valid signature and will not open. What is wrong with them, and how do you know? |
+| 4 | Write one finding, one interpretation and one limitation about a single mismatched file. |
+
+### Success criteria
+
+| ☐ | |
+|:-:|---|
+| ☐ | Twelve rows, each with four bytes written as hex |
+| ☐ | The mismatch count is a **number** |
+| ☐ | Your finding quotes the bytes and gives an exact path |
+| ☐ | Your limitation does **not** claim anyone renamed anything |
+
+⚠️ One file is `policy_v2.docx`. A real `.docx` **is** a ZIP. **Look, do not predict.**
+
+---
+
+## Activity 3 — Case 01: the tampered file
 
 **Time box: 60 minutes.** Suggested split: 10 verify · 20 examine · 25 write · 5 custody.
 

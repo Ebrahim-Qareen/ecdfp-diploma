@@ -1,0 +1,4 @@
+exhibit_id,type,description,source_host,seized_utc,acquired_utc,acquired_by,notes
+ITG-2026-014-A1,disk,Internal 3.5in SATA system disk 500GB,EVI-SRC01,2026-03-04T09:02:00Z,2026-03-04T11:47:33Z,Examiner 1,imaged on a hardware write blocker
+ITG-2026-014-A2,photographs,Scene and rig photographs frames 001-013,EVI-SRC01,2026-03-04T08:38:00Z,2026-03-04T08:38:00Z,Responder 1,includes rear ports with cabling attached
+ITG-2026-014-A3,notes,First responder contemporaneous notes 3 pages,EVI-SRC01,2026-03-04T08:31:00Z,2026-03-04T09:07:00Z,Responder 1,records that no memory capture was taken

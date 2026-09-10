@@ -93,6 +93,35 @@ harness was mutation-tested on 2026-08-28 against eight injected defects and cau
 | sidebar carries one more entry than pages | page count vs sidebar |
 | option key changed to `viewportSize` | **run aborted** |
 
+**Three checks added 2026-09-08 (`D105` · `D106` · `D107`), mutation-tested the same day — 6 of 7
+injected defects caught, and the seventh is a non-defect (see below):**
+
+| Injected defect | Caught by |
+|---|---|
+| the cell-wide `text-wrap:nowrap` on a first table column | Arabic in a starved container (D105) |
+| `.ar` to a full-width right-aligned block | Arabic not under its English (D108) |
+| `.ss-mask` bleed restored, so the spotlight leaves the pointer | SIMSCREEN pointer off its window (D107) |
+| `place()` stops dividing by the holder's `zoom` | SIMSCREEN pointer off its window (D107) |
+| the IntersectionObserver re-place removed (`D103`) | SIMSCREEN pointer off its window (D107) |
+| the SIMSCREEN container queries removed | **nothing — and correctly so** |
+
+That last row is not a hole in the gate. The container queries exist for a band that no longer
+occurs on these five widths, because the sidebar now collapses at 1099 px rather than 899 px
+(`D105`) and the 900 px page is full width. Removing the rule produces no overflow, so there is
+nothing to catch. It is kept as a safety net for a narrower container, not deleted.
+
+**The `.ar` check asserts the PAINTED TEXT, not the box.** Its first version compared box edges —
+and a full-width right-aligned `.ar` starts its *box* at exactly the same place as a `fit-content`
+one, so the check passed the very layout it exists to reject. Only the glyphs differ, and only on a
+block that fits on **one line**; a wrapping block fills the column either way. The check also has
+to add the parent's **border** to its padding, or every `.note` reads as 3 px adrift.
+
+**The two SIMSCREEN assertions are behavioural, not structural.** The pointer must land on the
+element the step *declares* it points at (`root.dataset.ssTarget`, published by `place()`), and
+the spotlight must indicate the same place as the pointer (`root.dataset.ssSpot`). An earlier
+version only checked "the ring is somewhere inside the window" — it passed a 30 px offset and a
+`z x z` error, which is how both shipped.
+
 `precommit_scan.ps1` and `check_links.ps1` were tested the same way against a deliberately dirty
 tree and caught all of it: a password assignment, an AWS key, a real email address, a routable
 private IP, an `.E01`, a bare `SYSTEM` hive, an instructor stage direction, a broken local

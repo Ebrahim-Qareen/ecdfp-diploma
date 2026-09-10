@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P08 &middot; The disk &middot; eCDFP Diploma</title>
+<meta name="description" content="Sectors, clusters and file slack, the MBR partition table and GPT, and recovering a partition table that was wiped — page 8 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P08 &middot; The disk</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>Objectives</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; How a disk stores a file</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>Platters and NAND</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>What TRIM destroys</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>Sectors, clusters and slack</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>Five files, and what they cost</span></a></li>
+      <li class="is-part"><a href="#p9"><span class="n">09</span><span>PART 2 &mdash; How a disk is divided</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>The master boot record</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>What four entries cost</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>GPT</span></a></li>
+      <li class="is-part"><a href="#p13"><span class="n">13</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>Reading file slack</span></a></li>
+      <li class="is-part"><a href="#p15"><span class="n">15</span><span>YOUR TURN &mdash; Case 04</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>Case 04 &mdash; the brief</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>Recovering the table</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>Exercise &mdash; four recovery claims</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>Knowledge check</span></a></li>
+      <li class="is-part"><a href="#p20"><span class="n">20</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p22"><span class="n">22</span><span>TASK</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>Task &mdash; recover, and document it</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Report &mdash; documenting a recovery</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>Summary</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+<main class="main">
+
+<section class="page" id="p1">
+<span class="kicker">P08 &middot; Page 8 of 14 &middot; 113 topic minutes</span>
+<h2>The disk
+  <span class="ar">القرص</span></h2>
+<p class="lede">Seven pages have treated <b>the file</b> as the unit. This page goes underneath it: the sectors a file actually occupies, the space it is given and does not use, and how a disk is divided <b>before any file exists</b>.
+  <span class="ar">عاملت سبع صفحات <b>الملف</b> بوصفه الوحدة. و هذه الصفحة تنزل تحته: إلى الـ sectors التي يشغلها الملف فعلاً، و المساحة التي تُمنح له و لا يستخدمها، و كيف يُقسَّم القرص <b>قبل وجود أي ملف</b>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Topic</th><th>Minutes</th><th>Hands-on</th></tr></thead>
+  <tbody>
+    <tr><td><b>T12</b> Storage Internals &amp; Slack<span class="ar">بنية التخزين و الـ slack</span></td><td>45</td><td>Yes</td></tr>
+    <tr><td><b>T13</b> Partitioning &mdash; MBR &amp; GPT<span class="ar">التقسيم — MBR و GPT</span></td><td>68</td><td>Yes</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Every number on this page is measured</b> from <code>EVS-07</code>, four disk images built by <code>scripts/make_evs07.py</code> in this repository and hash-verified. Offsets, cluster sizes, slack bytes and the recovered partition table all came from reading the images.
+    <span class="ar"><b>كل رقم على هذه الصفحة مقيس</b> من <code>EVS-07</code>، و هي أربع صور أقراص بناها <code>scripts/make_evs07.py</code> في هذا المستودع و جرى التحقق من قيم الـ hash الخاصة بها. فالإزاحات و أحجام الـ clusters و bytes الـ slack و جدول الـ partitions المستعاد كلها من قراءة الصور.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T12 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن</span></h2>
+<figure class="dgm" id="dg-lc-p08" data-mode="story" data-reveal="upto" data-interval="8000">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p08">
+  <title id="t-dg-lc-p08">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="78" text-anchor="middle" fill="#00ff9d">ANALYSE</text>
+    <text class="xs" x="388" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 3.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p>`P05` insisted on a <b>physical</b> image and said the cost of a logical one was permanent. This is the page that makes that concrete: <b>slack, unallocated space and the partition table are all outside every file</b>, and a logical acquisition captures none of them.
+  <span class="ar">أصرّ `P05` على صورة <b>physical</b> و قال إن ثمن الصورة الـ logical دائم. و هذه هي الصفحة التي تجعل ذلك ملموسًا: <b>فالـ slack و المساحة غير المخصّصة و جدول الـ partitions كلها خارج كل ملف</b>، و الـ acquisition الـ logical لا يلتقط أيًّا منها.</span></p>
+<div class="key-takeaway"><span class="cl-label">Two ideas, and the second is the whole page</span>
+  <ul>
+    <li>a file is given <b>whole clusters</b>, so almost every file is followed by space it does not use.
+      <span class="ar">يُمنح الملف <b>clusters كاملة</b>، فيتبع كل ملف تقريبًا مساحة لا يستخدمها.</span></li>
+    <li><b>that space is not erased</b> &mdash; it still holds whatever was there before.
+      <span class="ar"><b>و تلك المساحة لا تُمسح</b> — فهي ما زالت تحمل ما كان فيها من قبل.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P08 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستكون قادرًا عليه</span></h2>
+<div class="key-takeaway"><span class="cl-label">By the end of this page you can</span>
+  <ul>
+    <li>compute the <b>slack</b> of any file from its size and the cluster size, and say what may be in it.
+      <span class="ar">أن تحسب <b>slack</b> أي ملف من حجمه و حجم الـ cluster، و تحدّد ما قد يكون فيه.</span></li>
+    <li>explain why <b>TRIM</b> on an SSD destroys evidence that a hard disk would have kept.
+      <span class="ar">أن تشرح لماذا يُتلف <b>TRIM</b> على الـ SSD دليلاً كان القرص الصلب سيحتفظ به.</span></li>
+    <li>read a <b>64-byte MBR partition table</b> field by field, and say what the type byte does not prove.
+      <span class="ar">أن تقرأ <b>جدول partitions بحجم ٦٤ byte</b> حقلاً حقلاً، و تحدّد ما لا يُثبته byte النوع.</span></li>
+    <li>name the five structures of a <b>GPT</b> disk and explain why it survives what an MBR does not.
+      <span class="ar">أن تُسمّي البنى الخمس لقرص <b>GPT</b>، و تشرح لماذا ينجو مما لا ينجو منه الـ MBR.</span></li>
+    <li><b>recover a wiped partition table</b> and prove the recovery is byte-identical to the original.
+      <span class="ar">أن <b>تستعيد جدول partitions ممحوًّا</b> و تُثبت أن الاستعادة مطابقة للأصل byte بـ byte.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 2</span>
+  <h2>How a disk stores a file<span class="ar">كيف يخزّن القرص ملفًّا</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Platters, NAND, sectors and clusters &mdash; and the gap between what a file is and what it is given.<span class="ar">الأقراص الدوّارة و الـ NAND و الـ sectors و الـ clusters — و الفجوة بين ما هو الملف و ما يُمنح له.</span></p>
+  <p class="divider-meta">6 screens &middot; about 45 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T12 &middot; Theory</span>
+<h2>Platters and NAND
+  <span class="ar">الأقراص الدوّارة و الـ NAND</span></h2>
+<p>Two storage technologies, and the difference between them <b>changes what evidence survives</b>. That is the only reason a forensics course teaches hardware at all.
+  <span class="ar">تقنيتا تخزين، و الفرق بينهما <b>يغيّر أي دليل يبقى</b>. و هذا هو السبب الوحيد لتدريس العتاد في كورس تحليل جنائي أصلاً.</span></p>
+<div class="photo-row">
+<figure class="photo"><img src="../assets/img/photos/hdd-open-inner-view.jpg" alt="An opened hard disk drive showing platters and the actuator arm">
+  <figcaption>An opened HDD: the platters, and the arm that reaches across them.
+    <span class="ar">قرص صلب مفتوح: الأقراص الدوّارة، و الذراع التي تمتدّ فوقها.</span>
+    <span class="credit">Photo: ErrantX, public domain, via Wikimedia Commons.</span></figcaption></figure>
+<figure class="photo"><img src="../assets/img/photos/hdd-head-platter-detail.jpg" alt="Close view of a read-write head above a platter surface">
+  <figcaption>The head, flying above the surface. It magnetises a region; it does not remove one.
+    <span class="ar">الرأس، محلّقًا فوق السطح. يُمغنط منطقة، و لا يُزيلها.</span>
+    <span class="credit">Photo: ErrantX, public domain, via Wikimedia Commons.</span></figcaption></figure>
+</div>
+<div class="table-wrap"><table>
+  <thead><tr><th></th><th>Hard disk</th><th>SSD</th></tr></thead>
+  <tbody>
+    <tr><td>writes by<span class="ar">آلية الكتابة</span></td><td>magnetising a region of a spinning platter<span class="ar">بمغنطة منطقة من قرص دوّار</span></td><td>charging a NAND cell<span class="ar">بشحن خلية NAND</span></td></tr>
+    <tr><td>overwrite in place<span class="ar">الكتابة فوق المكان نفسه</span></td><td>yes<span class="ar">نعم</span></td><td><b>no</b> &mdash; the controller writes elsewhere<span class="ar"><b>لا</b> — يكتب الـ controller في مكان آخر</span></td></tr>
+    <tr><td>where a deleted file goes<span class="ar">أين يذهب الملف المحذوف</span></td><td>stays until something overwrites it<span class="ar">يبقى حتى يُكتب فوقه شيء</span></td><td>may be <b>erased by the drive itself</b><span class="ar">قد <b>يمحوه القرص نفسه</b></span></td></tr>
+    <tr><td>the examiner controls this<span class="ar">هل يتحكم الفاحص في ذلك</span></td><td>yes, with a write blocker<span class="ar">نعم، بـ write blocker</span></td><td><b>not entirely</b><span class="ar"><b>ليس تمامًا</b></span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">Why the photograph is here and not on `P01`</span>
+  <p>Because <b>this</b> is the page where the mechanism matters. A head <b>magnetises</b> a region &mdash; it never removes one &mdash; and that single physical fact is why deleted data persists, why slack holds history, and why the whole of `T15` is possible.
+    <span class="ar">لأن <b>هذه</b> هي الصفحة التي يهمّ فيها الميكانيزم. فالرأس <b>يُمغنط</b> منطقة — و لا يُزيلها أبدًا — و هذه الحقيقة الفيزيائية وحدها هي سبب بقاء البيانات المحذوفة، و سبب حمل الـ slack للتاريخ، و سبب إمكان `T15` كله.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T12 &middot; Theory</span>
+<h2>What TRIM destroys
+  <span class="ar">ما الذي يُتلفه الـ TRIM</span></h2>
+<p>On an SSD the operating system tells the drive <i>&ldquo;these blocks are no longer in use&rdquo;</i>. The drive then erases them <b>on its own schedule</b> &mdash; with no operating system involved and no examiner able to stop it.
+  <span class="ar">على الـ SSD يخبر نظام التشغيل القرصَ بأن <i>«هذه الكتل لم تعد مستخدمة»</i>. فيمحوها القرص بعد ذلك <b>وفق جدوله هو</b> — بلا تدخّل من نظام التشغيل، و دون أن يستطيع فاحص إيقافه.</span></p>
+<div class="limitation">
+  <span class="cl-label">What this does to the evidence</span>
+  <p>A deleted file on a hard disk waits to be overwritten. A deleted file on a TRIM-enabled SSD may be <b>gone within minutes, at the drive&rsquo;s own initiative</b> &mdash; and it can keep erasing <b>while connected to a write blocker</b>, because the erase is internal and the blocker only stops the host.
+    <span class="ar">الملف المحذوف على قرص صلب ينتظر أن يُكتب فوقه. أما الملف المحذوف على SSD مفعَّل عليه TRIM فقد <b>يختفي خلال دقائق، بمبادرة من القرص نفسه</b> — و قد يستمر المحو <b>و القرص موصول بـ write blocker</b>، لأن المحو داخلي و الـ blocker يوقف المضيف فقط.</span></p>
+</div>
+<div class="finding">
+  <span class="cl-label">The two consequences you must be able to state</span>
+  <p><b>#1</b> On an SSD, <i>&ldquo;the file was not recovered&rdquo;</i> is <b>much weaker evidence of absence</b> than on a hard disk. <b>#2</b> Time to acquisition matters in a way it does not for a platter &mdash; and the <b>media type belongs in your report</b>, because it changes what every later negative result means.
+    <span class="ar"><b>١</b> على الـ SSD، تكون عبارة <i>«لم يُستَرجَع الملف»</i> <b>دليل غياب أضعف بكثير</b> منها على قرص صلب. <b>٢</b> و تصير <b>سرعة عمل الـ acquisition</b> مهمّة بشكل لا يهمّ في القرص الدوّار — و <b>نوع الـ media يجب أن يُذكر في تقريرك</b>، لأنه يغيّر معنى كل نتيجة سلبية بعد ذلك.</span></p>
+</div>
+<div class="note">
+  <p>Wear levelling adds the same problem from the other side: the controller <b>moves data around</b> to spread writes, so a logical address does not correspond to a fixed physical cell, and copies of old content can persist in blocks the host can no longer address.
+    <span class="ar">و يضيف الـ wear levelling المشكلة نفسها من الجهة الأخرى: <b>فالـ controller يُحرّك البيانات</b> لتوزيع الكتابة، فلا يقابل العنوان المنطقي خليةً فيزيائية ثابتة، و قد تبقى نسخ من محتوى قديم في كتل لم يعد المضيف يستطيع مخاطبتها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T12 &middot; Theory &middot; measured</span>
+<h2>Sectors, clusters and slack
+  <span class="ar">الـ sectors و الـ clusters و الـ slack</span></h2>
+<p>A disk is addressed in <b>sectors</b>. A file system allocates in <b>clusters</b>. Those two numbers are different, and the entire subject of this half lives in the gap between them.
+  <span class="ar">يُعنوَن القرص بـ<b>sectors</b>. و يخصّص نظام الملفات بـ<b>clusters</b>. و الرقمان مختلفان، و موضوع هذا النصف كله يقع في الفجوة بينهما.</span></p>
+<figure class="dgm" id="dg-p08-f1" data-mode="loop" data-reveal="upto" data-interval="5200">
+  <div class="dgm-head"><span class="dgm-id">FIG P08-F1</span><span class="dgm-tag">ONE CLUSTER</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 258" role="img" aria-labelledby="t8f1">
+  <title id="t8f1">A 100-byte file inside a 4096-byte cluster</title>
+  <text class="xs mut" x="14" y="24">ONE CLUSTER = 8 SECTORS = 4,096 BYTES</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="38" width="88" height="44" rx="4"/>
+    <text class="xs mut" x="58" y="65" text-anchor="middle">512 B</text>
+    <rect class="box" x="107" y="38" width="88" height="44" rx="4"/>
+    <text class="xs mut" x="151" y="65" text-anchor="middle">512 B</text>
+    <rect class="box" x="200" y="38" width="88" height="44" rx="4"/>
+    <text class="xs mut" x="244" y="65" text-anchor="middle">512 B</text>
+    <rect class="box" x="293" y="38" width="88" height="44" rx="4"/>
+    <text class="xs mut" x="337" y="65" text-anchor="middle">512 B</text>
+    <rect class="box" x="386" y="38" width="88" height="44" rx="4"/>
+    <text class="xs mut" x="430" y="65" text-anchor="middle">512 B</text>
+    <rect class="box" x="479" y="38" width="88" height="44" rx="4"/>
+    <text class="xs mut" x="523" y="65" text-anchor="middle">512 B</text>
+    <rect class="box" x="572" y="38" width="88" height="44" rx="4"/>
+    <text class="xs mut" x="616" y="65" text-anchor="middle">512 B</text>
+    <rect class="box" x="665" y="38" width="88" height="44" rx="4"/>
+    <text class="xs mut" x="709" y="65" text-anchor="middle">512 B</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="98" width="744" height="34" rx="5"/>
+    <text class="sm" x="30" y="120">the file system allocates in CLUSTERS, never in sectors</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="146" width="20" height="40" rx="3"/>
+    <text class="xs" x="44" y="171">100 B of NOTE.TXT</text>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="36" y="146" width="722" height="40" rx="3"/>
+    <text class="sm" x="300" y="171">3,996 BYTES OF SLACK &#8212; allocated, unused, not erased</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="200" width="744" height="30" rx="5"/>
+    <text class="sm" x="30" y="221">Whatever was in those 3,996 bytes before is still there.</text>
+  </g>
+  <text class="xs mut" x="14" y="250">Measured from EVS-07: FAT16, 8 sectors per cluster.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page" id="p8">
+<span class="kicker">T12 &middot; Theory &middot; measured</span>
+<h2>Five files, and what they cost
+  <span class="ar">خمسة ملفات، و ما تكلّفه</span></h2>
+<p>These are the five files on <code>EVS-07</code>, chosen so the arithmetic is exact. The cluster is <b>4,096 bytes</b> throughout.
+  <span class="ar">هذه هي الملفات الخمسة على <code>EVS-07</code>، مختارة ليكون الحساب دقيقًا. و الـ cluster <b>٤٬٠٩٦ byte</b> في كل الحالات.</span></p>
+<figure class="dgm" id="dg-p08-f2" data-mode="loop" data-reveal="upto" data-interval="5000">
+  <div class="dgm-head"><span class="dgm-id">FIG P08-F2</span><span class="dgm-tag">MEASURED</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 268" role="img" aria-labelledby="t8f2">
+  <title id="t8f2">Five files and the slack each one leaves</title>
+  <text class="xs mut" x="14" y="26">FIVE FILES ON EVS-07 &#183; CLUSTER 4,096 B</text>
+  <text class="xs mut" x="250" y="26">SIZE</text>
+  <text class="xs mut" x="370" y="26">CLUSTERS</text>
+  <text class="xs mut" x="490" y="26">ALLOCATED</text>
+  <text class="xs mut" x="640" y="26">SLACK</text>
+  <g data-step="1">
+    <rect class="box no" x="14" y="46" width="744" height="30" rx="4"/>
+    <text class="m sm" x="28" y="66">TINY.TXT</text>
+    <text class="m sm" x="250" y="66">1</text>
+    <text class="m sm" x="390" y="66">1</text>
+    <text class="m sm" x="490" y="66">4,096</text>
+    <text class="m sm" x="640" y="66">4,095</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="14" y="84" width="744" height="30" rx="4"/>
+    <text class="m sm" x="28" y="104">NOTE.TXT</text>
+    <text class="m sm" x="250" y="104">100</text>
+    <text class="m sm" x="390" y="104">1</text>
+    <text class="m sm" x="490" y="104">4,096</text>
+    <text class="m sm" x="640" y="104">3,996</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="122" width="744" height="30" rx="4"/>
+    <text class="m sm" x="28" y="142">EXACT.BIN</text>
+    <text class="m sm" x="250" y="142">4,096</text>
+    <text class="m sm" x="390" y="142">1</text>
+    <text class="m sm" x="490" y="142">4,096</text>
+    <text class="m sm" x="640" y="142">0</text>
+  </g>
+  <g data-step="4">
+    <rect class="box warn" x="14" y="160" width="744" height="30" rx="4"/>
+    <text class="m sm" x="28" y="180">OVER.BIN</text>
+    <text class="m sm" x="250" y="180">4,097</text>
+    <text class="m sm" x="390" y="180">2</text>
+    <text class="m sm" x="490" y="180">8,192</text>
+    <text class="m sm" x="640" y="180">4,095</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="198" width="744" height="30" rx="4"/>
+    <text class="m sm" x="28" y="218">REPORT.PDF</text>
+    <text class="m sm" x="250" y="218">10,000</text>
+    <text class="m sm" x="390" y="218">3</text>
+    <text class="m sm" x="490" y="218">12,288</text>
+    <text class="m sm" x="640" y="218">2,288</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="236" width="744" height="26" rx="4"/>
+    <text class="xs" x="28" y="254">18,294 bytes of files occupy 32,768 bytes. 14,474 bytes are slack.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">The pair that teaches the whole idea</span>
+  <p><code>EXACT.BIN</code> is <b>4,096</b> bytes and leaves <b>zero</b> slack. <code>OVER.BIN</code> is <b>4,097</b> &mdash; one byte more &mdash; and leaves <b>4,095</b>. <b>A single byte costs four thousand bytes of allocated space</b>, and that space is where the previous occupant is still sitting.
+    <span class="ar">ملف <code>EXACT.BIN</code> حجمه <b>٤٬٠٩٦</b> byte و يترك slack <b>صفرًا</b>. و ملف <code>OVER.BIN</code> حجمه <b>٤٬٠٩٧</b> — byte واحد زيادة — و يترك <b>٤٬٠٩٥</b>. <b>فـ byte واحد يكلّف أربعة آلاف byte من المساحة المخصَّصة</b>، و تلك المساحة هي حيث ما زال الساكن السابق موجودًا.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p9">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 2</span>
+  <h2>How a disk is divided<span class="ar">كيف يُقسَّم القرص</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Sixty-four bytes in the first sector decide the shape of the whole disk. Then the scheme that replaced them, and what happens when either one is gone.<span class="ar">أربعة و ستون byte في أول sector تقرّر شكل القرص كله. ثم النظام الذي حلّ محلها، و ما يحدث حين يختفي أيٌّ منهما.</span></p>
+  <p class="divider-meta">6 screens &middot; about 68 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p10">
+<span class="kicker">T13 &middot; Theory &middot; measured</span>
+<h2>The master boot record
+  <span class="ar">سجل الإقلاع الرئيسي</span></h2>
+<p>The first 512 bytes of an MBR disk. Boot code, a disk signature, <b>four sixteen-byte entries</b>, and two bytes that say <i>this is a boot record</i>.
+  <span class="ar">أول ٥١٢ byte من قرص MBR. كود إقلاع، و disk signature، و <b>أربعة مدخلات بحجم ١٦ byte</b>، و اثنان من الـ bytes يقولان <i>هذا سجل إقلاع</i>.</span></p>
+<figure class="dgm" id="dg-p08-f3" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P08-F3</span><span class="dgm-tag">512 BYTES</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 250" role="img" aria-labelledby="t8f3">
+  <title id="t8f3">The 512 bytes of a master boot record</title>
+  <text class="xs mut" x="14" y="24">LBA 0 &#183; 512 BYTES &#183; MEASURED FROM EVS-07-mbr.dd</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="38" width="420" height="44" rx="5"/>
+    <text class="sm" x="30" y="58">0x000 &#8211; 0x1B7   boot code</text>
+    <text class="xs mut" x="30" y="76">440 bytes. Vestigial on a modern machine.</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="438" y="38" width="320" height="44" rx="5"/>
+    <text class="sm" x="454" y="58">0x1B8   disk signature</text>
+    <text class="m xs" x="454" y="76">C4 19 7F A3</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="96" width="600" height="44" rx="5"/>
+    <text class="sm" x="30" y="116">0x1BE &#8211; 0x1FD   FOUR ENTRIES, 16 BYTES EACH</text>
+    <text class="xs mut" x="30" y="134">64 bytes decide how the whole disk is divided</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="618" y="96" width="140" height="44" rx="5"/>
+    <text class="sm" x="688" y="116" text-anchor="middle">0x1FE</text>
+    <text class="m sm" x="688" y="134" text-anchor="middle">55 AA</text>
+  </g>
+  <g data-step="5">
+    <rect class="box ok" x="14" y="154" width="744" height="28" rx="4"/>
+    <text class="m sm" x="28" y="173">entry 1  boot=80  type=06 FAT16   LBA 2048    40,960 sectors</text>
+  </g>
+  <g data-step="6">
+    <rect class="box ok" x="14" y="188" width="744" height="28" rx="4"/>
+    <text class="m sm" x="28" y="207">entry 2  boot=00  type=0C FAT32   LBA 45,056  81,920 sectors</text>
+  </g>
+  <text class="xs mut" x="14" y="240">Entries 3 and 4 are sixteen zero bytes each.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">What the type byte does not prove</span>
+  <p>It is <b>a declaration, not a measurement</b>. A partition marked <code>0x07</code> (NTFS) may hold FAT, ext4, an encrypted container or nothing at all; one marked <code>0x00</code> may still hold a live file system whose entry was simply edited. <b>Read the volume boot sector, not the table, to know what is actually there.</b>
+    <span class="ar">إنه <b>إعلان لا قياس</b>. فالـ partition الموسوم <code>0x07</code> أي NTFS قد يحوي FAT أو ext4 أو container مشفَّرًا أو لا شيء إطلاقًا، و الموسوم <code>0x00</code> قد يحوي نظام ملفات حيًّا عُدِّل مدخله فقط. <b>فاقرأ الـ boot sector الخاص بالـ volume، لا الجدول، لتعرف ما هو موجود فعلاً.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T13 &middot; Theory</span>
+<h2>What four entries cost
+  <span class="ar">ما تكلّفه أربعة مدخلات</span></h2>
+<p>Four entries is the whole table. That limit is why <b>extended partitions</b> exist &mdash; and why an MBR disk can hide structure in a place a beginner never looks.
+  <span class="ar">أربعة مدخلات هي الجدول كله. و هذا الحدّ هو سبب وجود <b>الـ extended partitions</b> — و سبب قدرة قرص الـ MBR على إخفاء بنية في موضع لا ينظر إليه المبتدئ أبدًا.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Type</th><th>What it is</th></tr></thead>
+  <tbody>
+    <tr><td><b>primary</b></td><td>one of the four entries in the table at LBA 0. Maximum four.<span class="ar">أحد المدخلات الأربعة في الجدول عند LBA 0. أربعة كحدٍّ أقصى.</span></td></tr>
+    <tr><td><b>extended</b></td><td>a primary entry (type <code>0x05</code> or <code>0x0F</code>) containing <b>a chain of further partition records</b>, each in its own sector inside the extended area.<span class="ar">مدخل primary (نوعه <code>0x05</code> أو <code>0x0F</code>) يحوي <b>سلسلة من سجلات partitions إضافية</b>، كلٌّ منها في sector خاص به داخل المنطقة الـ extended.</span></td></tr>
+    <tr><td><b>logical</b></td><td>the partitions inside that chain. <b>They are not in the table at LBA 0 at all.</b><span class="ar">الـ partitions داخل تلك السلسلة. <b>و هي ليست في الجدول عند LBA 0 إطلاقًا.</b></span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The forensic consequence</span>
+  <p>Reading LBA 0 and stopping tells you about <b>at most four</b> regions. If one is an extended partition, <b>the rest of the disk&rsquo;s structure is described in sectors you have not read</b> &mdash; and a tool that follows the chain will list volumes your first look did not.
+    <span class="ar">قراءة LBA 0 و التوقّف تخبرك عن <b>أربع مناطق على الأكثر</b>. فإن كان أحدها partition من نوع extended، <b>فبقية بنية القرص موصوفة في sectors لم تقرأها</b> — و الأداة التي تتبع السلسلة ستسرد volumes لم تُظهرها نظرتك الأولى.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p12">
+<span class="kicker">T13 &middot; Theory &middot; measured</span>
+<h2>GPT
+  <span class="ar">نظام الـ GPT</span></h2>
+<p>The scheme that replaced MBR. It fixes the four-entry limit, it names its partitions, and &mdash; the part that matters here &mdash; <b>it keeps a complete second copy of itself</b>.
+  <span class="ar">النظام الذي حلّ محل الـ MBR. يعالج حدّ المدخلات الأربعة، و يُسمّي partitions، و — و هذا هو المهم هنا — <b>يحتفظ بنسخة ثانية كاملة من نفسه</b>.</span></p>
+<figure class="dgm" id="dg-p08-f4" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P08-F4</span><span class="dgm-tag">FIRST SECTOR TO LAST</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 270" role="img" aria-labelledby="t8f4">
+  <title id="t8f4">The layout of a GPT disk from first sector to last</title>
+  <text class="xs mut" x="14" y="26">EVS-07-gpt.dd &#183; 64 MiB &#183; ALL VALUES READ FROM THE IMAGE</text>
+  <g data-step="1">
+    <rect class="box warn" x="14" y="42" width="744" height="36" rx="4"/>
+    <text class="m sm" x="28" y="65">LBA 0</text>
+    <text class="sm" x="150" y="65">PROTECTIVE MBR</text>
+    <text class="xs mut" x="340" y="65">one entry, type 0xEE, covering the whole disk</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="86" width="744" height="36" rx="4"/>
+    <text class="m sm" x="28" y="109">LBA 1</text>
+    <text class="sm" x="150" y="109">GPT HEADER</text>
+    <text class="xs mut" x="340" y="109">EFI PART, 92 bytes, its own CRC32</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="130" width="744" height="36" rx="4"/>
+    <text class="m sm" x="28" y="153">LBA 2&#8211;33</text>
+    <text class="sm" x="150" y="153">ENTRY ARRAY</text>
+    <text class="xs mut" x="340" y="153">128 entries x 128 bytes, with its own CRC32</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="174" width="744" height="36" rx="4"/>
+    <text class="m sm" x="28" y="197">LBA 34&#8230;</text>
+    <text class="sm" x="150" y="197">THE PARTITIONS</text>
+    <text class="xs mut" x="340" y="197">CASEDATA 20 MiB, ARCHIVE 30 MiB</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="218" width="744" height="36" rx="4"/>
+    <text class="m sm" x="28" y="241">LBA 131071</text>
+    <text class="sm" x="150" y="241">BACKUP HEADER</text>
+    <text class="xs mut" x="340" y="241">a second copy, at the far end of the disk</text>
+  </g>
+  <text class="xs mut" x="14" y="264">Header CRC32 0x26AFC734 &#183; array CRC32 0x6856CA25.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">The difference that decides a recovery</span>
+  <p>An MBR disk keeps its table in <b>one sector</b>, with no checksum and no copy. A GPT disk keeps <b>a CRC32 on the header, a CRC32 on the entry array, and a full backup at the last sector</b>. The same wipe that destroys an MBR disk&rsquo;s structure leaves a GPT disk <b>recoverable from its own far end</b>.
+    <span class="ar">قرص الـ MBR يحفظ جدوله في <b>sector واحد</b>، بلا checksum و بلا نسخة. أما قرص الـ GPT فيحفظ <b>CRC32 للـ header، و CRC32 لمصفوفة المدخلات، و نسخة احتياطية كاملة في آخر sector</b>. فالمحو نفسه الذي يُتلف بنية قرص MBR يترك قرص الـ GPT <b>قابلاً للاسترجاع من طرفه الآخر</b>.</span></p>
+</div>
+<div class="note">
+  <p>And the <b>protective MBR</b> at LBA 0 exists purely so a tool too old to understand GPT sees one full-disk partition of type <code>0xEE</code> and refuses to help. It is a <b>warning written in a language the old tool can read</b>.
+    <span class="ar">أما الـ <b>protective MBR</b> عند LBA 0 فموجود لغرض واحد: أن ترى أداةٌ أقدمُ من أن تفهم الـ GPT partition واحدًا يغطّي القرص كله نوعه <code>0xEE</code> فترفض التدخّل. إنه <b>تحذير مكتوب بلغة تقرؤها الأداة القديمة</b>.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p13">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>Twenty bytes, and what is under them<span class="ar">المعمل — عشرون byte، و ما تحتها</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">One volume, one visible file of twenty bytes, and a document nobody listed.<span class="ar">volume واحد، و ملف ظاهر واحد حجمه عشرون byte، و مستند لم يسرده أحد.</span></p>
+  <p class="divider-meta">1 screen &middot; the instructor drives</p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T12 &middot; Instructor demo</span>
+<h2>Lab &mdash; reading file slack
+  <span class="ar">المعمل — قراءة الـ file slack</span></h2>
+<p>Four steps on <code>EVS-07-slack.dd</code>. The file system says there is one file on this volume. It is telling the truth, and it is not the whole answer.
+  <span class="ar">أربع خطوات على <code>EVS-07-slack.dd</code>. يقول نظام الملفات إن على هذا الـ volume ملفًّا واحدًا. و هو صادق، لكنه ليس الإجابة كاملة.</span></p>
+<div class="simscreen" id="ss-t12" data-title="SIMSCREEN T12-1 &middot; TWENTY BYTES, AND WHAT IS UNDER THEM" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="sk1" style="width:730px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># the volume as it stands: one small memo, nothing else visible</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">fls -r -o 2048 EVS-07-slack.dd</span>
+  r/r 5:  <span id="j1"><span class="w">MEMO.TXT</span>   20 bytes</span>
+
+<span class="d"># 20 bytes. That is the whole of what the file system admits to.</span></div>
+  </div>
+
+  <div class="wu" id="sk2" style="width:730px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">analyst@lab:~$</span> <span class="k">istat -o 2048 EVS-07-slack.dd 5</span>
+
+  size      : 20
+  cluster   : 10
+<span id="j2">  allocated : <span class="w">4096</span>   <span class="d"># one whole cluster</span></span>
+
+<span class="d"># 20 bytes live. 4,076 bytes allocated and unaccounted for.</span></div>
+  </div>
+
+  <div class="wu" id="sk3" style="width:790px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># read the WHOLE cluster, not the file</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">dd if=EVS-07-slack.dd bs=1 skip=$((0x13000)) count=4096 | strings</span>
+
+<span id="j3">  Team lunch Thursday.<span class="e">BAND-REVIEW-2026-CONFIDENTIAL-SALARY-BAND-</span></span>
+  <span class="w">|__________________|</span><span class="e">|_________________________________________</span>
+  <span class="w">the file: 20 bytes</span>  <span class="e">and from here, 4,076 bytes of another document</span>
+
+<span class="d"># one unbroken line. strings returns 1 line, not 2 -- there is no separator on the disk.</span></div>
+  </div>
+
+  <div class="wu" id="sk4" style="width:760px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># what can you say about it? read carefully.</span>
+
+  in the file system  : <span class="k">MEMO.TXT, 20 bytes</span>
+  in the slack        : <span class="w">a salary review</span>
+<span id="j4">  who wrote it        : <span class="e">not in the cluster</span></span>
+  when it was deleted : <span class="e">not in the cluster</span>
+  was it ever on disk : <span class="k">yes — it is on the disk now</span>
+
+<span class="d"># the content is a finding. everything about a person is not.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="finding">
+  <span class="cl-label">What the lab produced</span>
+  <p>A file listing showing <b>MEMO.TXT, 20 bytes</b>, an allocation of <b>4,096</b>, and <b>4,076 bytes</b> of a deleted document recovered from the slack of a file that has nothing to do with it.
+    <span class="ar">قائمة ملفات تُظهر <b>MEMO.TXT بحجم ٢٠ byte</b>، و تخصيصًا قدره <b>٤٬٠٩٦</b>، و <b>٤٬٠٧٦ byte</b> من مستند محذوف استُخرجت من slack ملف لا علاقة له به.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">And exactly what it does not establish</span>
+  <p>Not <b>who</b> wrote the recovered document, not <b>when</b> it was deleted, not whether the person who wrote <code>MEMO.TXT</code> ever knew it was there. <b>The cluster carries content and no history at all.</b>
+    <span class="ar">لا <b>من</b> كتب المستند المستخرج، و لا <b>متى</b> حُذف، و لا هل كان من كتب <code>MEMO.TXT</code> يعلم بوجوده أصلاً. <b>فالـ cluster يحمل محتوًى، و لا يحمل تاريخًا إطلاقًا.</b></span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p15">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>Case 04 &mdash; a disk with no table<span class="ar">القضية ٠٤ — قرص بلا جدول</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">One sector is zeroed. Sixty-seven million bytes are untouched. Recover the structure, and prove the recovery rather than demonstrating it.<span class="ar">صُفِّر sector واحد. و سبعة و ستون مليون byte لم تُمسّ. استعِد البنية، ثم أثبت الاستعادة بدل أن تعرضها.</span></p>
+  <p class="divider-meta">4 screens &middot; solo</p>
+</div>
+    </section>
+
+<section class="page" id="p16">
+<span class="kicker">T13 &middot; Case 04 &middot; the brief</span>
+<h2>Case 04 &mdash; the brief
+  <span class="ar">القضية ٠٤ — الملف</span></h2>
+<p>A 64 MiB image arrives with a note: <i>&ldquo;the suspect ran something before we seized it and now nothing opens.&rdquo;</i> Your first job is to find out <b>how much is actually gone</b>.
+  <span class="ar">تصلك صورة حجمها ٦٤ ميجابايت مع ملاحظة: <i>«شغّل المشتبه به شيئًا قبل الضبط و الآن لا يُفتح شيء.»</i> و مهمتك الأولى أن تعرف <b>كم ضاع فعلاً</b>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>What you are given</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><code>EVS-07-wiped.dd</code>, 64 MiB<span class="ar">الصورة، ٦٤ ميجابايت</span></td><td>the image, unchanged since acquisition<span class="ar">الصورة كما هي منذ الـ acquisition</span></td></tr>
+    <tr><td>LBA 0 reads all zeroes<span class="ar">قراءة LBA 0 كلها أصفار</span></td><td><b>512 bytes</b> destroyed out of 67,108,864<span class="ar"><b>٥١٢ byte</b> أُتلفت من ٦٧٬١٠٨٬٨٦٤</span></td></tr>
+    <tr><td>every tool says &ldquo;no partition table&rdquo;<span class="ar">كل أداة تقول «لا يوجد جدول partitions»</span></td><td>which is true, and says nothing about the data<span class="ar">و هذا صحيح، و لا يقول شيئًا عن البيانات</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The number that reframes the case</span>
+  <p>The wipe destroyed <b>512 bytes</b> &mdash; <b>0.0008%</b> of the image. Everything a case would want is still there, in the same sectors it was always in. What is missing is the <b>map</b>, and a map can be rebuilt from the territory.
+    <span class="ar">أتلف المحو <b>٥١٢ byte</b> — أي <b>٠٫٠٠٠٨٪</b> من الصورة. و كل ما قد تريده القضية ما زال موجودًا، في الـ sectors نفسها التي كان فيها دائمًا. و الذي ضاع هو <b>الخريطة</b>، و الخريطة تُبنى من الأرض.</span></p>
+</div>
+<div class="note">
+  <p>This is also why `P05` insisted the acquisition be <b>physical</b>. A logical acquisition of this disk would have captured nothing at all: there were no mountable volumes to enumerate.
+    <span class="ar">و هذا أيضًا سبب إصرار `P05` على أن يكون الـ acquisition من نوع <b>physical</b>. فالـ acquisition الـ logical لهذا القرص ما كان ليلتقط شيئًا إطلاقًا: فلم تكن هناك volumes قابلة للتركيب أصلاً.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p17">
+<span class="kicker">T13 &middot; Your turn &middot; Case 04</span>
+<h2>Lab &mdash; recovering the table
+  <span class="ar">المعمل — استعادة الجدول</span></h2>
+<p>Five steps. The third produces a wrong answer that still works, which is why the fourth exists.
+  <span class="ar">خمس خطوات. الثالثة تُنتج إجابة خاطئة تعمل رغم ذلك، و لهذا وُجدت الرابعة.</span></p>
+<div class="simscreen" id="ss-t13" data-title="SIMSCREEN T13-1 &middot; CASE 04, AND THE THIRD PARTITION THAT IS NOT THERE" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="c1" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">analyst@lab:~$</span> <span class="k">fdisk -l EVS-07-wiped.dd</span>
+  Disk EVS-07-wiped.dd: 64 MiB
+<span id="k1">  <span class="e">Disk does not contain a valid partition table</span></span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">xxd -s 510 -l 2 EVS-07-wiped.dd</span>
+  <span class="e">0000 0000</span>   <span class="d"># the 55 AA is gone. So is everything else in LBA 0.</span></div>
+  </div>
+
+  <div class="wu" id="c2" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># hash the image FIRST. You are about to write to a copy of it.</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">sha256sum EVS-07-wiped.dd</span>
+<span id="k2">  <span class="w">9038141c0647c7dd...</span>  EVS-07-wiped.dd</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">cp EVS-07-wiped.dd WORKING.dd</span>
+<span class="d"># the recovery happens on WORKING.dd. The evidence file is never written to.</span></div>
+  </div>
+
+  <div class="wu" id="c3" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">analyst@lab:~$</span> <span class="k">python3 scan_boot_sectors.py WORKING.dd</span>
+
+  LBA 2048    FAT16   40960 sectors   20.0 MiB
+  LBA 45056   FAT32   81920 sectors   40.0 MiB
+<span id="k3">  LBA 45062   FAT32   81920 sectors   40.0 MiB   <span class="e"><- three?</span></span>
+
+<span class="d"># two partitions were wiped. Three boot sectors answer. One of them is not a partition.</span></div>
+  </div>
+
+  <div class="wu" id="c4" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># ask the sector about itself: BPB_BkBootSec, offset 50, 2 bytes LE</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">xxd -s $((45056*512+50)) -l 2 WORKING.dd</span>
+  <span id="k4"><span class="w">0600</span>   <span class="d"># little-endian -> 6</span></span>
+
+  45056 + 6 = <span class="w">45062</span>
+
+<span class="d"># the third hit is the second volume announcing its own backup copy.</span></div>
+  </div>
+
+  <div class="wu" id="c5" style="width:760px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">analyst@lab:~$</span> <span class="k">python3 rebuild_mbr.py WORKING.dd --keep 2048:06 --keep 45056:0c</span>
+  wrote 64 bytes at 0x1BE, 55 AA at 0x1FE
+
+<span class="p">analyst@lab:~$</span> <span class="k">sha256sum <(dd if=WORKING.dd bs=1 skip=446 count=64 2>/dev/null)</span>
+<span id="k5">  <span class="w">e541ef6f624eb097...</span></span>
+<span class="p">analyst@lab:~$</span> <span class="k">sha256sum <(dd if=EVS-07-mbr.dd bs=1 skip=446 count=64 2>/dev/null)</span>
+  <span class="w">e541ef6f624eb097...</span>   <span class="k">IDENTICAL</span>
+
+<span class="d"># the recovery is not "it mounts". It is "it is the same 64 bytes".</span></div>
+  </div>
+ </div></div>
+</div>
+<figure class="dgm" id="dg-p08-f5" data-mode="loop" data-reveal="upto" data-interval="5800">
+  <div class="dgm-head"><span class="dgm-id">FIG P08-F5</span><span class="dgm-tag">CASE 04 &#183; SCAN AND CORRECT</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 280" role="img" aria-labelledby="t8f5">
+  <title id="t8f5">Recovering a wiped partition table, and the false positive on the way</title>
+  <text class="xs mut" x="14" y="24">EVS-07-wiped.dd &#183; LBA 0 ZEROED, 67,108,352 BYTES INTACT</text>
+  <g data-step="1">
+    <rect class="box no" x="14" y="38" width="744" height="30" rx="4"/>
+    <text class="sm" x="28" y="58">every tool reports: no partition table</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="76" width="744" height="28" rx="4"/>
+    <text class="m sm" x="28" y="95">scan hit  LBA 2,048     FAT16   40,960 sectors</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="110" width="744" height="28" rx="4"/>
+    <text class="m sm" x="28" y="129">scan hit  LBA 45,056    FAT32   81,920 sectors</text>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="14" y="144" width="744" height="28" rx="4"/>
+    <text class="m sm" x="28" y="163">scan hit  LBA 45,062    FAT32   81,920 sectors   &#8212; a THIRD?</text>
+  </g>
+  <g data-step="5">
+    <rect class="box warn" x="14" y="180" width="744" height="34" rx="5"/>
+    <text class="sm" x="28" y="202">BPB_BkBootSec at offset 50 says: my backup is at volume sector 6</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="222" width="744" height="34" rx="5"/>
+    <text class="sm" x="28" y="244">45,056 + 6 = 45,062.  Discard it. Two partitions, not three.</text>
+  </g>
+  <text class="xs mut" x="14" y="272">Rebuilt table SHA-256 e541ef6f... = original. Byte-identical.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page" id="p18">
+<span class="kicker">T13 &middot; On your own &middot; 10 min</span>
+<h2>Exercise &mdash; four recovery claims
+  <span class="ar">تمرين — أربعة ادّعاءات عن استعادة</span></h2>
+<p>An analyst recovered the table and wrote these four lines. For each: <b>would you sign it?</b>
+  <span class="ar">استعاد محلل الجدول و كتب هذه السطور الأربعة. لكلٍّ منها: <b>هل كنت ستوقّع عليه؟</b></span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>The line, and the question it raises</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><b>&ldquo;The table was recovered and the volumes mount correctly.&rdquo;</b> &mdash; mounting shows the table is <i>plausible</i>. Is plausible the same as correct?<span class="ar"><b>«استُعيد الجدول و الـ volumes تُركَّب بشكل صحيح.»</b> — التركيب يُظهر أن الجدول <i>معقول</i>. فهل المعقول هو الصحيح؟</span></td></tr>
+    <tr><td>2</td><td><b>&ldquo;Three partitions were identified.&rdquo;</b> &mdash; the scan returned three boot sectors. How many partitions is that?<span class="ar"><b>«حُدِّدت ثلاثة partitions.»</b> — أعاد الفحص ثلاثة boot sectors. فكم partition هذا؟</span></td></tr>
+    <tr><td>3</td><td><b>&ldquo;The suspect deliberately wiped the table.&rdquo;</b> &mdash; LBA 0 is zeroed. What in the image names an actor?<span class="ar"><b>«محا المشتبه به الجدول عمدًا.»</b> — إن LBA 0 مصفَّر. فما الذي في الصورة يُسمّي فاعلاً؟</span></td></tr>
+    <tr><td>4</td><td><b>&ldquo;The recovered table is byte-identical to the original.&rdquo;</b> &mdash; how would the analyst know the original?<span class="ar"><b>«الجدول المستعاد مطابق للأصل byte بـ byte.»</b> — فكيف عرف المحلل الأصلَ؟</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">Line 4 is the trap, and it is the interesting one</span>
+  <p>In <b>this exercise</b> the original is known, because we built it &mdash; so the hash comparison is a real proof. <b>In a real case there is no original to compare against</b>, and that sentence cannot be written at all. What you write instead is <i>the recovered table is consistent with the file systems found at those offsets</i> &mdash; weaker, and true.
+    <span class="ar">في <b>هذا التمرين</b> الأصل معروف لأننا بنيناه — فمقارنة الـ hash إثبات حقيقي. أما <b>في قضية حقيقية فلا يوجد أصل تقارن به</b>، و لا يمكن كتابة تلك الجملة إطلاقًا. و ما تكتبه بدلاً منها: <i>الجدول المستعاد متّسق مع أنظمة الملفات الموجودة عند تلك الإزاحات</i> — أضعف، و صادقة.</span></p>
+</div>
+<div class="note">
+  <p>Line 2 is the one from the lab: <b>three boot sectors, two partitions.</b> And line 3 is the `T10` lesson again &mdash; a wiped sector is a state, and a state does not name a person.
+    <span class="ar">السطر الثاني هو نفسه من المعمل: <b>ثلاثة boot sectors، و اثنان من الـ partitions.</b> أما السطر الثالث فهو درس `T10` مرة أخرى — فالـ sector الممحوّ حالة، و الحالة لا تُسمّي شخصًا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p19">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check
+  <span class="ar">اختبار سريع</span></h2>
+<div class="q mcq" data-correct="c">
+  <p class="qtext">A 4,097-byte file sits on a volume with 4,096-byte clusters. How much slack does it have, and where?
+    <span class="ar">ملف حجمه ٤٬٠٩٧ byte على volume حجم الـ cluster فيه ٤٬٠٩٦ byte. فكم مقدار الـ slack فيه، و أين؟</span></p>
+  <label><input type="radio" name="q1" value="a"> 1 byte, at the end of the first cluster</label>
+  <label><input type="radio" name="q1" value="b"> None &mdash; it fills its clusters exactly</label>
+  <label><input type="radio" name="q1" value="c"> 4,095 bytes, in the second cluster</label>
+  <label><input type="radio" name="q1" value="d"> 4,096 bytes, in a third cluster</label>
+  <div class="feedback"><b>c.</b> The file needs two clusters, so it is allocated 8,192 bytes and uses 4,097. The unused 4,095 sit at the end of the <b>second</b> cluster &mdash; measured on <code>EVS-07</code> as <code>OVER.BIN</code>. Compare <code>EXACT.BIN</code> at 4,096 bytes, which has <b>zero</b> slack: <b>one byte more costs four thousand.</b>
+    <span class="ar"><b>ج.</b> يحتاج الملف إلى cluster اثنين، فيُخصَّص له ٨٬١٩٢ byte و يستخدم ٤٬٠٩٧. و الـ ٤٬٠٩٥ غير المستخدمة تقع في نهاية الـ cluster <b>الثاني</b> — و هذا مقيس على <code>EVS-07</code> باسم <code>OVER.BIN</code>. قارنه بـ<code>EXACT.BIN</code> بحجم ٤٬٠٩٦، و الـ slack فيه <b>صفر</b>: <b>فـ byte واحد زيادة يكلّف أربعة آلاف.</b></span></div>
+</div>
+    </section>
+
+<section class="page divider" id="p20">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">How a disk holds a file, how it is divided, and how a wiped table comes back &mdash; in the form you reach for at the keyboard.<span class="ar">كيف يحمل القرص ملفًا، و كيف يُقسَّم، و كيف يعود جدول ممسوح — بالشكل الذي ستحتاجه على الجهاز.</span></p>
+  <p class="divider-meta">1 screen &middot; print it</p>
+</div>
+    </section>
+
+<section class="page" id="p21">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet &mdash; storage, partitioning, recovery
+  <span class="ar">ورقة المراجعة — التخزين و التقسيم و الاستعادة</span></h2>
+<p>The page condensed to what you use when you read a raw disk.
+  <span class="ar">الصفحة مختصرة فيما تستعمله وقت قراءة قرص خام.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b>Platter vs NAND</b> &mdash; a magnetic disk overwrites in place; an SSD erases whole NAND blocks, and TRIM wipes deleted ones &mdash; often no recovery on an SSD.<span class="ar">القرص المغناطيسي يكتب في المكان نفسه؛ أما الـ SSD فيمحو كتل NAND كاملة، و TRIM يمسح المحذوفة — و غالبًا لا استعادة على SSD.</span></li>
+    <li><b>Sector &rarr; cluster &rarr; slack</b> &mdash; a file rounds up to whole clusters; the gap from file-end to cluster-end is slack, and it can hold the tail of a deleted file.<span class="ar">sector ← cluster ← slack: الملف يُقرَّب لأعلى إلى clusters كاملة، و الفجوة من نهاية الملف إلى نهاية الـ cluster هي الـ slack، و قد تحمل ذيل ملف محذوف.</span></li>
+    <li><b>Deleting a small file leaves its data</b> in slack and unallocated space until something overwrites it.<span class="ar">حذف ملف صغير يترك بياناته في الـ slack و المساحة غير المخصّصة حتى يكتب فوقها شيء.</span></li>
+    <li><b>MBR</b> &mdash; 512 bytes, table at offset 446, four 16-byte entries, signature <code>55 AA</code>. Four primary partitions, at most.<span class="ar">الـ MBR: 512 byte، الجدول عند الإزاحة 446، أربعة entries حجم كل واحد 16 byte، توقيع <code>55 AA</code>. أربعة primary partitions كحدٍّ أقصى.</span></li>
+    <li><b>GPT</b> &mdash; protective MBR + header + entry array + a backup header at the last LBA; both CRC32-checked.<span class="ar">الـ GPT: protective MBR + header + مصفوفة entries + نسخة header احتياطية عند آخر LBA؛ و كلاهما محميّ بـ CRC32.</span></li>
+    <li><b>A wiped boot sector is recoverable</b> &mdash; find the boot-sector candidates; <code>BPB_BkBootSec = 6</code> marks a FAT32 volume&rsquo;s own backup, so discard that one.<span class="ar">boot sector ممسوح قابل للاستعادة: اعثر على المرشّحات؛ و <code>BPB_BkBootSec = 6</code> يعلّم نسخة FAT32 الاحتياطية، فاستبعدها.</span></li>
+    <li><b>A recovery writes to a disk</b> &mdash; so document it like an acquisition: tool, version, before/after hashes.<span class="ar">الاستعادة تكتب على قرص — فوثّقها كما يُوثَّق الـ acquisition: الأداة و الإصدار و hash قبل و بعد.</span></li>
+  </ul>
+  <p><button class="btn" type="button" onclick="window.print()">&#128424; Print the cheat sheet</button></p>
+</div>
+    </section>
+
+<section class="page divider" id="p22">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Handed in before P09<span class="ar">يُسلَّم قبل P09</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Your homework, then the report stage: a recovery writes to a disk, which makes it the one analysis step documented like an acquisition.<span class="ar">واجبك، ثم مرحلة التقرير: الاستعادة تكتب على قرص، فتصير خطوة التحليل الوحيدة التي تُوثَّق كما يُوثَّق الـ acquisition.</span></p>
+  <p class="divider-meta">2 screens &middot; the report advances</p>
+</div>
+    </section>
+
+<section class="page" id="p23">
+<span class="kicker">Task &middot; handed in before P09</span>
+<h2>Task &mdash; recover a table, and document it
+  <span class="ar">الـ task — استعِد جدولًا، و وثّقه</span></h2>
+<p>Three items on <b>your own machine</b> and the images in this repository. <b>Nothing to download.</b>
+  <span class="ar">ثلاثة بنود على <b>جهازك أنت</b> و على الصور الموجودة في هذا المستودع. <b>لا شيء يُنزَّل.</b></span></p>
+<div id="taskList" class="steps"></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Task</th><th>Deliverable</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Find your own cluster size: <code>fsutil fsinfo ntfsinfo C:</code> on Windows, <code>stat -f .</code> on Linux. Then create a 1-byte file and record what the disk gave it.<span class="ar">اعرف حجم الـ cluster عندك: <code>fsutil fsinfo ntfsinfo C:</code> على Windows، أو <code>stat -f .</code> على Linux. ثم أنشئ ملفًّا حجمه byte واحد و سجّل ما منحه له القرص.</span></td><td>the cluster size, and one line of arithmetic</td></tr>
+    <tr><td>2</td><td>Open <code>EVS-07-mbr.dd</code> in a hex viewer, go to offset <code>0x1BE</code>, and decode the four entries <b>by hand</b> &mdash; type byte, starting LBA, sector count.<span class="ar">افتح <code>EVS-07-mbr.dd</code> في عارض hex، و اذهب إلى الإزاحة <code>0x1BE</code>، ثم فكّ المدخلات الأربعة <b>يدويًّا</b> — byte النوع، و LBA البداية، و عدد الـ sectors.</span></td><td>a four-row table, two of them empty</td></tr>
+    <tr><td>3</td><td>For the recovery in the lab, write the <b>one sentence</b> that a reviewer could use to attack it &mdash; then write the line of evidence that answers them.<span class="ar">اكتب للاستعادة التي جرت في المعمل <b>الجملة الوحيدة</b> التي قد يهاجمها بها مراجع — ثم اكتب سطر الدليل الذي يردّ عليه.</span></td><td>the attack, and the answer</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>Item 2 is the one that matters. <b>A tool that decodes the table for you teaches you nothing about what happens when the table is gone</b> &mdash; and the table being gone is the whole reason this topic exists.
+    <span class="ar">البند الثاني هو المهم. <b>فالأداة التي تفكّ الجدول نيابةً عنك لا تعلّمك شيئًا عمّا يحدث حين يختفي الجدول</b> — و اختفاء الجدول هو سبب وجود هذا الموضوع كلّه.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">T13 &middot; Report stage &middot; 6 min</span>
+<h2>Report &mdash; documenting a recovery
+  <span class="ar">التقرير — توثيق استعادة</span></h2>
+<p>Everything in this diploma so far has been <b>read-only</b>. A partition-table recovery is the first analysis step that <b>writes</b>, and that changes what the report has to carry.
+  <span class="ar">كل ما سبق في هذه الدبلومة كان <b>قراءةً فقط</b>. أما استعادة جدول الـ partitions فهي أول خطوة تحليل <b>تكتب</b>، و هذا يغيّر ما يجب أن يحمله التقرير.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Line</th><th>Why it has to be there</th></tr></thead>
+  <tbody>
+    <tr><td>the hash of the image <b>before</b><span class="ar">قيمة hash الصورة <b>قبل</b></span></td><td>the only thing that shows what you started from<span class="ar">هي وحدها ما يُظهر ما بدأت منه</span></td></tr>
+    <tr><td>that the work was done on a <b>copy</b><span class="ar">أن العمل جرى على <b>نسخة</b></span></td><td>the evidence file must still hash to its acquisition value<span class="ar">يجب أن تظل الصورة الأصلية تعطي قيمة الـ acquisition</span></td></tr>
+    <tr><td>the <b>method</b>: what was scanned for<span class="ar"><b>المنهج</b>: ما جرى الفحص عنه</span></td><td>another examiner has to be able to repeat it<span class="ar">ليتمكن فاحص آخر من إعادته</span></td></tr>
+    <tr><td>every candidate, <b>including the discarded ones</b><span class="ar">كل مرشَّح، <b>بما في ذلك المستبعَد</b></span></td><td>discarding the FAT32 backup is a <b>judgement</b>, and judgements are shown<span class="ar">استبعاد نسخة FAT32 الاحتياطية <b>حكم</b>، و الأحكام تُعرض</span></td></tr>
+    <tr><td>the hash of the image <b>after</b><span class="ar">قيمة hash الصورة <b>بعد</b></span></td><td>so the next examiner knows exactly what changed<span class="ar">ليعرف الفاحص التالي بالضبط ما الذي تغيّر</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The line that separates this from an IT repair</span>
+  <p>The <b>discarded candidate</b>. An IT recovery writes a table that works and stops. A forensic recovery says <i>&ldquo;three boot sectors were found; the one at LBA 45,062 was excluded because the volume at 45,056 records its backup at sector 6&rdquo;</i> &mdash; <b>the reasoning is the deliverable</b>, not the working disk.
+    <span class="ar"><b>المرشَّح المستبعَد.</b> فاستعادة تقنية المعلومات تكتب جدولاً يعمل ثم تتوقّف. أما الاستعادة الجنائية فتقول <i>«عُثر على ثلاثة boot sectors، و استُبعد الذي عند LBA ٤٥٬٠٦٢ لأن الـ volume عند ٤٥٬٠٥٦ يسجّل نسخته الاحتياطية عند الـ sector السادس»</i> — <b>فالاستدلال هو المُخرَج</b>، لا القرص الذي صار يعمل.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p25">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>You can state</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>why a 1-byte file consumes 4,096 bytes<span class="ar">لماذا يستهلك ملف حجمه byte واحد ٤٬٠٩٦ byte</span></td><td>a disk allocates by <b>cluster</b>, never by byte<span class="ar">القرص يخصّص بالـ <b>cluster</b>، لا بالـ byte أبدًا</span></td></tr>
+    <tr><td>where to look for content the file system does not list<span class="ar">أين تبحث عن محتوًى لا يسرده نظام الملفات</span></td><td>the tail of the last cluster is <b>never wiped</b> on write<span class="ar">ذيل الـ cluster الأخير <b>لا يُمسح</b> عند الكتابة</span></td></tr>
+    <tr><td>the one thing slack carries, and the two it does not<span class="ar">ما يحمله الـ slack، و ما لا يحمله</span></td><td>content, yes &mdash; <b>authorship and time, no</b><span class="ar">المحتوى نعم — <b>و لا الكاتب و لا الزمن</b></span></td></tr>
+    <tr><td>the shape of a disk from its first 512 bytes<span class="ar">شكل القرص من أول ٥١٢ byte فيه</span></td><td>64 bytes at 0x1BE hold four 16-byte entries<span class="ar">٦٤ byte عند 0x1BE تحمل أربعة مدخلات كل منها ١٦ byte</span></td></tr>
+    <tr><td>why GPT survives what MBR does not<span class="ar">لماذا ينجو الـ GPT مما لا ينجو منه الـ MBR</span></td><td>a <b>backup header</b> at the last LBA, and CRC32 on both<span class="ar"><b>header احتياطي</b> عند آخر LBA، و CRC32 على الاثنين</span></td></tr>
+    <tr><td>that a recovered table can be wrong and still mount<span class="ar">أن جدولاً مستعادًا قد يكون خاطئًا و يُركَّب رغم ذلك</span></td><td>the scan returned <b>three</b> candidates and two were volumes<span class="ar">أعاد الفحص <b>ثلاثة</b> مرشَّحين و اثنان منهم volumes</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this page turns on</span>
+  <ul>
+    <li><b>A disk gives a file more room than it asks for, and never tells the file what was there before.</b>
+      <span class="ar"><b>يمنح القرص الملف مساحة أكبر مما طلب، و لا يخبر الملف أبدًا بما كان هناك قبله.</b></span></li>
+    <li><b>And a table that mounts is a table that is plausible &mdash; nothing further.</b>
+      <span class="ar"><b>و الجدول الذي يُركَّب جدولٌ مقبول ظاهريًّا — لا أكثر.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p26">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td><b><code>scripts/make_evs07.py</code></b> &mdash; in this repository<span class="ar">ملف <code>scripts/make_evs07.py</code> في هذا المستودع</span></td><td>the four images, and every offset and byte count on this page<span class="ar">الصور الأربع، و كل إزاحة و عدد bytes على هذه الصفحة</span></td></tr>
+    <tr><td><b>Microsoft FAT specification</b> &mdash; <code>BPB_BkBootSec</code><span class="ar">مواصفة FAT من Microsoft و حقل <code>BPB_BkBootSec</code></span></td><td>the field that told us the third candidate was a backup, not a partition<span class="ar">الحقل الذي أخبرنا أن المرشَّح الثالث نسخة احتياطية لا partition</span></td></tr>
+    <tr><td><b>UEFI Specification</b> &mdash; GPT header and entry array<span class="ar">مواصفة UEFI و بنية header الـ GPT و مصفوفة المدخلات</span></td><td>the CRC32 fields, the 128&times;128 array, and the backup at the last LBA<span class="ar">حقول الـ CRC32، و المصفوفة ١٢٨&times;١٢٨، و النسخة الاحتياطية عند آخر LBA</span></td></tr>
+    <tr><td><b>INE eCDFP</b> module 3<span class="ar">وحدة INE eCDFP الثالثة</span></td><td>storage internals, slack terminology, and the MBR/GPT comparison<span class="ar">بنية التخزين، و مصطلحات الـ slack، و المقارنة بين MBR و GPT</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Evidence note.</b> <code>EVS-07</code> was <b>built, not downloaded</b>: four images made by a script in this repository, so every number above can be reproduced by running it. The recovered table was checked <b>byte for byte</b> against the original &mdash; that is why this page can say the recovery was correct rather than that it worked.
+    <span class="ar"><b>ملاحظة عن الدليل.</b> جرى <b>بناء</b> <code>EVS-07</code> لا تنزيله: أربع صور صنعها script في هذا المستودع، فكل رقم أعلاه يمكن إعادة إنتاجه بتشغيله. و قُورن الجدول المستعاد <b>byte بـ byte</b> بالأصل — و لهذا تستطيع هذه الصفحة أن تقول إن الاستعادة <b>صحيحة</b>، لا أنها <b>نجحت</b>.</span></p>
+</div>
+<p><b>Next: `P09` &mdash; File systems.</b> This page stopped at the cluster. `T14` opens the structures that decide which cluster a file gets &mdash; FAT and NTFS &mdash; and `T15` asks what is still readable after those structures forget a file entirely.
+  <span class="ar"><b>التالي: `P09` — أنظمة الملفات.</b> توقّفت هذه الصفحة عند الـ cluster. و يفتح `T14` البنى التي تقرّر أي cluster يأخذه الملف — الـ FAT و الـ NTFS — و يسأل `T15` عمّا يظل قابلاً للقراءة بعد أن تنسى تلك البنى الملف تمامًا.</span></p>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 26</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P08</b> &middot; content from
+     <code>packages/page-08/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t12', [
+ {screen:'sk1', target:'j1',
+  en:'The file system lists one file: <b>MEMO.TXT, 20 bytes</b>. That is the honest answer to <i>&ldquo;what is in this volume?&rdquo;</i> &mdash; and it is incomplete.',
+  ar:'يسرد نظام الملفات ملفًّا واحدًا: <b>MEMO.TXT بحجم ٢٠ byte</b>. و هذه هي الإجابة الصادقة عن سؤال <i>«ماذا في هذا الـ volume؟»</i> — و هي ناقصة.'},
+ {screen:'sk2', target:'j2',
+  en:'The file is 20 bytes and it has been <b>allocated 4,096</b>. The gap is not an error and not free space: it belongs to this file, and no tool will show it to you by asking for the file.',
+  ar:'الملف ٢٠ byte، و قد <b>خُصّص له ٤٬٠٩٦</b>. و الفرق ليس خطأً و لا مساحة حرّة: بل يخصّ هذا الملف، و لن تعرضه لك أي أداة إن طلبت الملف.'},
+ {screen:'sk3', target:'j3',
+  en:'So read the <b>cluster</b> instead of the file. <code>strings</code> returns <b>one line, not two</b>: twenty bytes of lunch arrangements run straight into <b>4,076 bytes of a document deleted before the memo was written</b>. Nothing on the disk marks where one ends &mdash; <b>only the size field in the directory entry does</b>, and it is 20.',
+  ar:'إذن اقرأ الـ <b>cluster</b> بدل الملف. و يعيد <code>strings</code> <b>سطرًا واحدًا لا سطرين</b>: فعشرون byte عن ترتيبات غداء تمضي مباشرةً إلى <b>٤٬٠٧٦ byte من مستند حُذف قبل كتابة الـ memo</b>. و لا شيء على القرص يحدّد أين ينتهي الأول — <b>حقل الحجم في الـ directory entry وحده يفعل</b>، و قيمته ٢٠.'},
+ {screen:'sk4', target:'j4',
+  en:'And now the discipline. <b>The content is a finding</b> &mdash; it is on the disk, reproducibly, at an offset you can name. <b>Who wrote it and when it was deleted are not in the cluster</b>, and no amount of reading it harder will put them there.',
+  ar:'و الآن الانضباط. <b>المحتوى finding</b> — فهو على القرص، بشكل قابل لإعادة الإنتاج، عند إزاحة تستطيع تسميتها. أما <b>من كتبه و متى حُذف فليسا في الـ cluster</b>، و لن يضعهما فيه أي قدر من إمعان النظر.'}
+]);
+SimScreen.init('#ss-t13', [
+ {screen:'c1', target:'k1',
+  en:'Five hundred and twelve bytes are zero, and the disk is <b>gone</b> as far as any tool is concerned. <b>67 million bytes of data are untouched.</b>',
+  ar:'خمسمئة و اثنا عشر byte أصفار، و القرص <b>ضائع</b> بالنسبة لأي أداة. <b>و سبعة و ستون مليون byte من البيانات لم تُمسّ.</b>'},
+ {screen:'c2', target:'k2',
+  en:'Before anything: <b>hash the evidence and work on a copy</b>. A recovery writes to the disk, and a recovery performed on the original is a recovery you cannot defend.',
+  ar:'قبل أي شيء: <b>احسب hash للدليل و اعمل على نسخة</b>. فالاسترجاع يكتب على القرص، و الاسترجاع الذي يجري على الأصل استرجاع لا تستطيع الدفاع عنه.'},
+ {screen:'c3', target:'k3',
+  en:'Scan for boot sectors and <b>three</b> come back. Two partitions were wiped. <b>A scan finds structures, not partitions</b> &mdash; and stopping here produces a wrong table that still mounts.',
+  ar:'ابحث عن الـ boot sectors فتعود <b>ثلاث</b> نتائج. و عدد الـ partitions التي مُحيت اثنان. <b>فالبحث يجد بنى، لا partitions</b> — و التوقّف هنا يُنتج جدولاً خاطئًا يعمل رغم ذلك.'},
+ {screen:'c4', target:'k4',
+  en:'The sector answers the question itself. <code>BPB_BkBootSec</code> at offset 50 holds <b>6</b>, so the volume at 45,056 keeps its backup at 45,062. <b>That is the third hit.</b>',
+  ar:'يجيب الـ sector عن السؤال بنفسه. فحقل <code>BPB_BkBootSec</code> عند الإزاحة ٥٠ يحمل <b>٦</b>، أي أن الـ volume عند ٤٥٬٠٥٦ يحفظ نسخته الاحتياطية عند ٤٥٬٠٦٢. <b>و هي النتيجة الثالثة.</b>'},
+ {screen:'c5', target:'k5',
+  en:'Rebuild from two, then <b>prove it</b>. The recovered 64 bytes hash to <code>e541ef6f...</code>, and so does the original table. <b>A recovery is not &ldquo;it mounts&rdquo; &mdash; it is &ldquo;it is the same bytes&rdquo;</b>, and only one of those two is evidence.',
+  ar:'أعد البناء من اثنين، ثم <b>أثبت ذلك</b>. فالأربعة و الستون byte المستعادة تعطي hash قيمته <code>e541ef6f...</code>، و كذلك الجدول الأصلي. <b>فالاسترجاع ليس «إنه يعمل» بل «إنها الـ bytes نفسها»</b> — و واحد فقط من الاثنين دليل.'}
+]);
+Dgm.init('#dg-lc-p08', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>الجمع.</b> أن تأخذ الدليل من الجهاز دون أن تغيّره.'},
+ {en:'<b>PRESERVE.</b> Prove the copy still equals what you took.', ar:'<b>الحفظ.</b> أن تُثبت أن النسخة ما زالت تساوي ما أخذته.'},
+ {en:'<b>ANALYSE.</b> Read what is inside the copy.', ar:'<b>التحليل.</b> أن تقرأ ما داخل النسخة.'},
+ {en:'<b>VALIDATE.</b> Check your own result.', ar:'<b>التحقق.</b> أن تراجع نتيجتك أنت.'},
+ {en:'<b>PRESENT.</b> Write it so someone who was not there can follow it.', ar:'<b>العرض.</b> أن تكتبها بحيث يتابعها من لم يحضر.'},
+ {en:'<b>Stage 3, one level down.</b> `P05` made an image of the whole disk. This page finally explains <b>why the whole disk</b> &mdash; because the interesting parts were never inside a file.', ar:'<b>المرحلة الثالثة، بمستوى أعمق.</b> أخذ `P05` صورة للقرص كله. و هذه الصفحة تشرح أخيرًا <b>لماذا القرص كله</b> — لأن الأجزاء المهمة لم تكن داخل ملف أصلاً.',key:true}
+]);
+Dgm.init('#dg-p08-f1', [
+ {en:'A disk is addressed in <b>sectors</b>. On this volume a sector is <b>512 bytes</b>, and eight of them sit side by side.', ar:'يُعنوَن القرص بـ<b>sectors</b>. و الـ sector في هذا الـ volume <b>٥١٢ byte</b>، و ثمانية منها تقع جنبًا إلى جنب.'},
+ {en:'But the file system does not allocate sectors. It allocates <b>clusters</b> &mdash; here, eight sectors at a time, <b>4,096 bytes</b>. That is the smallest thing a file can be given.', ar:'لكن نظام الملفات لا يخصّص sectors، بل يخصّص <b>clusters</b> — و هنا ثمانية sectors دفعةً واحدة، أي <b>٤٬٠٩٦ byte</b>. و هذا أصغر ما يمكن أن يُمنح لملف.'},
+ {en:'<code>NOTE.TXT</code> is <b>100 bytes</b>. It gets a whole cluster, because there is nothing smaller to give it.', ar:'ملف <code>NOTE.TXT</code> حجمه <b>١٠٠ byte</b>. و يحصل على cluster كامل، لأنه لا يوجد ما هو أصغر ليُمنح له.'},
+ {en:'The other <b>3,996 bytes</b> are <b>file slack</b>: allocated to this file, used by nothing, and <b>never erased</b>.', ar:'أما الـ<b>٣٬٩٩٦ byte</b> الباقية فهي <b>file slack</b>: مخصَّصة لهذا الملف، لا يستخدمها شيء، و <b>لم تُمسح أبدًا</b>.',key:true},
+ {en:'Which means whatever occupied that cluster <b>before</b> is still sitting there, underneath a file that has nothing to do with it. <b>That is where the forensics is.</b>', ar:'و معنى ذلك أن ما كان يشغل هذا الـ cluster <b>من قبل</b> ما زال موجودًا، تحت ملف لا علاقة له به. <b>و هنا يقع التحليل الجنائي.</b>',key:true}
+]);
+Dgm.init('#dg-p08-f2', [
+ {en:'<b>1 byte</b> costs a whole cluster and leaves <b>4,095</b> bytes of slack &mdash; the worst possible ratio.', ar:'<b>byte واحد</b> يكلّف cluster كاملاً و يترك <b>٤٬٠٩٥</b> byte من الـ slack — و هي أسوأ نسبة ممكنة.'},
+ {en:'100 bytes: <b>3,996</b> of slack. Small files are almost all slack.', ar:'مئة byte: <b>٣٬٩٩٦</b> من الـ slack. فالملفات الصغيرة كلها slack تقريبًا.'},
+ {en:'<b>Exactly 4,096 bytes</b> is the only clean case on this volume: one cluster, <b>zero</b> slack.', ar:'<b>٤٬٠٩٦ byte بالضبط</b> هي الحالة النظيفة الوحيدة على هذا الـ volume: cluster واحد، و slack <b>صفر</b>.'},
+ {en:'And <b>one byte more</b> &mdash; 4,097 &mdash; takes a second cluster and leaves <b>4,095</b> bytes of slack. <b>One byte costs four thousand.</b>', ar:'و <b>byte واحد زيادة</b> — ٤٬٠٩٧ — يأخذ cluster ثانيًا و يترك <b>٤٬٠٩٥</b> byte من الـ slack. <b>فـ byte واحد يكلّف أربعة آلاف.</b>',key:true},
+ {en:'10,000 bytes across three clusters: 12,288 allocated, <b>2,288</b> slack.', ar:'عشرة آلاف byte عبر ثلاثة clusters: ١٢٬٢٨٨ مخصَّصة، و <b>٢٬٢٨٨</b> slack.'},
+ {en:'Five ordinary files. <b>18,294 bytes of content occupy 32,768 bytes of disk</b>, and 14,474 of those bytes are holding whatever was there before.', ar:'خمسة ملفات عادية. <b>١٨٬٢٩٤ byte من المحتوى تشغل ٣٢٬٧٦٨ byte من القرص</b>، و ١٤٬٤٧٤ من تلك الـ bytes تحمل ما كان موجودًا قبلها.',key:true}
+]);
+Dgm.init('#dg-p08-f3', [
+ {en:'The first 440 bytes are <b>boot code</b> &mdash; a program from an era when the BIOS ran it. On a modern machine it is <b>vestigial</b>, and it is also where a bootkit would live.', ar:'أول ٤٤٠ byte هي <b>كود إقلاع</b> — برنامج من زمن كان الـ BIOS يشغّله. و هو على الأجهزة الحديثة <b>أثريّ</b>، و هو أيضًا الموضع الذي يسكنه الـ bootkit.'},
+ {en:'Four bytes of <b>disk signature</b>. Windows uses it to recognise the disk again; here it reads <code>C4 19 7F A3</code>.', ar:'أربعة bytes من <b>disk signature</b>. يستخدمها Windows للتعرّف على القرص مرة أخرى، و هي هنا <code>C4 19 7F A3</code>.'},
+ {en:'Then the part that matters: <b>four entries of sixteen bytes</b>. Sixty-four bytes decide how the entire disk is divided &mdash; which is why losing them looks like losing the disk.', ar:'ثم الجزء المهم: <b>أربعة مدخلات، كل مدخل ١٦ byte</b>. أربعة و ستون byte تقرّر كيف يُقسَّم القرص كله — و لهذا يبدو فقدانها كفقدان القرص نفسه.',key:true},
+ {en:'And <code>55 AA</code> at the very end. Two bytes that mean <i>this sector is a boot record</i>. Zero them and every tool says the disk is unpartitioned.', ar:'ثم <code>55 AA</code> في النهاية تمامًا. اثنان من الـ bytes معناهما <i>هذا الـ sector سجل إقلاع</i>. صفّرهما فتقول كل أداة إن القرص بلا partitions.'},
+ {en:'Entry 1, measured: bootable, type <code>0x06</code> = FAT16, starting at LBA <b>2048</b>, <b>40,960</b> sectors = 20 MiB.', ar:'المدخل الأول، مقيسًا: قابل للإقلاع، النوع <code>0x06</code> أي FAT16، يبدأ عند LBA <b>2048</b>، و <b>٤٠٬٩٦٠</b> sector أي ٢٠ ميجابايت.'},
+ {en:'Entry 2: type <code>0x0C</code> = FAT32, LBA <b>45,056</b>, <b>81,920</b> sectors. And the type byte is <b>a declaration, not a measurement</b> &mdash; a partition marked FAT32 may hold anything at all.', ar:'المدخل الثاني: النوع <code>0x0C</code> أي FAT32، عند LBA <b>٤٥٬٠٥٦</b>، و <b>٨١٬٩٢٠</b> sector. و byte النوع <b>إعلان لا قياس</b> — فالـ partition الموسوم FAT32 قد يحوي أي شيء إطلاقًا.',key:true}
+]);
+Dgm.init('#dg-p08-f4', [
+ {en:'LBA 0 still holds an <b>MBR</b> &mdash; but a fake one. A single entry of type <code>0xEE</code> spanning the whole disk, whose only job is to make an old tool say <i>&ldquo;this disk is full, do not touch&rdquo;</i>.', ar:'ما زال LBA 0 يحمل <b>MBR</b> — لكنه زائف. مدخل واحد نوعه <code>0xEE</code> يغطّي القرص كله، و وظيفته الوحيدة أن تقول أداة قديمة <i>«هذا القرص ممتلئ، لا تلمسه»</i>.'},
+ {en:'LBA 1 is the real header: the ASCII signature <b><code>EFI PART</code></b>, 92 bytes, and <b>a CRC32 of itself</b>. Corrupt one byte and the header knows.', ar:'و LBA 1 هو الـ header الحقيقي: التوقيع النصي <b><code>EFI PART</code></b>، و ٩٢ byte، و <b>CRC32 لنفسها</b>. أفسد byte واحدًا فيعرف الـ header ذلك.',key:true},
+ {en:'LBAs 2 to 33 hold <b>128 entries of 128 bytes</b> &mdash; and the array has its own CRC32 as well. GPT is checksummed where MBR is not.', ar:'و تحمل الـ LBAs من ٢ إلى ٣٣ <b>١٢٨ مدخلاً بحجم ١٢٨ byte</b> — و للمصفوفة CRC32 خاص بها أيضًا. فالـ GPT محميّ بـ checksum و الـ MBR ليس كذلك.'},
+ {en:'Then the partitions themselves, with <b>names stored in UTF-16</b> &mdash; something MBR never had.', ar:'ثم الـ partitions نفسها، و <b>أسماؤها مخزَّنة بترميز UTF-16</b> — و هو ما لم يكن في الـ MBR أبدًا.'},
+ {en:'And at the far end of the disk, a <b>complete second copy</b>. That is the difference that matters in recovery: <b>a GPT disk carries its own backup, and an MBR disk does not.</b>', ar:'و في أقصى نهاية القرص، <b>نسخة ثانية كاملة</b>. و هذا هو الفرق المهم عند الاسترجاع: <b>قرص الـ GPT يحمل نسخته الاحتياطية بنفسه، و قرص الـ MBR لا يحملها.</b>',key:true}
+]);
+Dgm.init('#dg-p08-f5', [
+ {en:'One sector is zeroed. <b>512 bytes out of 67 million</b>, and every tool now reports an unpartitioned disk. Nothing else on it has changed.', ar:'صُفِّر sector واحد. <b>٥١٢ byte من بين سبعة و ستين مليونًا</b>، و صارت كل أداة تُعلن أن القرص بلا partitions. و لم يتغيّر شيء آخر فيه.'},
+ {en:'So scan for what the table used to point at. Every partition begins with a <b>boot sector</b>, and a boot sector is recognisable: <code>55 AA</code> at the end, a file-system name inside. First hit: <b>LBA 2,048, FAT16</b>.', ar:'إذن ابحث عمّا كان الجدول يشير إليه. فكل partition يبدأ بـ<b>boot sector</b>، و الـ boot sector يمكن التعرّف عليه: <code>55 AA</code> في نهايته، و اسم نظام ملفات بداخله. أول نتيجة: <b>LBA ٢٬٠٤٨، بصيغة FAT16</b>.'},
+ {en:'Second hit: <b>LBA 45,056, FAT32</b>. That is both partitions found.', ar:'النتيجة الثانية: <b>LBA ٤٥٬٠٥٦، بصيغة FAT32</b>. و بذلك عُثر على كِلا الـ partitions.'},
+ {en:'And a <b>third</b> hit, six sectors later, that also looks like a valid FAT32 boot sector. <b>A naive recovery writes three partitions here and is wrong.</b>', ar:'ثم نتيجة <b>ثالثة</b>، بعد ستة sectors، تبدو هي أيضًا boot sector صالحًا لـ FAT32. <b>و الاسترجاع الساذج يكتب ثلاثة partitions هنا، و يكون مخطئًا.</b>',key:true},
+ {en:'The answer is in the sector itself. <b><code>BPB_BkBootSec</code></b>, at offset 50, is where a FAT32 volume records <b>the location of its own backup boot sector</b>. It reads <b>6</b>.', ar:'و الإجابة في الـ sector نفسه. فحقل <b><code>BPB_BkBootSec</code></b>، عند الإزاحة ٥٠، هو حيث يسجّل الـ volume بصيغة FAT32 <b>موضع نسخته الاحتياطية من الـ boot sector</b>. و هو يقرأ <b>٦</b>.',key:true},
+ {en:'45,056 + 6 = <b>45,062</b>. The third hit is the second partition&rsquo;s own backup. Discard it, rebuild from two, and the table is <b>byte-identical to the original</b> &mdash; proved by hash, not by eye.', ar:'٤٥٬٠٥٦ + ٦ = <b>٤٥٬٠٦٢</b>. فالنتيجة الثالثة هي النسخة الاحتياطية للـ partition الثاني نفسه. استبعدها، و أعد البناء من اثنين، فيصير الجدول <b>مطابقًا للأصل byte بـ byte</b> — بإثبات الـ hash، لا بالنظر.',key:true}
+]);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P06 &middot; Hidden information &middot; eCDFP Diploma</title>
+<meta name="description" content="EXIF timestamps, the thumbnail that outlives a redaction, appended data and polyglots, and LSB steganography — page 6 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P06 &middot; Hidden information</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>Objectives</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; What a picture keeps</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>A photograph is a container</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>Four timestamps on one photograph</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>What a photograph cannot prove</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>The thumbnail that outlived the edit</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>ThumbCache &mdash; the copy outside the file</span></a></li>
+      <li class="is-part"><a href="#p10"><span class="n">10</span><span>PART 2 &mdash; Hiding data, and finding it</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>Three ways to hide data in a file</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>Appending, and polyglots</span></a></li>
+      <li><a href="#p13"><span class="n">13</span><span>LSB steganography</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>The four checks, in cost order</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>What detection does not establish</span></a></li>
+      <li class="is-part"><a href="#p16"><span class="n">16</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>The seven files of EVS-10</span></a></li>
+      <li class="is-part"><a href="#p18"><span class="n">18</span><span>YOUR TURN</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>Case 03 &mdash; the brief</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>Exercise &mdash; six sentences</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>Knowledge check</span></a></li>
+      <li class="is-part"><a href="#p22"><span class="n">22</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p24"><span class="n">24</span><span>TASK</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>Task &mdash; find what is hidden</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Report &mdash; Sections 7 and 9</span></a></li>
+      <li><a href="#p27"><span class="n">27</span><span>Summary</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+<main class="main">
+
+<section class="page" id="p1">
+<span class="kicker">P06 &middot; Page 6 of 14 &middot; 80 topic minutes</span>
+<h2>Hidden information
+  <span class="ar">إخفاء المعلومات</span></h2>
+<p class="lede">You have an image you trust and a file listing you can read. This page is about everything in that image the listing will never show you &mdash; and the discipline of saying what you found without saying <b>why</b> it is there.
+  <span class="ar">صار لديك صورة تثق بها، و قائمة ملفات تستطيع قراءتها. و هذه الصفحة عن كل ما في تلك الصورة مما لن تُظهره لك القائمة أبدًا — و عن الانضباط في ذكر ما وجدته دون ذكر <b>سبب</b> وجوده.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Topic</th><th>Minutes</th><th>Hands-on</th></tr></thead>
+  <tbody>
+    <tr><td><b>T10</b> Hidden Data &amp; Image Forensics<span class="ar">إخفاء البيانات و تحليل الصور</span></td><td>80</td><td>Yes</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Every number on this page is measured</b> from <code>EVS-10</code>, generated in this repository and hash-verified. Where you see an offset, a pixel count or a timestamp, it came from the file.
+    <span class="ar"><b>كل رقم على هذه الصفحة مقيس</b> من <code>EVS-10</code>، المولَّد داخل هذا المستودع و المتحقَّق من قيم الـ hash الخاصة به. فحيثما ترى إزاحة أو عدد بكسلات أو طابعًا زمنيًّا، فقد جاء من الملف نفسه.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T10 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن</span></h2>
+<figure class="dgm" id="dg-lc-p06" data-mode="story" data-reveal="upto" data-interval="8000">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p06">
+  <title id="t-dg-lc-p06">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="78" text-anchor="middle" fill="#00ff9d">ANALYSE</text>
+    <text class="xs" x="388" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 3.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p>`T04` taught you that a file&rsquo;s <b>name</b> is a label and its <b>bytes</b> are the file. This page adds the next step: even when the name and the bytes agree, <b>the file can still be carrying something</b> that neither of them mentions.
+  <span class="ar">علّمك `T04` أن <b>اسم</b> الملف لافتة، و أن <b>bytes</b> الملف هي الملف. و تضيف هذه الصفحة الخطوة التالية: حتى حين يتفق الاسم مع الـ bytes، <b>قد يظل الملف يحمل شيئًا</b> لا يذكره أيٌّ منهما.</span></p>
+<div class="key-takeaway"><span class="cl-label">Two habits this page builds</span>
+  <ul>
+    <li>read the <b>size</b> before you open anything &mdash; it is free and it catches the loudest cases.
+      <span class="ar">أن تقرأ <b>الحجم</b> قبل أن تفتح أي شيء — فهو مجاني و يمسك أوضح الحالات.</span></li>
+    <li>report <b>what is present</b>, never <b>why someone put it there</b>.
+      <span class="ar">أن تُقرّر <b>ما هو موجود</b>، لا <b>لماذا وضعه أحدهم هناك</b>.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P06 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستكون قادرًا عليه</span></h2>
+<div class="key-takeaway"><span class="cl-label">By the end of this page you can</span>
+  <ul>
+    <li>read the four timestamps on a photograph and say <b>which one is the camera and which is the file system</b>.
+      <span class="ar">أن تقرأ الطوابع الزمنية الأربعة على صورة، و تحدّد <b>أيّها من الكاميرا و أيّها من نظام الملفات</b>.</span></li>
+    <li>recover an <b>EXIF thumbnail</b> and explain why it can outlive an edit to the picture.
+      <span class="ar">أن تستخرج <b>thumbnail</b> من الـ EXIF، و تشرح لماذا قد يبقى بعد تعديل الصورة.</span></li>
+    <li>find data <b>appended after the end-of-image marker</b>, and identify a polyglot.
+      <span class="ar">أن تجد بيانات <b>مضافة بعد علامة نهاية الصورة</b>، و تتعرّف على الـ polyglot.</span></li>
+    <li>detect <b>LSB steganography</b> by channel statistics, and state what that detection does and does not prove.
+      <span class="ar">أن تكتشف <b>LSB steganography</b> عبر إحصاءات القنوات، و تحدّد ما يُثبته هذا الاكتشاف و ما لا يُثبته.</span></li>
+    <li>run the four checks <b>in cost order</b>, so most files are answered before a tool is opened.
+      <span class="ar">أن تُجري الفحوص الأربعة <b>بترتيب التكلفة</b>، فتُحسم معظم الملفات قبل فتح أي أداة.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 2</span>
+  <h2>What a picture keeps<span class="ar">ما تحتفظ به الصورة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">A photograph is a container. Most of what a court finds interesting about one is not in the picture at all.<span class="ar">الصورة الفوتوغرافية وعاء. و معظم ما يهمّ المحكمة فيها ليس في الصورة أصلاً.</span></p>
+  <p class="divider-meta">5 screens &middot; about 12 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T10 &middot; Theory</span>
+<h2>A photograph is a container
+  <span class="ar">الصورة وعاء</span></h2>
+<p>Open a JPEG in a viewer and you see one thing: the picture. Open it as bytes and you see a small archive &mdash; a header, a metadata block, often a <b>second copy of the picture</b>, the image data, and an end marker.
+  <span class="ar">افتح ملف JPEG في برنامج عرض فترى شيئًا واحدًا: الصورة. و افتحه بوصفه bytes فترى أرشيفًا صغيرًا — header، ثم كتلة بيانات، و غالبًا <b>نسخة ثانية من الصورة</b>، ثم بيانات الصورة، ثم علامة نهاية.</span></p>
+<figure class="dgm" id="dg-p06-f1" data-mode="loop" data-reveal="upto" data-interval="5200">
+  <div class="dgm-head"><span class="dgm-id">FIG P06-F1</span><span class="dgm-tag">ONE FILE, LEFT TO RIGHT</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 246" role="img" aria-labelledby="t6f1">
+  <title id="t6f1">One JPEG file, and the four places data can sit in it</title>
+  <text class="xs mut" x="14" y="24">ONE JPEG, LEFT TO RIGHT</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="40" width="70" height="62" rx="5"/>
+    <text class="xs mut" x="49" y="60" text-anchor="middle">FF D8</text>
+    <text class="sm" x="49" y="82" text-anchor="middle">SOI</text>
+  </g>
+  <g data-step="2">
+    <rect class="box warn" x="88" y="40" width="250" height="62" rx="5"/>
+    <text class="xs mut" x="213" y="60" text-anchor="middle">FF E1</text>
+    <text class="sm" x="213" y="82" text-anchor="middle">EXIF  &#8212; metadata, GPS, thumbnail</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="342" y="40" width="250" height="62" rx="5"/>
+    <text class="xs mut" x="467" y="60" text-anchor="middle">FF DB &#8230;</text>
+    <text class="sm" x="467" y="82" text-anchor="middle">image data</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="596" y="40" width="70" height="62" rx="5"/>
+    <text class="xs mut" x="631" y="60" text-anchor="middle">FF D9</text>
+    <text class="sm" x="631" y="82" text-anchor="middle">EOI</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="670" y="40" width="88" height="62" rx="5"/>
+    <text class="xs mut" x="714" y="60" text-anchor="middle">?</text>
+    <text class="sm" x="714" y="82" text-anchor="middle">anything at all</text>
+  </g>
+  <g data-step="6">
+    <rect class="box no" x="14" y="120" width="744" height="34" rx="5"/>
+    <text class="sm" x="30" y="142">A viewer stops reading at FF D9. The file does not stop there.</text>
+  </g>
+  <g data-step="7">
+    <rect class="box key" x="14" y="166" width="744" height="34" rx="5"/>
+    <text class="sm" x="30" y="188">team_photo.jpg &#8212; a ZIP local header sits at offset 10,296.</text>
+  </g>
+  <text class="xs mut" x="14" y="226">Measured from EVS-10. The image opens normally in every viewer.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">The consequence, stated once</span>
+  <p>A viewer stops reading at <code>FF D9</code>. <b>You do not.</b> Anything after that marker is carried by the file, ignored by every program that displays it, and invisible in a folder listing &mdash; except in <b>one</b> place: the size.
+    <span class="ar">يتوقّف برنامج العرض عن القراءة عند <code>FF D9</code>. <b>أما أنت فلا.</b> فأي شيء بعد تلك العلامة يحمله الملف، و تتجاهله كل البرامج التي تعرضه، و لا يظهر في قائمة المجلد — إلا في موضع <b>واحد</b>: الحجم.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T10 &middot; Theory &middot; measured</span>
+<h2>Four timestamps on one photograph
+  <span class="ar">أربعة طوابع زمنية على صورة واحدة</span></h2>
+<p><code>office_floor3.jpg</code> from <code>EVS-10</code> carries four dates, and they name <b>three different days</b>. Each one answers a different question, and confusing them is the most common error in a photo finding.
+  <span class="ar">يحمل <code>office_floor3.jpg</code> من <code>EVS-10</code> أربعة تواريخ، تشير إلى <b>ثلاثة أيام مختلفة</b>. و كلٌّ منها يجيب عن سؤال مختلف، و الخلط بينها أكثر الأخطاء شيوعًا في finding يخصّ صورة.</span></p>
+<figure class="dgm" id="dg-p06-f2" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P06-F2</span><span class="dgm-tag">FOUR TIMESTAMPS &#183; ONE PHOTO</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t6f2">
+  <title id="t6f2">Four timestamps on one photograph, and what each one means</title>
+  <text class="xs mut" x="14" y="26">office_floor3.jpg &#183; ALL FOUR MEASURED FROM THE FILE</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="46" width="744" height="40" rx="5"/>
+    <text class="sm" x="30" y="71">DateTimeOriginal</text>
+    <text class="m sm" x="244" y="71">2026:08:24 09:14:02</text>
+    <text class="xs mut" x="486" y="71">the shutter opened</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="96" width="744" height="40" rx="5"/>
+    <text class="sm" x="30" y="121">DateTimeDigitized</text>
+    <text class="m sm" x="244" y="121">2026:08:24 09:14:02</text>
+    <text class="xs mut" x="486" y="121">the file was first written</text>
+  </g>
+  <g data-step="3">
+    <rect class="box warn" x="14" y="146" width="744" height="40" rx="5"/>
+    <text class="sm" x="30" y="171">DateTime</text>
+    <text class="m sm" x="244" y="171">2026:08:31 16:40:05</text>
+    <text class="xs mut" x="486" y="171">software wrote it LAST</text>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="14" y="196" width="744" height="40" rx="5"/>
+    <text class="sm" x="30" y="221">file mtime</text>
+    <text class="m sm" x="244" y="221">2026:09:02 00:00:00</text>
+    <text class="xs mut" x="486" y="221">the FILE SYSTEM, not the photo</text>
+  </g>
+  <text class="xs mut" x="14" y="254">Three different days. Software: MRG ImageTool 2.4.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">What can be stated from this file</span>
+  <p><b>FINDING.</b> The file <code>office_floor3.jpg</code> carries <code>DateTimeOriginal</code> <b>2026:08:24 09:14:02</b>, <code>DateTime</code> <b>2026:08:31 16:40:05</b>, and a <code>Software</code> tag reading <code>MRG ImageTool 2.4</code>. It also carries GPS coordinates <b>30&deg;2&#39;27.60&quot;N 31&deg;14&#39;13.20&quot;E</b>.
+    <span class="ar"><b>FINDING.</b> يحمل الملف <code>office_floor3.jpg</code> قيمة <code>DateTimeOriginal</code> <b>2026:08:24 09:14:02</b>، و قيمة <code>DateTime</code> <b>2026:08:31 16:40:05</b>، و حقل <code>Software</code> يقرأ <code>MRG ImageTool 2.4</code>. كما يحمل إحداثيات GPS <b>30°2′27.60″N 31°14′13.20″E</b>.</span></p>
+</div>
+<div class="interpretation">
+  <span class="cl-label">And what may be assessed from it</span>
+  <p>Assessed with <b>high</b> confidence that software wrote this file on 31 August, seven days after the exposure recorded in <code>DateTimeOriginal</code>. <b>Considered and not excluded:</b> a metadata field edited directly, which would produce the same reading.
+    <span class="ar">أُقدّر بثقة <b>عالية</b> أن برنامجًا كتب هذا الملف في الحادي و الثلاثين من أغسطس، أي بعد سبعة أيام من لحظة التصوير المسجّلة في <code>DateTimeOriginal</code>. <b>و مما نُظر فيه و لم يُستبعد:</b> تعديل حقل بيانات مباشرةً، و هو ما ينتج القراءة نفسها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T10 &middot; Theory</span>
+<h2>What a photograph cannot prove
+  <span class="ar">ما لا تُثبته الصورة</span></h2>
+<p>EXIF is <b>written by software</b>, and every field in it can be edited by software. That does not make it worthless &mdash; it makes it a <b>claim with a known author</b>.
+  <span class="ar">الـ EXIF <b>يكتبه برنامج</b>، و كل حقل فيه يمكن لبرنامج أن يعدّله. و هذا لا يجعله بلا قيمة — بل يجعله <b>ادّعاءً معروف الكاتب</b>.</span></p>
+<div class="limitation">
+  <span class="cl-label">#1 GPS does not place a person</span>
+  <p>It records where <b>a device</b> reported itself to be when the file was written. It does not prove who held the device, and a coordinate can be edited in seconds.
+    <span class="ar">يسجّل الموضع الذي <b>أعلن جهاز</b> أنه فيه لحظة كتابة الملف. و لا يُثبت من كان يحمل الجهاز، و الإحداثية تُعدَّل في ثوانٍ.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">#2 A timestamp does not date an event</span>
+  <p><code>DateTimeOriginal</code> dates <b>an exposure</b>, not the thing in the picture. And an absent EXIF block proves nothing at all: <b>most social platforms strip it on upload</b>.
+    <span class="ar">يؤرّخ <code>DateTimeOriginal</code> <b>لحظة تصوير</b>، لا الشيء الذي في الصورة. و غياب كتلة الـ EXIF لا يُثبت شيئًا مطلقًا: <b>فمعظم منصات التواصل تحذفها عند الرفع</b>.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">#3 A resave rewrites the story</span>
+  <p>Opening a photo and saving it again can rewrite <code>DateTime</code>, insert a new <code>Software</code> tag, and re-encode the pixels. <b>An innocent edit and a deliberate one leave the same traces.</b>
+    <span class="ar">فتح صورة و حفظها من جديد قد يعيد كتابة <code>DateTime</code>، و يُدخل حقل <code>Software</code> جديدًا، و يعيد ترميز البكسلات. <b>و التعديل البريء و المتعمَّد يتركان العلامات نفسها.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p8">
+<span class="kicker">T10 &middot; Theory &middot; the artifact that ends cases</span>
+<h2>The thumbnail that outlived the edit
+  <span class="ar">الـ thumbnail الذي بقي بعد التعديل</span></h2>
+<p>A camera writes a small copy of the picture into the EXIF block. Many editors draw on the <b>pixels</b> and never rewrite that copy. <code>invoice_batch.jpg</code> from <code>EVS-10</code> is exactly that case.
+  <span class="ar">تكتب الكاميرا نسخة صغيرة من الصورة داخل كتلة الـ EXIF. و كثير من برامج التحرير ترسم على <b>البكسلات</b> و لا تعيد كتابة تلك النسخة أبدًا. و <code>invoice_batch.jpg</code> من <code>EVS-10</code> هو هذه الحالة بالضبط.</span></p>
+<figure class="photo wide">
+  <img src="../assets/img/evs10-thumbnail-pair.png" alt="A redacted image beside its unredacted EXIF thumbnail">
+  <figcaption>The visible image carries a black redaction box. The 1,735-byte EXIF thumbnail stored inside the same file does not.
+    <span class="ar">الصورة الظاهرة تحمل مربعًا أسود للحجب. أما الـ thumbnail المخزَّن داخل الملف نفسه، و حجمه ١٬٧٣٥ byte، فلا يحمله.</span>
+    <span class="credit">Generated from EVS-10 by <code>scripts/make_evs10.py</code>.</span></figcaption>
+</figure>
+<div class="finding">
+  <span class="cl-label">Measured from the file</span>
+  <p>Main image <b>600 &times; 400</b>, redacted. EXIF thumbnail <b>1,735 bytes</b>, <b>160 &times; 107</b>, and the region under the black box is <b>legible in it</b>.
+    <span class="ar">الصورة الرئيسية <b>٦٠٠ × ٤٠٠</b>، محجوبة. و الـ thumbnail داخل الـ EXIF حجمه <b>١٬٧٣٥ byte</b>، و أبعاده <b>١٦٠ × ١٠٧</b>، و المنطقة تحت المربع الأسود <b>مقروءة فيه</b>.</span></p>
+</div>
+<div class="note">
+  <p>This is not a trick; it is <b>the ordinary behaviour of most image editors</b>. Which is why redaction is done by <b>exporting a new file</b>, never by drawing on an old one &mdash; and why you check the thumbnail of every redacted image you are handed.
+    <span class="ar">هذه ليست حيلة، بل <b>السلوك المعتاد لمعظم برامج تحرير الصور</b>. و لهذا يتم الحجب <b>بتصدير ملف جديد</b>، لا بالرسم على ملف قديم — و لهذا تفحص الـ thumbnail في كل صورة محجوبة تصلك.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p9">
+<span class="kicker">T10 &middot; Theory</span>
+<h2>ThumbCache &mdash; the copy outside the file
+  <span class="ar">الـ ThumbCache — النسخة خارج الملف</span></h2>
+<p>Windows also keeps thumbnails in a <b>database of its own</b>, per user, at <code>%LocalAppData%\Microsoft\Windows\Explorer\thumbcache_*.db</code>. Those entries <b>survive deleting the picture</b>.
+  <span class="ar">يحتفظ Windows أيضًا بنسخ مصغّرة في <b>قاعدة بيانات خاصة به</b>، لكل مستخدم، في المسار <code>%LocalAppData%\Microsoft\Windows\Explorer\thumbcache_*.db</code>. و هذه المدخلات <b>تبقى بعد حذف الصورة</b>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th></th><th>EXIF thumbnail</th><th>ThumbCache</th></tr></thead>
+  <tbody>
+    <tr><td>lives<span class="ar">مكانه</span></td><td>inside the file<span class="ar">داخل الملف</span></td><td>in a per-user database<span class="ar">في قاعدة بيانات لكل مستخدم</span></td></tr>
+    <tr><td>survives deleting the picture<span class="ar">يبقى بعد حذف الصورة</span></td><td>no</td><td>yes</td></tr>
+    <tr><td>proves the file was on this machine<span class="ar">يُثبت أن الملف كان على هذا الجهاز</span></td><td>no</td><td>it is evidence of viewing<span class="ar">دليل على العرض</span></td></tr>
+    <tr><td>proves who viewed it<span class="ar">يُثبت من عرضه</span></td><td>no</td><td>no</td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">What a ThumbCache hit establishes, exactly</span>
+  <p>That a file with that appearance was <b>rendered in Explorer under this user profile</b>. It does not establish that the file is still on the disk, that this user chose to open it, or when the viewing happened &mdash; the entry carries no reliable time of its own.
+    <span class="ar">أن ملفًّا بذلك الشكل <b>عُرض في Explorer تحت هذا الحساب</b>. و لا يُثبت أن الملف ما زال على القرص، و لا أن هذا المستخدم اختار فتحه، و لا متى جرى العرض — فالمدخل لا يحمل وقتًا موثوقًا خاصًّا به.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p10">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 2</span>
+  <h2>Hiding data, and finding it<span class="ar">إخفاء البيانات و اكتشافها</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Three techniques, in order of how loudly they announce themselves. Then four checks, in order of what they cost.<span class="ar">ثلاثة أساليب، مرتَّبة بحسب وضوحها. ثم أربعة فحوص، مرتَّبة بحسب تكلفتها.</span></p>
+  <p class="divider-meta">6 screens &middot; about 33 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T10 &middot; Theory</span>
+<h2>Three ways to hide data in a file
+  <span class="ar">ثلاث طرق لإخفاء البيانات في ملف</span></h2>
+<p>They differ in one property: <b>how much the file has to change</b>. That is also the order in which they become harder to find.
+  <span class="ar">تختلف الطرق في خاصية واحدة: <b>مقدار ما يجب أن يتغيّر في الملف</b>. و هذا أيضًا ترتيب صعوبة اكتشافها.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Technique</th><th>What it does, and what gives it away</th></tr></thead>
+  <tbody>
+    <tr><td><b>Rename</b><span class="ar">إعادة التسمية</span></td><td>Change the extension and nothing else. <b>Gives itself away in four bytes</b> &mdash; this is the `T04` check.<span class="ar">تغيير الامتداد و لا شيء غيره. <b>و ينكشف في أربعة bytes</b> — و هو فحص `T04`.</span></td></tr>
+    <tr><td><b>Append</b><span class="ar">الإضافة في النهاية</span></td><td>Put a second file after the end marker. The picture still opens. <b>Gives itself away in the size</b>, and in the bytes after <code>FF D9</code>.<span class="ar">وضع ملف ثانٍ بعد علامة النهاية. و الصورة تُفتح كالمعتاد. <b>و ينكشف في الحجم</b>، و في الـ bytes التي تلي <code>FF D9</code>.</span></td></tr>
+    <tr><td><b>Embed in the pixels</b><span class="ar">الإخفاء داخل البكسلات</span></td><td>Change the least significant bit of each pixel. The size does not change and neither does the picture. <b>Gives itself away in the statistics</b>.<span class="ar">تغيير أقل bit أهميةً في كل بكسل. فلا يتغيّر الحجم و لا تتغيّر الصورة. <b>و ينكشف في الإحصاءات</b>.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The pattern worth carrying</span>
+  <p>The quieter the technique, the <b>less it changes</b> &mdash; and the more you need a <b>reference</b> to see it against. A rename needs no reference at all. LSB needs statistics, or a clean copy.
+    <span class="ar">كلما كان الأسلوب أهدأ، <b>قلّ ما يغيّره</b> — و زادت حاجتك إلى <b>مرجع</b> تقارن عليه. فإعادة التسمية لا تحتاج مرجعًا إطلاقًا، أما الـ LSB فيحتاج إحصاءات، أو نسخة نظيفة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p12">
+<span class="kicker">T10 &middot; Theory</span>
+<h2>Appending, and polyglots
+  <span class="ar">الإضافة في النهاية، و الـ polyglots</span></h2>
+<p>Appended data is the most common hiding place and the easiest to check for. A <b>polyglot</b> is its refined form: a single file that is <b>simultaneously valid</b> in two formats, so both readers are correct.
+  <span class="ar">الإضافة في النهاية أشيع مواضع الإخفاء و أسهلها فحصًا. أما الـ <b>polyglot</b> فهو صورته المتقنة: ملف واحد <b>صالح في آن واحد</b> بصيغتين، فيكون كلا القارئين محقًّا.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>File in EVS-10</th><th>What it is, and how it was found</th></tr></thead>
+  <tbody>
+    <tr><td><code>holiday_snap.jpg</code><br>156 B<span class="ar">حجمه ١٥٦ byte</span></td><td>A <b>ZIP</b> named <code>.jpg</code>, containing <code>inventory.csv</code>. Found by the size first &mdash; and then confirmed by the first four bytes.<span class="ar">ملف <b>ZIP</b> اسمه <code>.jpg</code>، بداخله <code>inventory.csv</code>. عُثر عليه بالحجم أولاً، ثم تأكّد بأول أربعة bytes.</span></td></tr>
+    <tr><td><code>team_photo.jpg</code><br>10,476 B<span class="ar">حجمه ١٠٬٤٧٦ byte</span></td><td>A <b>valid JPEG</b> that is also a <b>valid ZIP</b>, containing <code>handover.txt</code>. Found by a <code>PK</code> header at offset <b>10,296</b>, after the end-of-image marker.<span class="ar"><b>JPEG صالح</b>، و هو أيضًا <b>ZIP صالح</b>، بداخله <code>handover.txt</code>. عُثر عليه عند header قيمته <code>PK</code> عند الإزاحة <b>10,296</b>، بعد علامة نهاية الصورة.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">Why the signature check alone would have missed one of them</span>
+  <p><code>team_photo.jpg</code> <b>passes</b> the `T04` check &mdash; it really does start <code>FF D8 FF E0</code> and it really is a JPEG. <b>A file that is what it claims can still be carrying something else</b>, and only reading past the end marker finds it.
+    <span class="ar">ملف <code>team_photo.jpg</code> <b>يجتاز</b> فحص `T04` — فهو يبدأ فعلاً بـ<code>FF D8 FF E0</code>، و هو JPEG فعلاً. <b>فالملف الذي هو ما يدّعيه قد يظل يحمل شيئًا آخر</b>، و لا يجده إلا قراءة ما بعد علامة النهاية.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p13">
+<span class="kicker">T10 &middot; Theory &middot; measured</span>
+<h2>LSB steganography
+  <span class="ar">إخفاء البيانات في أقل bit أهمية</span></h2>
+<p>The quietest technique on the page. It changes <b>no file size</b>, breaks <b>no signature</b>, and leaves the picture looking identical &mdash; because the change it makes is one step of colour out of 256.
+  <span class="ar">أهدأ أسلوب على هذه الصفحة. لا يغيّر <b>حجم الملف</b>، و لا يكسر <b>أي signature</b>، و يترك الصورة كما هي تمامًا — لأن التغيير الذي يُحدثه درجة لون واحدة من أصل ٢٥٦.</span></p>
+<figure class="dgm" id="dg-p06-f3" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P06-F3</span><span class="dgm-tag">ONE BIT, ONE PIXEL</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t6f3">
+  <title id="t6f3">How one bit of a message disappears into one pixel</title>
+  <text class="xs mut" x="14" y="24">ONE PIXEL, BLUE CHANNEL</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="38" width="360" height="52" rx="6"/>
+    <text class="m sm" x="30" y="60">blue = 174</text>
+    <text class="m sm" x="30" y="80">1 0 1 0 1 1 1 <tspan fill="#8b98a9">0</tspan></text>
+  </g>
+  <g data-step="2">
+    <path class="arw" d="M380 64 L416 64"/><path class="arw" d="M410 59 L416 64 L410 69"/>
+    <rect class="box ok" x="418" y="38" width="340" height="52" rx="6"/>
+    <text class="m sm" x="434" y="60">blue = 175</text>
+    <text class="m sm" x="434" y="80">1 0 1 0 1 1 1 <tspan fill="#00ff9d">1</tspan></text>
+  </g>
+  <g data-step="3">
+    <rect class="box key" x="14" y="106" width="744" height="34" rx="5"/>
+    <text class="sm" x="30" y="128">One step of blue out of 256. No eye sees it. No viewer reports it.</text>
+  </g>
+  <g data-step="4">
+    <rect class="box warn" x="14" y="152" width="744" height="34" rx="5"/>
+    <text class="sm" x="30" y="174">receipt_scan.png vs its clean twin: 190 pixels of 76,800 differ.</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="198" width="744" height="34" rx="5"/>
+    <text class="sm" x="30" y="220">All 190 are in the BLUE channel. Red and green: 0.</text>
+  </g>
+  <text class="xs mut" x="14" y="250">Measured by differencing the two EVS-10 files pixel by pixel.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">Measured across the two EVS-10 files</span>
+  <p><code>receipt_scan.png</code> and <code>receipt_scan_clean.png</code> are the same 320&times;240 picture. <b>190 pixels of 76,800 differ (0.2%), and all 190 differ only in the blue channel.</b> Red: 0. Green: 0.
+    <span class="ar">الملفان <code>receipt_scan.png</code> و <code>receipt_scan_clean.png</code> هما الصورة نفسها بأبعاد ٣٢٠×٢٤٠. و <b>١٩٠ بكسل من أصل ٧٦٬٨٠٠ مختلفة (٠٫٢٪)، و كلها مختلفة في قناة الأزرق وحدها.</b> الأحمر: صفر. الأخضر: صفر.</span></p>
+</div>
+<div class="note">
+  <p>You will rarely be handed the clean twin. In a real case the <b>channel asymmetry itself</b> is the signal: a photograph&rsquo;s noise is spread across all three channels, and a payload is not.
+    <span class="ar">نادرًا ما تحصل على النسخة النظيفة. ففي قضية حقيقية يكون <b>التفاوت بين القنوات نفسه</b> هو الإشارة: فضجيج الصورة الفوتوغرافية موزَّع على القنوات الثلاث، أما الحمولة فلا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T10 &middot; Theory</span>
+<h2>The four checks, in cost order
+  <span class="ar">الفحوص الأربعة بترتيب التكلفة</span></h2>
+<p>Three of these are free and answer most files. Run them in this order and you will open a tool only for the files that survived the first three.
+  <span class="ar">ثلاثة من هذه الفحوص مجانية و تُجيب عن معظم الملفات. نفّذها بهذا الترتيب فلن تفتح أداة إلا للملفات التي نجت من الثلاثة الأولى.</span></p>
+<figure class="dgm" id="dg-p06-f4" data-mode="loop" data-reveal="upto" data-interval="5000">
+  <div class="dgm-head"><span class="dgm-id">FIG P06-F4</span><span class="dgm-tag">LADDER &#183; CHEAPEST FIRST</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t6f4">
+  <title id="t6f4">Four checks, cheapest first, and what each one finds</title>
+  <text class="xs mut" x="14" y="24">CHEAPEST CHECK FIRST</text>
+  <text class="xs mut" x="596" y="24">FINDS</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="42" width="560" height="40" rx="5"/>
+    <text class="sm" x="30" y="59">1. size on disk</text>
+    <text class="xs mut" x="30" y="75">is it bigger than the picture needs?</text>
+    <text class="xs" x="596" y="67">appended data</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="92" width="560" height="40" rx="5"/>
+    <text class="sm" x="30" y="109">2. first bytes</text>
+    <text class="xs mut" x="30" y="125">does the signature match the extension?</text>
+    <text class="xs" x="596" y="117">a renamed file</text>
+  </g>
+  <g data-step="3">
+    <rect class="box warn" x="14" y="142" width="560" height="40" rx="5"/>
+    <text class="sm" x="30" y="159">3. read past FF D9</text>
+    <text class="xs mut" x="30" y="175">is there a second file after the end?</text>
+    <text class="xs" x="596" y="167">a polyglot</text>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="14" y="192" width="560" height="40" rx="5"/>
+    <text class="sm" x="30" y="209">4. channel statistics</text>
+    <text class="xs mut" x="30" y="225">is one colour channel doing more work?</text>
+    <text class="xs" x="596" y="217">LSB steganography</text>
+  </g>
+  <text class="xs mut" x="14" y="252">The first three are free. Only the fourth needs a tool and a decision.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">T10 &middot; Theory</span>
+<h2>What detection does not establish
+  <span class="ar">ما لا يُثبته الاكتشاف</span></h2>
+<p>Finding hidden data is a <b>measurement</b>. Everything people want to say next is an <b>interpretation</b>, and most of it is not supported.
+  <span class="ar">العثور على بيانات مخفية <b>قياس</b>. أما كل ما يريد الناس قوله بعده فهو <b>تفسير</b>، و معظمه غير مدعوم.</span></p>
+<div class="limitation">
+  <span class="cl-label">#1 It does not establish intent</span>
+  <p>A payload in a file does not prove <b>who</b> put it there, <b>when</b>, or <b>why</b>. Steganography tools are freely available and a file can be received rather than made.
+    <span class="ar">وجود حمولة في ملف لا يُثبت <b>من</b> وضعها، و لا <b>متى</b>، و لا <b>لماذا</b>. فأدوات الإخفاء متاحة للجميع، و الملف قد يكون مُستلَمًا لا مصنوعًا.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">#2 A clean result does not mean nothing is hidden</span>
+  <p>It means <b>the checks you ran</b> found nothing. Encrypted payloads, small payloads, and techniques your tool does not model all pass. <b>Absence of detection is not detection of absence.</b>
+    <span class="ar">يعني أن <b>الفحوص التي أجريتها</b> لم تجد شيئًا. فالحمولات المشفَّرة و الصغيرة، و الأساليب التي لا تعرفها أداتك، كلها تمرّ. <b>و غياب الاكتشاف ليس اكتشافًا للغياب.</b></span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">#3 A polyglot is not necessarily malicious</span>
+  <p>Some legitimate formats are polyglots by design. <b>The finding is the structure, not a verdict.</b>
+    <span class="ar">بعض الصيغ المشروعة polyglots بالتصميم. <b>فالـ finding هو البنية، لا الحكم.</b></span></p>
+</div>
+<div class="interpretation">
+  <span class="cl-label">How to write this without over-claiming</span>
+  <p><i>&ldquo;The file <code>team_photo.jpg</code> is a valid JPEG and contains a ZIP local file header at offset 10,296, from which <code>handover.txt</code> was extracted.&rdquo;</i> That sentence is a measurement anyone can reproduce. <b>Who put it there, and why, is not in the file.</b>
+    <span class="ar"><i>«الملف <code>team_photo.jpg</code> ملف JPEG صالح، و يحتوي على ZIP file header عند الإزاحة 10,296، استُخرج منها <code>handover.txt</code>.»</i> هذه الجملة قياس يستطيع أي شخص إعادته. <b>أما من وضعها و لماذا، فليس في الملف.</b></span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p16">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>Seven files, four ways of hiding<span class="ar">المعمل — سبعة ملفات و أربع طرق للإخفاء</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The whole of EVS-10 in one pass, cheapest check first. Two files are renamed, one is a polyglot, one carries a payload in its pixels, and one is redacted in a way that did not work.<span class="ar">مجموعة EVS-10 كاملة في جولة واحدة، بدءًا بالفحص الأرخص. ملفان أُعيدت تسميتهما، و واحد polyglot، و واحد يحمل حمولة في بكسلاته، و واحد حُجب بطريقة لم تنجح.</span></p>
+  <p class="divider-meta">1 screen &middot; the instructor drives</p>
+</div>
+    </section>
+
+<section class="page" id="p17">
+<span class="kicker">T10 &middot; Instructor demo</span>
+<h2>Lab &mdash; the seven files of EVS-10
+  <span class="ar">المعمل — ملفات EVS-10 السبعة</span></h2>
+<p>Six steps, and the order is the point: each one is more expensive than the last, and each one answers a question the previous one could not.
+  <span class="ar">ست خطوات، و الترتيب هو المقصود: كل خطوة أغلى من سابقتها، و كل خطوة تجيب عن سؤال لم تستطع السابقة الإجابة عنه.</span></p>
+<div class="simscreen" id="ss-t10" data-title="SIMSCREEN T10-1 &middot; SEVEN FILES, FOUR WAYS OF HIDING" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="e10List" style="width:680px">
+    <div class="wu-tb"><span class="t">EVS-10</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body">
+      <div class="wu-tx dis" style="margin-bottom:10px">&#128193; &nbsp; E: &rsaquo; ITG-2026-014 &rsaquo; EVS-10</div>
+      <div class="wu-cols">
+        <span class="h">Name</span><span class="h">Type</span><span class="h">Size</span>
+        <span class="c">&#128247; office_floor3.jpg</span><span class="c">JPEG</span><span class="c">13,786 B</span>
+        <span class="c">&#128247; receipt_scan.png</span><span class="c">PNG</span><span class="c">3,231 B</span>
+        <span class="c">&#128247; receipt_scan_clean.png</span><span class="c">PNG</span><span class="c">2,970 B</span>
+        <span class="c sel" id="g1">&#128247; team_photo.jpg</span><span class="c sel">JPEG</span><span class="c sel">10,476 B</span>
+        <span class="c">&#128196; meeting_notes.txt</span><span class="c">Text</span><span class="c">1,713 B</span>
+        <span class="c">&#128247; holiday_snap.jpg</span><span class="c">JPEG</span><span class="c">156 B</span>
+        <span class="c">&#128247; invoice_batch.jpg</span><span class="c">JPEG</span><span class="c">14,070 B</span>
+      </div>
+      <div class="wu-sb" style="margin-top:10px">7 items &nbsp; 1 item selected</div>
+    </div>
+  </div>
+
+  <div class="wu" id="e10Sig" style="width:720px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># the T04 check first: read four bytes, ignore the name</span>
+
+office_floor3.jpg        FF D8 FF E1   JPEG   ok
+receipt_scan.png         89 50 4E 47   PNG    ok
+team_photo.jpg           FF D8 FF E0   JPEG   ok
+<span id="g2">meeting_notes.txt        89 50 4E 47   PNG    <span class="e"><- named .txt</span></span>
+holiday_snap.jpg         50 4B 03 04   ZIP    <span class="e"><- named .jpg</span>
+invoice_batch.jpg        FF D8 FF E1   JPEG   ok
+
+<span class="d"># two renamed. five agree. and "agrees" is not the same as "clean".</span></div>
+  </div>
+
+  <div class="wu" id="e10Size" style="width:720px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># holiday_snap.jpg is 156 bytes. A 156-byte photograph does not exist.</span>
+
+<span class="p">PS ...\EVS-10&gt;</span> <span class="k">Expand-Archive holiday_snap.jpg -DestinationPath .\out</span>
+<span id="g3">  inventory.csv</span>
+
+<span class="d"># it opened as a ZIP because it IS a ZIP. The extension was the only lie.</span></div>
+  </div>
+
+  <div class="wu" id="e10Poly" style="width:740px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># team_photo.jpg opens as a normal photo. It is also 10,476 bytes.</span>
+
+<span class="p">PS ...\EVS-10&gt;</span> <span class="k">python -c "d=open('team_photo.jpg','rb').read(); print(d.find(b'PK\x03\x04'))"</span>
+  <span id="g4"><span class="w">10296</span></span>
+
+<span class="p">PS ...\EVS-10&gt;</span> <span class="k">python -m zipfile -l team_photo.jpg</span>
+  handover.txt
+
+<span class="d"># a valid JPEG AND a valid ZIP. Both readers are correct.</span></div>
+  </div>
+
+  <div class="wu" id="e10Lsb" style="width:740px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># receipt_scan.png and receipt_scan_clean.png are the same picture.</span>
+
+<span class="p">PS ...\EVS-10&gt;</span> <span class="k">python diff_channels.py receipt_scan.png receipt_scan_clean.png</span>
+  pixels differing : 190 of 76,800  (0.2%)
+<span id="g5">  by channel  R:0   G:0   <span class="w">B:190</span></span>
+
+<span class="p">PS ...\EVS-10&gt;</span> <span class="k">python read_lsb.py receipt_scan.png</span>
+  <span class="w">MRG-INTERNAL: staged archive is customer_export.7z</span>
+
+<span class="d"># one channel doing all the work is the signature of a program, not a camera.</span></div>
+  </div>
+
+  <div class="wu" id="e10Thumb" style="width:740px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># invoice_batch.jpg: the visible image carries a black redaction box.</span>
+
+<span class="p">PS ...\EVS-10&gt;</span> <span class="k">python -c "import piexif;print(len(piexif.load('invoice_batch.jpg')['thumbnail']))"</span>
+  1735
+
+<span class="p">PS ...\EVS-10&gt;</span> <span class="k">python extract_thumb.py invoice_batch.jpg</span>
+  main image  600 x 400   redacted
+<span id="g6">  thumbnail   160 x 107   <span class="e">NOT redacted</span></span>
+
+<span class="d"># the editor drew a box on the pixels and never rewrote the EXIF thumbnail.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="finding">
+  <span class="cl-label">What the lab produced</span>
+  <p><b>Two</b> renamed files (<code>meeting_notes.txt</code> is a PNG, <code>holiday_snap.jpg</code> is a ZIP), <b>one</b> polyglot (<code>team_photo.jpg</code>, ZIP header at 10,296), <b>one</b> LSB payload (190 blue-channel pixels), and <b>one</b> redaction that did not reach the EXIF thumbnail.
+    <span class="ar"><b>ملفان</b> أُعيدت تسميتهما (<code>meeting_notes.txt</code> هو PNG، و <code>holiday_snap.jpg</code> هو ZIP)، و <b>polyglot واحد</b> (<code>team_photo.jpg</code>، بZIP header عند 10,296)، و <b>حمولة LSB واحدة</b> (١٩٠ بكسل في قناة الأزرق)، و <b>حجب واحد</b> لم يصل إلى الـ thumbnail داخل الـ EXIF.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p18">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>Case 03 &mdash; and the sentence you may not write<span class="ar">القضية ٠٣ — و الجملة التي لا يجوز لك كتابتها</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">You have the findings. The exercise is the second half of the job: deciding which of them a report can carry, and in which section.<span class="ar">صارت الـ findings بين يديك. و التمرين هو النصف الثاني من العمل: أن تقرّر أيّها يحتمله التقرير، و في أي قسم.</span></p>
+  <p class="divider-meta">3 screens &middot; 20 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p19">
+<span class="kicker">T10 &middot; On your own &middot; Case 03 &middot; 10 min</span>
+<h2>Case 03 &mdash; the brief
+  <span class="ar">القضية ٠٣ — الملف</span></h2>
+<p>A folder of seven files was recovered from <code>l.bennett</code>&rsquo;s profile. The referral letter says only: <i>&ldquo;Suspected exfiltration. Please advise what is here.&rdquo;</i>
+  <span class="ar">استُخرج مجلد فيه سبعة ملفات من حساب <code>l.bennett</code>. و لم يقل خطاب الإحالة سوى: <i>«يُشتبه في تسريب بيانات. أفيدونا بما في هذا المجلد.»</i></span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>What you are asked, and what you can answer</th></tr></thead>
+  <tbody>
+    <tr><td><b>&ldquo;Is there hidden data here?&rdquo;</b> &mdash; <b>Yes, and exactly where.</b> Four findings, each reproducible from the bytes by another examiner.<span class="ar"><b>«هل توجد بيانات مخفية هنا؟»</b> — <b>نعم، و مكانها بالضبط.</b> أربع findings، يستطيع فاحص آخر إعادة إنتاج كلٍّ منها من الـ bytes.</span></td></tr>
+    <tr><td><b>&ldquo;Did she hide it?&rdquo;</b> &mdash; <b>Not from these files.</b> Nothing here carries an author.<span class="ar"><b>«هل هي من أخفتها؟»</b> — <b>ليس من هذه الملفات.</b> فلا شيء هنا يحمل اسم فاعل.</span></td></tr>
+    <tr><td><b>&ldquo;When?&rdquo;</b> &mdash; <b>Not from these files.</b> The only dates are EXIF fields, and software writes those.<span class="ar"><b>«متى؟»</b> — <b>ليس من هذه الملفات.</b> فالتواريخ الوحيدة حقول EXIF، و البرامج هي التي تكتبها.</span></td></tr>
+    <tr><td><b>&ldquo;Is <code>customer_export.7z</code> the stolen data?&rdquo;</b> &mdash; the LSB payload names that string. <b>Naming a file is not possessing it</b> &mdash; `T17` and `T19` answer that.<span class="ar"><b>«هل <code>customer_export.7z</code> هو الملف المسروق؟»</b> — الحمولة المخفية تذكر هذا الاسم. <b>و ذكر اسم ملف ليس حيازةً له</b> — و السؤال يُجاب في `T17` و `T19`.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>Three of the four honest answers are <b>&ldquo;not from these files&rdquo;</b>. That is not a weak result; it is <b>the result</b>, and stating it precisely is what the rest of the investigation is built on.
+    <span class="ar">ثلاث من الإجابات الأربع الصادقة هي <b>«ليس من هذه الملفات»</b>. و هذه ليست نتيجة ضعيفة، بل هي <b>النتيجة</b>، و صياغتها بدقة هي ما يُبنى عليه باقي التحقيق.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p20">
+<span class="kicker">T10 &middot; On your own &middot; 10 min</span>
+<h2>Exercise &mdash; six sentences
+  <span class="ar">تمرين — ست جمل</span></h2>
+<p>Each sentence below could appear in a report about Case 03. For each: <b>Finding, Interpretation, or not supported at all?</b> If it is an interpretation, say what confidence and what alternative you would have to name.
+  <span class="ar">كل جملة أدناه قد تظهر في تقرير عن القضية ٠٣. لكلٍّ منها حدّد: <b>هل هي Finding، أم Interpretation، أم غير مدعومة أصلاً؟</b> و إن كانت interpretation فحدّد درجة الثقة و البديل الذي عليك ذكره.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>The sentence</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>holiday_snap.jpg</code> begins <code>50 4B 03 04</code> and expands as a ZIP archive containing <code>inventory.csv</code>.<span class="ar">يبدأ <code>holiday_snap.jpg</code> بـ<code>50 4B 03 04</code>، و يُفكّ كأرشيف ZIP يحوي <code>inventory.csv</code>.</span></td></tr>
+    <tr><td>2</td><td>The suspect renamed the archive to avoid detection.<span class="ar">أعادت المشتبه بها تسمية الأرشيف تفاديًا للاكتشاف.</span></td></tr>
+    <tr><td>3</td><td>190 of 76,800 pixels differ between <code>receipt_scan.png</code> and <code>receipt_scan_clean.png</code>, all in the blue channel.<span class="ar">يختلف ١٩٠ بكسل من ٧٦٬٨٠٠ بين <code>receipt_scan.png</code> و <code>receipt_scan_clean.png</code>، كلها في قناة الأزرق.</span></td></tr>
+    <tr><td>4</td><td>The photograph was taken at the office on 24 August.<span class="ar">التُقطت الصورة في المكتب في الرابع و العشرين من أغسطس.</span></td></tr>
+    <tr><td>5</td><td>The EXIF thumbnail in <code>invoice_batch.jpg</code> shows content that the visible image redacts.<span class="ar">يُظهر الـ thumbnail في <code>invoice_batch.jpg</code> محتوى تحجبه الصورة الظاهرة.</span></td></tr>
+    <tr><td>6</td><td>No hidden data is present in the remaining files.<span class="ar">لا توجد بيانات مخفية في بقية الملفات.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">Sentence 6 is the one to get right</span>
+  <p>It is <b>not supported</b>, and it is the easiest of the six to write by accident. The honest form is <i>&ldquo;the checks described in Section 6 did not identify hidden data in the remaining files&rdquo;</i> &mdash; which names the method and leaves its limits visible.
+    <span class="ar">الجملة السادسة <b>غير مدعومة</b>، و هي أسهل الست كتابةً بالخطأ. و صيغتها الصادقة: <i>«لم تُحدّد الفحوص الموصوفة في القسم السادس بيانات مخفية في بقية الملفات»</i> — و هي صيغة تُسمّي المنهج و تُبقي حدوده ظاهرة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p21">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check
+  <span class="ar">اختبار سريع</span></h2>
+<div class="q mcq" data-correct="c">
+  <p class="qtext">A JPEG passes the signature check, opens normally in a viewer, and its size is unremarkable. Which single check would still find an appended ZIP?
+    <span class="ar">ملف JPEG اجتاز فحص الـ signature، و يُفتح بشكل طبيعي، و حجمه لا يلفت النظر. فأي فحص واحد سيظل قادرًا على العثور على ZIP مُضاف إليه؟</span></p>
+  <label><input type="radio" name="q1" value="a"> Recomputing the file hash</label>
+  <label><input type="radio" name="q1" value="b"> Comparing the EXIF thumbnail to the image</label>
+  <label><input type="radio" name="q1" value="c"> Reading the bytes after the <code>FF D9</code> end marker</label>
+  <label><input type="radio" name="q1" value="d"> Channel statistics on the pixels</label>
+  <div class="feedback"><b>c.</b> A viewer stops at <code>FF D9</code>; the file does not. <b>a</b> tells you the file changed only if you already had an earlier hash of it. <b>d</b> finds LSB, which lives in the pixels, not after the end marker. And note the premise: <b>this is exactly <code>team_photo.jpg</code></b> &mdash; a file that is genuinely what it claims and still carrying something.
+    <span class="ar"><b>ج.</b> برنامج العرض يتوقّف عند <code>FF D9</code>، أما الملف فلا. و الخيار <b>أ</b> لا يفيد إلا إن كان لديك hash سابق للملف. و <b>د</b> يكشف الـ LSB، و هو في البكسلات لا بعد علامة النهاية. و انتبه إلى الفرض: <b>هذا هو <code>team_photo.jpg</code> بالضبط</b> — ملف هو فعلاً ما يدّعيه، و مع ذلك يحمل شيئًا.</span></div>
+</div>
+    </section>
+
+<section class="page divider" id="p22">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">What a file carries, the three ways data hides, and the four checks in cost order &mdash; in the form you reach for at the keyboard.<span class="ar">ما يحمله الملف، و طرق الإخفاء الثلاث، و الفحوص الأربعة بترتيب التكلفة — بالشكل الذي ستحتاجه على الجهاز.</span></p>
+  <p class="divider-meta">1 screen &middot; print it</p>
+</div>
+    </section>
+
+<section class="page" id="p23">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet &mdash; metadata, hiding, detection
+  <span class="ar">ورقة المراجعة — الـ metadata و الإخفاء و الكشف</span></h2>
+<p>The page condensed to what you use when you look inside a file.
+  <span class="ar">الصفحة مختصرة فيما تستعمله وقت النظر داخل الملف.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b>A file is a container.</b> A photo carries EXIF, an embedded thumbnail, sometimes GPS &mdash; all written by software, all editable.<span class="ar">الملف container: الصورة تحمل EXIF و thumbnail و أحيانًا GPS — كلها تكتبها البرامج، و كلها قابلة للتعديل.</span></li>
+    <li><b>EXIF timestamps are claims.</b> <code>DateTimeOriginal</code> = shutter; <code>ModifyDate</code> = last write. The file records them; it does not witness them.<span class="ar">توقيتات EXIF ادّعاءات: <code>DateTimeOriginal</code> لحظة المغلاق، و <code>ModifyDate</code> آخر كتابة. الملف يسجّلها لا يشهد عليها.</span></li>
+    <li><b>The thumbnail can outlive the edit.</b> Redact the main image and the embedded thumbnail &mdash; and ThumbCache &mdash; may still hold the original.<span class="ar">الـ thumbnail قد يبقى بعد التعديل: تحجب الصورة الرئيسية و يبقى الـ thumbnail المضمّن — و ThumbCache — حاملًا الأصل.</span></li>
+    <li><b>Three ways to hide</b> &mdash; append after the EOF marker &middot; a polyglot (valid as two formats) &middot; LSB steganography in the pixels.<span class="ar">ثلاث طرق للإخفاء: إلحاق بعد علامة نهاية الملف · polyglot يصحّ بصيغتين · LSB steganography في البكسلات.</span></li>
+    <li><b>Four checks, cheapest first</b> &mdash; size vs expected &middot; bytes after the EOF &middot; entropy &middot; LSB analysis. Escalate only when the cheap check flags.<span class="ar">أربعة فحوص، الأرخص أولًا: الحجم مقابل المتوقَّع · الـ bytes بعد النهاية · الـ entropy · تحليل LSB. لا تصعّد إلا إذا نبّه الفحص الأرخص.</span></li>
+    <li><b>Detection proves presence, not intent.</b> Hidden data is a finding; who hid it, when, and why are not.<span class="ar">الكشف يُثبت الوجود لا النية. البيانات المخفية finding؛ أما من أخفاها و متى و لماذا فلا.</span></li>
+  </ul>
+  <p><button class="btn" type="button" onclick="window.print()">&#128424; Print the cheat sheet</button></p>
+</div>
+    </section>
+
+<section class="page divider" id="p24">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Handed in before P07<span class="ar">يُسلَّم قبل P07</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Your homework, then the first page where one examination fills two different report sections &mdash; and putting a line in the wrong one is the error.<span class="ar">واجبك، ثم أول صفحة يملأ فيها الفحص الواحد قسمين مختلفين — و وضع السطر في القسم الخطأ هو الخطأ نفسه.</span></p>
+  <p class="divider-meta">2 screens &middot; the report advances</p>
+</div>
+    </section>
+
+<section class="page" id="p25">
+<span class="kicker">Task &middot; handed in before P07</span>
+<h2>Task &mdash; find what is hidden, and stop there
+  <span class="ar">الـ task — اعثر على المخفي، ثم قف عنده</span></h2>
+<p>Three items. The third is the one that teaches the limit.
+  <span class="ar">ثلاثة بنود. و الثالث هو الذي يعلّمك الحدّ.</span></p>
+<div id="taskList" class="steps"></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Task</th><th>Deliverable</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Take a photo with your own phone, then open and resave it in any editor. Compare <code>DateTimeOriginal</code>, <code>DateTime</code> and the file mtime before and after.<span class="ar">التقط صورة بهاتفك، ثم افتحها و احفظها في أي برنامج تحرير. و قارن <code>DateTimeOriginal</code> و <code>DateTime</code> و الـ mtime قبل و بعد.</span></td><td>a four-row table</td></tr>
+    <tr><td>2</td><td>Append a small ZIP to a JPEG yourself, confirm the picture still opens, then find your own appended data with the offset check.<span class="ar">أضف ملف ZIP صغيرًا إلى نهاية صورة JPEG بنفسك، و تأكّد أن الصورة ما زالت تُفتح، ثم اعثر على ما أضفته بفحص الإزاحة.</span></td><td>the offset you found</td></tr>
+    <tr><td>3</td><td>Write the Section 8 line for item 2 as if you had found it in a case &mdash; then write the Section 9 line, and mark which parts of it you <b>cannot</b> support.<span class="ar">اكتب سطر القسم الثامن للبند الثاني كأنك وجدته في قضية — ثم اكتب سطر القسم التاسع، و حدّد الأجزاء التي <b>لا</b> تستطيع دعمها.</span></td><td>two lines, one marked</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>Item 3 is doing something specific: you know exactly who appended that ZIP, because it was you. <b>Writing the interpretation for a fact whose truth you already know is the fastest way to feel where the evidence stops.</b>
+    <span class="ar">البند الثالث يفعل شيئًا محدَّدًا: فأنت تعرف بالضبط من أضاف ذلك الـ ZIP، لأنك أنت. <b>و كتابة الـ interpretation لواقعة تعرف حقيقتها مسبقًا هي أسرع طريقة لتشعر أين يتوقّف الدليل.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p26">
+<span class="kicker">T10 &middot; Report stage &middot; 5 min</span>
+<h2>Report &mdash; Sections 7 and 9
+  <span class="ar">التقرير — القسمان الثامن و التاسع</span></h2>
+<p><b>Section 8 Findings</b> takes what is measurably present. <b>Section 9 Interpretation</b> takes what you assess from it, with a confidence and a named alternative. Every line on this page belongs to exactly one of them.
+  <span class="ar">يأخذ <b>القسم الثامن: الـ findings</b> ما هو موجود بشكل قابل للقياس. و يأخذ <b>القسم التاسع: الـ interpretation</b> ما تُقدّره منه، بدرجة ثقة و ببديل مذكور. و كل سطر على هذه الصفحة ينتمي إلى واحد منهما فقط.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Goes in Section 8</th><th>Goes in Section 9</th></tr></thead>
+  <tbody>
+    <tr><td>the first four bytes, and the extension they disagree with<span class="ar">أول أربعة bytes، و الامتداد الذي تخالفه</span></td><td>that the file was renamed &mdash; <b>with a confidence</b><span class="ar">أن الملف أُعيدت تسميته — <b>بدرجة ثقة</b></span></td></tr>
+    <tr><td>a ZIP header at offset 10,296, and what extracted from it<span class="ar">ZIP header عند الإزاحة 10,296، و ما استُخرج منها</span></td><td>that the archive was deliberately concealed<span class="ar">أن الأرشيف أُخفي عمدًا</span></td></tr>
+    <tr><td>190 differing pixels, all blue channel<span class="ar">١٩٠ بكسلاً مختلفًا، كلها في قناة الأزرق</span></td><td>that a steganography tool was used<span class="ar">أن أداة إخفاء قد استُخدمت</span></td></tr>
+    <tr><td>an EXIF thumbnail whose content the image redacts<span class="ar">thumbnail داخل EXIF تحجب الصورةُ محتواه</span></td><td>that the redaction was intended to remove that content<span class="ar">أن الحجب كان يقصد إزالة ذلك المحتوى</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The test for which column a sentence belongs in</span>
+  <p>Could <b>another examiner reproduce it from the bytes alone</b>? If yes, Section 8. If it needs a step of reasoning about a person, Section 9 &mdash; <b>with a confidence and an alternative you considered</b>.
+    <span class="ar">هل يستطيع <b>فاحص آخر إعادة إنتاجها من الـ bytes وحدها</b>؟ فإن كان نعم فالقسم الثامن. و إن احتاجت خطوة استدلال عن شخص فالقسم التاسع — <b>بدرجة ثقة و ببديل نظرت فيه</b>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p27">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>You can state</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>which of a photo&rsquo;s four dates is the camera and which is the file system<span class="ar">أيّ تواريخ الصورة الأربعة من الكاميرا و أيّها من نظام الملفات</span></td><td>three of them are EXIF fields; the fourth belongs to the volume<span class="ar">ثلاثة منها حقول EXIF، و الرابع ملك الـ volume</span></td></tr>
+    <tr><td>that a redacted image can carry an unredacted copy of itself<span class="ar">أن الصورة المحجوبة قد تحمل نسخة غير محجوبة من نفسها</span></td><td>editors draw on pixels and often leave the EXIF thumbnail alone<span class="ar">برامج التحرير ترسم على البكسلات و تترك الـ thumbnail غالبًا</span></td></tr>
+    <tr><td>that a file passing the signature check can still carry another file<span class="ar">أن الملف الذي يجتاز فحص الـ signature قد يحمل ملفًّا آخر</span></td><td>a viewer stops at <code>FF D9</code>; the file does not<span class="ar">برنامج العرض يتوقّف عند <code>FF D9</code>، و الملف لا يتوقّف</span></td></tr>
+    <tr><td>how to detect LSB without the clean twin<span class="ar">كيف تكتشف الـ LSB بلا النسخة النظيفة</span></td><td>a payload loads one channel; photographic noise loads all three<span class="ar">الحمولة تُثقل قناة واحدة، أما ضجيج الصورة فيوزَّع على الثلاث</span></td></tr>
+    <tr><td>that <i>no hidden data was found</i> is not <i>no hidden data is present</i><span class="ar">أن <i>لم نجد بيانات مخفية</i> ليست <i>لا توجد بيانات مخفية</i></span></td><td>the checks have a scope, and the sentence has to carry it<span class="ar">للفحوص نطاق، و الجملة يجب أن تحمله</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this page turns on</span>
+  <ul>
+    <li><b>A file can be exactly what it claims to be and still be carrying something else.</b>
+      <span class="ar"><b>قد يكون الملف تمامًا ما يدّعيه، و يظل يحمل شيئًا آخر.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p28">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td><b><code>EVS-10</code></b> &mdash; generated by <code>scripts/make_evs10.py</code><span class="ar">مجموعة <code>EVS-10</code> المولَّدة من السكربت</span></td><td>every measurement on this page: offsets, pixel counts, timestamps, thumbnail size<span class="ar">كل قياس على هذه الصفحة: الإزاحات و أعداد البكسلات و الطوابع الزمنية و حجم الـ thumbnail</span></td></tr>
+    <tr><td><b>INE eCDFP</b> modules 2 and 4<span class="ar">وحدتا INE eCDFP الثانية و الرابعة</span></td><td>image forensics, ThumbCache, hidden-data techniques<span class="ar">تحليل الصور، و الـ ThumbCache، و أساليب الإخفاء</span></td></tr>
+    <tr><td><b><code>P03</code> `T04`</b><span class="ar">الصفحة <code>P03</code> و موضوع `T04`</span></td><td>the signature check this page extends<span class="ar">فحص الـ signature الذي تبني عليه هذه الصفحة</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Evidence note.</b> <code>EVS-10</code> is <b>Tier 3 &mdash; synthesized, and legitimately so</b>. The tier rules forbid fabricating forensic containers: <code>.evtx</code>, E01, raw images, memory dumps, registry hives. They do not forbid <b>authoring a JPEG</b>, and data we hid inside an image we made is ours to hide. Every file was regenerated and re-measured for this page.
+    <span class="ar"><b>ملاحظة عن الدليل.</b> مجموعة <code>EVS-10</code> من <b>المستوى الثالث — مصنَّعة، و ذلك مشروع</b>. فقواعد المستويات تمنع تلفيق الحاويات الجنائية: <code>.evtx</code> و E01 و الصور الخام و الـ memory dumps و الـ registry hives. و لا تمنع <b>تأليف صورة JPEG</b>، و البيانات التي أخفيناها داخل صورة صنعناها ملكنا نُخفيها كما نشاء. و قد أُعيد توليد كل ملف و قياسه من أجل هذه الصفحة.</span></p>
+</div>
+<p><b>Next: `P07` &mdash; Malicious files.</b> This page found things hidden <i>in</i> a file. `T11` asks what happens when the file itself is the thing that runs.
+  <span class="ar"><b>التالي: `P07` — الملفات الخبيثة.</b> وجدت هذه الصفحة أشياء مخفية <i>داخل</i> ملف. و يسأل `T11` عمّا يحدث حين يكون الملف نفسه هو ما يعمل.</span></p>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 28</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P06</b> &middot; content from
+     <code>packages/page-06/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t10', [
+ {screen:'e10List', target:'g1',
+  en:'Seven files. Read the <b>sizes</b> before anything else: a 156-byte photograph and a 10 KB one sitting in the same folder is a question you can ask for free.',
+  ar:'سبعة ملفات. اقرأ <b>الأحجام</b> قبل أي شيء: فوجود «صورة» حجمها ١٥٦ byte بجوار أخرى حجمها ١٠ كيلوبايت في المجلد نفسه سؤال تستطيع طرحه بلا تكلفة.'},
+ {screen:'e10Sig', target:'g2',
+  en:'The `T04` sweep: four bytes, no names. <b>Two files are not what they claim.</b> And note the other five &mdash; a signature that <i>agrees</i> is not a file that is <b>clean</b>.',
+  ar:'فحص `T04`: أربعة bytes، بلا أسماء. <b>ملفان ليسا ما يدّعيانه.</b> و انتبه إلى الخمسة الباقية — فالـ signature الذي <i>يتفق</i> لا يعني ملفًّا <b>نظيفًا</b>.'},
+ {screen:'e10Size', target:'g3',
+  en:'A 156-byte JPEG cannot be a photograph &mdash; there is not enough room for one. It expands as a ZIP because it is one, and the extension was the only false thing about it.',
+  ar:'ملف JPEG حجمه ١٥٦ byte لا يمكن أن يكون صورة — فلا مساحة تكفي. و هو يُفكّ كـ ZIP لأنه ZIP، و الامتداد وحده كان الكاذب فيه.'},
+ {screen:'e10Poly', target:'g4',
+  en:'<b>team_photo.jpg passed the signature check.</b> It is a real JPEG and it opens normally &mdash; and a ZIP header sits at offset <b>10,296</b>, after the end-of-image marker. A polyglot: both readers are right.',
+  ar:'<b>ملف team_photo.jpg اجتاز فحص الـ signature.</b> فهو JPEG حقيقي و يُفتح بشكل طبيعي — و مع ذلك تقع ZIP header عند الإزاحة <b>10,296</b>، بعد علامة نهاية الصورة. إنه polyglot: و كلا القارئين محقّ.'},
+ {screen:'e10Lsb', target:'g5',
+  en:'Two copies of one picture. <b>190 pixels differ, and all 190 are blue.</b> Red and green are untouched &mdash; and that asymmetry is the finding, not the message.',
+  ar:'نسختان من صورة واحدة. <b>١٩٠ بكسل مختلف، و كلها في الأزرق.</b> الأحمر و الأخضر لم يُمسّا — و هذا التفاوت هو الـ finding، لا الرسالة.'},
+ {screen:'e10Thumb', target:'g6',
+  en:'And the one that ends cases. The image was redacted with a black box. <b>The EXIF thumbnail was not</b> &mdash; the editor drew on the pixels and never rewrote the 1,735-byte copy stored inside the same file.',
+  ar:'ثم الحالة التي تُنهي القضايا. حُجبت الصورة بمربع أسود. <b>أما الـ thumbnail داخل الـ EXIF فلم يُحجب</b> — إذ رسم البرنامج على البكسلات و لم يُعد كتابة النسخة المخزَّنة داخل الملف نفسه، و حجمها ١٬٧٣٥ byte.'}
+]);
+Dgm.init('#dg-lc-p06', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>الجمع.</b> أن تأخذ الدليل من الجهاز دون أن تغيّره.'},
+ {en:'<b>PRESERVE.</b> Prove the copy still equals what you took.', ar:'<b>الحفظ.</b> أن تُثبت أن النسخة ما زالت تساوي ما أخذته.'},
+ {en:'<b>ANALYSE.</b> Read what is inside the copy. You are here for most of the diploma.', ar:'<b>التحليل.</b> أن تقرأ ما داخل النسخة. و هنا تقف في معظم الدبلومة.'},
+ {en:'<b>VALIDATE.</b> Check your own result.', ar:'<b>التحقق.</b> أن تراجع نتيجتك أنت.'},
+ {en:'<b>PRESENT.</b> Write it so someone who was not there can follow it.', ar:'<b>العرض.</b> أن تكتبها بحيث يتابعها من لم يحضر.'},
+ {en:'<b>Stage 3.</b> <code>P03</code> asked <i>what is this file?</i> and answered it from the first four bytes. This page asks the harder version: <b>what else is in it?</b>', ar:'<b>المرحلة الثالثة.</b> سأل <code>P03</code>: <i>ما هذا الملف؟</i> و أجاب من أول أربعة bytes. أما هذه الصفحة فتسأل النسخة الأصعب: <b>و ما الذي فيه أيضًا؟</b>',key:true}
+]);
+Dgm.init('#dg-p06-f1', [
+ {en:'A JPEG starts with <code>FF D8</code>. Two bytes, and every viewer in the world uses them to decide this is a JPEG.', ar:'يبدأ ملف JPEG بـ<code>FF D8</code>. اثنان من الـ bytes، و كل برنامج عرض في العالم يستخدمهما ليقرّر أن هذا ملف JPEG.'},
+ {en:'Then the <b>EXIF</b> block: camera, settings, GPS, timestamps &mdash; and often a <b>thumbnail</b>, which is a second, smaller copy of the picture stored inside the file.', ar:'ثم كتلة <b>EXIF</b>: الكاميرا و الإعدادات و الـ GPS و الطوابع الزمنية — و غالبًا <b>thumbnail</b>، و هي نسخة ثانية أصغر من الصورة، مخزَّنة داخل الملف.'},
+ {en:'Then the image data itself &mdash; the part that becomes pixels.', ar:'ثم بيانات الصورة نفسها — الجزء الذي يتحوّل إلى بكسلات.'},
+ {en:'And <code>FF D9</code>, End Of Image. <b>Every viewer stops reading here.</b>', ar:'ثم <code>FF D9</code>، أي End Of Image. <b>و كل برنامج عرض يتوقّف عن القراءة هنا.</b>'},
+ {en:'The <b>file</b> does not stop there. Anything appended after <code>FF D9</code> is carried by the file, ignored by the viewer, and invisible in a folder listing.', ar:'أما <b>الملف</b> فلا يتوقّف. فأي شيء يُضاف بعد <code>FF D9</code> يحمله الملف، و يتجاهله برنامج العرض، و لا يظهر في قائمة المجلد.',key:true},
+ {en:'That is not theory. In <code>EVS-10</code>, <code>team_photo.jpg</code> opens as a normal photograph and carries a <b>ZIP local header at offset 10,296</b>.', ar:'و هذا ليس كلامًا نظريًّا. ففي <code>EVS-10</code> يُفتح <code>team_photo.jpg</code> كصورة عادية، و يحمل <b>ZIP header عند الإزاحة 10,296</b>.'},
+ {en:'So the size on disk is the first thing you read. <b>A picture that is bigger than it should be is a question</b>, and the answer is at the end of the file.', ar:'لذلك فالحجم على القرص هو أول ما تقرؤه. <b>فالصورة الأكبر مما ينبغي سؤال</b>، و الإجابة في نهاية الملف.',key:true}
+]);
+Dgm.init('#dg-p06-f2', [
+ {en:'<b>DateTimeOriginal</b> &mdash; when the shutter opened. This is the one people mean when they say &ldquo;when was the photo taken&rdquo;.', ar:'<b>DateTimeOriginal</b> — لحظة فتح الغالق. و هذا هو ما يقصده الناس حين يقولون «متى التُقطت الصورة».'},
+ {en:'<b>DateTimeDigitized</b> &mdash; when it was first written as a file. Here it matches, which is what you expect from a camera writing straight to a card.', ar:'<b>DateTimeDigitized</b> — لحظة كتابته أول مرة كملف. و هو مطابق هنا، و هذا المتوقَّع من كاميرا تكتب مباشرةً على بطاقة.'},
+ {en:'<b>DateTime</b> &mdash; the last time <b>software</b> wrote the file. It is <b>seven days later</b>. Something opened this photo and saved it again.', ar:'<b>DateTime</b> — آخر مرة كتب فيها <b>برنامج</b> الملف. و هو <b>بعد سبعة أيام</b>. أي أن شيئًا فتح هذه الصورة و حفظها مرة أخرى.',key:true},
+ {en:'And the <b>file mtime</b> is two days later again &mdash; but that one is not in the photo at all. It belongs to the <b>file system</b>, and copying the file changes it.', ar:'و <b>الـ mtime</b> متأخر يومين آخرين — لكنه ليس داخل الصورة أصلاً. فهو ملك <b>نظام الملفات</b>، و نسخ الملف يغيّره.',key:true}
+]);
+Dgm.init('#dg-p06-f3', [
+ {en:'A pixel&rsquo;s blue value is a number from 0 to 255. Here it is <b>174</b>, and in binary its last bit is a <b>0</b>.', ar:'قيمة اللون الأزرق في البكسل رقم من صفر إلى ٢٥٥. و هي هنا <b>١٧٤</b>، و آخر bit فيها بالنظام الثنائي هو <b>صفر</b>.'},
+ {en:'To hide a <b>1</b>, you change that last bit. The value becomes <b>175</b> &mdash; one step of blue out of 256.', ar:'و لإخفاء <b>واحد</b>، تغيّر ذلك الـ bit الأخير. فتصبح القيمة <b>١٧٥</b> — درجة واحدة من الأزرق من أصل ٢٥٦.'},
+ {en:'Nobody sees that. Not the eye, not a viewer, not a thumbnail. The picture is, for every practical purpose, unchanged.', ar:'لا أحد يرى ذلك. لا العين، و لا برنامج العرض، و لا الـ thumbnail. فالصورة، لكل غرض عملي، لم تتغيّر.'},
+ {en:'But the file did. <code>EVS-10</code> ships the same image twice, with and without a payload: <b>190 pixels out of 76,800</b> differ.', ar:'لكن الملف تغيّر. فـ<code>EVS-10</code> يحوي الصورة نفسها مرتين، بحمولة و بدونها: و الفرق <b>١٩٠ بكسل من أصل ٧٦٬٨٠٠</b>.',key:true},
+ {en:'And <b>every one of them is in the blue channel</b>. Red: zero. Green: zero. That asymmetry is not what a photograph does &mdash; it is what a <b>program</b> does, and it is the thing you look for.', ar:'و <b>كلها في قناة الأزرق</b>. الأحمر: صفر. الأخضر: صفر. و هذا التفاوت ليس ما تفعله صورة فوتوغرافية — بل ما يفعله <b>برنامج</b>، و هو ما تبحث عنه.',key:true}
+]);
+Dgm.init('#dg-p06-f4', [
+ {en:'<b>Size on disk.</b> Free, instant, and it catches the loudest case: a 156-byte &ldquo;photograph&rdquo; or a 10 KB image carrying an archive.', ar:'<b>الحجم على القرص.</b> مجاني و فوري، و يمسك أوضح الحالات: «صورة» حجمها ١٥٦ byte، أو صورة ١٠ كيلوبايت تحمل أرشيفًا.'},
+ {en:'<b>First bytes.</b> The `T04` check, applied here: does the signature agree with the extension?', ar:'<b>أوائل الـ bytes.</b> فحص `T04` مطبَّقًا هنا: هل يتفق الـ signature مع الامتداد؟'},
+ {en:'<b>Read past the end marker.</b> A viewer stops at <code>FF D9</code>; you do not. This is where a polyglot shows itself.', ar:'<b>اقرأ ما بعد علامة النهاية.</b> برنامج العرض يتوقّف عند <code>FF D9</code>، أما أنت فلا. و هنا يظهر الـ polyglot.'},
+ {en:'<b>Channel statistics.</b> The only one that needs a tool, and the only one that finds LSB. Leave it last, because the first three are free and answer most files.', ar:'<b>إحصاءات القنوات.</b> الفحص الوحيد الذي يحتاج أداة، و الوحيد الذي يكشف الـ LSB. اتركه للنهاية، فالثلاثة الأولى مجانية و تُجيب عن معظم الملفات.',key:true}
+]);
+</script>
+
+</body>
+</html>

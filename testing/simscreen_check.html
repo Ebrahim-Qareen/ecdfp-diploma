@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIMSCREEN kit check — T09 FTK Imager</title>
+<link rel="stylesheet" href="../docs/assets/css/ecdfp.css">
+<link rel="stylesheet" href="../docs/assets/css/win-ui.css">
+<link rel="stylesheet" href="../docs/assets/css/simscreen.css">
+<style>body{padding:34px clamp(16px,3vw,40px)}.wrapx{max-width:1180px;margin:0 auto}</style>
+</head><body><div class="wrapx">
+
+<h1>T09 · Imaging Tools — making a defensible image
+<span class="ar">T09 · أدوات التصوير — إزاي تعمل image يصمد</span></h1>
+
+<div class="simscreen" data-title="SIMSCREEN · T09-1 · FTK IMAGER — DISK ACQUISITION" data-interval="4600">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu wu-sm" id="scStart">
+    <div class="s"><span class="mag"></span><span>FTK Imager</span></div>
+    <h6>Best match</h6>
+    <div class="i hl" id="h1"><span class="ic">FTK</span><div><div>AccessData FTK Imager</div><div class="sub">App</div></div></div>
+    <h6 style="margin-top:9px">Also on this machine</h6>
+    <div class="i"><span class="ic" style="background:linear-gradient(160deg,#5a5a5a,#333)">RE</span><div><div>Registry Explorer</div><div class="sub">App</div></div></div>
+    <div class="i"><span class="ic" style="background:linear-gradient(160deg,#1f7a3f,#0d4a24)">WH</span><div><div>WinHex</div><div class="sub">App</div></div></div>
+    <div style="height:12px"></div>
+  </div>
+
+  <div class="wu" id="scApp" style="width:640px">
+    <div class="wu-tb"><span class="t">AccessData FTK Imager 4.7.1.2</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-mb"><span class="open">File</span><span>View</span><span>Mode</span><span>Help</span></div>
+    <div class="wu-menu" style="left:6px;top:56px">
+      <div>Add Evidence Item&hellip;</div><div>Add All Attached Devices</div><div class="sep"></div>
+      <div class="hl" id="h2">Create Disk Image&hellip;</div><div>Export Disk Image&hellip;</div>
+      <div>Export Logical Image (AD1)&hellip;</div><div class="sep"></div>
+      <div>Obtain Protected Files&hellip;</div><div>Capture Memory&hellip;</div><div class="sep"></div><div>Exit</div></div>
+    <div class="wu-pane" style="height:172px">
+      <div class="l"><div style="font-weight:600;margin-bottom:4px">Evidence Tree</div>
+        <div style="color:#8a8a8a">(no evidence loaded)</div></div>
+      <div class="r" style="color:#8a8a8a">File List</div></div>
+    <div class="wu-sb">For User Guide, press F1</div>
+  </div>
+
+  <div class="wu" id="scSrc" style="width:438px">
+    <div class="wu-tb"><span class="t">Select Source</span><span class="sp"><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body">
+      <fieldset><legend>Please Select the Source Evidence Type</legend>
+        <div class="wu-rd on" id="h3"><i></i><span>Physical Drive</span></div>
+        <div class="wu-rd"><i></i><span>Logical Drive</span></div>
+        <div class="wu-rd"><i></i><span>Image File</span></div>
+        <div class="wu-rd"><i></i><span>Contents of a Folder</span></div>
+        <div class="wu-hint">(logical file-level analysis only; excludes deleted, unallocated, etc.)</div>
+        <div class="wu-rd"><i></i><span>Femico Device (multiple CD/DVD)</span></div>
+        <div style="height:44px"></div></fieldset>
+      <div class="wu-btns"><span class="wu-bt dis">&lt; Back</span><span class="wu-bt def" id="h4">Next &gt;</span>
+        <span class="wu-bt">Cancel</span><span class="wu-bt">Help</span></div></div>
+  </div>
+
+  <div class="wu" id="scDrv" style="width:452px">
+    <div class="wu-tb"><span class="t">Select Drive</span><span class="sp"><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body">
+      <fieldset><legend>Source Drive Selection</legend>
+        <div class="wu-lb">Please select from the following available drives:</div>
+        <div class="wu-combo" id="h5"><span style="font-family:var(--wu-mono)">\\.\PHYSICALDRIVE1 &mdash; [465GB] S/N WX41A8&hellip;</span><span class="caret">&#9660;</span></div>
+        <div style="height:14px"></div>
+        <div class="wu-cb"><i></i><span>Automate multiple removable media</span></div>
+        <div style="height:30px"></div></fieldset>
+      <div class="wu-btns"><span class="wu-bt">&lt; Back</span><span class="wu-bt def">Finish</span>
+        <span class="wu-bt">Cancel</span><span class="wu-bt">Help</span></div></div>
+  </div>
+
+  <div class="wu" id="scCre" style="width:453px">
+    <div class="wu-tb"><span class="t">Create Image</span><span class="sp"><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body">
+      <fieldset><legend>Image Source</legend>
+        <div class="wu-tx" style="font-family:var(--wu-mono)">\\.\PHYSICALDRIVE1</div></fieldset>
+      <fieldset><legend>Image Destination(s)</legend>
+        <div class="wu-lst" style="height:64px;font-family:var(--wu-mono)">F:\EVI-SRC01 [E01]</div>
+        <div class="wu-btns left" style="margin-top:9px"><span class="wu-bt sm" id="h6">Add&hellip;</span>
+          <span class="wu-bt sm dis">Edit&hellip;</span><span class="wu-bt sm dis">Remove</span></div>
+        <div class="wu-btns" style="margin-top:7px"><span class="wu-bt wide">Add Overflow Location</span></div></fieldset>
+      <div class="wu-cb on" id="h7" style="margin-bottom:7px"><i></i><span>Verify images after they are created</span></div>
+      <div class="wu-cb"><i></i><span>Create directory listings of all files in the image after they are created</span></div>
+      <div class="wu-btns"><span class="wu-bt def" id="h8">Start</span><span class="wu-bt">Cancel</span></div></div>
+  </div>
+
+  <div class="wu" id="scVer" style="width:470px">
+    <div class="wu-tb"><span class="t">Drive/Image Verify Results</span><span class="sp"><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body">
+      <fieldset><legend>Name</legend><div class="wu-tx" style="font-family:var(--wu-mono)">EVI-SRC01.E01</div></fieldset>
+      <fieldset><legend>Results</legend>
+        <div id="h9" style="font-family:var(--wu-mono);font-size:11.5px;line-height:1.55">
+          Sector count &nbsp; <span style="color:#8a8a8a">&lt;from acquisition&gt;</span><br><br>
+          <b>MD5 Hash</b><br>Computed &nbsp; <span style="color:#8a8a8a">&lt;pending EVS-02&gt;</span><br>
+          Stored &nbsp;&nbsp;&nbsp; <span style="color:#8a8a8a">&lt;pending EVS-02&gt;</span><br>
+          Verify &nbsp;&nbsp;&nbsp; <b style="color:var(--wu-ok)">Match</b><br><br>
+          <b>SHA1 Hash</b><br>Verify &nbsp;&nbsp;&nbsp; <b style="color:var(--wu-ok)">Match</b></div></fieldset>
+      <div class="wu-btns"><span class="wu-bt def">Close</span></div></div>
+  </div>
+
+ </div></div>
+ <div class="ss-prov">&#9888; Hash values are provisional until EVS-02 is acquired (D94 &middot; D95).</div>
+</div>
+
+<script src="../docs/assets/js/simscreen.js"></script>
+<script>
+SimScreen.init('.simscreen', [
+ {screen:'scStart',target:'h1',en:'Open <b>FTK Imager</b> on the analyst workstation — never on the machine you are investigating. Running a tool on the suspect host changes it.',ar:'افتح <b>FTK Imager</b> على جهاز التحليل — مش على الجهاز اللي بتحقق فيه أبداً. تشغيل أداة على الجهاز المشتبه فيه بيغيّره.'},
+ {screen:'scApp',target:'h2',en:'<b>File → Create Disk Image…</b> Not “Add Evidence Item”. Adding an item only opens the disk for reading; creating an image is what produces the exhibit.',ar:'<b>File → Create Disk Image…</b> مش "Add Evidence Item". الإضافة بتفتح الديسك للقراءة بس؛ عمل الـ image هو اللي بينتج الحرز.'},
+ {screen:'scSrc',target:'h3',en:'Choose <b>Physical Drive</b>. A logical drive hands you the file system only — deleted files, unallocated space and slack all sit outside it.',ar:'اختار <b>Physical Drive</b>. الـ logical بيديك الـ file system بس — الملفات المحذوفة و الـ unallocated و الـ slack كلهم برة.'},
+ {screen:'scSrc',target:'h4',en:'<b>Next</b>. Nothing has touched the disk yet — this screen only records what you intend to acquire.',ar:'<b>Next</b>. لسه محدش لمس الديسك — الشاشة دي بتسجّل إيه اللي ناوي تاخده بس.'},
+ {screen:'scDrv',target:'h5',en:'Select the source by its <b>model and serial</b>, not its drive letter. A drive letter is assigned by Windows and means nothing in a report.',ar:'اختار المصدر بـ <b>الموديل و السيريال</b>، مش بحرف الدرايف. حرف الدرايف ويندوز هو اللي بيديه، و مالوش قيمة في التقرير.'},
+ {screen:'scCre',target:'h6',en:'<b>Add…</b> the destination. It goes on a separate, wiped drive — never back onto the disk you are imaging.',ar:'<b>Add…</b> عشان تحدد مكان الحفظ. على درايف تاني منضّف — عمرك ما تحفظ الـ image على نفس الديسك اللي بتصوّره.'},
+ {screen:'scCre',target:'h7',key:true,en:'<b>Tick “Verify images after they are created.”</b> This single checkbox is the difference between an exhibit and a copy of a disk. Untick it and you have no proof the image matches the source.',ar:'<b>علّم على "Verify images after they are created".</b> الخانة دي لوحدها هي الفرق بين "حرز" و "نسخة من هارد". من غيرها معندكش أي إثبات إن الـ image مطابق للمصدر.'},
+ {screen:'scCre',target:'h8',en:'<b>Start</b>. FTK Imager hashes the source, writes the image, then re-hashes what it wrote and compares the two.',ar:'<b>Start</b>. FTK Imager بيعمل hash للمصدر، بيكتب الـ image، بعدين بيعمل hash تاني لللي كتبه و يقارن الاتنين.'},
+ {screen:'scVer',target:'h9',en:'<b>Match</b>, on both algorithms. This screen is what you paste into report section 5 — evidence inventory. Screenshot it before you close it.',ar:'<b>Match</b> على الاتنين. الشاشة دي هي اللي بتحطها في قسم ٥ في التقرير — Evidence Inventory. صوّرها قبل ما تقفلها.'}
+]);
+</script>
+</div></body></html>

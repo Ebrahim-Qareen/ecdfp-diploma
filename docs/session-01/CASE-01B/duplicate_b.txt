@@ -1,0 +1,5 @@
+EXHIBIT LABEL
+Case ......: ITG-2026-014
+Exhibit ...: EVI-SRC02
+Description: USB mass storage device, recovered from the finance desk
+Sealed by .: Examiner 2, ITGate Digital Forensics

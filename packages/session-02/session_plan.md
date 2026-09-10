@@ -47,11 +47,11 @@ By the end of this session a student can:
 
 | # | Objective | Blocks |
 |---|---|---|
-| **O1** | **Sequence** a collection on a running host by order of volatility, and **state** what each delay destroys | `S2-01` · `S2-02` |
+| **O1** | **Sequence** a collection on a running host by order of volatility, and **state** what each delay destroys | `S2-01` |
 | **O2** | **Capture** memory from a live host, and **state** why the result is a smear rather than a snapshot | `S2-03` |
-| **O3** | **Choose** physical or logical acquisition for a stated goal, and **name** the evidence each one forfeits | `S2-04` · `S2-07` |
-| **O4** | **Create** an image as E01 and as raw, and **state** exactly what `verified` covers and what it does not | `S2-05` · `S2-06` |
-| **O5** | **Acquire and verify** the suspect USB, and **write** the result as a finding separated from interpretation | `S2-08` · `S2-09` · `S2-10` |
+| **O3** | **Choose** physical or logical acquisition, **name** what each forfeits, and **identify** a file from its bytes rather than its name | `S2-03` · `S2-05` · `S2-06` |
+| **O4** | **Create** an image as E01 and as raw, and **state** exactly what `verified` covers and what it does not | `S2-03` · `S2-04` |
+| **O5** | **Acquire and verify** the suspect USB, and **write** the result as a finding separated from interpretation | `S2-07` · `S2-08` · `S2-09` |
 
 Every quiz question and every homework criterion maps to one of these five.
 
@@ -61,37 +61,36 @@ Every quiz question and every homework criterion maps to one of these five.
 
 | # | Block | Type | Min | Cumulative |
 |---|---|---|--:|--:|
-| `S2-01` | Order of volatility **in practice** — the sequence, and what getting it wrong destroys | theory + micro-lab | 15 | 15 |
-| `S2-02` | **Live response** — volatile collection on a running host | theory + guided | 25 | 40 |
-| `S2-03` | **Memory acquisition** — why it comes first, the tools, the pitfalls | theory + guided | 20 | 60 |
-| — | **Knowledge check 1** | check | *(within blocks)* | 60 |
-| `S2-04` | Physical vs logical acquisition — what each captures and what each misses | theory + micro-lab | 20 | 80 |
-| `S2-05` | **Image formats** — E01 vs raw (`dd`) vs AD1, compression, embedded verification | theory + micro-lab | 15 | 95 |
-| — | **BREAK** — imaging runs while the room is out | break | *15* | *110* |
-| — | **Knowledge check 2** | check | *(within blocks)* | 95 |
-| `S2-06` | **FTK Imager** — correct use and verification · *demo: imaging `FIN-WKS-07`* | demo + guided | 20 | 115 |
-| `S2-07` | `dc3dd` on the clean Kali snapshot, and KAPE targeted triage | theory + guided | 15 | 130 |
-| `S2-08` | **[INVESTIGATION]** Case 02a — acquire and verify the suspect USB | activity | **35** | 165 |
-| `S2-09` | **[INVESTIGATION]** Case 02b — examine the image's partition and file-system structure | activity | **25** | 190 |
-| — | **Knowledge check 3** | check | *(within `S2-09`)* | 190 |
-| `S2-10` | **[RITUAL]** Hash-verify + chain-of-custody close | ritual | 15 | **205** |
+| `S2-01` | **Live response** — volatile collection on a running host, **in order of volatility** | theory + micro-lab | 30 | 30 |
+| `S2-02` | **Memory acquisition** — WinPmem, DumpIt, and the pitfalls | theory + micro-lab | 20 | 50 |
+| — | **Knowledge check 1** | check | *(within blocks)* | 50 |
+| `S2-03` | Acquisition scope **and** image formats — physical vs logical, E01 vs raw vs AD1 | theory + micro-lab | 25 | 75 |
+| — | **BREAK** — imaging runs while the room is out | break | *15* | *90* |
+| — | **Knowledge check 2** | check | *(within blocks)* | 75 |
+| `S2-04` | **FTK Imager** — correct use, and what `verified` actually covers | demo + micro-lab | 20 | 95 |
+| `S2-05` | `dc3dd` on the clean Kali snapshot, and targeted triage | theory + micro-lab | 15 | 110 |
+| `S2-06` | 🔴 **File signature vs extension — run it against the image you just made** | theory + micro-lab | 20 | 130 |
+| `S2-07` | **[INVESTIGATION]** Case 02a — acquire and verify the suspect USB | activity | **35** | 165 |
+| `S2-08` | **[INVESTIGATION]** Case 02b — examine the image's partition and file-system structure | activity | **25** | 190 |
+| — | **Knowledge check 3** | check | *(within `S2-08`)* | 190 |
+| `S2-09` | **[RITUAL]** Hash-verify + chain-of-custody close | ritual | 15 | **205** |
 
 **Totals — checked against `topic_map.md`, not estimated:**
 
 | | Min |
 |---|--:|
-| Integrated chunks (`S2-01` … `S2-07`) | **130** |
+| Integrated chunks (`S2-01` … `S2-06`) | **130** |
 | Break | 15 |
-| Blocked investigation (`S2-08` + `S2-09`) | **60** |
-| Hash-verify + chain-of-custody close (`S2-10`) | **15** |
+| Blocked investigation (`S2-07` + `S2-08`) | **60** |
+| Hash-verify + chain-of-custody close (`S2-09`) | **15** |
 | **Teaching total** | **220** |
 | Slot | 240 |
 | **Slack** | **20** |
 
-**Hands-on: 155 min of 205 (76 %)** — `S2-02`, `S2-03`, `S2-06` … `S2-10` per `topic_map.md`.
-Micro-labs 1, 4 and 5 add short practice inside the three theory blocks on top of that.
+**Hands-on: 155 min of 205 (76 %).** Every one of the six integrated blocks now ends with a
+micro-lab, so there is no block in which a student only listens.
 
-**Why the break is at minute 95.** It falls after `S2-05`, so `S2-06`'s FTK Imager demo gets an
+**Why the break is at minute 75.** It falls after `S2-03`, so `S2-06`'s FTK Imager demo gets an
 uninterrupted run. Imaging takes real wall-clock time — **start it before the break if the hardware
 allows** and let the machine work while the room is out.
 
@@ -123,6 +122,9 @@ confirmed **2026-09-06**.
 
 | Tool | Version | Role | Note |
 |---|---|---|---|
+| **BriMor Labs Live Response Collection** | current | 🟢🟢 **CORE** | `S2-01`. `Windows_Live_Response.bat`, run as administrator **from external media**. Menu: Triage / Memory Dump / Complete, plus the `Secure-` variants |
+| **Velociraptor** | current | 🟢🟢 **CORE** | `S2-01`. Apache 2.0 — builds a standalone offline collector. 🟢 **The one to use on a paid engagement**, where KAPE may not be |
+| **WinPmem** · **DumpIt** | current | 🟢🟢 **CORE** | `S2-02` memory capture, both free |
 | **FTK Imager** | **8.3** (Exterro, free) | 🟢🟢 **CORE** | `S2-06`. 🔴 **Not** the paid *FTK Imager Pro* — do not download that one by mistake |
 | **`dc3dd`** | **7.3.1** (Kali) | 🟢🟢 **CORE** | `S2-07`. Hashes on the fly and writes a log — which plain `dd` never does |
 | **KAPE** | core **1.3.0.2** · KapeFiles current | 🟢 **SUPPORTING** | `S2-07` targeted triage. 🔴 **Licence: free for education, barred for commercial use since 2026-01-01.** State that in class and pair every step with a free alternative (`D37`) |
@@ -144,10 +146,11 @@ but they have not been acquired, so **no real hashes exist and none have been in
 
 | Set | What | For | Status |
 |---|---|---|---|
-| `EVS-02` | `FIN-WKS-07` system disk image — **E01 and raw** | `S2-05` `S2-06` `S2-09` | ⛔ PENDING |
-| `EVS-03` | live **memory capture** from `FIN-WKS-07` | `S2-03` · later `S6-09` `S6-10` | ⛔ PENDING |
-| `EVS-04` | the **suspect USB** image — E01 and raw | `S2-08` `S2-09` `S2-10` | ⛔ PENDING |
-| `EVS-09` | **targeted triage** collection set | `S2-07` | ⛔ PENDING |
+| `EVS-02` | `FIN-WKS-07` system disk image — **E01 and raw** | `S2-03` `S2-04` `S2-08` | ⛔ PENDING |
+| `EVS-03` | live **memory capture** from `FIN-WKS-07` | `S2-02` · later `S6-09` `S6-10` | ⛔ PENDING |
+| `EVS-04` | the **suspect USB** image — E01 and raw | `S2-07` `S2-08` `S2-09` | ⛔ PENDING |
+| `EVS-09` | **targeted triage** collection set | `S2-05` | ⛔ PENDING |
+| `EVS-05` | 12 files whose extensions are unreliable | `S2-06` | ✅ **verified 2026-09-06** |
 
 **Tier 1 — our own lab.** An E01 image, a memory dump and a USB image are Tier 1 or Tier 2 only. They
 are **never synthesised**: a fabricated image is a lie told to students about what a forensic artifact
@@ -215,6 +218,23 @@ data. `S2-01` and `S2-02` are about not repeating it.
 
 ---
 
+## 8.5 · Re-cut under `D58` (2026-09-06)
+
+Ten blocks became **nine**, and the session lost 25 minutes of duplication:
+
+- **`S2-01` (order of volatility, theory) deleted.** It was also `S1-02`. This session now owns the
+  idea and teaches it **once, operationally**, inside live response — where the decision is made.
+- **Physical-vs-logical and image formats merged** into `S2-03` (was 35 min across two blocks, now 25).
+- 🔴 **New `S2-06` — file signature vs extension**, run against the image the student just acquired.
+  It uses `EVS-05` and follows straight on from `S1-09`, where they first read magic bytes.
+- 🔴 **The live-response collector is now named.** The first build said *"run the collector"* and never
+  said what it was: **BriMor Labs Live Response Collection**, with **Velociraptor** as the free
+  alternative that is also legal on a paid engagement.
+- Every integrated block now ends with a **micro-lab on the same page** — there are no pages of
+  stacked text boxes.
+
+---
+
 ## 9 · Bridge to Session 3
 
 S2 ends with the images made, verified and logged, and the custody record carried forward.
@@ -222,4 +242,4 @@ S2 ends with the images made, verified and logged, and the custody record carrie
 the intrusion.
 
 The closing sentence of S2 is the opening question of S3:
-*"You have the evidence now. What is actually inside it?"*
+*"You have the evidence now. What is hidden inside it?"*

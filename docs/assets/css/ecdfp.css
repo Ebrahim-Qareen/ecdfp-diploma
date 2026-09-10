@@ -534,12 +534,18 @@ span.tile h4, span.tile p, span.tile .ico { opacity: .62; }
 .hub-main .svg-wrap svg { width: 100%; height: auto; min-width: 780px; display: block; }
 
 /* -------------------------------------------------------------- 15 responsive */
-@media (max-width: 1099px) { :root { --sidebar-w: 210px; } }
-@media (max-width: 899px) {
+/* The sidebar collapses at 1099px, not 899px (D105/D106 pass). In the 900-1099
+   band it held 210px of a ~1020px page, so a two-column table resolved to about
+   223px per cell -- narrow enough that an Arabic explanation wrapped to five
+   lines. The deck nav loses nothing: below this width .page-list becomes a
+   horizontal strip and .page-nav still carries prev/next and the counter. */
+@media (max-width: 1099px) {
   .page-layout { grid-template-columns: minmax(0,1fr); }
   .sidebar { position: static; max-height: none; }
   .page-list { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
   .page-list a { white-space: nowrap; }
+}
+@media (max-width: 899px) {
   .artifact-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
 @media (max-width: 639px) {
@@ -645,7 +651,12 @@ strong { color: var(--text-primary); font-weight: 650; }
 }
 .gui-dots { display: flex; gap: 5px; flex: 0 0 auto; }
 .gui-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--border); display: block; }
-.gui-title { font: 600 .72rem/1 var(--font-mono); color: var(--text-secondary); letter-spacing: .04em; }
+.gui-title {
+  font: 600 .72rem/1 var(--font-mono); color: var(--text-secondary); letter-spacing: .04em;
+  /* D62: a mono filename is one unbreakable token. Without these it cannot shrink and
+     blows the flex row past the viewport at 480px. Truncate instead. */
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 .gui-body { padding: 11px 13px; font: .78rem/1.62 var(--font-mono); overflow-x: auto; }
 .gui-body .l { display: block; white-space: pre; }
 .gui-body .p  { color: var(--accent-cyan); }        /* prompt        */
@@ -662,7 +673,10 @@ strong { color: var(--text-primary); font-weight: 650; }
 
 /* ---- 15.7 density: photos sized, artifact cells even ---------------------- */
 /* a figure holding a photo shrinks to the photo and centres itself */
-figure.photo { width: max-content; max-width: 100%; margin: 0 auto 1.2em;
+figure.photo { width: fit-content; max-width: 100%;   /* NOT max-content: with a long
+     caption that resolves to the caption's unwrapped width (1306px at a 480px
+     viewport) and max-width:100% cannot clamp it, because the parent has no
+     definite width to be 100% of. fit-content caps at the space available. */ margin: 0 auto 1.2em;
   border: 1px solid var(--border); border-radius: var(--r); padding: 10px;
   background: var(--bg-card); box-shadow: var(--lift, 0 6px 20px rgba(0,0,0,.3)); }
 figure.photo img { display: block; max-width: 100%; width: 560px; border-radius: 5px; }
@@ -776,6 +790,18 @@ h3 { font-size: 1.38rem; }
 }
 :root { --sidebar-w: 300px; }
 
+/* ---- 16.0 section 15's breakpoints must survive this section (D64) -------
+   The two declarations above re-state `.page-layout`'s columns and
+   `--sidebar-w` AFTER section 15's media queries, at equal specificity and
+   later in the file -- so they silently cancelled both of them. Below 900px
+   the sidebar never collapsed: at 480px the grid resolved to
+   `300px 140px` and every session page rendered its content in a 140px
+   column beside a full-height sidebar. The render gate could not see it,
+   because nothing overflowed -- the content was crushed, not spilled.
+   This is the trap 19.1 documents, and section 16 was already caught in it.
+   Re-assert both, each scoped to its own breakpoint.                       */
+@media (max-width: 1099px) { .page-layout { grid-template-columns: minmax(0,1fr); } }
+
 /* sidebar: taller, and it starts closer to the edge */
 .sidebar { top: 62px; max-height: calc(100vh - 76px); padding: 16px 14px; }
 .sidebar h2 { margin-bottom: 12px; }
@@ -817,15 +843,63 @@ pre code { white-space: inherit; }
 .sidebar { scrollbar-color: var(--border) transparent; }
 .sidebar::-webkit-scrollbar-thumb { border-color: var(--bg-secondary); }
 
-/* ---- 16.4 .steps -- the <b> was becoming its own grid cell -------------- */
-.steps > li { grid-template-columns: 32px minmax(0,1fr); align-items: start; }
-.steps > li > span { display: block; }
+/* ---- 16.4 .steps -- the item is a block, never a grid (D65) --------------
+   `.steps > li` was `display: grid` with a narrow number column, so EVERY
+   child element became its own grid item. A bare <code> or <strong> landed in
+   the 32px column and wrapped ONE CHARACTER PER LINE -- "FOR-WS01" rendered
+   as F/O/R/-/W/S/0/1 and the row grew from 51px to 252px.
+   This was patched twice at the symptom: `.steps > li > b { color }` first,
+   then `.steps > li > span { display: block }` here -- and the next inline
+   tag broke it again both times. The number is now an absolutely positioned
+   marker and the item is an ordinary block, so <code>, <strong>, <b>, <em>,
+   <mark> and <a> all flow as inline text and the whole class is closed.     */
+.steps > li {
+  display: block; position: relative;
+  padding: 11px 14px 11px 58px;
+}
+.steps > li::before {
+  position: absolute; left: 14px; top: 11px;
+  width: 32px; line-height: 1.65;
+}
+.steps > li > span { display: inline; }
+/* an inline <code> must break at need, never mid-word by default */
+.steps > li > code { overflow-wrap: break-word; }
 
 /* ---- 16.5 long unbreakable strings must wrap, not push the page --------- */
 .vs li, .steps > li > span, .gui-row, .gui-row b, .gui-row span,
 .facts span, .rule, .cl-label, .page li, .page p, .page td, .page th,
 [data-detail], [data-detail] li { overflow-wrap: anywhere; }
 .gui-row { flex-wrap: wrap; }
+
+/* ---- 16.6 an inline <code> is one token, not two (D65) -------------------
+   Identifiers in this course are full of hyphens -- CLEAN-TOOLS, FOR-WS01,
+   EVI-SRC01, SHA-256 -- and a hyphen is a normal break opportunity, so a
+   chip landing at the end of a line split into `CLEAN-` + `TOOLS`, each
+   drawing its own bordered chip: it read as two different identifiers.
+   An inline chip now moves to the next line whole. Below 700px legibility
+   beats the chip, so it is allowed to break again rather than overflow.    */
+.page code { white-space: nowrap; }
+.page pre code, .gui code { white-space: inherit; }
+@media (max-width: 700px) {
+  .page code { white-space: normal; overflow-wrap: anywhere; }
+}
+
+/* ---- 16.7 the break timer is an instrument, not a paragraph --------------
+   The countdown was bare text with no frame and no control, so it read as a
+   caption rather than a clock the room is running against.                 */
+.break-timer {
+  display: inline-block; padding: 8px 28px;
+  border: 2px solid var(--accent-cyan); border-radius: 14px;
+  background: var(--bg-secondary);
+}
+.break-card.is-done .break-timer { border-color: var(--accent-amber); }
+/* the break card is centred, so the h2 left rule sits alone at its edge */
+.break-card h2::before { display: none; }
+.break-card h2 { margin-top: 0; }
+.break-controls {
+  display: flex; gap: 10px; justify-content: center;
+  margin: 0 0 14px;
+}
 
 /* ============================================================================
    17 -- tables, finished properly
@@ -882,9 +956,17 @@ pre code { white-space: inherit; }
 .page code, .page pre, .gui-body .l, .gui-row span,
 .artifact-grid dd code { overflow-wrap: anywhere; }
 
-/* a numeric first column should never wrap */
-.page td:first-child { white-space: normal; }
-.page table td:first-child:not(:has(a)) { text-wrap: nowrap; }
+/* The first column carries short labels, so the LABEL must not break -- but the
+   cell must. A blanket `nowrap` on the cell puts the English AND its Arabic
+   explanation on one unbreakable line, which sets a huge max-content width and
+   starves every other column (p10 shipped at 849px / 179px). So: keep the label
+   markers unbreakable, let the cell and the Arabic wrap like normal prose. */
+.page td:first-child { white-space: normal; text-wrap: wrap; }
+@media (min-width: 700px){
+  .page table td:first-child > b,
+  .page table td:first-child > code { white-space: nowrap; }
+}
+.page table td:first-child .ar { white-space: normal; text-wrap: wrap; }
 
 /* task-list labels carry room slugs in <code> and need the harder break */
 #taskList label, .q .opts label { overflow-wrap: anywhere; }
@@ -1212,3 +1294,444 @@ section.rec-group.current > .rec-group-head {
 .page > .table-wrap, .page > .svg-wrap, .page > .q, .page > .vs,
 .page > .split, .page > .steps, .page > .facts, .page > .artifact,
 .page > .cheat, .page > figure { max-width: none; }
+
+/* ==========================================================================
+   20 · THE BILINGUAL LAYER  (D76 · D92)
+   English line, Egyptian-Arabic explanation under it, in the same box.
+   Rules that are enforced here rather than trusted:
+     - it sits UNDER its English, never beside it, never as a second column
+     - a clear gap above it, so the two never read as one glued block
+     - smaller and muted, so it is visibly the secondary track
+     - RTL and right-aligned
+     - a 12px floor: below that it stops being a reading aid (D78)
+   ========================================================================== */
+:root{
+  --ar-font: 'Segoe UI','Noto Naskh Arabic','Dubai',Tahoma,sans-serif;
+  --ar-scale: .85;                 /* of its English parent */
+  --ar-gap:   .62em;               /* the gap that must not close */
+  --ar-color: var(--text-secondary);
+}
+.ar{
+  display:block; direction:rtl; text-align:right;
+  /* The box is only as wide as the Arabic needs, and it HUGS THE START EDGE,
+     so the Arabic sits directly under the English it explains instead of being
+     thrown to the far right of a wide column. This is the whole point of D76:
+     one block, two tracks — not two columns. */
+  /* The box is only as wide as the Arabic needs, and it HUGS THE START EDGE of
+     the English it explains -- so the Arabic sits directly UNDER its line, not
+     thrown to the far right of a wide column. `margin-inline-end` cannot do
+     this: it resolves against the element's OWN direction, and .ar is rtl, so
+     "inline-end" means LEFT. The margins here are physical on purpose. */
+  width:fit-content; max-width:100%;
+  margin-top:var(--ar-gap); margin-left:0; margin-right:auto;
+  font-family:var(--ar-font);
+  font-size:max(12px, calc(1em * var(--ar-scale)));   /* the floor, enforced */
+  line-height:1.78; font-weight:400;
+  color:var(--ar-color);
+}
+.ar b, .ar strong{ color:var(--text-primary); font-weight:600; }
+/* a hairline on the start edge: this block explains the one above it */
+.ar{ padding-inline-start:0; border-inline-start:0; }
+p > .ar, li > .ar, td > .ar, .box > .ar, div > .ar{
+  padding-right:11px; border-right:2px solid rgba(0,217,255,.22);
+}
+h1 > .ar, h2 > .ar, h3 > .ar{ padding-right:0; border-right:0; }
+.ar code{ direction:ltr; unicode-bidi:isolate; }      /* terms stay English (D76 rule 2) */
+h1 .ar,h2 .ar,h3 .ar{ font-weight:400; letter-spacing:0; border:0; padding:0;
+  width:fit-content; max-width:100%; margin-left:0; margin-right:auto; margin-top:.34em; }
+h1 .ar{ font-size:max(13px,.4em); color:var(--text-secondary); }
+h2 .ar{ font-size:max(13px,.52em); color:var(--text-secondary); }
+h3 .ar{ font-size:max(12px,.72em); }
+li > .ar, td .ar, .q .ar{ margin-top:.5em; }
+.ar{ white-space:normal; text-wrap:wrap; }   /* never inherit a label's nowrap */
+.ar:empty{ display:none; }
+
+/* ==========================================================================
+   21 · TYPOGRAPHY AND LAYOUT  (D92) — read from the back of the room
+   D78's one-step type reduction is CANCELLED: legibility on a projector
+   outranks page height, and height is absorbed by longer pages instead.
+   ========================================================================== */
+
+/* 21.1 no stacked sentences — a prose block is never narrower than 45ch */
+.page p, .page li, .note p, .box p, .card p{ min-width:min(100%,45ch); }
+/* the reading measure, so a line never runs the full width of a 1480px column */
+.page > p, .page > ul, .page > ol, .page .lede{ max-width:92ch; }  /* wider: the Arabic
+   explanation is longer than its English and was wrapping to two lines */
+
+/* 21.2 the side rail — the middle is the topic; notes live beside it */
+.with-rail{
+  display:grid; grid-template-columns:minmax(0,1fr) 316px; gap:30px; align-items:start;
+}
+.with-rail > .rail{ position:sticky; top:24px; display:flex; flex-direction:column; gap:14px; }
+.with-rail > .main > p{ max-width:88ch; }             /* 65-80ch target */
+@media(max-width:1000px){
+  .with-rail{ grid-template-columns:1fr; }
+  .with-rail > .rail{ position:static; }
+}
+.rail .note{
+  border-left:3px solid var(--limitation); background:var(--limitation-bg);
+  border-radius:0 8px 8px 0; padding:13px 15px; font-size:.9rem; line-height:1.6;
+}
+.rail .note > b:first-child{
+  display:block; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--text-secondary); margin-bottom:6px;
+}
+.rail .note.warn{ border-left-color:var(--accent-amber); background:rgba(255,180,84,.07); }
+.rail .note.warn > b:first-child{ color:var(--accent-amber); }
+.rail .note.soc { border-left-color:var(--accent-green); background:rgba(0,255,157,.06); }
+.rail .note.soc  > b:first-child{ color:var(--accent-green); }
+.rail .note.rep { border-left-color:var(--finding);  background:var(--finding-bg); }
+.rail .note.rep  > b:first-child{ color:var(--finding); }
+
+/* 21.3 position marker — the reader must feel the move between points (D92.6) */
+.tstep{
+  display:flex; align-items:center; gap:11px; margin:34px 0 14px;
+  font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em;
+  color:var(--text-secondary); text-transform:uppercase;
+}
+.tstep::before{
+  content:''; width:7px; height:7px; border-radius:50%; background:var(--accent-cyan);
+  box-shadow:0 0 0 4px rgba(0,217,255,.14); flex:0 0 auto;
+}
+.tstep::after{ content:''; flex:1; height:1px; background:var(--border); }
+.tstep.bridge::before{ background:var(--text-secondary); box-shadow:0 0 0 4px rgba(139,152,169,.12); }
+.tstep.lab::before   { background:var(--accent-green);   box-shadow:0 0 0 4px rgba(0,255,157,.14); }
+.tstep.solo::before  { background:var(--accent-amber);   box-shadow:0 0 0 4px rgba(255,180,84,.14); }
+.tstep.report::before{ background:var(--finding);        box-shadow:0 0 0 4px rgba(122,162,247,.16); }
+
+/* 21.4 images (D93) — never squinted at, never pushing the text off screen */
+.fig-img{ margin:6px 0 4px; }
+.fig-img img{
+  display:block; width:100%; height:auto;
+  max-width:min(100%, 860px); border-radius:9px; border:1px solid var(--border);
+}
+.fig-img.sm img{ max-width:min(100%, 520px); }
+.fig-src{
+  font-family:var(--font-mono); font-size:.68rem; color:var(--text-secondary);
+  opacity:.78; margin-top:7px;
+}
+
+/* 21.5 page card — the topics it holds, listed on the card itself (D84) */
+.plist{ list-style:none; margin:0 0 13px; padding:0; display:flex; flex-direction:column; gap:5px; }
+.plist li{ font-size:.86rem; color:var(--text-secondary); line-height:1.45; min-width:0; }
+.plist li code{ color:var(--accent-cyan); font-size:.8rem; margin-right:5px; }
+.mut{ color:var(--text-secondary); opacity:.7; font-family:var(--font-mono); font-size:.74rem; white-space:nowrap; }
+
+/* ==========================================================================
+   22 · COMPARISON FIGURE  (D94 patterns 1 · 2 · 3 · 4 · 8)
+   The whole system on screen from frame one; identical rows so only the
+   DIFFERENCE moves; a spotlight walks one row at a time and fades its
+   plain-language line in; a step counter; a caption that changes with it.
+   Looping, no button (D94) — a comparison has no beginning or end.
+   Row count is set by --cmp-n; the cycle is 4.5s per row.
+   ========================================================================== */
+.cmp{ background:var(--bg-secondary); border:1px solid var(--border); border-radius:12px;
+      padding:20px 20px 16px; margin:6px 0 8px; --cmp-n:3; --cmp-t:21s; }   /* 7s per row */
+.cmp-head{ display:flex; align-items:center; justify-content:space-between; gap:14px;
+           padding-bottom:14px; margin-bottom:16px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+.cmp-title{ font-family:var(--font-mono); font-size:.76rem; letter-spacing:.13em; color:var(--text-secondary); }
+
+/* step counter — one <i> per row, cross-faded */
+.cmp-step{ position:relative; font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em;
+           border:1px solid var(--border); border-radius:20px; padding:5px 14px; min-width:210px;
+           text-align:center; background:var(--bg-card); min-height:27px; }
+.cmp-step i{ position:absolute; inset:0; display:grid; place-items:center; font-style:normal;
+             opacity:0; animation:cmp-fade var(--cmp-t) infinite; padding:0 10px; }
+
+.cmp-rows{ display:flex; flex-direction:column; gap:11px; }
+.cmp-row{ position:relative; border:1px solid var(--border); border-radius:10px; background:var(--bg-card);
+          padding:14px 16px; animation:cmp-lit var(--cmp-t) infinite; --c:var(--accent-cyan); opacity:.62; }
+.cmp-row:nth-child(1){ --c:var(--accent-cyan);  animation-delay:0s;   }
+.cmp-row:nth-child(2){ --c:var(--accent-amber); animation-delay:7s; }
+.cmp-row:nth-child(3){ --c:var(--accent-red);   animation-delay:14s;   }
+.cmp-row:nth-child(4){ --c:var(--interpretation); animation-delay:21s; }
+.cmp-step i:nth-child(1){ color:var(--accent-cyan);  animation-delay:0s;   }
+.cmp-step i:nth-child(2){ color:var(--accent-amber); animation-delay:7s; }
+.cmp-step i:nth-child(3){ color:var(--accent-red);   animation-delay:14s;   }
+.cmp-step i:nth-child(4){ color:var(--interpretation); animation-delay:21s; }
+
+@keyframes cmp-lit{
+  0%  { border-color:var(--border); box-shadow:none; opacity:.62 }
+  3%  { border-color:var(--c); box-shadow:0 0 0 1px var(--c),0 0 26px -6px var(--c); opacity:1 }
+  30% { border-color:var(--c); box-shadow:0 0 0 1px var(--c),0 0 26px -6px var(--c); opacity:1 }
+  34% { border-color:var(--border); box-shadow:none; opacity:.62 }
+  100%{ border-color:var(--border); box-shadow:none; opacity:.62 } }
+@keyframes cmp-fade{ 0%{opacity:0} 4%{opacity:1} 30%{opacity:1} 34%{opacity:0} 100%{opacity:0} }
+
+.cmp-top{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.cmp-name{ font-family:var(--font-mono); font-size:.92rem; font-weight:600; color:var(--c); min-width:110px; }
+.cmp-sub{ font-size:.86rem; color:var(--text-secondary); flex:1 1 240px; min-width:0; }
+.cmp-verdict{ margin-left:auto; font-family:var(--font-mono); font-size:.67rem; letter-spacing:.09em;
+              padding:4px 10px; border-radius:5px; border:1px solid; white-space:nowrap; }
+.cmp-verdict.yes{ color:var(--accent-green); border-color:rgba(0,255,157,.35); background:rgba(0,255,157,.07); }
+.cmp-verdict.no { color:var(--accent-red);   border-color:rgba(255,77,94,.35);  background:rgba(255,77,94,.08); }
+.cmp-verdict.mid{ color:var(--text-secondary); border-color:var(--border); background:var(--bg-primary); }
+
+/* the explanation exists only while its row is lit */
+.cmp-reveal{ margin-top:11px; font-size:.95rem; line-height:1.6; max-width:74ch; opacity:0;
+             animation:cmp-fade var(--cmp-t) infinite; }
+.cmp-row:nth-child(1) .cmp-reveal{ animation-delay:0s; }
+.cmp-row:nth-child(2) .cmp-reveal{ animation-delay:7s; }
+.cmp-row:nth-child(3) .cmp-reveal{ animation-delay:14s; }
+.cmp-row:nth-child(4) .cmp-reveal{ animation-delay:21s; }
+
+/* the caption that states the takeaway, changing with the step */
+.cmp-cap{ position:relative; min-height:56px; margin-top:14px; border-top:1px solid var(--border);
+          padding-top:12px; }
+.cmp-cap i{ position:absolute; left:0; right:0; top:12px; font-style:normal; font-size:.92rem;
+            color:var(--text-secondary); opacity:0; animation:cmp-fade var(--cmp-t) infinite; }
+.cmp-cap i:nth-child(1){ animation-delay:0s; } .cmp-cap i:nth-child(2){ animation-delay:7s; }
+.cmp-cap i:nth-child(3){ animation-delay:14s; } .cmp-cap i:nth-child(4){ animation-delay:21s; }
+.cmp-cap b{ color:var(--text-primary); }
+
+.cmp-note{ font-size:.92rem; color:var(--text-secondary); max-width:76ch; margin:2px 0 0; }
+
+/* 4-row variant */
+.cmp.n4{ --cmp-t:28s; }   /* 7s per row */
+
+/* nothing moves for a reader who asked for that — every row reads at once */
+@media(prefers-reduced-motion:reduce){
+  .cmp-row,.cmp-reveal,.cmp-cap i,.cmp-step i{ animation:none!important; opacity:1!important; }
+  .cmp-row{ border-color:var(--c); }
+  .cmp-cap{ min-height:0; } .cmp-cap i{ position:static; display:block; margin-bottom:6px; }
+  .cmp-step i{ position:static; display:inline; margin-right:10px; } }
+
+/* 22.1 the worked example under a finding / interpretation / limitation box.
+   Every explanatory block carries its own example, and its own Arabic (D76). */
+.finding .eg, .interpretation .eg, .limitation .eg{
+  margin:11px 0 0; padding-top:10px; border-top:1px dashed var(--border);
+  font-size:.92rem; color:var(--text-secondary);
+}
+.finding .eg b:first-child{ color:var(--finding); }
+.interpretation .eg b:first-child{ color:var(--interpretation); }
+.limitation .eg b:first-child{ color:var(--limitation); }
+/* Arabic inside a table cell or list item sits tight under its English */
+td > .ar, th > .ar, li > .ar{ margin-top:.42em; }
+
+/* ==========================================================================
+   23 -- PHOTOGRAPHS AND HAND-AUTHORED DIAGRAMS  (D93 · D94)
+   Nearly everything gets a visual. A teaching block that is prose only is the
+   exception and has to earn it.
+   ========================================================================== */
+
+/* --- 23.1 photographs ---------------------------------------------------- */
+figure.photo .credit{
+  display:block; margin-top:6px;
+  font:400 .72rem/1.5 var(--font-mono); letter-spacing:.02em;
+  color:var(--text-secondary); opacity:.8;
+}
+/* D93 makes the attribution a LICENCE CONDITION for the CC BY-SA files, not a
+   courtesy, and the repo is public (D22). So the credit is part of the
+   component: a photo block without one is a bug, not a style choice. */
+figure.photo img{ background:#0d1219; }
+
+/* two photographs of the same object, side by side -- pattern 2 (parallel
+   rows): the layout is identical so the only thing that moves is the subject */
+.photo-row{ display:grid; gap:14px; grid-template-columns:1fr 1fr; margin:1.6em 0; }
+.photo-row figure.photo{ margin:0; width:auto; }
+.photo-row figure.photo img{ width:100%; }
+.photo-row figure.photo figcaption{ max-width:none; }
+@media (max-width:760px){ .photo-row{ grid-template-columns:minmax(0,1fr); } }
+
+/* --- 23.2 diagram figures ------------------------------------------------ */
+.dgm{ margin:1.7em 0; border:1px solid var(--border); border-radius:12px;
+      background:var(--bg-secondary); overflow:hidden; }
+.dgm-head{ display:flex; align-items:center; justify-content:space-between; gap:14px;
+           padding:11px 16px; border-bottom:1px solid var(--border); background:var(--bg-card); }
+.dgm-id{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.13em;
+         color:var(--text-secondary); }
+.dgm-tag{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.1em;
+          color:var(--accent-cyan); border:1px solid var(--border); border-radius:20px;
+          padding:3px 11px; background:var(--bg-primary); white-space:nowrap; }
+.dgm-body{ padding:18px 16px; background:
+    radial-gradient(120% 120% at 50% -10%,#141d27 0,#080b10 74%); }
+.dgm-body svg{ display:block; width:100%; height:auto;
+  /* Cap at the viewBox's own width. Stretched to a 1020px column a 780-unit
+     figure scales every label up by 1.3x, which is why the boxes read as
+     oversized next to the body text. At 1:1 the figure is a contained object
+     on the page instead of a full-bleed banner, and one cap resizes every
+     element proportionally -- no coordinate is touched, so nothing needs
+     re-verifying. */
+  max-width:960px; margin-inline:auto; }
+/* D94 pattern 10 -- dark ground, subtle grid, zero decorative motion */
+.dgm-cap{ padding:13px 17px 15px; border-top:1px solid var(--border); background:var(--bg-card); }
+.dgm-cap p{ margin:0; }
+
+/* the shared diagram ink, so a figure never invents a colour (D94 pattern 9) */
+.dgm-body{ --d-ink:#e7edf5; --d-mut:#8b98a9; --d-line:#2b3947;
+           --d-ok:var(--accent-green); --d-no:var(--accent-red);
+           --d-warn:var(--accent-amber); --d-key:var(--accent-cyan); }
+.dgm text{ font-family:var(--font-sans); fill:var(--d-ink); }
+.dgm text.m{ font-family:var(--font-mono); }
+.dgm text.mut{ fill:var(--d-mut); }
+.dgm text.lbl{ font-size:14px; font-weight:650; letter-spacing:.01em; }
+.dgm text.sm{ font-size:12.8px; }
+.dgm text.xs{ font-size:12px; }        /* the floor -- D51: never below 12 units */
+.dgm text.big{ font-size:17px; font-weight:650; }
+.dgm .box{ fill:#111a24; stroke:var(--d-line); stroke-width:1.5; }
+.dgm .box.ok{ stroke:var(--d-ok); } .dgm .box.no{ stroke:var(--d-no); }
+.dgm .box.key{ stroke:var(--d-key); } .dgm .box.warn{ stroke:var(--d-warn); }
+.dgm .arw{ stroke:var(--d-mut); stroke-width:1.8; fill:none; }
+.dgm .arw.ok{ stroke:var(--d-ok); } .dgm .arw.no{ stroke:var(--d-no); }
+.dgm .arw.key{ stroke:var(--d-key); }
+.dgm .dash{ stroke-dasharray:5 4; }
+
+/* ==========================================================================
+   24 -- STEPPED DIAGRAMS  (D94 · D115)
+   The structure is on screen from frame one. Stepping changes only STATE.
+   ========================================================================== */
+
+/* everything carrying a step starts dim and lifts in; nothing appears or
+   disappears, because a shape that vanishes takes the student's model with it */
+.dgm [data-step]{ opacity:.16; transition:opacity .5s ease, filter .5s ease; }
+.dgm [data-step].on{ opacity:1; }
+.dgm [data-step].cur{ filter:drop-shadow(0 0 7px rgba(0,217,255,.34)); }
+@media (prefers-reduced-motion:reduce){
+  .dgm [data-step]{ transition:none; opacity:1; }
+  .dgm [data-step].cur{ filter:none; }
+}
+
+/* controls -- deliberately the SIMSCREEN control bar, so the student learns
+   one interaction and not two (D95) */
+.dgm-ctl{ display:flex; align-items:center; gap:9px; padding:10px 16px;
+          border-top:1px solid var(--border); background:var(--bg-secondary); flex-wrap:wrap; }
+.dgm-btn{ font-family:var(--font-mono); font-size:.71rem; letter-spacing:.08em;
+          color:var(--text-secondary); background:var(--bg-card);
+          border:1px solid var(--border); border-radius:6px; padding:6px 13px; cursor:pointer; }
+.dgm-btn:hover{ color:var(--text-primary); border-color:var(--accent-cyan); }
+.dgm-btn.play{ color:var(--accent-cyan); }
+.dgm-btn:focus-visible{ outline:2px solid var(--accent-cyan); outline-offset:2px; }
+.dgm-dots{ display:flex; gap:7px; margin-left:auto; align-items:center; }
+.dgm-dot{ width:8px; height:8px; border-radius:50%; background:var(--border);
+          border:0; padding:0; cursor:pointer; transition:.25s; }
+.dgm-dot.on{ background:var(--accent-cyan); transform:scale(1.35); }
+.dgm-dot.k{ background:#4a3a22; } .dgm-dot.k.on{ background:var(--accent-amber); }
+.dgm-dot:focus-visible{ outline:2px solid var(--accent-cyan); outline-offset:3px; }
+.dgm-count{ font-family:var(--font-mono); font-size:.71rem; letter-spacing:.1em;
+            color:var(--accent-cyan); border:1px solid var(--border); border-radius:20px;
+            padding:3px 11px; background:var(--bg-primary); white-space:nowrap; }
+
+/* the caption is the figure's takeaway line and it changes with the step */
+.dgm-cap{ min-height:64px; }
+.dgm.key .dgm-cap{ background:rgba(255,180,84,.06); border-top-color:rgba(255,180,84,.3); }
+
+/* more air: the figures were cramped against their own frame */
+.dgm-body{ padding:18px 16px 16px; }
+@media (max-width:640px){ .dgm-body{ padding:14px 10px; } .dgm-ctl{ padding:9px 11px; } }
+
+/* ==========================================================================
+   25 -- PAGE-FLOW WINDOWS FILL THEIR COLUMN  (D117)
+   A .wu inside .ss-holder is a window sitting on a recreated DESKTOP, and a
+   centred window is what a desktop looks like -- leave it alone. A .wu in the
+   page flow is a CONTENT BLOCK, and it belongs to the same grid as a table,
+   a code block or a finding box. Authored at 620-800px, they stranded ~460px
+   of empty column beside themselves on a wide screen.
+   ========================================================================== */
+.page > .wu,
+.page > * > .wu:not(.ss-holder .wu){ width:auto; max-width:none; }
+.ss-holder .wu{ width:auto; }     /* the stage sizes these, not the page */
+
+/* a terminal reads badly at full width if the line is short, so the CONTENT
+   gets the measure, not the frame -- the window fills, the text does not run
+   past a comfortable line */
+.page .wu-term{ max-width:none; }
+.page .wu-body > .wu-cols{ max-width:none; }
+
+/* ==========================================================================
+   26 -- PART DIVIDERS AND ORIENTATION  (D119)
+   Taken from the previous instructor's decks: a bare title slide that says
+   which part of the session you have just entered. A student who cannot tell
+   where they are cannot tell what they are supposed to be learning.
+   ========================================================================== */
+.page.divider{ display:none; }
+.page.divider.is-active{ display:grid; place-items:center; min-height:52vh; }
+.divider-inner{ text-align:center; max-width:900px; }
+.divider-kicker{ font:600 .74rem/1 var(--font-mono); letter-spacing:.22em;
+                 color:var(--accent-cyan); text-transform:uppercase; }
+.divider-inner h2{ margin:16px 0 0; font-size:clamp(1.9rem,3.6vw,2.9rem); line-height:1.18;
+                   border:0; padding:0; }
+.divider-inner h2 .ar{ margin-inline:auto; text-align:center; border:0; padding:0;
+                       margin-top:.4em; }
+.divider-inner .lede{ margin:18px auto 0; max-width:70ch; color:var(--text-secondary); }
+.divider-inner .lede .ar{ margin-inline:auto; text-align:center; border:0; padding-right:0; }
+.divider-rule{ width:78px; height:3px; background:var(--accent-cyan); border-radius:2px;
+               margin:22px auto 0; }
+.divider-meta{ margin-top:20px; font:600 .76rem/1.7 var(--font-mono); letter-spacing:.1em;
+               color:var(--text-secondary); }
+
+/* the sidebar shows a part divider as a heading, not as another numbered screen */
+.page-list li.is-part a{ color:var(--accent-cyan); font-weight:650;
+  letter-spacing:.06em; text-transform:uppercase; font-size:.74rem; }
+.page-list li.is-part{ margin-top:12px; }
+.page-list li.is-part .n{ opacity:.45; }
+
+/* ==========================================================================
+   27 · ONE RIGHT EDGE  (D124)
+
+   A page is a COLUMN, and the COLUMN is the reading measure -- not each
+   element inside it. Per-element `max-width` caps produced three different
+   right edges on a single screen: the heading ran to 1476 px, a `.finding`
+   box stopped at 1298 (110ch), and the paragraph between them stopped at
+   1086 (92ch). Nothing was broken by any one of those rules; together they
+   are the ragged edge and the "empty space on the right".
+
+   Why `ch` caps cannot be reconciled: `ch` resolves against the ELEMENT's own
+   font-size, so two blocks with different type sizes get different pixel
+   widths from the same number. A shared edge has to be a shared PIXEL value,
+   and the only element that can own it is the column.
+
+   So: the layout narrows until the column itself is a comfortable measure
+   (~1176 px, ~100 characters at 18.56 px), and every block in the flow fills
+   it. The space that used to sit inside the page as a ragged gap now sits
+   outside it as a symmetric margin, which is what a set page looks like.
+   ========================================================================== */
+.page-layout { max-width: 1560px; }
+
+/* every block in the page flow shares the column's edges */
+.page > *,
+.page > p, .page > ul, .page > ol, .page .lede,
+.page .finding, .page .interpretation, .page .limitation,
+.page .caveat, .page .lab-box, .page .coc, .page .key-takeaway,
+.page .note, .page .soc, .page .eg { max-width: none; }
+
+/* the two deliberate exceptions, re-asserted after the reset above --------
+   a divider is a centred title card, and a photograph has a natural size
+   that stretching would only blur.                                        */
+.page > .divider-inner { max-width: 900px; margin-inline: auto; }
+.page figure.photo { width: fit-content; max-width: 100%; }
+
+/* ==========================================================================
+   28 · DIVIDER AND FIGURE CAPTION CORRECTIONS  (D128)
+
+   (a) A divider is a CENTRED TITLE CARD. `h2::before` paints a 4px accent bar
+       at the h2's left edge, and on a centred 900px card that bar lands far
+       from the words it is supposed to mark, reading as a rendering fault.
+       `.divider-inner h2{border:0}` did not remove it: the bar is a pseudo-
+       element, not a border.
+   (b) A figure caption is SECONDARY to the figure. It was inheriting body
+       prose size and competing with the drawing above it.
+   ========================================================================== */
+.page.divider h2::before,
+.divider-inner h2::before { display: none; }
+.divider-inner h2 { padding-left: 0; }
+
+.dgm-cap p { font-size: .93rem; line-height: 1.62; }
+.dgm-cap .ar { font-size: .89rem; }
+
+/* ==========================================================================
+   29 · WIDE COMPARISON FIGURES  (D134)
+   --------------------------------------------------------------------------
+   `figure.photo img` is a fixed 560px, which is right for a photograph of a
+   write blocker and wrong for a 3:1 side-by-side comparison -- at 560px the
+   two halves are 270px each and the thing the figure exists to show is not
+   visible. This was shipped on P06 for two figures and only noticed while
+   building P09.
+
+   `.photo.wide` is the comparison case: it fills the column, so it also shares
+   the one right edge D124 asks for, and its caption is not capped at 560px
+   either -- a capped caption under a full-width image is the ragged edge D124
+   was about, in miniature.
+   ========================================================================== */
+.page figure.photo.wide { width: auto; max-width: none; }
+figure.photo.wide img { width: 100%; }
+figure.photo.wide figcaption { max-width: none; }

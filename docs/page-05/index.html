@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P05 &middot; Acquisition &middot; eCDFP Diploma</title>
+<meta name="description" content="Acquisition scope and image formats, HPA and DCO, imaging with FTK Imager and dc3dd, and what the word verified actually covers &mdash; page 5 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P05 &middot; Acquisition</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>Objectives</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; What to image, and in what format</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>Imaging is not copying</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>Physical, logical and targeted</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>Choosing the format</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>What a raw image does not carry</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>What an E01 proves</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>AD1 &mdash; a collection, not an image</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>What is a Host Protected Area?</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>Three sizes for one disk</span></a></li>
+      <li class="is-part"><a href="#p13"><span class="n">13</span><span>PART 2 &mdash; Making the image</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>The destination drive</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>What &ldquo;verified&rdquo; covers</span></a></li>
+      <li class="is-part"><a href="#p16"><span class="n">16</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>Detecting hidden capacity</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>Acquiring with FTK Imager</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>dc3dd, and an independent check</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>Reading the acquisition log</span></a></li>
+      <li class="is-part"><a href="#p21"><span class="n">21</span><span>YOUR TURN</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Case 02a &mdash; acquire and verify</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>Case 02b &mdash; is it complete?</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Signature sweep on your image</span></a></li>
+      <li><a href="#p25"><span class="n">25</span><span>Exercise &mdash; four acquisition logs</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Knowledge check</span></a></li>
+      <li class="is-part"><a href="#p27"><span class="n">27</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p29"><span class="n">29</span><span>TASK</span></a></li>
+      <li><a href="#p30"><span class="n">30</span><span>Task &mdash; image a device, sign the log</span></a></li>
+      <li><a href="#p31"><span class="n">31</span><span>Report &mdash; Section 5</span></a></li>
+      <li><a href="#p32"><span class="n">32</span><span>Summary</span></a></li>
+      <li><a href="#p33"><span class="n">33</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+<main class="main">
+
+<section class="page" id="p1">
+<span class="kicker">P05 &middot; Page 5 of 14 &middot; 145 topic minutes</span>
+<h2>Acquisition
+  <span class="ar">الـ acquisition</span></h2>
+<p class="lede">The machine is powered down. Everything volatile is either in your capture or gone. Two questions remain, and this page is both of them: <b>what do you image</b>, and <b>how do you know the image is right</b>.
+  <span class="ar">الجهاز مطفأ الآن. و كل ما هو متطاير إمّا في التقاطك و إمّا ضاع. و يبقى سؤالان، و هذه الصفحة هي السؤالان معًا: <b>ماذا تصوّر</b>، و <b>كيف تعرف أن الصورة صحيحة</b>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Topic</th><th>Minutes</th><th>Hands-on</th></tr></thead>
+  <tbody>
+    <tr><td><b>T08</b> Imaging Scope &amp; Formats<span class="ar">نطاق التصوير و الصيغ</span></td><td>33</td><td>Yes</td></tr>
+    <tr><td><b>T09</b> Imaging Tools &mdash; FTK Imager &amp; dc3dd<span class="ar">أدوات التصوير — FTK Imager و dc3dd</span></td><td>112</td><td>Yes</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>This is the <b>longest page in the diploma</b>, and it is long for one reason: an acquisition is the only step you cannot repeat. Everything after it inherits whatever you got here.
+    <span class="ar">هذه <b>أطول صفحة في الدبلومة</b>، و طولها لسبب واحد: أن الـ acquisition هي الخطوة الوحيدة التي لا تُعاد. و كل ما يأتي بعدها يرث ما حصلت عليه هنا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T08 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن</span></h2>
+<figure class="dgm" id="dg-lc-p05" data-mode="story" data-reveal="upto" data-interval="8000">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p05">
+  <title id="t-dg-lc-p05">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="78" text-anchor="middle" fill="#00ff9d">ACQUIRE</text>
+    <text class="xs" x="84" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="86" text-anchor="middle">ANALYSE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 1.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p><code>P04</code> ended with the machine powered down and a memory image sealed. The disk is still sitting there and it has not changed since. <b>That is exactly why the standard is higher here:</b> nothing was disappearing, so any gap in the acquisition is a decision you made, not a constraint you were under.
+  <span class="ar">انتهى <code>P04</code> و الجهاز مطفأ و الـ memory image مختوم. أما القرص فما زال في مكانه و لم يتغيّر. <b>و لهذا بالضبط يرتفع المعيار هنا:</b> فلم يكن شيء يختفي، و بالتالي فأي نقص في الـ acquisition قرار اتخذته أنت، لا قيد فُرض عليك.</span></p>
+<div class="key-takeaway"><span class="cl-label">What this page assumes you already have</span>
+  <ul>
+    <li>a write blocker between you and the source, and its log (`T03`).
+      <span class="ar">write blocker بينك و بين المصدر، و سجلّه (`T03`).</span></li>
+    <li>a destination drive you wiped and verified before leaving the office (`P04`).
+      <span class="ar">قرص وجهة مسحته و تحققت منه قبل مغادرة المكتب (`P04`).</span></li>
+    <li>the habit of hashing before you are asked to (`T03`).
+      <span class="ar">عادة حساب الـ hash قبل أن يُطلب منك (`T03`).</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P05 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستكون قادرًا عليه</span></h2>
+<div class="key-takeaway"><span class="cl-label">By the end of this page you can</span>
+  <ul>
+    <li>choose between <b>physical</b>, <b>logical</b> and <b>targeted</b> scope, and say what each one permanently excludes.
+      <span class="ar">أن تختار بين نطاق <b>physical</b> و <b>logical</b> و <b>targeted</b>، و تحدّد ما يستبعده كلٌّ منها نهائيًّا.</span></li>
+    <li>choose between <b>raw</b>, <b>E01</b> and <b>AD1</b>, and defend the choice in a report.
+      <span class="ar">أن تختار بين <b>raw</b> و <b>E01</b> و <b>AD1</b>، و تدافع عن اختيارك في تقرير.</span></li>
+    <li>detect a <b>DCO</b> and an <b>HPA</b>, in that order, and explain why the order is fixed.
+      <span class="ar">أن تكتشف <b>DCO</b> و <b>HPA</b>، بهذا الترتيب، و تشرح لماذا الترتيب ثابت.</span></li>
+    <li>acquire an image with <b>FTK Imager</b> and with <b>dc3dd</b>, and read the log each produces.
+      <span class="ar">أن تأخذ صورة بـ<b>FTK Imager</b> و بـ<b>dc3dd</b>، و تقرأ السجل الذي ينتجه كلٌّ منهما.</span></li>
+    <li>say exactly what the word <b>verified</b> covers &mdash; and the three things it does not.
+      <span class="ar">أن تحدّد بدقة ما تغطّيه كلمة <b>verified</b> — و الأشياء الثلاثة التي لا تغطّيها.</span></li>
+    <li>check that an acquisition is <b>complete</b>, not merely successful.
+      <span class="ar">أن تتحقق من أن الـ acquisition <b>كاملة</b>، لا ناجحة فقط.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 2</span>
+  <h2>What to image, and in what format<span class="ar">ماذا تصوّر، و بأي صيغة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Two decisions taken before any tool runs, both of them permanent. Then the third question nobody asks: is the disk telling you how big it is?<span class="ar">قراران يُتّخذان قبل تشغيل أي أداة، و كلاهما نهائي. ثم السؤال الثالث الذي لا يسأله أحد: هل يقول لك القرص حجمه الحقيقي؟</span></p>
+  <p class="divider-meta">9 screens &middot; about 33 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T08 &middot; Theory</span>
+<h2>Imaging is not copying
+  <span class="ar">التصوير ليس نسخًا</span></h2>
+<p>Copying asks the file system for files. Imaging reads <b>sectors</b> and ignores the file system entirely. That difference is the whole reason forensics can recover what a user deleted.
+  <span class="ar">النسخ يطلب الملفات من نظام الملفات. أما التصوير فيقرأ <b>الـ sectors</b> و يتجاهل نظام الملفات تمامًا. و هذا الفرق هو كل السبب في أن التحليل الجنائي يستطيع استرجاع ما حذفه المستخدم.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th></th><th>Copy</th><th>Image</th></tr></thead>
+  <tbody>
+    <tr><td>asks<span class="ar">يسأل</span></td><td>the file system<span class="ar">نظام الملفات</span></td><td>the disk controller<span class="ar">متحكّم القرص</span></td></tr>
+    <tr><td>deleted files<span class="ar">الملفات المحذوفة</span></td><td>gone<span class="ar">ضاعت</span></td><td>still there, until overwritten<span class="ar">ما زالت موجودة حتى يُكتب فوقها</span></td></tr>
+    <tr><td>slack space<span class="ar">الـ slack space</span></td><td>never<span class="ar">أبدًا</span></td><td>included<span class="ar">مشمولة</span></td></tr>
+    <tr><td>a file the OS cannot see<span class="ar">ملف لا يراه النظام</span></td><td>missed<span class="ar">يفوته</span></td><td>captured<span class="ar">يُلتقط</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The sentence to keep</span>
+  <p>A copy is <b>what the operating system was willing to hand over</b>. An image is <b>what was on the platter</b>. Every technique in the rest of this diploma &mdash; carving, `$MFT` parsing, slack analysis &mdash; needs the second one and is impossible against the first.
+    <span class="ar">النسخة هي <b>ما وافق نظام التشغيل على تسليمه</b>. أما الصورة فهي <b>ما كان على القرص</b>. و كل أسلوب في بقية هذه الدبلومة — الـ carving، و قراءة `$MFT`، و تحليل الـ slack — يحتاج الثاني، و يستحيل مع الأول.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T08 &middot; Theory</span>
+<h2>Physical, logical and targeted
+  <span class="ar">الـ physical و الـ logical و الـ targeted</span></h2>
+<p>Three scopes. The choice is made in the first dialog of the tool, it takes two seconds, and it <b>cannot be revisited once the disk goes back</b>.
+  <span class="ar">ثلاثة نطاقات. يُتّخذ الاختيار في أول نافذة من الأداة، و يستغرق ثانيتين، و <b>لا يمكن مراجعته بعد أن يعود القرص إلى صاحبه</b>.</span></p>
+<figure class="dgm" id="dg-p05-f1" data-mode="loop" data-reveal="upto" data-interval="5200">
+  <div class="dgm-head"><span class="dgm-id">FIG P05-F1</span><span class="dgm-tag">THREE SCOPES</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 268" role="img" aria-labelledby="t5f1">
+  <title id="t5f1">Three acquisition scopes and what each one captures</title>
+  <text class="xs mut" x="14" y="24">ONE 1 TB DISK &#183; THREE SCOPES</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="40" width="180" height="56" rx="6"/>
+    <text class="lbl" x="104" y="73" text-anchor="middle">PHYSICAL</text>
+    <path class="arw" d="M196 68 L232 68"/>
+    <path class="arw" d="M226 63 L232 68 L226 73"/>
+    <rect class="box" x="234" y="40" width="524" height="56" rx="6"/>
+    <text class="sm" x="250" y="64">reads: every sector the controller reports</text>
+    <text class="xs mut" x="250" y="84">you get: partitions + gaps + unallocated + slack</text>
+  </g>
+  <g data-step="2">
+    <rect class="box warn" x="14" y="108" width="180" height="56" rx="6"/>
+    <text class="lbl" x="104" y="141" text-anchor="middle">LOGICAL</text>
+    <path class="arw" d="M196 136 L232 136"/>
+    <path class="arw" d="M226 131 L232 136 L226 141"/>
+    <rect class="box" x="234" y="108" width="524" height="56" rx="6"/>
+    <text class="sm" x="250" y="132">reads: one volume, as the file system sees it</text>
+    <text class="xs mut" x="250" y="152">you get: files + unallocated INSIDE that volume</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="176" width="180" height="56" rx="6"/>
+    <text class="lbl" x="104" y="209" text-anchor="middle">TARGETED</text>
+    <path class="arw" d="M196 204 L232 204"/>
+    <path class="arw" d="M226 199 L232 204 L226 209"/>
+    <rect class="box" x="234" y="176" width="524" height="56" rx="6"/>
+    <text class="sm" x="250" y="200">reads: a list of paths you chose</text>
+    <text class="xs mut" x="250" y="220">you get: only what was on the list</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="14" y="238" width="744" height="24" rx="4"/>
+    <text class="xs" x="28" y="255">Scope is a decision you make once and cannot revisit after the disk goes back.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">What a targeted collection can never support</span>
+  <p>It proves nothing about anything you did not select. <i>&ldquo;The file was not on the machine&rdquo;</i> is unavailable to you for ever; the only sentence you can write is <i>&ldquo;the file was not in what I collected&rdquo;</i> &mdash; and those read very differently to a court.
+    <span class="ar">لا يُثبت شيئًا عمّا لم تختره أنت. فعبارة <i>«لم يكن الملف على الجهاز»</i> غير متاحة لك إلى الأبد، و الجملة الوحيدة التي تستطيع كتابتها هي <i>«لم يكن الملف ضمن ما جمعته»</i> — و الفرق بين العبارتين كبير أمام المحكمة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T08 &middot; Theory</span>
+<h2>Choosing the format
+  <span class="ar">اختيار الصيغة</span></h2>
+<p>Scope decides <i>what</i> you read. Format decides <b>what travels with it</b> &mdash; whether the image carries its own integrity, its own metadata, and whether anyone else can open it.
+  <span class="ar">النطاق يحدّد <i>ما</i> تقرؤه. أما الصيغة فتحدّد <b>ما يسافر معه</b> — هل تحمل الصورة نزاهتها بنفسها، و بياناتها بنفسها، و هل يستطيع غيرك فتحها.</span></p>
+<figure class="dgm" id="dg-p05-f2" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P05-F2</span><span class="dgm-tag">COLUMNS &#183; ONE PER FORMAT</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 268" role="img" aria-labelledby="t5f2">
+  <title id="t5f2">What each acquisition format carries</title>
+  <text class="xs mut" x="14" y="24">CHOOSE THE FORMAT BEFORE YOU START, NOT AFTER</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="34" width="236" height="26" rx="4"/>
+    <text class="sm" x="132" y="52" text-anchor="middle">RAW / dd</text>
+    <text class="sm" x="132" y="64" text-anchor="middle">yes</text>
+    <text class="sm" x="132" y="98" text-anchor="middle">yes</text>
+    <text class="sm" x="132" y="132" text-anchor="middle" fill="#ff4d5e">NO</text>
+    <text class="sm" x="132" y="166" text-anchor="middle" fill="#ff4d5e">NO</text>
+    <text class="sm" x="132" y="200" text-anchor="middle">yes</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="268" y="34" width="236" height="26" rx="4"/>
+    <text class="sm" x="386" y="52" text-anchor="middle">E01 / EWF</text>
+    <text class="sm" x="386" y="64" text-anchor="middle">yes</text>
+    <text class="sm" x="386" y="98" text-anchor="middle">yes</text>
+    <text class="sm" x="386" y="132" text-anchor="middle">yes</text>
+    <text class="sm" x="386" y="166" text-anchor="middle">yes</text>
+    <text class="sm" x="386" y="200" text-anchor="middle">yes</text>
+  </g>
+  <g data-step="3">
+    <rect class="box warn" x="522" y="34" width="236" height="26" rx="4"/>
+    <text class="sm" x="640" y="52" text-anchor="middle">AD1</text>
+    <text class="sm" x="640" y="64" text-anchor="middle" fill="#ff4d5e">NO</text>
+    <text class="sm" x="640" y="98" text-anchor="middle" fill="#ff4d5e">NO</text>
+    <text class="sm" x="640" y="132" text-anchor="middle">yes</text>
+    <text class="sm" x="640" y="166" text-anchor="middle">yes</text>
+    <text class="sm" x="640" y="200" text-anchor="middle" fill="#ff4d5e">NO</text>
+  </g>
+  <text class="xs mut" x="14" y="96">every sector</text>
+  <text class="xs mut" x="14" y="130">unallocated + slack</text>
+  <text class="xs mut" x="14" y="164">hash inside the file</text>
+  <text class="xs mut" x="14" y="198">case metadata</text>
+  <text class="xs mut" x="14" y="232">any tool can read it</text>
+  <g data-step="4">
+    <rect class="box key" x="14" y="238" width="744" height="26" rx="4"/>
+    <text class="xs" x="28" y="256">The red column is what your report can never claim.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+    </section>
+
+<section class="page" id="p8">
+<span class="kicker">T08 &middot; Theory</span>
+<h2>What a raw image does not carry
+  <span class="ar">ما لا تحمله صورة الـ raw</span></h2>
+<p>Raw is the simplest format and still the right choice on very large media. But <b>everything that makes an image defensible sits outside the file</b>, which means you have to protect it yourself.
+  <span class="ar">الـ raw أبسط الصيغ، و ما زال الخيار الصحيح على الوسائط الكبيرة جدًّا. لكن <b>كل ما يجعل الصورة قابلة للدفاع عنها يقع خارج الملف</b>، و معنى ذلك أن حمايته مسؤوليتك أنت.</span></p>
+<div class="limitation">
+  <span class="cl-label">#1 No integrity of its own</span>
+  <p>No embedded hash, no CRC, no tamper evidence. If the sidecar hash is lost, edited, or never written, <b>nothing inside the image</b> shows it was not modified after.
+    <span class="ar">لا hash بداخله، و لا CRC، و لا دليل على العبث. فإن ضاع ملف الـ hash المجاور، أو عُدِّل، أو لم يُكتب أصلاً، لم يبقَ <b>داخل الصورة شيء</b> يُظهر أنها لم تُعدَّل بعد ذلك.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">#2 It stops where the controller stops</span>
+  <p>A raw image covers the LBA range the controller reports, no further. An <b>HPA</b>, a <b>DCO</b>, reallocated sectors and SSD over-provisioned blocks all sit outside it, leaving <b>no trace of their absence</b>.
+    <span class="ar">تغطّي صورة الـ raw مدى الـ LBA الذي يُعلنه الـ controller و لا شيء بعده. فالـ <b>HPA</b> و الـ <b>DCO</b> و الـ sectors المُعاد تخصيصها و الكتل الاحتياطية في الـ SSD كلها خارجها — و <b>لا تترك أثرًا لغيابها</b>.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">#3 A read error can be silently zero-filled</span>
+  <p>Raw imaging tools pad small errors rather than failing. So <b>a region of zeroes in a raw image does not prove that region was zeroes on the disk</b> &mdash; which is why you read the sector counts, not just the exit code.
+    <span class="ar">تملأ أدوات التصوير الخام الأخطاء الصغيرة بدل أن تفشل. لذلك <b>فوجود منطقة أصفار في صورة raw لا يُثبت أن تلك المنطقة كانت أصفارًا على القرص</b> — و لهذا تقرأ عدد الـ sectors، لا رمز الخروج فقط.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p9">
+<span class="kicker">T08 &middot; Theory</span>
+<h2>What an E01 proves, and what it does not
+  <span class="ar">ما يُثبته الـ E01 و ما لا يُثبته</span></h2>
+<p>E01 fixes raw&rsquo;s first problem: the hash and the metadata live <b>inside the container</b>. It does not fix the other two, and it introduces a trap of its own.
+  <span class="ar">يعالج الـ E01 أول مشكلة في الـ raw: فالـ hash و البيانات تعيش <b>داخل الـ container</b>. لكنه لا يعالج المشكلتين الأخريين، و يضيف فخًّا خاصًّا به.</span></p>
+<div class="finding">
+  <span class="cl-label">What the embedded hash establishes</span>
+  <p>That the <b>bytes have not changed since the container was written</b>. That is real, and it survives losing your notes.
+    <span class="ar">أن <b>الـ bytes لم تتغيّر منذ كُتب الـ container</b>. و هذا حقيقي، و يبقى قائمًا حتى لو ضاعت ملاحظاتك.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">What it says nothing about</span>
+  <p>Provenance. The hash proves <b>internal consistency</b>, not that these bytes came from the drive on the custody form, nor that a write blocker was in place while they were read.
+    <span class="ar">المصدر. فالـ hash يُثبت <b>الاتساق الداخلي</b>، لا أن هذه الـ bytes جاءت من القرص المذكور في استمارة الـ chain of custody، و لا أن write blocker كان موجودًا أثناء قراءتها.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">And the header is free text</span>
+  <p>Case number, evidence number, examiner name and description are <b>typed by the operator</b>. An evidence number inside an E01 is a claim, not corroboration &mdash; preserved faithfully, including when it is wrong.
+    <span class="ar">رقم القضية و رقم الدليل و اسم الفاحص و الوصف <b>يكتبها المشغّل</b>. فرقم الدليل داخل الـ E01 ادّعاء لا إسناد — إذ يحفظه الـ container بأمانة، بما في ذلك حين يكون خاطئًا.</span></p>
+</div>
+<div class="note">
+  <p>A compressed E01 is also <b>slower to acquire and analyse</b>. That is why raw still wins on very large media, and why the choice is a judgement, not a rule.
+    <span class="ar">و التكلفة حقيقية أيضًا: فالـ E01 المضغوط <b>أبطأ في الأخذ و أبطأ في التحليل</b>. و لهذا ما زال الـ raw يفوز على الوسائط الكبيرة جدًّا، و لهذا فالاختيار تقدير لا قاعدة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p10">
+<span class="kicker">T08 &middot; Theory</span>
+<h2>AD1 &mdash; a collection, not an image
+  <span class="ar">الـ AD1 — collection لا image</span></h2>
+<p>AD1 is what FTK Imager&rsquo;s <b>Custom Content</b> path produces. It is a legitimate tool for a scoped collection, and it is the format most often described in a report by the wrong word.
+  <span class="ar">الـ AD1 هو ما ينتجه مسار <b>Custom Content</b> في FTK Imager. و هو أداة مشروعة لجمع محدّد النطاق، و هو الصيغة التي تُوصف في التقارير بالكلمة الخطأ أكثر من غيرها.</span></p>
+<div class="limitation">
+  <span class="cl-label">What is not in it</span>
+  <p>No unallocated space. No slack. No deleted content. No file-system structure outside the chosen paths. Carving, `$MFT` timeline reconstruction and deleted-file recovery are <b>all impossible</b> against it.
+    <span class="ar">لا مساحة غير مخصّصة. و لا slack. و لا محتوى محذوف. و لا بنية نظام ملفات خارج المسارات المختارة. فالـ carving و بناء الخط الزمني من `$MFT` و استرجاع الملفات المحذوفة <b>كلها مستحيلة</b> معه.</span></p>
+</div>
+<div class="interpretation">
+  <span class="cl-label">Why the word matters more than the format</span>
+  <p>Anyone who reads <i>&ldquo;forensic image&rdquo;</i> in your report will assume unallocated space was covered. If it was an AD1, that assumption is false and <b>you wrote the sentence that created it</b>. Say <b>logical collection</b>, and say which paths.
+    <span class="ar">كل من يقرأ في تقريرك <i>«forensic image»</i> سيفترض أن المساحة غير المخصّصة قد شُملت. فإن كان الملف AD1 فالافتراض خاطئ، و <b>أنت من كتب الجملة التي أنشأته</b>. قل <b>logical collection</b>، و اذكر المسارات.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T08 &middot; Theory &middot; 8 min</span>
+<h2>What is a Host Protected Area?
+  <span class="ar">ما هي الـ Host Protected Area؟</span></h2>
+<p>An <b>HPA</b> is a region at the end of an ATA drive that <b>the drive itself reports as not existing</b>. The operating system never addresses it, so it is not hidden by the file system &mdash; it is hidden one level below anything the file system could reach.
+  <span class="ar">الـ <b>HPA</b> منطقة في نهاية قرص ATA <b>يُعلن القرص نفسه أنها غير موجودة</b>. فلا يخاطبها نظام التشغيل أبدًا، و لذلك فهي ليست مخفية بنظام الملفات — بل مخفية في مستوى أدنى من كل ما يستطيع نظام الملفات الوصول إليه.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th></th><th>What it hides from, and what it is legitimately for</th></tr></thead>
+  <tbody>
+    <tr><td><b>HPA</b></td><td>Set by <code>SET_MAX_ADDRESS</code>. Hides from the OS and from your imager. Legitimately: recovery partitions, diagnostics, BIOS staging.<span class="ar">يُضبط بأمر <code>SET_MAX_ADDRESS</code>. يُخفي المساحة عن النظام و عن أداة التصوير. و استخدامه المشروع: أقسام الاسترجاع و أدوات التشخيص و تحديث الـ BIOS.</span></td></tr>
+    <tr><td><b>DCO</b></td><td>Set by the DCO command set. Hides from the OS, from your imager, <b>and from the HPA check itself</b>. Legitimately: matching capacities across a batch of drives.<span class="ar">يُضبط بمجموعة أوامر الـ DCO. يُخفي المساحة عن النظام و عن أداة التصوير <b>و عن فحص الـ HPA نفسه</b>. و استخدامه المشروع: توحيد السعات بين أقراص دفعة واحدة.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">An HPA is almost never the suspect&rsquo;s</span>
+  <p>Laptop recovery partitions, diagnostic utilities, BIOS-flash staging and anti-theft services all live there legitimately. <b>Its presence is not evidence of concealment and must never be reported as such.</b> It also carries no timestamp, so it cannot tell you who set it or when.
+    <span class="ar">أقسام استرجاع أجهزة اللابتوب و أدوات التشخيص و تحديث الـ BIOS و خدمات مكافحة السرقة كلها تعيش هناك بشكل مشروع. <b>فوجودها ليس دليلاً على الإخفاء، و لا يجوز أبدًا تقريرها على هذا النحو.</b> و هي لا تحمل طابعًا زمنيًّا، فلا تخبرك من ضبطها و لا متى.</span></p>
+</div>
+<div class="note">
+  <p>Which is exactly why it is worth checking. <b>You are not looking for a suspect&rsquo;s hiding place; you are looking for the true size of the disk</b>, so that your image can be honest about what it covers.
+    <span class="ar">و لهذا بالضبط يستحق الفحص. <b>فأنت لا تبحث عن مخبأ للمشتبه به، بل تبحث عن الحجم الحقيقي للقرص</b>، كي تكون صورتك صادقة فيما تغطّيه.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p12">
+<span class="kicker">T08 &middot; Theory &middot; the number that matters</span>
+<h2>Three sizes for one disk
+  <span class="ar">ثلاثة أحجام لقرص واحد</span></h2>
+<p>The same physical drive answers three different questions with three different numbers. These are our courseware&rsquo;s own measurements from one disk.
+  <span class="ar">يجيب القرص الفيزيائي نفسه عن ثلاثة أسئلة مختلفة بثلاثة أرقام مختلفة. و هذه قياسات ماتريال الكورس نفسه على قرص واحد.</span></p>
+<figure class="dgm" id="dg-p05-f3" data-mode="loop" data-reveal="upto" data-interval="5600">
+  <div class="dgm-head"><span class="dgm-id">FIG P05-F3</span><span class="dgm-tag">ONE DISK &#183; THREE ANSWERS</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 262" role="img" aria-labelledby="t5f3">
+  <title id="t5f3">One disk reporting three different capacities</title>
+  <text class="xs mut" x="14" y="26">ONE PHYSICAL DISK &#183; THREE ANSWERS TO &#8220;HOW BIG ARE YOU?&#8221;</text>
+  <g data-step="1">
+    <text class="xs mut" x="14" y="42">IDENTIFY_DEVICE says</text>
+    <rect class="box no" x="14" y="46" width="89" height="32" rx="4"/>
+    <text class="sm" x="26" y="68">100,000,000 sectors</text>
+    <text class="xs mut" x="590" y="68">what the OS sees</text>
+  </g>
+  <g data-step="2">
+    <text class="xs mut" x="14" y="108">READ_NATIVE_MAX says</text>
+    <rect class="box warn" x="14" y="112" width="140" height="32" rx="4"/>
+    <text class="sm" x="26" y="134">156,301,488 sectors</text>
+    <text class="xs mut" x="590" y="134">the HPA hides this gap</text>
+  </g>
+  <g data-step="3">
+    <text class="xs mut" x="14" y="174">DCO reports the real max</text>
+    <rect class="box ok" x="14" y="178" width="560" height="32" rx="4"/>
+    <text class="sm" x="26" y="200">625,142,447 sectors</text>
+    <text class="xs mut" x="590" y="200">the DCO hides more</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="14" y="222" width="744" height="26" rx="4"/>
+    <text class="xs" x="28" y="240">Image the first number and 84% of the disk was never read.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">What the arithmetic says</span>
+  <p>The visible size is <b>100,000,000</b> sectors and the real size is <b>625,142,447</b>. An examiner who imaged the first number produced a technically perfect, fully verified image covering <b>16% of the drive</b> &mdash; and nothing in the image, the log or the hash would show it.
+    <span class="ar">الحجم الظاهر <b>100,000,000</b> sector، و الحجم الحقيقي <b>625,142,447</b>. فالفاحص الذي صوّر الرقم الأول أنتج صورة سليمة تمامًا و متحقَّقًا منها بالكامل، تغطّي <b>١٦٪ من القرص</b> — و لا شيء في الصورة و لا السجل و لا الـ hash يُظهر ذلك.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p13">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 2</span>
+  <h2>Making the image<span class="ar">أخذ الصورة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Two tools, the same job, and one word that carries more weight in reports than it can support.<span class="ar">أداتان، و العمل نفسه، و كلمة واحدة تُحمَّل في التقارير أكثر مما تحتمل.</span></p>
+  <p class="divider-meta">6 screens &middot; about 60 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T09 &middot; Theory</span>
+<h2>The destination drive
+  <span class="ar">قرص الوجهة</span></h2>
+<p>Before the source is touched: the destination must be <b>new, or wiped and verified</b>. A one-line rule with a long consequence.
+  <span class="ar">قبل أن تمسّ المصدر: القرص الذي تكتب عليه يجب أن يكون <b>جديدًا، أو ممسوحًا و متحقَّقًا منه</b>. قاعدة من سطر واحد، لكن أثرها طويل.</span></p>
+<div class="finding">
+  <span class="cl-label">Why a wiped destination is evidence handling, not tidiness</span>
+  <p>If the destination still holds fragments of an earlier case, anything you <b>carve</b> from unallocated space has <b>two possible origins</b> &mdash; and nothing in the fragment tells them apart. The wipe is what makes carving admissible later.
+    <span class="ar">إن كان قرص الوجهة ما زال يحمل بقايا قضية سابقة، فإن أي شيء <b>تستخرجه</b> من المساحة غير المخصّصة في هذه الصورة له <b>مصدران محتملان</b> — و لا خاصية في تلك البقايا تفصل بينهما. فالمسح هو ما يجعل الـ carving مقبولاً لاحقًا.</span></p>
+  <div class="eg"><b>Example:</b> and the wipe is verified, not assumed &mdash; read a megabyte back and confirm it is zeroes.
+    <span class="ar">و يُتحقَّق من المسح، لا يُفترض — اقرأ ميجابايت واحدًا و تأكّد أنه أصفار.</span></div>
+</div>
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">T09 &middot; Theory &middot; the idea this topic turns on</span>
+<h2>What &ldquo;verified&rdquo; actually covers
+  <span class="ar">ما الذي تغطّيه كلمة verified فعلاً</span></h2>
+<p>Every acquisition log ends with the same word &mdash; the most over-read word in the field. Here is the loop it describes.
+  <span class="ar">ينتهي كل سجل acquisition بالكلمة نفسها، و هي أكثر كلمة يُحمَّلها الناس فوق طاقتها في التحليل الجنائي الرقمي. و هذه هي الدورة التي تصفها.</span></p>
+<figure class="dgm" id="dg-p05-f5" data-mode="loop" data-reveal="upto" data-interval="5400">
+  <div class="dgm-head"><span class="dgm-id">FIG P05-F5</span><span class="dgm-tag">THE LOOP</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 258" role="img" aria-labelledby="t5f5">
+  <title id="t5f5">The loop that the word verified actually covers</title>
+  <text class="xs mut" x="14" y="24">WHAT THE IMAGER CHECKS, AND WHAT IT NEVER TOUCHES AGAIN</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="40" width="200" height="62" rx="6"/>
+    <text class="lbl" x="114" y="66" text-anchor="middle">SOURCE DISK</text>
+    <text class="xs mut" x="114" y="86" text-anchor="middle">read once</text>
+    <path class="arw" d="M216 71 L266 71"/><path class="arw" d="M260 66 L266 71 L260 76"/>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="268" y="40" width="200" height="62" rx="6"/>
+    <text class="lbl" x="368" y="66" text-anchor="middle">HASH A</text>
+    <text class="xs mut" x="368" y="86" text-anchor="middle">computed while writing</text>
+    <path class="arw" d="M470 71 L520 71"/><path class="arw" d="M514 66 L520 71 L514 76"/>
+    <rect class="box" x="522" y="40" width="236" height="62" rx="6"/>
+    <text class="lbl" x="640" y="66" text-anchor="middle">THE IMAGE FILE</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="268" y="122" width="200" height="56" rx="6"/>
+    <text class="lbl" x="368" y="147" text-anchor="middle">HASH B</text>
+    <text class="xs mut" x="368" y="166" text-anchor="middle">image read back</text>
+    <path class="arw" d="M600 104 L420 120"/><path class="arw" d="M432 113 L419 121 L430 124"/>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="14" y="122" width="236" height="56" rx="6"/>
+    <text class="sm" x="132" y="147" text-anchor="middle">A = B &#8594; &#8220;verified&#8221;</text>
+    <text class="xs mut" x="132" y="166" text-anchor="middle">the write survived the read</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="196" width="744" height="34" rx="5"/>
+    <text class="sm" x="30" y="218">The source is never read a second time. Nothing here checks it.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">What it does establish</span>
+  <p>That the same program hashed the data <b>while writing</b> and again <b>while reading the finished image back</b>, and the two matched. The write-then-read round trip was clean. That is genuinely useful and it is the reason you tick the box.
+    <span class="ar">أن البرنامج نفسه حسب hash للبيانات <b>أثناء الكتابة</b>، ثم حسبه مرة أخرى <b>أثناء إعادة قراءة الصورة المكتملة</b>، فتطابق الرقمان. أي أن دورة الكتابة ثم القراءة تمّت سليمة. و هذه فائدة حقيقية، و هي سبب تفعيلك لهذا الخيار.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">The three things it does not say</span>
+  <p><b>#1</b> Nothing about the <b>source</b> &mdash; the tool never reads the disk a second time. <b>#2</b> Nothing about whether a <b>write blocker</b> was attached. <b>#3</b> Nothing about whether you selected the <b>right physical device</b>: an image of the wrong disk verifies perfectly.
+    <span class="ar"><b>١</b> لا شيء عن <b>المصدر</b> — فالأداة لا تقرأ القرص مرة ثانية أبدًا. <b>٢</b> لا شيء عن وجود <b>write blocker</b>. <b>٣</b> لا شيء عمّا إذا كنت قد اخترت <b>الجهاز الفيزيائي الصحيح</b>: فصورة القرص الخطأ تجتاز التحقق بامتياز.</span></p>
+</div>
+<div class="interpretation">
+  <span class="cl-label">How to write it without over-claiming</span>
+  <p>Write <i>&ldquo;the image was verified against the hash computed during acquisition&rdquo;</i>, not <i>&ldquo;the image was verified against the source&rdquo;</i>. The second sentence describes a check almost nobody performs, and an opposing expert knows that.
+    <span class="ar">اكتب <i>«جرى التحقق من الصورة مقابل الـ hash المحسوب أثناء الـ acquisition»</i>، لا <i>«جرى التحقق من الصورة مقابل المصدر»</i>. فالجملة الثانية تصف فحصًا لا يكاد أحد يجريه، و خبير الطرف الآخر يعرف ذلك.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p16">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>Detect hidden capacity, then image and verify<span class="ar">اكتشف المساحة المخفية، ثم صوِّر و تحقّق</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Watch the acquisition run once: the capacity check, then FTK Imager and dc3dd imaging and verifying, then what the log does not promise. You run it yourself next.<span class="ar">شاهد عملية الـ acquisition كاملة: فحص السعة بترتيب DCO قبل HPA، ثم FTK Imager و dc3dd يصنعان النسخة و يتحققان منها، ثم قراءة ما يعِد به السجل و ما لا يعِد. و تفعلها بنفسك بعد قليل.</span></p>
+  <p class="divider-meta">4 screens &middot; the instructor drives</p>
+</div>
+    </section>
+
+<section class="page" id="p17">
+<span class="kicker">T08 &middot; Instructor demo &middot; the order is fixed</span>
+<h2>Detecting hidden capacity
+  <span class="ar">اكتشاف المساحة المخفية</span></h2>
+<p>Two commands. The order is not a style preference &mdash; <b>the wrong order returns a clean result on a disk that is hiding capacity</b>.
+  <span class="ar">أمران اثنان. و الترتيب ليس تفضيلاً في الأسلوب — <b>فالترتيب الخطأ يعطي نتيجة نظيفة على قرص يُخفي مساحة</b>.</span></p>
+<figure class="dgm" id="dg-p05-f4" data-mode="loop" data-reveal="upto" data-interval="5600">
+  <div class="dgm-head"><span class="dgm-id">FIG P05-F4</span><span class="dgm-tag">WRONG ORDER / RIGHT ORDER</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 250" role="img" aria-labelledby="t5f4">
+  <title id="t5f4">Why a DCO must be checked before an HPA</title>
+  <text class="xs mut" x="14" y="24">THE WRONG ORDER FINDS NOTHING, AND LOOKS CLEAN</text>
+  <g data-step="1">
+    <rect class="box no" x="14" y="36" width="744" height="58" rx="6"/>
+    <text class="sm" x="30" y="60">1. hdparm -N &#8594; compares reported max against native max</text>
+    <text class="xs mut" x="30" y="80">but a DCO has already lowered the native max, so the two agree</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="14" y="102" width="744" height="30" rx="5"/>
+    <text class="sm" x="30" y="123">result: &#8220;HPA is disabled&#8221; &#8212; and it is not true</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="146" width="744" height="58" rx="6"/>
+    <text class="sm" x="30" y="170">1. hdparm --dco-identify &#8594; real max  2. hdparm -N &#8594; HPA</text>
+    <text class="xs mut" x="30" y="190">the DCO answer is the ceiling every later question is measured against</text>
+  </g>
+  <text class="xs mut" x="14" y="228">A clean result still proves nothing: a DCO set and removed before seizure leaves no trace.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="table-wrap"><table>
+  <thead><tr><th>Step</th><th>Command</th><th>What you read</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>hdparm --dco-identify /dev/sdX</code><span class="ar">أمر فحص الـ DCO</span></td><td><code>Real max sectors:</code> &mdash; the ceiling<span class="ar">السطر <code>Real max sectors:</code> — و هو السقف</span></td></tr>
+    <tr><td>2</td><td><code>hdparm -N /dev/sdX</code><span class="ar">أمر فحص الـ HPA</span></td><td><code>max sectors = A/B</code> &mdash; A visible, B native<span class="ar">السطر <code>max sectors = A/B</code> — A الظاهر و B الأصلي</span></td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">Two things this cannot tell you</span>
+  <p>A clean result <b>does not prove nothing was hidden</b>: a DCO can have been set and removed before seizure, leaving no trace of either event. And some hardware write blockers pass the ATA commands through while others do not &mdash; so <i>&ldquo;hdparm reported no HPA&rdquo;</i> may be <b>a fact about your blocker rather than about the disk</b>.
+    <span class="ar">النتيجة النظيفة <b>لا تُثبت أن شيئًا لم يُخفَ</b>: فقد يكون DCO قد ضُبط ثم أُزيل قبل الضبط، دون أثر لأيٍّ من الحدثين. كما أن بعض الـ write blockers العتادية تمرّر أوامر ATA و بعضها لا يمرّرها — فعبارة <i>«لم يُبلّغ hdparm عن HPA»</i> قد تكون <b>حقيقة عن الـ blocker الخاص بك، لا عن القرص</b>.</span></p>
+</div>
+<div class="finding">
+  <span class="cl-label">And if you find one</span>
+  <p><b>Detect, document, image the visible area first, then decide.</b> Removing an HPA is a <b>destructive change to the evidence device</b> &mdash; it needs authorisation and it goes in the report whether or not you find anything behind it.
+    <span class="ar"><b>اكتشف، ثم وثّق، ثم صوّر المنطقة الظاهرة أولاً، ثم قرّر.</b> فإزالة الـ HPA <b>تغيير مُتلِف لجهاز الدليل</b> — تحتاج إذنًا، و تُذكر في التقرير سواء وجدت خلفها شيئًا أم لا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p18">
+<span class="kicker">T09 &middot; Instructor demo</span>
+<h2>Acquiring with FTK Imager
+  <span class="ar">الأخذ باستخدام FTK Imager</span></h2>
+<p>Six steps. Two of them are dialogs people click past in seconds, and both of those are permanent.
+  <span class="ar">ست خطوات. اثنتان منها نوافذ يمرّ عليها الناس في ثوانٍ، و كلتاهما نهائية.</span></p>
+<div class="simscreen" id="ss-t09a" data-title="SIMSCREEN T09-1 &middot; ACQUIRE WITH FTK IMAGER" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="fkSel" style="width:690px">
+    <div class="wu-tb"><span class="t">FTK Imager 8.3 &mdash; Select Source</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body">
+      <div class="wu-tx dis" style="margin-bottom:10px">&#128193; &nbsp; Select the source evidence type</div>
+      <div class="wu-cols">
+        <span class="h">Source</span><span class="h">Reads</span><span class="h">Gets you</span>
+        <span class="c sel" id="c1">&#9899; Physical Drive</span><span class="c sel">every sector</span><span class="c sel">partitions + gaps + unallocated</span>
+        <span class="c">&#9898; Logical Drive</span><span class="c">one volume</span><span class="c">that volume only</span>
+        <span class="c">&#9898; Image File</span><span class="c">an existing image</span><span class="c">re-open, not acquire</span>
+        <span class="c">&#9898; Contents of a Folder</span><span class="c">a path list</span><span class="c"><b>logical collection, not an image</b></span>
+      </div>
+      <div class="wu-sb" style="margin-top:10px">Physical Drive selected</div>
+    </div>
+  </div>
+
+  <div class="wu" id="fkDrv" style="width:690px">
+    <div class="wu-tb"><span class="t">FTK Imager &mdash; Select Drive</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body">
+      <div class="wu-tx dis" style="margin-bottom:10px">&#128193; &nbsp; Choose the physical drive to image</div>
+      <div class="wu-cols">
+        <span class="h">Device</span><span class="h">Size</span><span class="h">Interface</span>
+        <span class="c">\\.\PHYSICALDRIVE0</span><span class="c">476 GB</span><span class="c">NVMe &mdash; the EXAMINER machine</span>
+        <span class="c sel" id="c2">\\.\PHYSICALDRIVE1</span><span class="c sel">14.4 GB</span><span class="c sel">USB &mdash; behind the write blocker</span>
+        <span class="c">\\.\PHYSICALDRIVE2</span><span class="c">3.6 TB</span><span class="c">USB &mdash; the destination drive</span>
+      </div>
+      <div class="wu-sb" style="margin-top:10px">3 devices &nbsp; 1 selected</div>
+    </div>
+  </div>
+
+  <div class="wu" id="fkFmt" style="width:700px">
+    <div class="wu-tb"><span class="t">FTK Imager &mdash; Select Image Type</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># the format decision, and it cannot be changed afterwards</span>
+
+  ( ) Raw (dd)   <span class="d">no hash inside the file, no metadata</span>
+  ( ) SMART      <span class="d">rarely used outside its own suite</span>
+  <span id="c3">(o) E01        <span class="w">per-chunk CRC + acquisition hash + header</span></span>
+  ( ) AFF        <span class="d">open, but least supported by the tools in this course</span>
+
+<span class="d"># E01 unless the media is very large; then raw, with a sidecar hash you protect.</span></div>
+  </div>
+
+  <div class="wu" id="fkMeta" style="width:720px">
+    <div class="wu-tb"><span class="t">FTK Imager &mdash; Evidence Item Information</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term">  Case Number      <span class="w">ITG-2026-014</span>
+  Evidence Number  <span class="w">EVI-SRC02</span>
+  Description      <span class="w">SanDisk Cruzer 16GB, seized 2026-03-04</span>
+  Examiner         <span class="w">E. Mohamed</span>
+  Notes            <span class="w">acquired behind Tableau T8u, blocker log attached</span>
+
+<span id="c4"><span class="e"># every field above is free text typed by you.</span></span>
+<span class="d"># it is a claim inside the container, not corroboration of anything.</span></div>
+  </div>
+
+  <div class="wu" id="fkRun" style="width:720px">
+    <div class="wu-tb"><span class="t">FTK Imager &mdash; Creating Image</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term">Source      \\.\PHYSICALDRIVE1
+Destination E:\ITG-2026-014\EVI-SRC02.E01
+
+Creating image ....... 100%   [00:11:42]
+<span id="c5">Verifying image ...... 100%   [00:04:19]</span>
+
+<span class="d"># the second bar is the tool reading back what it just wrote.</span></div>
+  </div>
+
+  <div class="wu" id="fkLog" style="width:740px">
+    <div class="wu-tb"><span class="t">EVI-SRC02.E01.txt</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term">Created By <span class="k">Exterro FTK Imager 8.3</span>
+
+Drive Geometry     1885 cylinders / 255 heads / 63 sectors
+Source data size   14680 MB
+<span id="c6">Sector count       <span class="w">30064771</span></span>
+Acquisition started  2026-03-04 14:02:11
+Acquisition finished 2026-03-04 14:13:53
+
+[Image Verification Results]
+ MD5 checksum   a1c9...4e02 : <span class="k">verified</span>
+ SHA1 checksum  5f30...bb71 : <span class="k">verified</span>
+
+<span class="d"># "Sector count" is what the INTERFACE reported. An HPA is logged as if it were the whole disk.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="note">
+  <p><b>Tool currency.</b> FTK Imager is now published by <b>Exterro</b>, not AccessData, and the current free line is <b>8.3</b> with a separate paid <b>FTK Imager Pro</b>. A procedure written against 4.x will still read broadly right and will name dialogs that have moved.
+    <span class="ar"><b>حداثة الأدوات.</b> صار FTK Imager يُنشر من <b>Exterro</b> لا AccessData، و الإصدار المجاني الحالي <b>8.3</b>، مع خط مدفوع منفصل اسمه <b>FTK Imager Pro</b>. فأي إجراء مكتوب على الإصدار 4.x سيظل صحيحًا في مجمله، لكنه سيذكر نوافذ تغيّر مكانها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p19">
+<span class="kicker">T09 &middot; Instructor demo</span>
+<h2>dc3dd, and an independent check
+  <span class="ar">الأداة dc3dd و التحقق المستقل</span></h2>
+<p>The same job on the command line, plus the two checks the GUI does not offer you: <b>a different tool</b> for the verification, and <b>the source read again</b>.
+  <span class="ar">العمل نفسه من سطر الأوامر، مع الفحصين اللذين لا تقدّمهما الواجهة الرسومية: <b>أداة مختلفة</b> للتحقق، و <b>إعادة قراءة المصدر</b>.</span></p>
+<div class="simscreen" id="ss-t09b" data-title="SIMSCREEN T09-2 &middot; dc3dd, AND WHAT AN INDEPENDENT CHECK MEANS" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="dcHpa" style="width:740px">
+    <div class="wu-tb"><span class="t">root@kali</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">root@kali:~#</span> <span class="k">hdparm --dco-identify /dev/sdb</span>
+  <span id="d1"><span class="w">Real max sectors: 30064771</span></span>
+
+<span class="p">root@kali:~#</span> <span class="k">hdparm -N /dev/sdb</span>
+  max sectors  = 30064771/30064771, HPA is <span class="k">disabled</span>
+
+<span class="d"># DCO first, then HPA. The other order can report "disabled" on a disk that is hiding capacity.</span></div>
+  </div>
+
+  <div class="wu" id="dcWipe" style="width:740px">
+    <div class="wu-tb"><span class="t">root@kali</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># the destination, before anything is written to it</span>
+
+<span class="p">root@kali:~#</span> <span class="k">dc3dd wipe=/dev/sdc</span>
+  3670016 M written
+
+<span class="p">root@kali:~#</span> <span class="k">dc3dd if=/dev/sdc | head -c 1M | xxd | head -3</span>
+<span id="d2">  00000000: 0000 0000 0000 0000 0000 0000 0000 0000</span>
+
+<span class="d"># a wiped destination means anything found in the image came from the source.</span></div>
+  </div>
+
+  <div class="wu" id="dcAcq" style="width:740px">
+    <div class="wu-tb"><span class="t">root@kali</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">root@kali:~#</span> <span class="k">dc3dd if=/dev/sdb of=/mnt/case/EVI-SRC02.dd hash=sha256 log=/mnt/case/EVI-SRC02.log</span>
+
+  30064771 sectors in
+  30064771 sectors out
+<span id="d3">  sha256: <span class="w">9f2c4ae1...03b7d1</span></span>
+
+<span class="d"># sectors in == sectors out. A mismatch here means a read error was padded, not copied.</span></div>
+  </div>
+
+  <div class="wu" id="dcVer" style="width:740px">
+    <div class="wu-tb"><span class="t">root@kali</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># now verify with a DIFFERENT tool than the one that wrote it</span>
+
+<span class="p">root@kali:~#</span> <span class="k">sha256sum /mnt/case/EVI-SRC02.dd</span>
+  <span id="d4"><span class="w">9f2c4ae1...03b7d1</span>  EVI-SRC02.dd</span>
+
+<span class="d"># dc3dd said this number while writing. sha256sum says it after the fact,</span>
+<span class="d"># reading the file with different code. That is an independent check.</span></div>
+  </div>
+
+  <div class="wu" id="dcSrc" style="width:740px">
+    <div class="wu-tb"><span class="t">root@kali</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># and the check almost nobody runs: hash the SOURCE again</span>
+
+<span class="p">root@kali:~#</span> <span class="k">sha256sum /dev/sdb</span>
+  <span id="d5"><span class="w">9f2c4ae1...03b7d1</span>  /dev/sdb</span>
+
+<span class="d"># this is the only line on the screen that says anything about the disk.</span>
+<span class="d"># possible on a 16 GB USB behind a blocker. Not possible on a 4 TB drive in ten minutes.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="finding">
+  <span class="cl-label">What makes a check independent</span>
+  <p><b>Different code reading the finished file.</b> <code>dc3dd</code> asserting its own hash is the same class of statement as FTK Imager asserting its own; <code>sha256sum</code> computing it afterwards is a second opinion.
+    <span class="ar"><b>كود مختلف يقرأ الملف المكتمل.</b> فإعلان <code>dc3dd</code> عن الـ hash الخاص به من نفس فئة إعلان FTK Imager عن الـ hash الخاص به، أما حساب <code>sha256sum</code> له بعد ذلك فهو رأي ثانٍ.</span></p>
+</div>
+<div class="note">
+  <p>And <code>sha256sum /dev/sdb</code> is the only line in the lab that says anything about <b>the disk</b>. It is practical on a 16 GB USB and not on a 4 TB drive &mdash; so when you skip it, <b>write down that you skipped it</b> rather than letting the word <i>verified</i> imply you did not.
+    <span class="ar">و الأمر <code>sha256sum /dev/sdb</code> هو السطر الوحيد في المعمل الذي يقول شيئًا عن <b>القرص</b>. و هو عملي على USB سعته ١٦ جيجابايت، و غير عملي على قرص سعته ٤ تيرابايت — فإن تجاوزته، <b>فدوّن أنك تجاوزته</b> بدل أن تترك كلمة <i>verified</i> توحي بغير ذلك.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p20">
+<span class="kicker">T09 &middot; Instructor demo</span>
+<h2>Reading the acquisition log
+  <span class="ar">قراءة سجل الـ acquisition</span></h2>
+<p>The imager writes a plain-text file beside every image. It is the single most useful page to attach to a chain-of-custody form &mdash; and three of its lines are routinely misread.
+  <span class="ar">تكتب أداة التصوير ملفًّا نصيًّا بجوار كل صورة. و هو أنفع صفحة تُرفق باستمارة chain of custody — و ثلاثة من سطوره تُقرأ خطأً بشكل متكرر.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Line in the log</th><th>What it actually is</th></tr></thead>
+  <tbody>
+    <tr><td><b>Created By</b> &mdash; tool and version<span class="ar">السطر <b>Created By</b> — الأداة و إصدارها</span></td><td>a real fact, and the reason to record the version in Section 6<span class="ar">حقيقة فعلية، و سبب تسجيل الإصدار في القسم السادس</span></td></tr>
+    <tr><td><b>Case Information</b> block<span class="ar">كتلة <b>Case Information</b></span></td><td><b>free text you typed.</b> A claim, not corroboration<span class="ar"><b>نصّ حرّ كتبته أنت.</b> ادّعاء لا إسناد</span></td></tr>
+    <tr><td><b>Drive Geometry</b> and <b>Sector count</b><span class="ar">السطران <b>Drive Geometry</b> و <b>Sector count</b></span></td><td>what the <b>interface reported</b>. An HPA is logged as if it were the whole disk<span class="ar">ما أعلنه <b>التوصيل</b>. فالـ HPA يُسجَّل كأنه القرص كله</span></td></tr>
+    <tr><td><b>Acquisition started / finished</b><span class="ar">السطران <b>Acquisition started / finished</b></span></td><td>real, and the reason losing this file costs you the timestamps<span class="ar">حقيقيان، و سبب أن فقدان هذا الملف يكلّفك الطوابع الزمنية</span></td></tr>
+    <tr><td><b>checksum : verified</b><span class="ar">السطر <b>checksum : verified</b></span></td><td>the write-then-read round trip. Nothing about the source<span class="ar">دورة الكتابة ثم القراءة. لا شيء عن المصدر</span></td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">And the file itself has no authority</span>
+  <p>It is an ordinary editable <code>.txt</code> sitting next to the image, with <b>no signature of any kind</b>. Treat it as <i>documentation of</i> the acquisition, never as <i>evidence of</i> it &mdash; the authority comes from your notes and the chain of custody, not from this file being present.
+    <span class="ar">هو ملف <code>.txt</code> عادي قابل للتعديل، يجلس بجوار الصورة، و <b>بلا توقيع من أي نوع</b>. تعامل معه بوصفه <i>توثيقًا لـ</i> الـ acquisition، لا <i>دليلاً على</i> حدوثها — فالحجية تأتي من ملاحظاتك و من الـ chain of custody، لا من وجود هذا الملف.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p21">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>Acquire, check, then read four logs<span class="ar">صوِّر، تحقّق، ثم اقرأ أربعة سجلات</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Now you run it: acquire and verify a USB you own, decide whether the image is complete, sweep it for signatures, and read four logs &mdash; deciding which you would sign.<span class="ar">الآن تنفّذها: صوِّر قرص USB تملكه و تحقّق منه، قرّر هل النسخة كاملة، امسحها بحثًا عن الـ signatures، و اقرأ أربعة سجلات تقول كلها الكلمة المطمئنة نفسها — و قرّر أيّها توقّع عليه.</span></p>
+  <p class="divider-meta">5 screens &middot; solo</p>
+</div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">T09 &middot; Your turn &middot; Case 02a</span>
+<h2>Case 02a &mdash; acquire and verify
+  <span class="ar">القضية 02a — التصوير ثم التحقق</span></h2>
+<p>Use a <b>USB stick you own</b> and can inspect afterwards. Ground truth matters more here than realism: the point is that you can check every claim you make.
+  <span class="ar">استخدم <b>قرص USB تملكه أنت</b> و تستطيع فحصه بعد ذلك. فمعرفة الحقيقة هنا أهم من الواقعية: المقصود أن تستطيع مراجعة كل ادّعاء تكتبه.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Do</th><th>Record</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>wipe the destination, then read 1 MB back<span class="ar">امسح قرص الوجهة، ثم اقرأ منه ميجابايت واحدًا</span></td><td>the wipe log<span class="ar">سجل المسح</span></td></tr>
+    <tr><td>2</td><td><code>hdparm --dco-identify</code>, then <code>hdparm -N</code><span class="ar">نفّذ فحص الـ DCO ثم فحص الـ HPA</span></td><td>both outputs, verbatim<span class="ar">مخرجات الاثنين نصًّا</span></td></tr>
+    <tr><td>3</td><td>acquire as <b>E01</b> with FTK Imager<span class="ar">خذ الصورة بصيغة <b>E01</b> عبر FTK Imager</span></td><td>the <code>.txt</code> log<span class="ar">ملف السجل <code>.txt</code></span></td></tr>
+    <tr><td>4</td><td>acquire the same device as <b>raw</b> with <code>dc3dd</code><span class="ar">خذ الجهاز نفسه بصيغة <b>raw</b> عبر <code>dc3dd</code></span></td><td>sectors in / sectors out<span class="ar">عدد الـ sectors داخلاً و خارجًا</span></td></tr>
+    <tr><td>5</td><td>verify the raw image with <code>sha256sum</code><span class="ar">تحقّق من صورة الـ raw بـ<code>sha256sum</code></span></td><td>the digest<span class="ar">قيمة الـ hash</span></td></tr>
+    <tr><td>6</td><td>hash the <b>source device</b> and compare<span class="ar">احسب hash <b>لجهاز المصدر</b> و قارن</span></td><td>the digest, and whether it matched<span class="ar">القيمة، و هل تطابقت</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The step that makes this a forensics exercise</span>
+  <p>Step 6. Steps 1&ndash;5 are what everyone does; step 6 is the one that produces a statement about <b>the device</b> rather than about your own file. Run it here, on a small device, so that you know exactly what you are giving up when you cannot run it on a large one.
+    <span class="ar">الخطوة السادسة. فالخطوات من ١ إلى ٥ هي ما يفعله الجميع، أما السادسة فهي التي تُنتج عبارة عن <b>الجهاز</b> لا عن ملفك أنت. نفّذها هنا على جهاز صغير، لتعرف بالضبط ما الذي تتنازل عنه حين لا تستطيع تنفيذها على جهاز كبير.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p23">
+<span class="kicker">T09 &middot; Your turn &middot; Case 02b</span>
+<h2>Case 02b &mdash; is the acquisition complete?
+  <span class="ar">القضية 02b — هل الـ acquisition كاملة؟</span></h2>
+<p>A verified image is not a complete image. Four checks, none of which the imager performs for you.
+  <span class="ar">الصورة المتحقَّق منها ليست صورة كاملة. أربعة فحوص، لا تجري أداة التصوير أيًّا منها نيابةً عنك.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Check</th><th>How you run it, and what a wrong answer means</th></tr></thead>
+  <tbody>
+    <tr><td><b>sector count</b> matches the device<span class="ar">عدد الـ sectors يطابق الجهاز</span></td><td>log against <code>hdparm</code> &mdash; a mismatch means hidden capacity, or the wrong device<span class="ar">السجل مقابل <code>hdparm</code> — و الاختلاف يعني مساحة مخفية، أو الجهاز الخطأ</span></td></tr>
+    <tr><td><b>the volume is present</b><span class="ar">الـ volume موجود</span></td><td><code>mmls</code> on the image &mdash; nothing listed means you imaged a partition, not the disk<span class="ar"><code>mmls</code> على الصورة — و خلوّها يعني أنك صوّرت partition لا القرص</span></td></tr>
+    <tr><td><b>the file system reads</b><span class="ar">نظام الملفات يُقرأ</span></td><td><code>fsstat</code> &mdash; an error means a truncated image, or the wrong offset<span class="ar"><code>fsstat</code> — و الخطأ يعني صورة مبتورة، أو إزاحة خاطئة</span></td></tr>
+    <tr><td><b>the file count is plausible</b><span class="ar">عدد الملفات معقول</span></td><td><code>fls -r</code> against what you put on the device &mdash; too few means a scoped collection wearing the word image<span class="ar"><code>fls -r</code> مقابل ما وضعته أنت على الجهاز — و القلّة تعني جمعًا محدود النطاق يرتدي كلمة image</span></td></tr>
+  </tbody>
+</table></div>
+<div class="interpretation">
+  <span class="cl-label">Verified, complete and correct are three different words</span>
+  <p><b>Verified</b> means the file survived the round trip. <b>Complete</b> means it covers the whole device. <b>Correct</b> means it is the device you were supposed to image. An acquisition can be the first without being either of the others, and <b>only the log&rsquo;s word is automatic</b>.
+    <span class="ar"><b>Verified</b> تعني أن الملف نجا من دورة الكتابة و القراءة. و <b>Complete</b> تعني أنه يغطّي الجهاز كله. و <b>Correct</b> تعني أنه الجهاز الذي كان يجب تصويره. و قد تكون الـ acquisition الأولى دون أن تكون أيًّا من الأخريين، و <b>الكلمة الوحيدة التي تأتي تلقائيًّا هي كلمة السجل</b>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">T09 &middot; On your own &middot; 8 min</span>
+<h2>Signature sweep on the image you made
+  <span class="ar">فحص الـ signatures على الصورة التي أخذتها</span></h2>
+<p>Mount the image you produced in Case 02a read-only, and run the `T04` signature sweep against it. You know what you put on the device, so <b>you know the right answer before the tool speaks</b>.
+  <span class="ar">ركّب الصورة التي أنتجتها في القضية 02a للقراءة فقط، ثم شغّل فحص الـ signatures من `T04` عليها. أنت تعرف ما وضعته على الجهاز، فـ<b>أنت تعرف الإجابة الصحيحة قبل أن تنطق الأداة</b>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Question, and why it is worth asking on an image you made yourself</th></tr></thead>
+  <tbody>
+    <tr><td><b>Does every file you copied on appear?</b> A missing file is a scope problem or a truncation, and because you know what you put there, you can prove which one it is.<span class="ar"><b>هل يظهر كل ملف نسخته عليه؟</b> الملف الناقص إمّا مشكلة نطاق و إمّا بتر، و لأنك تعرف ما وضعته، تستطيع أن تُثبت أيّهما.</span></td></tr>
+    <tr><td><b>Does any extension disagree with its signature?</b> You planted none, so any hit here comes from the tool or the file system &mdash; not from a suspect.<span class="ar"><b>هل يخالف أي امتداد الـ signature الخاص به؟</b> أنت لم تزرع شيئًا، فأي نتيجة هنا مصدرها الأداة أو نظام الملفات — لا مشتبه به.</span></td></tr>
+    <tr><td><b>Does the free space contain anything?</b> This is the wipe from step 1 being tested for real, against an image rather than against a promise.<span class="ar"><b>هل تحوي المساحة الحرّة شيئًا؟</b> هذا اختبار حقيقي للمسح من الخطوة الأولى، على صورة فعلية لا على وعد.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>This exercise exists because <b>every later page reads an image somebody else made</b>. Reading one you made yourself, once, is how you learn what the output looks like when nothing is wrong.
+    <span class="ar">هذا التمرين موجود لأن <b>كل صفحة لاحقة تقرأ صورة صنعها شخص آخر</b>. و قراءتك لصورة صنعتها أنت، مرة واحدة، هي كيف تتعلّم شكل المخرجات حين لا يكون هناك خطأ أصلاً.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p25">
+<span class="kicker">T09 &middot; On your own &middot; 12 min</span>
+<h2>Exercise &mdash; four acquisition logs
+  <span class="ar">تمرين — أربعة سجلات acquisition</span></h2>
+<p>All four logs end in <code>verified</code>. For each: <b>would you sign it?</b> If not, name the missing line and say what a defence expert would do with the gap.
+  <span class="ar">تنتهي السجلات الأربعة كلها بكلمة <code>verified</code>. لكلٍّ منها: <b>هل كنت ستوقّع عليه؟</b> فإن لم تكن، فسمِّ السطر الناقص، و بيّن ما الذي سيفعله خبير الدفاع بتلك الفجوة.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>The log says</th><th>Sign it?</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>E01, sector count 30,064,771, MD5+SHA1 verified, destination wipe log attached, blocker log attached<span class="ar">E01، عدد الـ sectors 30,064,771، تحقق MD5 و SHA1، سجل مسح الوجهة مرفق، سجل الـ blocker مرفق</span></td><td>&nbsp;</td></tr>
+    <tr><td>2</td><td>E01, verified, <b>no wipe log</b>, blocker log attached<span class="ar">E01، متحقَّق منه، <b>بلا سجل مسح</b>، سجل الـ blocker مرفق</span></td><td>&nbsp;</td></tr>
+    <tr><td>3</td><td>raw <code>.dd</code>, hash in a sidecar <code>.txt</code>, verified, <b>sectors in 30,064,771 / sectors out 30,064,770</b><span class="ar">raw، الـ hash في ملف مجاور، متحقَّق منه، <b>sectors داخلاً 30,064,771 و خارجًا 30,064,770</b></span></td><td>&nbsp;</td></tr>
+    <tr><td>4</td><td>E01, verified, sector count <b>100,000,000</b> on a drive the invoice describes as 320 GB<span class="ar">E01، متحقَّق منه، عدد الـ sectors <b>100,000,000</b> على قرص تصفه الفاتورة بـ 320 جيجابايت</span></td><td>&nbsp;</td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">Log 3 is the one people miss</span>
+  <p>One sector fewer came out than went in &mdash; a <b>read error padded rather than copied</b>. Somewhere in the image is a region of zeroes that was not zeroes on the disk, and the hash still verifies because it hashes <b>the padded file</b>.
+    <span class="ar">خرج sector واحد أقل مما دخل. و هذا <b>خطأ قراءة جرى ملؤه بدل نسخه</b>، و معناه أن في تلك الصورة منطقة أصفار لم تكن أصفارًا على القرص. و الـ hash يتحقق بامتياز، لأنه hash <b>للملف بعد الملء</b>.</span></p>
+</div>
+<div class="interpretation">
+  <span class="cl-label">Log 4 is the one that ends a case</span>
+  <p><b>100,000,000</b> sectors is roughly 51 GB at 512 bytes per sector. The invoice says 320 GB. Assessed with <b>high</b> confidence that the drive reported a reduced capacity &mdash; an HPA, a DCO, or a device that is not the one described. <b>Considered and not excluded:</b> a clerical error on the invoice. Either way the acquisition cannot be signed until the two numbers agree.
+    <span class="ar"><b>100,000,000</b> sector تعادل نحو ٥١ جيجابايت بحساب ٥١٢ byte لكل sector. و الفاتورة تقول ٣٢٠ جيجابايت. أُقدّر بثقة <b>عالية</b> أن القرص أعلن سعة منقوصة — HPA أو DCO أو جهاز غير الموصوف. <b>و مما نُظر فيه و لم يُستبعد:</b> خطأ كتابي في الفاتورة. و في الحالتين لا يمكن التوقيع على الـ acquisition حتى يتطابق الرقمان.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p26">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check
+  <span class="ar">اختبار سريع</span></h2>
+<div class="q mcq" data-correct="b">
+  <p class="qtext">An E01 image verifies successfully and its log reports the same MD5 the tool computed during acquisition. What has been established about the source disk?
+    <span class="ar">صورة E01 اجتازت التحقق، و سجلها يذكر قيمة MD5 نفسها التي حسبتها الأداة أثناء الـ acquisition. فما الذي ثبت عن القرص المصدر؟</span></p>
+  <label><input type="radio" name="q1" value="a"> That the image is a complete copy of the source</label>
+  <label><input type="radio" name="q1" value="b"> Nothing &mdash; the source was never read a second time</label>
+  <label><input type="radio" name="q1" value="c"> That a write blocker was in place during acquisition</label>
+  <label><input type="radio" name="q1" value="d"> That the correct physical device was selected</label>
+  <div class="feedback"><b>b.</b> <code>verified</code> compares a hash the tool computed while writing against one it computed while reading its own output back. The disk is not part of that loop. <b>a</b> also fails for a second reason: an HPA would be excluded from both the image and the log, and the verify would still pass.
+    <span class="ar"><b>ب.</b> تقارن كلمة <code>verified</code> بين hash حسبته الأداة أثناء الكتابة و hash حسبته أثناء إعادة قراءة مخرجاتها هي. و القرص ليس جزءًا من هذه الدورة. و الخيار <b>أ</b> خاطئ لسبب ثانٍ أيضًا: فالـ HPA سيكون مستبعدًا من الصورة و من السجل معًا، و يظل التحقق ناجحًا.</span></div>
+</div>
+    </section>
+
+<section class="page divider" id="p27">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The formats, what &ldquo;verified&rdquo; really covers, and the three sizes one disk can report &mdash; in the form you reach for at the keyboard.<span class="ar">الصيغ، و ما يغطّيه فعلاً &ldquo;verified&rdquo;، و الأحجام الثلاثة التي قد يُعلنها قرص واحد — بالشكل الذي ستحتاجه على الجهاز.</span></p>
+  <p class="divider-meta">1 screen &middot; print it</p>
+</div>
+    </section>
+
+<section class="page" id="p28">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet &mdash; formats, verification, hidden capacity
+  <span class="ar">ورقة المراجعة — الصيغ و التحقق و السعة المخفية</span></h2>
+<p>The page condensed to what you use when you actually image a disk.
+  <span class="ar">الصفحة مختصرة فيما تستعمله وقت تصوير القرص فعلاً.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b>Format</b> &mdash; raw/dd = bytes only &middot; E01 = bytes + metadata + hash + compression &middot; AD1 = a logical collection, not a disk image.<span class="ar">raw/dd = bytes فقط · E01 = bytes + metadata + hash + ضغط · AD1 = مجموعة منطقية لا صورة قرص.</span></li>
+    <li><b>&ldquo;verified&rdquo; is a round trip inside one tool</b> &mdash; write, then read back. The source is never re-read, so an image of the wrong disk verifies perfectly.<span class="ar">&ldquo;verified&rdquo; دورة داخل الأداة الواحدة — تكتب ثم تعيد القراءة. و المصدر لا يُقرأ ثانيةً، فصورة القرص الخطأ تجتاز التحقق تمامًا.</span></li>
+    <li><b>One disk, three sizes</b> &mdash; IDENTIFY_DEVICE &middot; READ_NATIVE_MAX &middot; DCO. Image the smallest and a fully verified image can miss 16% of the drive.<span class="ar">قرص واحد بثلاثة أحجام. صوّر الأصغر، فتفوت نسخةٌ مكتملة التحقق 16% من القرص.</span></li>
+    <li><b>DCO before HPA.</b> A DCO lowers the native maximum HPA is measured against, so the wrong order reports &ldquo;no HPA&rdquo; on a disk that is hiding capacity.<span class="ar">DCO قبل HPA. فالـ DCO يخفض الحد الذي يُقاس عليه الـ HPA، و الترتيب الخطأ يقول &ldquo;لا HPA&rdquo; على قرص يخفي سعة.</span></li>
+  </ul>
+  <p><button class="btn" type="button" onclick="window.print()">&#128424; Print the cheat sheet</button></p>
+</div>
+    </section>
+
+<section class="page divider" id="p29">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Handed in before P06<span class="ar">يُسلَّم قبل P06</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Your homework, then the acquisition section a defence reads first &mdash; where a case is lost before any analysis is questioned.<span class="ar">واجبك، ثم قسم الـ acquisition الذي يقرؤه الدفاع أولاً — حيث تسقط القضية قبل أن يُناقَش أي تحليل.</span></p>
+  <p class="divider-meta">2 screens &middot; the report advances</p>
+</div>
+    </section>
+
+<section class="page" id="p30">
+<span class="kicker">Task &middot; handed in before P06</span>
+<h2>Task &mdash; image a device, and sign the log
+  <span class="ar">الـ task — صوِّر جهازًا، و وقّع السجل</span></h2>
+<p>Three items, and the second one is the assessment.
+  <span class="ar">ثلاثة بنود، و الثاني منها هو التقييم.</span></p>
+<div id="taskList" class="steps"></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Task</th><th>Deliverable</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Finish Case 02a on your own USB, including step 6.<span class="ar">أكمل القضية 02a على قرص USB تملكه، بما فيها الخطوة السادسة.</span></td><td>a filled Section 5<span class="ar">قسم خامس</span></td></tr>
+    <tr><td>2</td><td>Write a paragraph a defence expert could not take apart, describing what your verification covered <b>and what it did not</b>.<span class="ar">اكتب فقرة لا يستطيع خبير الدفاع تفكيكها، تصف ما غطّاه تحققك <b>و ما لم يغطّه</b>.</span></td><td>one paragraph<span class="ar">فقرة</span></td></tr>
+    <tr><td>3</td><td>Run <code>hdparm --dco-identify</code> and <code>hdparm -N</code> against a real disk you own and record both outputs, whatever they say.<span class="ar">نفّذ <code>hdparm --dco-identify</code> و <code>hdparm -N</code> على قرص حقيقي تملكه، و سجّل المخرجات مهما كانت.</span></td><td>both outputs<span class="ar">المخرجات</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>Item 3 will almost certainly come back clean, and that is the point: you should have seen a clean result once, so that the first non-clean one you meet is <b>recognisable rather than alarming</b>.
+    <span class="ar">البند الثالث سيعود نظيفًا على الأرجح، و هذا هو المقصود: أن تكون قد رأيت نتيجة نظيفة مرة، فتكون أول نتيجة غير نظيفة تقابلك <b>مألوفة لا مفزعة</b>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p31">
+<span class="kicker">T09 &middot; Report stage &middot; 6 min</span>
+<h2>Report &mdash; Section 5
+  <span class="ar">التقرير — القسم الخامس</span></h2>
+<p>Nine lines. Six come off the log; three you have to write, and those three are what separate a report from a printout.
+  <span class="ar">تسعة سطور. ستة تُنقل من السجل، و ثلاثة تكتبها أنت — و هذه الثلاثة هي ما يفصل التقرير عن مجرد طباعة.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Field</th><th>Source</th></tr></thead>
+  <tbody>
+    <tr><td>tool and <b>version</b><span class="ar">الأداة و <b>إصدارها</b></span></td><td>the log<span class="ar">السجل</span></td></tr>
+    <tr><td>scope and format, <b>and why</b><span class="ar">النطاق و الصيغة، <b>و السبب</b></span></td><td><b>you</b><span class="ar"><b>أنت</b></span></td></tr>
+    <tr><td>source device identity &mdash; make, model, serial<span class="ar">هوية الجهاز المصدر — النوع و الموديل و الرقم التسلسلي</span></td><td>the device and the custody form<span class="ar">الجهاز و استمارة الحيازة</span></td></tr>
+    <tr><td>sector count, <b>and what you compared it against</b><span class="ar">عدد الـ sectors، <b>و ما قارنته به</b></span></td><td>log + <code>hdparm</code><span class="ar">السجل مع <code>hdparm</code></span></td></tr>
+    <tr><td>DCO and HPA result, <b>in that order</b><span class="ar">نتيجة الـ DCO ثم الـ HPA، <b>بهذا الترتيب</b></span></td><td><code>hdparm</code><span class="ar"><code>hdparm</code></span></td></tr>
+    <tr><td>destination wipe, and its verification<span class="ar">مسح قرص الوجهة، و التحقق منه</span></td><td>the wipe log<span class="ar">سجل المسح</span></td></tr>
+    <tr><td>write blocker, make and model<span class="ar">الـ write blocker، نوعه و موديله</span></td><td>the blocker log<span class="ar">سجل الـ blocker</span></td></tr>
+    <tr><td>hashes, and <b>which tool computed each</b><span class="ar">قيم الـ hash، و <b>أي أداة حسبت كلًّا منها</b></span></td><td>log + your own command<span class="ar">السجل مع الأمر الذي نفّذته أنت</span></td></tr>
+    <tr><td><b>what verification did and did not cover</b><span class="ar"><b>ما غطّاه التحقق و ما لم يغطّه</b></span></td><td><b>you</b><span class="ar"><b>أنت</b></span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The last line, again</span>
+  <p>Write <i>&ldquo;verified against the acquisition hash&rdquo;</i> and, if you did not re-read the source, <b>say so in the same sentence</b>. A limitation you declare is method. The same limitation found by someone else is a hole.
+    <span class="ar">اكتب <i>«جرى التحقق مقابل hash الـ acquisition»</i>، و إن لم تُعد قراءة المصدر <b>فقل ذلك في الجملة نفسها</b>. فالقيد الذي تُعلنه أنت منهج، و القيد نفسه إذا اكتشفه غيرك ثغرة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p32">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>You can state</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>what a chosen scope permanently excludes<span class="ar">ما يستبعده النطاق المختار نهائيًّا</span></td><td>physical, logical and targeted read three different things<span class="ar">الـ physical و الـ logical و الـ targeted تقرأ ثلاثة أشياء مختلفة</span></td></tr>
+    <tr><td>why an AD1 is a <b>collection</b> and not an image<span class="ar">لماذا الـ AD1 <b>collection</b> لا image</span></td><td>no unallocated space, no slack, no deleted content<span class="ar">لا مساحة غير مخصّصة و لا slack و لا محتوى محذوف</span></td></tr>
+    <tr><td>that one disk can report three different sizes<span class="ar">أن قرصًا واحدًا قد يُعلن ثلاثة أحجام</span></td><td>IDENTIFY_DEVICE, READ_NATIVE_MAX and the DCO<span class="ar">أوامر IDENTIFY_DEVICE و READ_NATIVE_MAX و الـ DCO</span></td></tr>
+    <tr><td>why the DCO check comes <b>before</b> the HPA check<span class="ar">لماذا يأتي فحص الـ DCO <b>قبل</b> فحص الـ HPA</span></td><td>a DCO lowers the native max the HPA check measures against<span class="ar">لأن الـ DCO يخفض الحد الأصلي الذي يقيس عليه فحص الـ HPA</span></td></tr>
+    <tr><td>exactly what <code>verified</code> covers<span class="ar">ما تغطّيه كلمة <code>verified</code> بالضبط</span></td><td>a write-then-read round trip inside one tool<span class="ar">دورة كتابة ثم قراءة داخل أداة واحدة</span></td></tr>
+    <tr><td>the difference between verified, complete and correct<span class="ar">الفرق بين verified و complete و correct</span></td><td>only the first one is automatic<span class="ar">الأولى وحدها هي التلقائية</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this page turns on</span>
+  <ul>
+    <li><b>An acquisition is the only step you cannot repeat &mdash; and the word that says it went well describes the smallest part of it.</b>
+      <span class="ar"><b>الـ acquisition هي الخطوة الوحيدة التي لا تُعاد — و الكلمة التي تقول إنها نجحت تصف أصغر جزء منها.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p33">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td><b>Exterro</b> &mdash; FTK Imager downloads and product pages<span class="ar">Exterro — صفحات تنزيل FTK Imager</span></td><td>current version line, and the free / Pro split<span class="ar">خط الإصدار الحالي، و الفصل بين المجاني و Pro</span></td></tr>
+    <tr><td><b>Kali Linux</b> &mdash; dc3dd and libewf package pages<span class="ar">Kali Linux — صفحتا حزمتي dc3dd و libewf</span></td><td>packaged version, options, and <code>ewfverify</code><span class="ar">الإصدار المحزوم و الخيارات و <code>ewfverify</code></span></td></tr>
+    <tr><td><b>Forensics Wiki</b> &mdash; DCO and HPA<span class="ar">Forensics Wiki — الـ DCO و الـ HPA</span></td><td><code>hdparm -N</code> and <code>--dco-identify</code> output shape<span class="ar">شكل مخرجات <code>hdparm</code></span></td></tr>
+    <tr><td><b>INE eCDFP</b> modules 1 and 3<span class="ar">وحدتا INE eCDFP الأولى و الثالثة</span></td><td>format comparison, the acquisition log, and the three-capacity example<span class="ar">مقارنة الصيغ، و سجل الـ acquisition، و مثال الأحجام الثلاثة</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Evidence note.</b> `T09` is taught against <b>a device the student owns and can check</b>, rather than against <code>EVS-02</code>, which has not been acquired yet. That is not only a workaround: for an acquisition exercise, <b>knowing ground truth is worth more than realism</b>, because it is the only way to tell a tool&rsquo;s mistake from your own. When <code>EVS-02</code> lands it becomes the second exercise, not the first.
+    <span class="ar"><b>ملاحظة عن الدليل.</b> يُدرَّس `T09` على <b>جهاز يملكه الطالب و يستطيع مراجعته</b>، لا على <code>EVS-02</code> الذي لم يُؤخذ بعد. و هذا ليس مجرد حلٍّ بديل: ففي تمرين acquisition تكون <b>معرفة الحقيقة أثمن من الواقعية</b>، لأنها الطريقة الوحيدة للتمييز بين خطأ الأداة و خطئك أنت. و حين يصل <code>EVS-02</code> يصبح التمرين الثاني لا الأول.</span></p>
+</div>
+<p><b>Next: `P06` &mdash; Hidden information.</b> You now have an image you trust. `T10` asks what can be inside it that a file listing will never show you.
+  <span class="ar"><b>التالي: `P06` — إخفاء المعلومات.</b> صار لديك الآن صورة تثق بها. و يسأل `T10` عمّا يمكن أن يكون بداخلها مما لا تُظهره قائمة الملفات أبدًا.</span></p>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 33</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P05</b> &middot; content from
+     <code>packages/page-05/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t09a', [
+ {screen:'fkSel', target:'c1',
+  en:'The first dialog is the <b>scope decision</b>, and it is the one people click through fastest. <b>Contents of a Folder</b> produces a collection, not an image &mdash; and no later analysis can add back what it left out.',
+  ar:'أول نافذة هي <b>قرار النطاق</b>، و هي التي يمرّ الناس عليها بأسرع ما يكون. و خيار <b>Contents of a Folder</b> يُنتج collection لا image — و لا تحليل لاحق يستطيع أن يعيد ما تركه.'},
+ {screen:'fkDrv', target:'c2',
+  en:'Three devices, and two of them are yours. <b>Read the size and the interface, not the position in the list.</b> Imaging the wrong drive is not a rare mistake; it is the most common one.',
+  ar:'ثلاثة أجهزة، اثنان منها لك أنت. <b>اقرأ الحجم و نوع التوصيل، لا ترتيب الجهاز في القائمة.</b> و تصوير القرص الخطأ ليس خطأً نادرًا، بل هو الأكثر شيوعًا.'},
+ {screen:'fkFmt', target:'c3',
+  en:'<b>E01</b> unless the media is very large. It carries a per-chunk checksum and an acquisition hash <i>inside the file</i>, so the image can be checked even if your notes are lost.',
+  ar:'<b>E01</b> إلا إذا كان الـ media كبيرًا جدًّا. فهو يحمل checksum لكل جزء و hash للـ acquisition <i>داخل الملف</i>، فيمكن التحقق من الصورة حتى لو ضاعت ملاحظاتك.'},
+ {screen:'fkMeta', target:'c4',
+  en:'Every field here is <b>free text you typed</b>. An evidence number inside an E01 is a claim, not corroboration &mdash; the container faithfully preserves whatever you wrote, including a mistake.',
+  ar:'كل حقل هنا <b>نصّ حرّ كتبته أنت</b>. فرقم الدليل داخل الـ E01 ادّعاء لا إسناد — إذ يحفظ الملف بأمانة ما كتبته، بما في ذلك الخطأ.'},
+ {screen:'fkRun', target:'c5',
+  en:'Two progress bars. The first writes the image. <b>The second is the tool reading back its own output</b> &mdash; and that second bar is the entire meaning of the word <code>verified</code>.',
+  ar:'شريطا تقدّم. الأول يكتب الصورة. <b>و الثاني هو الأداة تقرأ مخرجاتها هي</b> — و هذا الشريط الثاني هو كل معنى كلمة <code>verified</code>.'},
+ {screen:'fkLog', target:'c6',
+  en:'The log is the page you attach to the chain of custody. But <b>Sector count</b> is what the <i>interface</i> reported: if the disk has an HPA, this line records the shortened size as though it were the whole drive.',
+  ar:'السجل هو الصفحة التي ترفقها بـ chain of custody. لكن <b>Sector count</b> هو ما أعلنه <i>التوصيل</i>: فإن كان في القرص HPA، سجّل هذا السطر الحجم المنقوص كأنه القرص كله.'}
+]);
+SimScreen.init('#ss-t09b', [
+ {screen:'dcHpa', target:'d1',
+  en:'Before imaging: ask the disk how big it is, <b>twice, in the right order</b>. The DCO answer is the ceiling; the HPA check is measured against it.',
+  ar:'قبل التصوير: اسأل القرص عن حجمه <b>مرتين، بالترتيب الصحيح</b>. فإجابة الـ DCO هي السقف، و فحص الـ HPA يُقاس عليها.'},
+ {screen:'dcWipe', target:'d2',
+  en:'Wipe the destination and <b>verify the wipe</b>. A destination that still holds an old case means anything you carve later has two possible origins, and you cannot tell them apart.',
+  ar:'امسح قرص الوجهة، ثم <b>تحقّق من المسح</b>. فوجهة ما زالت تحمل قضية قديمة تعني أن لأي شيء تستخرجه لاحقًا مصدرين محتملين، و لن تستطيع التمييز بينهما.'},
+ {screen:'dcAcq', target:'d3',
+  en:'The acquisition. Watch <b>sectors in</b> against <b>sectors out</b>: if they differ, a read error was padded with zeroes rather than copied, and a region of zeroes in the image was never zeroes on the disk.',
+  ar:'عملية الـ acquisition. راقب <b>sectors in</b> مقابل <b>sectors out</b>: فإن اختلفا، فقد جرى ملء خطأ قراءة بأصفار بدل نسخه، و تكون منطقة الأصفار في الصورة لم تكن أصفارًا على القرص أصلاً.'},
+ {screen:'dcVer', target:'d4',
+  en:'Verify with <b>different code</b> than the code that wrote it. <code>dc3dd</code> asserted this hash while writing; <code>sha256sum</code> computes it afterwards from the finished file.',
+  ar:'تحقّق باستخدام <b>كود مختلف</b> عن الكود الذي كتب الملف. فقد أعلن <code>dc3dd</code> هذا الـ hash أثناء الكتابة، و يحسبه <code>sha256sum</code> بعد ذلك من الملف المكتمل.'},
+ {screen:'dcSrc', target:'d5',
+  en:'And the line almost nobody runs: <b>hash the source again</b>. This is the only command here that says anything about the <i>disk</i>. It is practical on a 16 GB USB behind a blocker and not practical on a 4 TB drive &mdash; so when you skip it, <b>say in the report that you skipped it</b>.',
+  ar:'ثم السطر الذي لا يكاد أحد ينفّذه: <b>احسب hash للمصدر مرة أخرى</b>. و هو الأمر الوحيد هنا الذي يقول شيئًا عن <i>القرص</i>. ممكن على USB سعته ١٦ جيجابايت خلف blocker، و غير عملي على قرص سعته ٤ تيرابايت — فإن تجاوزته، <b>فاذكر في التقرير أنك تجاوزته</b>.'}
+]);
+Dgm.init('#dg-lc-p05', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>الجمع.</b> أن تأخذ الدليل من الجهاز دون أن تغيّره.'},
+ {en:'<b>PRESERVE.</b> Prove the copy still equals what you took, months later.', ar:'<b>الحفظ.</b> أن تُثبت أن النسخة ما زالت تساوي ما أخذته، بعد شهور.'},
+ {en:'<b>ANALYSE.</b> Read what is inside the copy.', ar:'<b>التحليل.</b> أن تقرأ ما داخل النسخة.'},
+ {en:'<b>VALIDATE.</b> Check your own result &mdash; a second tool, a second examiner.', ar:'<b>التحقق.</b> أن تراجع نتيجتك أنت — بأداة ثانية، أو فاحص ثانٍ.'},
+ {en:'<b>PRESENT.</b> Write it so someone who was not there can follow it.', ar:'<b>العرض.</b> أن تكتبها بحيث يتابعها من لم يحضر.'},
+ {en:'Still <b>stage 1</b>. <code>P04</code> took the volatile half of the acquisition; this page takes the other half &mdash; the disk, which waits for you, and therefore gets no excuses.', ar:'ما زلنا في <b>المرحلة الأولى</b>. أخذ <code>P04</code> النصف المتطاير من الـ acquisition، و هذه الصفحة تأخذ النصف الآخر — القرص، الذي ينتظرك، و لذلك لا يُقبل فيه عذر.',key:true}
+]);
+Dgm.init('#dg-p05-f1', [
+ {en:'<b>Physical.</b> Every sector the controller admits to, from LBA 0 to the end. Partitions, the gaps between them, unallocated space, slack &mdash; all of it.', ar:'<b>الـ physical.</b> كل sector يُقرّ به الـ controller، من LBA صفر إلى النهاية. الـ partitions، و الفراغات بينها، و المساحة غير المخصّصة، و الـ slack — كل ذلك.'},
+ {en:'<b>Logical.</b> One volume, as the file system presents it. You still get unallocated space <i>inside</i> that volume &mdash; but nothing outside it, and nothing in the gaps between partitions.', ar:'<b>الـ logical.</b> volume واحد، كما يعرضه نظام الملفات. تحصل على المساحة غير المخصّصة <i>داخل</i> هذا الـ volume — لكن لا شيء خارجه، و لا شيء في الفراغات بين الـ partitions.'},
+ {en:'<b>Targeted.</b> A list of paths you chose. There is no unallocated space, no slack and no deleted content, because none of that was on the list.', ar:'<b>الـ targeted.</b> قائمة مسارات اخترتها أنت. لا مساحة غير مخصّصة، و لا slack، و لا محتوى محذوف — لأن شيئًا من ذلك لم يكن على القائمة.'},
+ {en:'Pick the narrowest scope and you cannot widen it later: the disk goes back, and <b>&ldquo;it was not in what I collected&rdquo; is the only sentence you will be able to write</b>.', ar:'إن اخترت أضيق نطاق فلن تستطيع توسيعه بعد ذلك: القرص يعود إلى صاحبه، و تصبح الجملة الوحيدة التي تستطيع كتابتها هي <b>«لم يكن ضمن ما جمعته»</b>.',key:true}
+]);
+Dgm.init('#dg-p05-f2', [
+ {en:'<b>Raw.</b> Every sector, nothing else. No hash inside it, no case metadata, no tamper evidence &mdash; lose the sidecar hash file and there is nothing in the image itself to check.', ar:'<b>الـ raw.</b> كل الـ sectors و لا شيء غير ذلك. لا hash بداخله، و لا بيانات قضية، و لا دليل على العبث — فإن ضاع ملف الـ hash المجاور، لم يبقَ داخل الصورة نفسها ما تتحقق منه.'},
+ {en:'<b>E01.</b> The same sectors, plus a per-chunk checksum, an acquisition hash and a metadata header. It is slower to write and slower to read, and on very large media that cost is real.', ar:'<b>الـ E01.</b> الـ sectors نفسها، مع checksum لكل جزء، و hash للـ acquisition، و header للبيانات. و هو أبطأ في الكتابة و القراءة، و على الوسائط الكبيرة جدًّا تكون هذه التكلفة حقيقية.'},
+ {en:'<b>AD1.</b> Only the paths you chose. <b>No unallocated space, no slack, no deleted files</b>, and most non-AccessData tools cannot open it at all.', ar:'<b>الـ AD1.</b> المسارات التي اخترتها فقط. <b>لا مساحة غير مخصّصة، و لا slack، و لا ملفات محذوفة</b>، و معظم الأدوات خارج AccessData لا تفتحه أصلاً.'},
+ {en:'So an AD1 can support <i>&ldquo;the file was not in what I collected&rdquo;</i> and never <i>&ldquo;the file was not on the machine&rdquo;</i>. Call it a <b>logical collection</b> in the report, never an image.', ar:'إذن يحتمل الـ AD1 عبارة <i>«لم يكن الملف ضمن ما جمعته»</i>، و لا يحتمل أبدًا <i>«لم يكن الملف على الجهاز»</i>. سمِّه في التقرير <b>logical collection</b>، و لا تسمّه image.',key:true}
+]);
+Dgm.init('#dg-p05-f3', [
+ {en:'The disk answers <code>IDENTIFY_DEVICE</code> with <b>100,000,000</b> sectors. Windows believes it. Your imager believes it. This is the number that ends up in the acquisition log.', ar:'يجيب القرص عن <code>IDENTIFY_DEVICE</code> بـ<b>100,000,000</b> sector. يصدّقه Windows، و تصدّقه أداة التصوير. و هذا هو الرقم الذي ينتهي في سجل الـ acquisition.'},
+ {en:'Ask <code>READ_NATIVE_MAX_ADDRESS</code> and it says <b>156,301,488</b>. The gap is a <b>Host Protected Area</b> &mdash; real sectors the drive was told to stop admitting to.', ar:'اسأل <code>READ_NATIVE_MAX_ADDRESS</code> فيقول <b>156,301,488</b>. و الفرق هو <b>Host Protected Area</b> — sectors حقيقية طُلب من القرص أن يتوقّف عن الإقرار بها.',key:true},
+ {en:'Now ask the <b>DCO</b>: <b>625,142,447</b>. A Device Configuration Overlay sits <i>below</i> the HPA and hides capacity from the HPA check itself.', ar:'و الآن اسأل الـ <b>DCO</b>: <b>625,142,447</b>. فالـ Device Configuration Overlay يقع <i>تحت</i> الـ HPA، و يُخفي مساحة عن فحص الـ HPA نفسه.',key:true},
+ {en:'Three sizes, one disk. Image the first number in good faith and <b>your complete forensic image covers 16% of the drive</b> &mdash; and nothing in it says so.', ar:'ثلاثة أحجام لقرص واحد. صوّر الرقم الأول بحسن نية، فتكون <b>نسختك الجنائية الكاملة قد غطّت ١٦٪ من القرص</b> — و لا شيء داخلها يقول ذلك.',key:true}
+]);
+Dgm.init('#dg-p05-f4', [
+ {en:'The natural move is to check for an HPA first. <code>hdparm -N</code> compares what the drive reports against what it says its native maximum is.', ar:'الخطوة الطبيعية أن تفحص الـ HPA أولاً. يقارن <code>hdparm -N</code> ما يُعلنه القرص بما يقول إنه أقصى حجم أصلي له.'},
+ {en:'But if a <b>DCO</b> is set, it has already lowered the native maximum. The two numbers agree, and the tool reports <b>no HPA</b> &mdash; on a disk with hidden capacity.', ar:'لكن إن كان هناك <b>DCO</b> مضبوط، فقد خفّض بالفعل الحد الأقصى الأصلي. فيتطابق الرقمان، و تُعلن الأداة <b>لا يوجد HPA</b> — على قرص فيه مساحة مخفية.',key:true},
+ {en:'So the order is fixed: <b>DCO first, then HPA</b>. The DCO answer is the ceiling every later question is measured against.', ar:'فالترتيب ثابت إذن: <b>الـ DCO أولاً، ثم الـ HPA</b>. فإجابة الـ DCO هي السقف الذي يُقاس عليه كل سؤال بعده.',key:true}
+]);
+Dgm.init('#dg-p05-f5', [
+ {en:'The imager reads the source <b>once</b>.', ar:'تقرأ أداة التصوير المصدر <b>مرة واحدة</b>.'},
+ {en:'As it writes, it computes a hash of what it is writing. Call it <b>A</b>.', ar:'و أثناء الكتابة تحسب hash لما تكتبه. سمِّه <b>A</b>.'},
+ {en:'When the image is finished, it <b>reads its own output back</b> and computes a second hash, <b>B</b>.', ar:'و عند انتهاء الصورة، <b>تعيد قراءة مخرجاتها هي</b> و تحسب hash ثانيًا، <b>B</b>.'},
+ {en:'<b>A equals B</b>, and the log says <code>verified</code>. What that proves is real and narrow: the write-then-read round trip was clean.', ar:'<b>A يساوي B</b>، فيكتب السجل <code>verified</code>. و ما يُثبته ذلك حقيقي و ضيّق: أن دورة الكتابة ثم القراءة تمّت سليمة.'},
+ {en:'And the source was <b>never read again</b>. So <code>verified</code> says nothing about the disk, nothing about whether a write blocker was attached, and nothing about whether you imaged the right device.', ar:'أما المصدر <b>فلم يُقرأ مرة أخرى</b>. فكلمة <code>verified</code> لا تقول شيئًا عن القرص، و لا عن وجود write blocker، و لا عمّا إذا كنت قد صوّرت الجهاز الصحيح.',key:true}
+]);
+</script>
+
+</body>
+</html>

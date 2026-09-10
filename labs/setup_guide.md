@@ -115,11 +115,16 @@ Tools are installed in the order the course introduces them (see `design/tools_b
 
 **7.7 - Volatility symbols for air-gap** (`scripts/install/06_symbols_airgap.ps1`) - stages `windows.zip` into the Volatility symbols folder so memory analysis works offline (essential on the student image; optional on an online box).
 
-### Step 8 - Verify + CLEAN-TOOLS snapshot
+### Step 8 - Verify + baseline manifest + CLEAN-TOOLS snapshot
 1. Run `scripts/install/verify_tools.ps1` - every row must read **[PASS]** (FTK Imager included, once installed).
-2. Shut the VM down.
-3. VMware -> **VM -> Snapshot -> Take Snapshot** -> name **`CLEAN-TOOLS`**, description *"Full analyst kit installed and verified - before any evidence."*
-4. This is the known-good baseline the course rolls back to (S1-F6 snapshot lineage). **Kali:** `sudo apt install -y plaso` for the super-timeline work.
+2. **Run `scripts/install/make_tools_manifest.ps1`** - writes `C:\Forensics\Tools\TOOLS.sha256`, the
+   SHA-256 of every tool binary at this moment. **`P01`'s guided lab opens this file**, so the
+   snapshot is not taken until it exists.
+   *It proves a tool has not changed since this baseline. It does **not** prove the binary is what
+   the vendor published - that distinction is taught in `T03`.*
+3. Shut the VM down.
+4. VMware -> **VM -> Snapshot -> Take Snapshot** -> name **`CLEAN-TOOLS`**, description *"Full analyst kit installed, verified and hashed - before any evidence."*
+5. This is the known-good baseline the course rolls back to (S1-F6 snapshot lineage). **Kali:** `sudo apt install -y plaso` for the super-timeline work.
 
 ### Step 9 - Desktop shortcuts (optional QoL)
 Run `scripts/install/create_shortcuts.ps1` (elevated) to drop double-click shortcuts on the **Public Desktop** for the GUI tools (Autopsy, FTK Imager, HxD, Wireshark, OSFMount, Arsenal Image Mounter, NetworkMiner, PhotoRec, Registry/Timeline/ShellBags/MFT Explorer, CyberChef) plus a **Forensic CLI** launcher and a **tools folder** shortcut for the command-line tools. Public Desktop = visible to every user, so it survives cloning to the student image. **Do this before the CLEAN-TOOLS snapshot** so the snapshot already has them.

@@ -101,19 +101,42 @@
     }
     paint();
 
-    tick = setInterval(function () {
-      left -= 1;
-      if (left <= 0) {
-        left = 0;
+    var toggleBtn = card.querySelector('[data-timer-action="toggle"]');
+    var resetBtn  = card.querySelector('[data-timer-action="reset"]');
+
+    function stop() {
+      if (tick) { clearInterval(tick); tick = null; }
+      if (toggleBtn) toggleBtn.textContent = 'Resume';
+    }
+    function start() {
+      if (tick || left <= 0) return;
+      if (toggleBtn) toggleBtn.textContent = 'Pause';
+      tick = setInterval(function () {
+        left -= 1;
+        if (left <= 0) {
+          left = 0;
+          paint();
+          clearInterval(tick); tick = null;
+          card.classList.add('is-done');
+          var done = card.getAttribute('data-timer-done');
+          if (out) out.textContent = done || "Time's up";
+          if (toggleBtn) toggleBtn.textContent = 'Start';
+          return;
+        }
         paint();
-        clearInterval(tick); tick = null;
-        card.classList.add('is-done');
-        var done = card.getAttribute('data-timer-done');
-        if (out) out.textContent = done || "Time's up";
-        return;
-      }
+      }, 1000);
+    }
+    if (toggleBtn) toggleBtn.addEventListener('click', function () {
+      if (tick) stop(); else { card.classList.remove('is-done'); start(); }
+    });
+    if (resetBtn) resetBtn.addEventListener('click', function () {
+      stop();
+      left = mins * 60;
+      card.classList.remove('is-done');
       paint();
-    }, 1000);
+      if (toggleBtn) toggleBtn.textContent = 'Start';
+    });
+    start();
   }
 
   /* -------------------------------------------- data-node / data-detail panels
@@ -151,6 +174,23 @@
     });
   }
   wireNodes(document);
+
+  /* ---------------------------------------------- figure play controls (D51)
+     Every animated figure sits behind an explicit control -- nothing here
+     starts an animation on its own. SMIL binds to the DOM click event, and an
+     SVG <g> has no .click() method, so Enter/Space dispatches a real
+     MouseEvent rather than calling one.                                      */
+  function wirePlay(root) {
+    [].slice.call(root.querySelectorAll('.svg-play')).forEach(function (btn) {
+      btn.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        btn.dispatchEvent(new MouseEvent('click',
+          { bubbles: true, cancelable: true, view: window }));
+      });
+    });
+  }
+  wirePlay(document);
 
   /* ------------------------------------------------------------------ print */
   var printBtn = document.querySelector('[data-action="print"]');

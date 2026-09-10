@@ -8,7 +8,7 @@ the session page.
 
 | Objective | Questions |
 |---|---|
-| **O1** sequence a collection by order of volatility | 5 |
+| **O1** identify a file from its first bytes; the name is not evidence | 5 |
 | **O2** verify against a manifest; report a mismatch as a finding | 1 · 6 · 10 |
 | **O3** separate findings from interpretation | 2 · 3 · 4 · 9 |
 | **O4** complete a chain-of-custody record; identify the gap | 8 |
@@ -80,15 +80,14 @@ afterwards are identical.
 
 ## Q5 · MCQ · O1
 
-You arrive at a running workstation. A process you do not recognise is writing continuously to
-disk, and the file names suggest a wiper is running.
+A file named `report.pdf` is opened in a hex editor. Its first four bytes are `50 4B 03 04`.
 
-**What do you do first?**
+**What may you write in the Findings section?**
 
-- **A** — Capture RAM, because RAM is the most volatile store.
-- **B** — Pull the power, accepting the loss of RAM.
-- **C** — Run a live-response collector, then decide.
-- **D** — Image the disk while the machine is running.
+- **A** — The file at that path begins `50 4B 03 04`, which is the ZIP signature.
+- **B** — The file is a ZIP archive the user renamed to hide it.
+- **C** — The file is corrupt, because the extension does not match the content.
+- **D** — Nothing. The extension is authoritative and the file is a PDF.
 
 ---
 

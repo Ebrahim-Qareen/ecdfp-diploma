@@ -17,7 +17,7 @@ The **published course site** and the **planning behind it**. It does not hold e
 
 | | |
 |---|---|
-| `docs/` | the site served by GitHub Pages — dashboard, session pages, shared CSS/JS |
+| `docs/` | the site served by GitHub Pages — dashboard, the 14 topic pages (`page-01`…`page-14`), shared CSS/JS |
 | `design/` | coverage matrix, topic map, scope decisions, the design system |
 | `knowledge_base/` | condensed reference, one file per INE module |
 | `packages/` | instructor documents — in the repo, never served |
@@ -41,6 +41,8 @@ The **published course site** and the **planning behind it**. It does not hold e
 
 One incident runs through all six. It is acquired in Session 2 and cut deeper every session
 after, so students learn an investigation as a continuous arc rather than six disconnected labs.
+
+Each session is delivered as **topic pages** (`docs/page-01` … `page-14`), each ending in a free, report-backed lab task.
 
 ---
 
@@ -92,9 +94,10 @@ dependencies — it renders on a classroom machine with no internet.
 Nothing is published until it passes the gate:
 
 ```bash
-node testing/render_gate.js docs/session-NN/index.html          # 1400/1100/900/700/480
-powershell -File tools\precommit_scan.ps1                       # credentials · PII · evidence bytes
-powershell -File tools\check_links.ps1                          # every href and src resolves
+python3 scripts/density_gate.py docs/page-NN/index.html          # bilingual density + terminology
+python3 scripts/order_gate.py                                    # topic order and coverage
+node   testing/render_gate.js docs/page-NN/index.html            # 1400/1100/900/700/480
+powershell -File tools\precommit_scan.ps1                        # credentials · PII · evidence bytes
 ```
 
 The render harness is mutation-tested — see `testing/README.md`.

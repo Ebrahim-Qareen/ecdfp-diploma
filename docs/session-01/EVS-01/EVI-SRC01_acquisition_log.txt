@@ -1,0 +1,34 @@
+Created By ITGate Forensic Imager 8.3
+
+Case Information:
+ Case Number       : ITG-2026-014
+ Evidence Number   : ITG-2026-014-A1
+ Unique Description: Finance workstation system disk, EVI-SRC01
+ Examiner          : Examiner 1, ITGate Digital Forensics
+ Notes             : Imaged on a hardware write blocker. Blocker make/model/
+                     serial and firmware are recorded on the chain of custody
+                     form, not in this file.
+
+Source Drive Geometry:
+ Cylinders         : 60 801
+ Tracks per Cylinder: 255
+ Sectors per Track : 63
+ Bytes per Sector  : 512
+ Sector Count      : 976 773 168
+ Source drive interface : SATA
+ Removable         : False
+
+Acquisition started : 2026-03-04 09:14:03 UTC
+Acquisition finished: 2026-03-04 11:47:33 UTC
+
+Image Verification Results:
+ Verification started : 2026-03-04 11:47:35 UTC
+ Verification finished: 2026-03-04 12:31:08 UTC
+ MD5 checksum   : (computed over the written image)  : verified
+ SHA256 checksum: (computed over the written image)  : verified
+
+ NOTE ON SCOPE OF VERIFICATION
+ The verification above compares the digest computed while WRITING the image
+ against the digest computed while READING THE IMAGE BACK. The source drive
+ was not re-read during verification. This log records the tool's own
+ write-then-read round trip and nothing about the state of the source.

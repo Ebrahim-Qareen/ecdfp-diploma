@@ -15,8 +15,9 @@
 /knowledge_base/_source_text/
 
 # Answers. The repo is public, so "instructor copy only" has to be enforced here.
+/instructor/
 /cases/*/answer_key.md
-/packages/*/quiz_answer_key.md
+/packages/*/*_answer_key.md
 
 # Lab virtual machines and installer media (~78 GB - never version these)
 /tools/Windows-Victim/

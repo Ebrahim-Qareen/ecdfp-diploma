@@ -1,16 +1,19 @@
 # topic_map.md — eCDFP Diploma
 
-**One row per topic.** Built 2026-08-28 from `coverage_matrix.md` (the locked Part 4 roadmap) and
-`scope_decisions.md` (the Part 12 answers). Measured against the matrix, not the reverse — where the
-two disagree, the matrix is right and this file is wrong.
+**GENERATED — never hand-edit.** Regenerated 2026-09-08 for the `D79`–`D96` rebuild.
+Reasoning lives in `design/session_blueprint.md`; the structure this file must emit is defined in
+`00_INSTRUCTIONS.md` Part 4 (`D84`).
 
-**The budget (D15 · D23).** Every session is 240 min of slot and **220 min of teaching**: 15 min break plus
-**205 min of topic time**, split 130 integrated · 60 blocked investigation · 15 hash-verify and
-chain-of-custody close. Every session below totals **exactly 205 + 15 = 220**. Nothing overflows, so
-nothing was re-split (D26).
+**The unit is the TOPIC (`D79`).** A session is a container filled on the day. A **page** holds one
+to three topics, and **each topic keeps its own bridge, theory, guided practice, independent work
+and report stage** even when it shares a page.
 
-**Rule.** If a session ever exceeds 220, it is re-split *here* and the instructor is told. Overflow is
-never carried into the build (Part 8 step 1).
+**Budget.** 25 topics · 14 pages · **1140 topic minutes**. A session carries **190 topic minutes**
+plus a 15-min integrity close and a 15-min break = 220 teaching minutes in a 240-minute slot.
+`1140 ÷ 190 = 6 sessions` (`D1`).
+
+**The six hash-verify / chain-of-custody rituals are NOT in this map** — they are the session's
+integrity close (`D79`), 15 min × 6 = 90 min, budgeted per session.
 
 **Domain codes:** `F` Fundamentals · `T` Tools & Techniques · `P` Preservation · `S` Storage.
 
@@ -18,250 +21,359 @@ never carried into the build (Part 8 step 1).
 
 ## Evidence sets referenced
 
-Provisional IDs. `design/evidence_sets.md` (Phase 3, `ecdfp-evidence`) owns the final IDs, licences,
-sizes and hashes, and is the only file that may declare a set **verified**. A session cannot start
-until every set it names here is verified and hashed (Part 8 step 0).
+`design/evidence_sets.md` owns the final IDs, licences, sizes and hashes, and is the only file that
+may declare a set **verified**. A session cannot start until every set it names here is verified.
 
 | ID | Set | Tier | Sessions |
-|---|---|---|---|
-| `EVS-01` | Integrity starter set — 4 files + signed manifest, one tampered | 3 · synthesized | S1 |
-| `EVS-02` | **EVI-SRC01 disk image (E01)** — the carry-through incident | 1 · own lab | S2 · S3 · S4 · S5 · S6 |
-| `EVS-03` | EVI-SRC01 memory dump | 1 · own lab | S2 · S6 |
-| `EVS-04` | Suspect USB image — the exfiltration medium | 1 · own lab | S2 · S4 · S5 |
-| `EVS-05` | File-type identification set — 12 renamed / corrupted files | 3 · synthesized | S3 |
-| `EVS-06` | The malicious document, extracted from EVS-02 | 1 · own lab | S3 |
-| `EVS-07` | Wiped-partition-table image | 1 · own lab | S4 |
-| `EVS-08` | C2 beacon + RDP session pcap | 3 · scapy, fixed seed | S6 |
-| `EVS-09` | KAPE triage collection from EVI-SRC01 | 1 · own lab | S2 |
+|
 
 ---
 
-## S1 — Forensic Foundations, Evidence Integrity & Chain of Custody
+## The map
 
-`Tier A` · INE **M1 intro** · 10 topics · **205 + 15 break = 220 min**
-
-| ID | Topic | INE source | Prerequisites | Session # | Hands-on? | Est. minutes | Domain | Evidence needed |
-|---|---|---|---|---|---|---:|:-:|---|
-| `S1-01` | What digital forensics is — the mandate, the evidence lifecycle, and what an investigator may not claim | M1 intro | — | 1 | No | 15 | `F` | — |
-| `S1-02` | Forensic principles — order of volatility, minimal footprint, repeatability, always work on a copy | M1 intro | S1-01 | 1 | No | 20 | `F` | — |
-| `S1-03` | What makes evidence defensible — relevance, authenticity, integrity | M1 intro | S1-02 | 1 | No | 12 | `F` | — |
-| `S1-04` | The fixed forensic report template — findings vs interpretation (D7) | M5 | S1-03 | 1 | Yes | 25 | `F` | EVS-01 |
-| `S1-05` | Analyst toolkit install and the `CLEAN-TOOLS` snapshot | M1 | pre-built base VM (D17) | 1 | Yes | 20 | `T` | — |
-| `S1-06` | Cryptographic hashing for evidence — MD5, SHA-256, what a hash proves and what it does not | M1 | S1-02 | 1 | Yes | 18 | `T` | EVS-01 |
-| `S1-07` | Chain of custody — the form and the discipline | M1 | S1-06 | 1 | Yes | 12 | `P` | EVS-01 |
-| `S1-08` | Write blocking — hardware vs software, and how to prove one was used | M1 | S1-07 | 1 | Yes | 8 | `P` | — |
-| `S1-09` | **[INVESTIGATION]** Case 01 — verify 4 files against a signed manifest, find the tampered one | M1 | S1-06 · S1-07 | 1 | Yes | 60 | `P` | EVS-01 |
-| `S1-10` | **[RITUAL]** Hash-verify + chain-of-custody close | M1 | S1-07 | 1 | Yes | 15 | `P` | EVS-01 |
-
-**Block check** — integrated 130 · investigation 60 · ritual 15 · break 15 = **220 min** (ceiling 220) · hands-on 158 min
-
-**Domain check** vs the scaled target in `coverage_matrix.md` §3:
-
-| Domain | This map | Target | Δ |
-|---|---:|---:|---:|
-| Fundamentals | 72 | 77 | -5 |
-| Tools | 38 | 38 | +0 |
-| Preservation | 95 | 90 | +5 |
-
----
-
-## S2 — Acquisition — Disk, Memory & Live Response
-
-`Tier A` · INE **M1** · 10 topics · **205 + 15 break = 220 min**
-
-| ID | Topic | INE source | Prerequisites | Session # | Hands-on? | Est. minutes | Domain | Evidence needed |
-|---|---|---|---|---|---|---:|:-:|---|
-| `S2-01` | Order of volatility in practice — the collection sequence, and what you destroy by getting it wrong | M1 | S1-02 | 2 | No | 15 | `P` | — |
-| `S2-02` | Live response — volatile data collection on a running host | M1 | S2-01 | 2 | Yes | 25 | `P` | EVI-SRC01 live |
-| `S2-03` | Memory acquisition — why it comes first, the tools, and the pitfalls | M1 | S2-02 | 2 | Yes | 20 | `P` | EVS-03 |
-| `S2-04` | Physical vs logical acquisition — what each captures and what each misses | M1 | S1-02 | 2 | No | 20 | `S` | — |
-| `S2-05` | Image formats — E01 vs raw (dd) vs AD1, compression, embedded verification | M1 | S2-04 | 2 | No | 15 | `S` | EVS-02 |
-| `S2-06` | FTK Imager — correct use and verification. **Instructor demo: imaging EVI-SRC01** | M1 | S2-05 · S1-06 | 2 | Yes | 20 | `T` | EVS-02 |
-| `S2-07` | `dc3dd` on Kali (clean snapshot) and KAPE targeted triage | M1 | S2-06 | 2 | Yes | 15 | `T` | EVS-09 |
-| `S2-08` | **[INVESTIGATION]** Case 02a — acquire and verify the suspect USB | M1 | S2-06 | 2 | Yes | 35 | `P` | EVS-04 |
-| `S2-09` | **[INVESTIGATION]** Case 02b — examine the acquired image's partition and file-system structure | M1 · M3 | S2-08 | 2 | Yes | 25 | `S` | EVS-04 |
-| `S2-10` | **[RITUAL]** Hash-verify + chain-of-custody close | M1 | S1-07 | 2 | Yes | 15 | `P` | EVS-04 |
-
-**Block check** — integrated 130 · investigation 60 · ritual 15 · break 15 = **220 min** (ceiling 220) · hands-on 155 min
-
-**Domain check** vs the scaled target in `coverage_matrix.md` §3:
-
-| Domain | This map | Target | Δ |
-|---|---:|---:|---:|
-| Tools | 35 | 38 | -3 |
-| Preservation | 110 | 115 | -5 |
-| Storage | 60 | 51 | +9 |
+| ID | Topic | Page | Min | Domain | Prerequisites | Evidence |
+|---|---|:-:|---:|:-:|---|---|
+| **`T01`** | Foundations & Forensic Principles | `P01` | 45 | `F`·`T` | — | — |
+| **`T02`** | The Forensic Report | `P01` | 25 | `F` | `T01` | — |
+| **`T03`** | Evidence Integrity — Hashing, Chain of Custody, Write Blocking | `P02` | 38 | `P`·`T` | `T01` | `EVS-01` |
+| **`T04`** | Inside a File — Hex, Magic Bytes & Signatures | `P03` | 82 | `P`·`F` | `T03` | `EVS-05` · `EVS-01` |
+| **`T05`** | Data Representation & Metadata | `P03` | 35 | `F` | `T04` | `EVS-10` |
+| **`T06`** | Live Response — Order of Volatility | `P04` | 25 | `P` | `T01` | `EVI-SRC01 live` |
+| **`T07`** | Memory Forensics — Acquire and Analyse | `P04` | 35 | `P`·`T` | `T06` | `EVS-03` |
+| **`T08`** | Imaging Scope & Formats | `P05` | 33 | `S` | `T07` | — |
+| **`T09`** | Imaging Tools — FTK Imager & dc3dd | `P05` | 112 | `P`·`T`·`S`·`F` | `T03` · `T04` · `T08` | `EVS-02` · `EVS-09` · `EVS-05` · `EVS-04` |
+| **`T10`** | Hidden Data & Image Forensics | `P06` | 80 | `T`·`F` | `T05` · `T09` | `EVS-10` · `EVS-05` |
+| **`T11`** | Malicious Documents & Executables | `P07` | 75 | `F`·`T` | `T05` · `T10` | `EVS-06` |
+| **`T12`** | Storage Internals & Slack | `P08` | 45 | `S` | — | `EVS-07` ✅ |
+| **`T13`** | Partitioning — MBR & GPT | `P08` | 68 | `S` | `T12` | `EVS-07` ✅ |
+| **`T14`** | File Systems — FAT & NTFS | `P09` | 52 | `S` | `T12` | `EVS-11` ✅ |
+| **`T15`** | Carving & Deleted Data | `P09` | 25 | `S` | `T12` | `EVS-11` ✅ |
+| **`T16`** | Registry Structure & System Configuration | `P10` | 28 | `F` | `T14` | `EVS-12` ✅ |
+| **`T17`** | USB & Device History | `P10` | 35 | `F` | `T16` | `EVS-12` ✅ |
+| **`T18`** | Evidence of Execution | `P11` | 40 | `F` | `T16` | `EVS-13` ✅ |
+| **`T19`** | User Activity — Shellbags, Recycle Bin, VSS | `P11` | 38 | `F` | `T16` · `T17` | `EVS-13` ✅ |
+| **`T20`** | Windows Event Logs | `P12` | 49 | `T`·`F` | `T16` · `T17` · `T18` | `EVS-14` ✅ |
+| **`T21`** | Network Evidence & Traffic Analysis | `P13` | 42 | `T`·`F` | — | `EVS-08` ✅ |
+| **`T22`** | C2 & Attack Patterns in Traffic | `P13` | 28 | `T` | `T21` | `EVS-08` ✅ |
+| **`T23`** | Internet & Email Artifacts | `P13` | 20 | `F` | `T16` | `EVS-08` ✅ |
+| **`T24`** | Logs & Super-Timelines | `P14` | 45 | `T` | `T14` · `T20` | `EVS-09` ✅ |
+| **`T25`** | Final Report & Capstone | `P14` | 40 | `F`·`T` | `T02` | `EVS-09` ✅ |
 
 ---
 
-## S3 — Data Representation & File Examination
+## The pages
 
-`Tier A` · INE **M2** · 10 topics · **205 + 15 break = 220 min**
+### P01 — Foundations and the deliverable
 
-| ID | Topic | INE source | Prerequisites | Session # | Hands-on? | Est. minutes | Domain | Evidence needed |
-|---|---|---|---|---|---|---:|:-:|---|
-| `S3-01` | How data is represented — bits, bytes, hex, endianness, character encodings | M2 | — | 3 | No | 20 | `F` | — |
-| `S3-02` | File structure — headers, footers, magic bytes | M2 | S3-01 | 3 | Yes | 20 | `F` | EVS-05 |
-| `S3-03` | File signature vs extension — the mismatch, and what it actually proves | M2 | S3-02 | 3 | Yes | 20 | `F` | EVS-05 |
-| `S3-04` | Metadata and EXIF — what it records and how far to trust it | M2 | S3-02 | 3 | Yes | 20 | `F` | EVS-05 |
-| `S3-05` | Malicious document structure — OLE and OOXML, embedded objects, macro storage | M2 | S3-04 | 3 | Yes | 25 | `F` | EVS-06 |
-| `S3-06` | How a file sits on disk — clusters, and why a header survives a rename | M2 · M3 | S3-02 | 3 | No | 15 | `S` | — |
-| `S3-07` | Hex and metadata tooling — HxD/WinHex, ExifTool, TrID | M2 | S3-03 | 3 | Yes | 10 | `T` | EVS-05 |
-| `S3-08` | **[INVESTIGATION]** Case 03 — 12 renamed/corrupted files, identify each by header | M2 | S3-03 · S3-07 | 3 | Yes | 35 | `T` | EVS-05 |
-| `S3-09` | **[INVESTIGATION]** The carry-through malicious document — structure, embedded objects, metadata | M2 | S3-05 | 3 | Yes | 25 | `F` | EVS-06 |
-| `S3-10` | **[RITUAL]** Hash-verify + chain-of-custody close | M1 | S1-07 | 3 | Yes | 15 | `P` | EVS-06 |
+`70 min` · 2 topics
 
-**Block check** — integrated 130 · investigation 60 · ritual 15 · break 15 = **220 min** (ceiling 220) · hands-on 170 min
+#### `T01` — Foundations & Forensic Principles
 
-**Domain check** vs the scaled target in `coverage_matrix.md` §3:
+`45 min` · domain Fundamentals 30 min, Tools & Techniques 15 min · prereq none · evidence none · hands-on Yes
 
-| Domain | This map | Target | Δ |
-|---|---:|---:|---:|
-| Fundamentals | 130 | 128 | +2 |
-| Tools | 45 | 38 | +7 |
-| Preservation | 15 | 13 | +2 |
-| Storage | 15 | 26 | -11 |
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| What digital forensics is — the mandate, the evidence lifecycle, and what an investigator may not claim | 10 | M1 intro | No |
+| Forensic principles — minimal footprint, repeatability, and always work on a copy | 10 | M1 intro | No |
+| What makes evidence defensible — relevance, authenticity, integrity | 10 | M1 intro | No |
+| Analyst toolkit **verify** and the `CLEAN-TOOLS` snapshot &mdash; *installation is pre-work* | 15 | M1 intro | Yes |
+
+#### `T02` — The Forensic Report
+
+`25 min` · domain Fundamentals 25 min · prereq `T01` · evidence none · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| The fixed forensic report template — findings vs interpretation (D7) | 25 | M5 §2 | Yes |
+
+### P02 — Evidence integrity
+
+`38 min` · 1 topic
+
+#### `T03` — Evidence Integrity — Hashing, Chain of Custody, Write Blocking
+
+`38 min` · domain Preservation 20 min, Tools & Techniques 18 min · prereq `T01` · evidence `EVS-01` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Cryptographic hashing for evidence — MD5, SHA-256, what a hash proves and what it does not | 18 | M1 | Yes |
+| Chain of custody — the form and the discipline | 12 | M1 | Yes |
+| Write blocking — hardware vs software, and how to prove one was used | 8 | M1 | Yes |
+
+### P03 — Data at byte level
+
+`117 min` · 2 topics
+
+#### `T04` — Inside a File — Hex, Magic Bytes & Signatures
+
+`82 min` · domain Preservation 60 min, Fundamentals 22 min · prereq `T03` · evidence `EVS-05` · `EVS-01` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Inside a file — hex, magic bytes, and why renaming a file changes nothing | 22 | M2 | Yes |
+| [INVESTIGATION]** Case 01 — verify 4 files against a signed manifest, find the tampered one | 60 | M1 | Yes |
+
+#### `T05` — Data Representation & Metadata
+
+`35 min` · domain Fundamentals 35 min · prereq `T04` · evidence `EVS-10` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| How data is represented — endianness and character encodings | 10 | M2 | No |
+| Metadata and EXIF — GPS, timestamps that disagree, and how far to trust it | 25 | M2 | Yes |
+
+### P04 — Volatile evidence
+
+`60 min` · 2 topics
+
+#### `T06` — Live Response — Order of Volatility
+
+`25 min` · domain Preservation 25 min · prereq `T01` · evidence `EVI-SRC01 live` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Live response — volatile collection on a running host, **in order of volatility | 25 | M1 | Yes |
+
+#### `T07` — Memory Forensics — Acquire and Analyse
+
+`35 min` · domain Preservation 20 min, Tools & Techniques 15 min · prereq `T06` · evidence `EVS-03` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Memory acquisition — WinPmem, DumpIt, and the pitfalls | 20 | M1 | Yes |
+| [INVESTIGATION]** Volatility 3 — processes, network connections, injected code | 15 | M4 | Yes |
+
+### P05 — Acquisition
+
+`145 min` · 2 topics
+
+#### `T08` — Imaging Scope & Formats
+
+`33 min` · domain Storage 33 min · prereq `T07` · evidence none · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Acquisition scope and image formats — physical vs logical, E01 vs raw (dd) vs AD1 | 25 | M1 | No |
+| 🆕 **HPA and DCO — storage hidden from acquisition, and how to detect it | 8 | M3 §4.4.3 | Yes |
+
+#### `T09` — Imaging Tools — FTK Imager & dc3dd
+
+`112 min` · domain Preservation 35 min, Tools & Techniques 32 min, Storage 25 min, Fundamentals 20 min · prereq `T03` · `T04` · `T08` · evidence `EVS-02` · `EVS-09` · `EVS-05` · `EVS-04` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| FTK Imager — correct use, and what `verified` actually covers | 20 | M1 | Yes |
+| `dc3dd` on Kali (clean snapshot) and targeted triage | 12 | M1 | Yes |
+| File signature vs extension — run it against the image you just made | 20 | M2 | Yes |
+| [INVESTIGATION]** Case 02a — acquire and verify the suspect USB | 35 | M1 | Yes |
+| [INVESTIGATION]** Case 02b — **verify the acquisition is complete**: volume present, sector count, reported file-system type | 25 | M1 | Yes |
+
+### P06 — Hidden information
+
+`80 min` · 1 topic
+
+#### `T10` — Hidden Data & Image Forensics
+
+`80 min` · domain Tools & Techniques 68 min, Fundamentals 12 min · prereq `T05` · `T09` · evidence `EVS-10` · `EVS-05` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Image forensics — ThumbCache, thumbnails that outlive an edit, resaves, what a photo cannot prove | 12 | M2 · M4 §6.3.2 | Yes |
+| Hidden data — LSB steganography, embedded and appended files, polyglots, and how you detect them | 33 | M2 | Yes |
+| [INVESTIGATION]** Case 03 — 12 renamed/corrupted files and one hidden payload | 35 | M2 | Yes |
+
+### P07 — Malicious files
+
+`75 min` · 1 topic
+
+#### `T11` — Malicious Documents & Executables
+
+`75 min` · domain Fundamentals 50 min, Tools & Techniques 25 min · prereq `T05` · `T10` · evidence `EVS-06` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Malicious document structure — OLE and OOXML, embedded objects, macro storage | 25 | M2 | Yes |
+| 🆕 **Executable analysis — PE headers, imports, sections, resources, strings | 25 | M2 §3.7.4 | Yes |
+| [INVESTIGATION]** The carry-through malicious document — structure, embedded objects, macro | 25 | M2 | Yes |
+
+### P08 — The disk
+
+`113 min` · 2 topics
+
+#### `T12` — Storage Internals & Slack
+
+`45 min` · domain Storage 45 min · prereq none · evidence `EVS-02` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Storage internals — HDD platters and sectors, SSD NAND, wear levelling, and what TRIM destroys | 20 | M3 | No |
+| Sectors, clusters and slack — how a file sits on disk, file slack vs volume slack | 25 | M3 | Yes |
+
+#### `T13` — Partitioning — MBR & GPT
+
+`68 min` · domain Storage 68 min · prereq `T12` · evidence `EVS-02` · `EVS-07` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| MBR partitioning — structure, partition table, boot record | 18 | M3 | Yes |
+| GPT partitioning — header, entries, protective MBR | 15 | M3 | Yes |
+| [INVESTIGATION]** Case 04 — wiped partition table, recover it and prove the recovery | 35 | M3 | Yes |
+
+### P09 — File systems
+
+`77 min` · 2 topics
+
+#### `T14` — File Systems — FAT & NTFS
+
+`52 min` · domain Storage 52 min · prereq `T12` · evidence `EVS-04` · `EVS-02` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| FAT — FAT table, directory entries, and what deletion actually does | 17 | M3 | Yes |
+| NTFS — `$MFT`, resident vs non-resident, ADS, `$LogFile`, `$UsnJrnl`, parsed with MFTECmd | 35 | M3 | Yes |
+
+#### `T15` — Carving & Deleted Data
+
+`25 min` · domain Storage 25 min · prereq `T12` · evidence `EVS-02` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| [INVESTIGATION]** File carving — PhotoRec/foremost, and carving the staged archive | 25 | M3 | Yes |
+
+### P10 — The registry
+
+`63 min` · 2 topics
+
+#### `T16` — Registry Structure & System Configuration
+
+`28 min` · domain Fundamentals 28 min · prereq `T14` · evidence `EVS-02` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Registry structure — hives, keys, values, and where the hives live on disk | 16 | M4 | No |
+| System configuration artifacts — timezone, network, mounted devices | 12 | M4 | Yes |
+
+#### `T17` — USB & Device History
+
+`35 min` · domain Fundamentals 35 min · prereq `T16` · evidence `EVS-02` · `EVS-04` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| USB device history — USBSTOR, MountedDevices, `setupapi.dev.log` | 18 | M4 | Yes |
+| LNK files and jumplists — file access, origin volume, and what they prove | 17 | M4 | Yes |
+
+### P11 — What ran, what was touched
+
+`78 min` · 2 topics
+
+#### `T18` — Evidence of Execution
+
+`40 min` · domain Fundamentals 40 min · prereq `T16` · evidence `EVS-02` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Prefetch — evidence of execution, run count, first and last run | 20 | M4 | Yes |
+| Amcache and ShimCache — presence vs execution, and the classic misreading | 20 | M4 | Yes |
+
+#### `T19` — User Activity — Shellbags, Recycle Bin, VSS
+
+`38 min` · domain Fundamentals 38 min · prereq `T16` · `T17` · evidence `EVS-02` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Shellbags — folder access that survives deletion | 13 | M4 | Yes |
+| [INVESTIGATION]** Recycle bin (`$I`/`$R`) and Volume Shadow Copies (VSS) | 25 | M4 | Yes |
+
+### P12 — Windows logs
+
+`49 min` · 1 topic
+
+#### `T20` — Windows Event Logs
+
+`49 min` · domain Tools & Techniques 35 min, Fundamentals 14 min · prereq `T16` · `T17` · `T18` · evidence `EVS-02` · `EVS-04` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| 🆕 **Windows event logs for the investigation — what survives, what is cleared, and mapping a SID to a user | 14 | M5 | Yes |
+| [INVESTIGATION]** Case 05 — which USB, which user, which program ran, when, how many times | 35 | M4 | Yes |
+
+### P13 — Network and internet activity
+
+`90 min` · 3 topics
+
+#### `T21` — Network Evidence & Traffic Analysis
+
+`42 min` · domain Tools & Techniques 32 min, Fundamentals 10 min · prereq none · evidence `EVS-08` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Network evidence sources and the **OSCAR methodology** — what pcap, flow and logs each prove | 10 | M4 §7.8 | No |
+| Wireshark for investigators — display filters, follow stream, export objects | 14 | M4 | Yes |
+| `tcpdump` and capture methodology — capture filters, ring buffers, what you lose | 6 | M4 | Yes |
+| Network file carving — NetworkMiner, extracting transferred files | 12 | M4 | Yes |
+
+#### `T22` — C2 & Attack Patterns in Traffic
+
+`28 min` · domain Tools & Techniques 28 min · prereq `T21` · evidence `EVS-08` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Identifying C2 traffic and **statistical flow analysis** — beaconing, DNS anomalies, NetFlow/IPFIX | 16 | M4 §7.6.4 | Yes |
+| 🆕 **Network attack patterns in evidence — scanning, brute force, lateral movement, exfiltration | 12 | M4 §7.1.1 | Yes |
+
+#### `T23` — Internet & Email Artifacts
+
+`20 min` · domain Fundamentals 20 min · prereq `T16` · evidence `EVS-02` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| 🆕 **Internet artifacts — browser history, downloads, typed URLs, and email headers with the `Received` chain | 20 | M4 §6.8/§6.8.1 · §7.7 | Yes |
+
+### P14 — Timeline and report
+
+`85 min` · 2 topics
+
+#### `T24` — Logs & Super-Timelines
+
+`45 min` · domain Tools & Techniques 45 min · prereq `T14` · `T20` · evidence `EVS-02` · `EVS-08` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| Super-timelines with plaso/log2timeline — build, filter, pivot | 20 | M5 | Yes |
+| 🆕 **[INVESTIGATION]** Log analysis — web server logs, syslog, and building the log timeline | 25 | M5 §8.2/§8.4/§8.6 | Yes |
+
+#### `T25` — Final Report & Capstone
+
+`40 min` · domain Fundamentals 20 min, Tools & Techniques 20 min · prereq `T02` · evidence `EVS-02` · `03` · `08` · hands-on Yes
+
+| Part | Min | INE source | Hands-on |
+|---|---:|---|:-:|
+| The final forensic report — **INE report samples** and the D20 rubric applied | 20 | M5 §10.6 | No |
+| 🆕 **[INVESTIGATION]** Capstone debrief and final report assembly | 20 | M4 · M5 | Yes |
 
 ---
 
-## S4 — Storage Devices, Partitions & File Systems
+## Domain reconciliation (`D24` · tolerance ≤ 2.0 pp per `D74`)
 
-`Tier B` · INE **M3** · 11 topics · **205 + 15 break = 220 min**
+The six session integrity closes (90 min) are Preservation and are included here.
 
-| ID | Topic | INE source | Prerequisites | Session # | Hands-on? | Est. minutes | Domain | Evidence needed |
-|---|---|---|---|---|---|---:|:-:|---|
-| `S4-01` | HDD internals — platters, heads, sectors, CHS and LBA | M3 | — | 4 | No | 12 | `S` | — |
-| `S4-02` | SSD internals — NAND, wear levelling, TRIM and what it destroys | M3 | S4-01 | 4 | No | 18 | `S` | — |
-| `S4-03` | Sectors, clusters and slack — file slack vs volume slack | M3 | S4-01 | 4 | Yes | 20 | `S` | EVS-02 |
-| `S4-04` | MBR partitioning — structure, partition table, boot record | M3 | S4-03 | 4 | Yes | 18 | `S` | EVS-07 |
-| `S4-05` | GPT partitioning — header, entries, protective MBR | M3 | S4-04 | 4 | Yes | 15 | `S` | EVS-07 |
-| `S4-06` | FAT — FAT table, directory entries, and what deletion actually does | M3 | S4-03 | 4 | Yes | 17 | `S` | EVS-04 |
-| `S4-07` | NTFS — `$MFT`, resident vs non-resident, ADS, `$LogFile` and `$UsnJrnl` | M3 | S4-06 | 4 | Yes | 20 | `S` | EVS-02 |
-| `S4-08` | MFTECmd and Timeline Explorer — parsing `$MFT` to CSV | M3 | S4-07 | 4 | Yes | 10 | `T` | EVS-02 |
-| `S4-09` | **[INVESTIGATION]** File carving — PhotoRec/foremost, and carving the staged archive | M3 | S4-07 | 4 | Yes | 25 | `T` | EVS-02 |
-| `S4-10` | **[INVESTIGATION]** Case 04 — wiped partition table, recover it and prove the recovery | M3 | S4-05 | 4 | Yes | 35 | `S` | EVS-07 |
-| `S4-11` | **[RITUAL]** Hash-verify + chain-of-custody close | M1 | S1-07 | 4 | Yes | 15 | `P` | EVS-07 |
-
-**Block check** — integrated 130 · investigation 60 · ritual 15 · break 15 = **220 min** (ceiling 220) · hands-on 175 min
-
-**Domain check** vs the scaled target in `coverage_matrix.md` §3:
-
-| Domain | This map | Target | Δ |
-|---|---:|---:|---:|
-| Tools | 35 | 38 | -3 |
-| Preservation | 15 | 13 | +2 |
-| Storage | 155 | 154 | +1 |
+| Domain | Minutes | Class % | Exam % | Δ pp | Status |
+|---|---:|---:|---:|---:|:-:|
+| Fundamentals | 399 | 32.4 % | 33 % | -0.6 | PASS |
+| Tools & Techniques | 333 | 27.1 % | 27 % | +0.1 | PASS |
+| Preservation | 250 | 20.3 % | 20 % | +0.3 | PASS |
+| Storage | 248 | 20.2 % | 20 % | +0.2 | PASS |
+| **Total** | **1230** | **100 %** | **100 %** | — | **PASS** |
 
 ---
 
-## S5 — Windows Forensics — Registry, User Activity & Execution
+## Verification
 
-`Tier B` · INE **M4** · 10 topics · **205 + 15 break = 220 min**
+Re-parsed from this written file, not from the generator:
 
-| ID | Topic | INE source | Prerequisites | Session # | Hands-on? | Est. minutes | Domain | Evidence needed |
-|---|---|---|---|---|---|---:|:-:|---|
-| `S5-01` | Registry structure — hives, keys, values, and where the hives live on disk | M4 | S4-07 | 5 | No | 20 | `F` | EVS-02 |
-| `S5-02` | System configuration artifacts — timezone, network, mounted devices | M4 | S5-01 | 5 | Yes | 15 | `F` | EVS-02 |
-| `S5-03` | USB device history — USBSTOR, MountedDevices, `setupapi.dev.log` | M4 | S5-02 | 5 | Yes | 20 | `F` | EVS-02 · EVS-04 |
-| `S5-04` | Shellbags — folder access that survives deletion | M4 | S5-01 | 5 | Yes | 15 | `F` | EVS-02 |
-| `S5-05` | Prefetch — evidence of execution, run count, first and last run | M4 | S5-01 | 5 | Yes | 20 | `F` | EVS-02 |
-| `S5-06` | Amcache and ShimCache — presence vs execution, and the classic misreading | M4 | S5-05 | 5 | Yes | 20 | `F` | EVS-02 |
-| `S5-07` | LNK files and jumplists — file access, origin volume, and what they prove | M4 | S5-03 | 5 | Yes | 20 | `F` | EVS-02 |
-| `S5-08` | **[INVESTIGATION]** Recycle bin (`$I`/`$R`) and Volume Shadow Copies (VSS) — deleted files and previous versions | M4 | S5-07 | 5 | Yes | 25 | `F` | EVS-02 |
-| `S5-09` | **[INVESTIGATION]** Case 05 — which USB, which user, which program ran, when, how many times | M4 | S5-03 · S5-05 · S5-07 | 5 | Yes | 35 | `T` | EVS-02 · EVS-04 |
-| `S5-10` | **[RITUAL]** Hash-verify + chain-of-custody close | M1 | S1-07 | 5 | Yes | 15 | `P` | EVS-02 |
-
-**Block check** — integrated 130 · investigation 60 · ritual 15 · break 15 = **220 min** (ceiling 220) · hands-on 185 min
-
-**Domain check** vs the scaled target in `coverage_matrix.md` §3:
-
-| Domain | This map | Target | Δ |
-|---|---:|---:|---:|
-| Fundamentals | 155 | 154 | +1 |
-| Tools | 35 | 38 | -3 |
-| Preservation | 15 | 13 | +2 |
-
----
-
-## S6 — Network Forensics, Timelines, Reporting & Capstone
-
-`Tier A` · INE **M4 + M5** · 11 topics · **205 + 15 break = 220 min**
-
-| ID | Topic | INE source | Prerequisites | Session # | Hands-on? | Est. minutes | Domain | Evidence needed |
-|---|---|---|---|---|---|---:|:-:|---|
-| `S6-01` | Network evidence sources — pcap, flow, logs, and what each can and cannot prove | M4 | — | 6 | No | 10 | `F` | — |
-| `S6-02` | Wireshark for investigators — display filters, follow stream, export objects | M4 | S6-01 | 6 | Yes | 25 | `T` | EVS-08 |
-| `S6-03` | `tcpdump` and capture methodology — capture filters, ring buffers, what you lose | M4 | S6-02 | 6 | Yes | 10 | `T` | EVS-08 |
-| `S6-04` | Network file carving — NetworkMiner, extracting transferred files | M4 | S6-02 | 6 | Yes | 14 | `T` | EVS-08 |
-| `S6-05` | Identifying C2 traffic — beaconing intervals, DNS anomalies, TLS fingerprints | M4 | S6-04 | 6 | Yes | 16 | `T` | EVS-08 |
-| `S6-06` | Windows event logs for the timeline — what survives, what is cleared, what is never written | M5 | S5-01 | 6 | Yes | 14 | `F` | EVS-02 |
-| `S6-07` | Super-timelines with plaso/log2timeline — build, filter, pivot | M5 | S6-06 · S4-08 | 6 | Yes | 23 | `T` | EVS-02 |
-| `S6-08` | The final forensic report — assembling six sessions of findings, with the D20 rubric applied | M5 | S1-04 | 6 | No | 18 | `F` | — |
-| `S6-09` | **[INVESTIGATION]** Capstone — full investigation across image + memory + pcap | M4 · M5 | S1–S5 (all) | 6 | Yes | 45 | `T` | EVS-02 · EVS-03 · EVS-08 |
-| `S6-10` | **[INVESTIGATION]** Volatility 3 in the capstone — processes, network connections, injected code | M4 | S2-03 | 6 | Yes | 15 | `T` | EVS-03 |
-| `S6-11` | **[RITUAL]** Hash-verify + chain-of-custody close | M1 | S1-07 | 6 | Yes | 15 | `P` | EVS-02 |
-
-**Block check** — integrated 130 · investigation 60 · ritual 15 · break 15 = **220 min** (ceiling 220) · hands-on 177 min
-
-**Domain check** vs the scaled target in `coverage_matrix.md` §3:
-
-| Domain | This map | Target | Δ |
-|---|---:|---:|---:|
-| Fundamentals | 42 | 51 | -9 |
-| Tools | 148 | 141 | +7 |
-| Preservation | 15 | 13 | +2 |
-
----
-
-## Reconciliation — the whole course
-
-| Domain | Minutes | This map | `coverage_matrix.md` | Δ | Exam | Δ |
-|---|---:|---:|---:|---:|---:|---:|
-| Fundamentals of Digital Forensics | 399 | 32.4 % | 33.3 % | -0.9 | 33 % | -0.6 |
-| Digital Forensics Tools & Techniques | 336 | 27.3 % | 27.1 % | +0.2 | 27 % | +0.3 |
-| Preservation of Evidence | 265 | 21.5 % | 20.8 % | +0.7 | 20 % | +1.5 |
-| Storage Device Fundamentals | 230 | 18.7 % | 18.8 % | -0.1 | 20 % | -1.3 |
-| **Total** | **1230** | **100 %** | **100 %** | — | **100 %** | — |
-
-Every domain lands within **0.9 pp** of the locked matrix, inside the 1.0 pp tolerance set by D24. The two visible gaps against the *exam*
-weights are the ones Part 4 already declared and mitigated:
-
-- **Storage −1.3 pp.** Part 4 accepts −1.2 and mitigates with WinHex / hex practice as homework in
-  both S3 and S4. Unchanged here.
-- **Preservation +1.5 pp.** Every session spends 15 min on the hash-verify and chain-of-custody
-  close (90 min across the course), and S1–S2 are preservation sessions by design. Over-weighting
-  the one habit the whole course depends on is deliberate.
-
----
-
-## Sequencing check
-
-Every prerequisite is satisfied by a topic earlier in this file, and the Part 4 ordering rule holds:
-
-```
-integrity (S1) -> acquisition (S2) -> analysis (S3)
-storage (S4)   -> file systems (S4) -> Windows artifacts (S5)
-timelines and reporting LAST (S6)
-```
-
-Three cross-session dependencies are load-bearing and must not be broken by any re-split (D25):
-
-| Depends | On | Why |
-|---|---|---|
-| `S5-01` registry structure | `S4-07` NTFS `$MFT` | hives are files; you cannot locate or carve them without the file system |
-| `S6-07` plaso super-timeline | `S6-06` event logs · `S4-08` `$MFT` parsing | a super-timeline is only meaningful once its inputs are understood |
-| `S6-09` capstone | S1–S5, all | the capstone is the whole arc — it introduces no new technique |
-
----
-
-## Open items for Phase 2
-
-| Item | Blocks | Status |
-|---|---|---|
-| INE PDFs not yet in `Resources/INE_eCDFP/` | intake, and confirming every topic's INE lesson reference | open |
-| Topic-level INE lesson numbers (this map cites modules only) | precision of the References page in each session | open — filled during Phase 2 intake |
-| Every `EVS-*` set above is **unverified** | Part 8 step 0 for every session | open — Phase 3 |
-
-**Rule (Phase 2 exit gate).** Any topic with no INE source after intake is a **gap**: it is either
-researched with `ceh-web-research` including the tool currency check, or removed from this map. It is
-never quietly taught from memory. Gaps are listed in `scope_decisions.md` §7, not hidden here.
+- **25 topics**, `T01`–`T25`, sequential in teaching order, no gaps.
+- **14 pages**, `P01`–`P14`.
+- **1140 topic minutes**; `1140 ÷ 190 = 6.0 sessions`.
+- **`D80` dependency gate: PASS** — no topic precedes a prerequisite, no cycles, no dangling
+  prerequisite, every topic reachable.
+- All 57 non-ritual rows of the pre-`D79` map are placed; the 6 ritual rows are deliberately out.

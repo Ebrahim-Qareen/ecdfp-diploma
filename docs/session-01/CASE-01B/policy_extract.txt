@@ -1,0 +1,4 @@
+REMOVABLE MEDIA POLICY (extract)
+Case ......: ITG-2026-014
+3.2  Removable media issued to a department is recorded in the asset register.
+3.4  Media leaving the floor is logged at reception.

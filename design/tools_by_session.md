@@ -88,6 +88,12 @@ session in the course needs no forensic software at all.**
 | `dd` / `dcfldd` | OS | GPL | ⚠️ **MENTION** | **A5**: `dd` is no longer the recommendation for damaged media. **A6**: `dc3dd` is dormant, not dead. |
 | **Volatility 3** | **2.28.2** | VSL | 🟢🟢 **CORE** (acquisition context) | 🔴🔴 **NOT IN THE DRIVE FOLDER.** **D2**: first run downloads symbols — **on an air-gapped lab it fails, it does not merely wait. Ship the symbol pack.** |
 
+| **BriMor Live Response Collection** | current build | 🟢 Free | 🟢🟢 **CORE** | The collector the old build refused to name. `Windows_Live_Response.bat`, menu: Triage / Memory / Complete / Secure-Complete. ⚠️ **Free, but not licensed for commercial use** — name **Velociraptor** (Apache 2.0) as the alternative wherever that matters. |
+| **Velociraptor** | 0.75 | 🟢 Apache 2.0 | 🟢 **SUPPORTING** | Free for commercial use, which BriMor is not. Offered alongside, not instead. |
+| **WinPmem** | `winpmem_mini_x64_rc2` | 🟢 Apache 2.0 | 🟢🟢 **CORE** | Memory capture. ⚠️ **A capture smaller than installed RAM is truncated, not compressed** — size is the completeness check, and it is the S2 quiz answer. |
+| **DumpIt** | Magnet, current | 🟢 Free | ⚠️ **MENTION** | One-click alternative to WinPmem; no options, which is the point and the limitation. |
+| `hdparm` | OS (Linux) | GPL | 🟢🟢 **CORE** | `hdparm -N <dev>` reports `max sectors = reported/true`. **Run it before the imager, never after** (`S2-07`). |
+
 🔴 **Nothing in either the Drive kit or any external lab teaches acquisition as a decision.**
 **D46**: not one of CyberDefenders' 82 free labs does it either. **`S2-01`–`S2-05` and `S2-09` are
 ours alone.**

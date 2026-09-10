@@ -314,6 +314,71 @@ B5 PASS — one limitation stated, in its own section, not mixed into the findin
 
 ---
 
+## Lab C — inside a file · `S1-09`
+
+You have just proved a hash detects a single changed byte. So: **what are the bytes?**
+
+### Step C1 — read the first four bytes of a file
+
+Open `EVS-05` and pick any file. In HxD, the first bytes are the **signature** — written by whatever
+program created the file so other programs can recognise it.
+
+```
+# Windows, without a hex editor
+PS> Format-Hex -Path .\q3_summary.pdf -Count 4
+
+# Linux
+$ xxd -l 4 q3_summary.pdf
+00000000: 2550 4446                                %PDF
+```
+
+### Step C2 — build the table
+
+For **all twelve** files in `EVS-05`, record: name · extension · first four bytes · the type those
+bytes indicate.
+
+| Signature | Type |
+|---|---|
+| `25 50 44 46` | PDF — literally `%PDF` in ASCII |
+| `89 50 4E 47` | PNG (full: `89 50 4E 47 0D 0A 1A 0A`) |
+| `FF D8 FF` | JPEG — and it **ends** `FF D9` |
+| `50 4B 03 04` | ZIP — ASCII `PK`. A `.docx` **is** a ZIP |
+
+✅ **Verification line:** twelve rows, each with four bytes and a type. **Exactly five** files have a
+signature that disagrees with their extension.
+
+⚠️ **The trap:** one file is called `policy_v2.docx`. A real `.docx` *is* a ZIP, so if you predict
+`50 4B 03 04` you will be wrong. **Look, do not predict.**
+
+### Step C3 — prove that renaming changes nothing
+
+```
+PS> Copy-Item .\floorplan.png .\notes.txt
+PS> Format-Hex -Path .\notes.txt -Count 4
+```
+
+✅ **Verification line:** the bytes are **identical** after the rename. The extension changed; the
+file did not.
+
+### Step C4 — write it as a finding
+
+```
+F-0n  The file at <exact path> begins 50 4B 03 04, which is the ZIP signature.
+I-0n  The file is a ZIP archive carrying a .jpg extension.
+L-0n  This cannot show who named it, or why.
+```
+
+🔴 **What costs marks:** *"the user renamed it to hide it."* That is two interpretations stacked on
+one observation — exactly the `D7` error the report template exists to prevent.
+
+### Step C5 — state what it cannot show
+
+Two files in `EVS-05` have a **perfect signature and still will not open**: they are truncated. A
+valid header does not mean a valid file. Header and integrity are different questions — which is why
+you hashed before you looked.
+
+---
+
 ## Chain of custody — close the lab
 
 Complete one line. Handwritten on the printed form, then transcribed into your notes.

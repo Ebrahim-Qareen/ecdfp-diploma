@@ -1,0 +1,42 @@
+FIRST RESPONDER — CONTEMPORANEOUS NOTES
+Case reference : ITG-2026-014
+Client         : Meridian Metals Ltd (fictional)
+Written by     : Responder 1, IR Analyst (ITGate IR)
+All times UTC. Local site time was UTC+02:00; offset confirmed against the
+site domain controller and recorded below.
+
+2026-03-04 08:31 UTC  Arrived on site. Escorted to the finance office by the IT
+                   manager. Workstation EVI-SRC01 powered ON, screen locked,
+                   user reported "pop-up then everything got slow" and left
+                   the machine untouched from approx 07:50 UTC.
+
+2026-03-04 08:38 UTC  Photographed the desk and the machine in place before
+                   touching anything. Four photographs, frames 001-004.
+                   Rear ports photographed with cabling attached.
+
+2026-03-04 08:44 UTC  Confirmed with the IT manager that the engagement letter
+                   covers company-owned endpoints and company-owned removable
+                   media. It does NOT cover employee personal devices.
+                   One personally-owned phone on the desk was NOT seized.
+
+2026-03-04 08:52 UTC  Host powered down. Power removed at the wall rather than a
+                   graceful shutdown, on the IT manager's instruction that a
+                   process was still writing to disk.
+                   NOTE: volatile state was NOT captured. No memory capture
+                   was taken. This is a known and accepted loss, recorded here
+                   rather than left to be discovered later.
+
+2026-03-04 09:02 UTC  Disk removed. Make/model/serial transcribed onto the
+                   exhibit label and cross-checked twice by two people.
+                   Sealed in an antistatic bag, tamper tape applied across the
+                   seal, tape signed and dated across the join.
+
+2026-03-04 09:07 UTC  Exhibit ITG-2026-014-A1 logged. Chain of custody opened.
+                   Handed to Responder 2 for transport to the lab.
+
+OPEN ITEMS AT HANDOVER
+  - No memory image. The host was powered down at 08:52 UTC.
+  - The USB device the user mentions was not present on the desk and was not
+    located during the site visit.
+  - Site time offset UTC+02:00 recorded from the domain controller; the
+    workstation's own clock was NOT read before power-down.

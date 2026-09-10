@@ -1,0 +1,245 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>eCDFP — Visual System Prototype</title>
+<style>
+:root{
+  --bg-primary:#0a0e14; --bg-secondary:#10161f; --bg-card:#151c27; --border:#232c3a;
+  --text-primary:#e6edf3; --text-secondary:#8b98a9;
+  --cyan:#00d9ff; --green:#00ff9d; --red:#ff4d5e; --amber:#ffb454;
+  --finding:#7aa2f7; --finding-bg:rgba(122,162,247,.08);
+  --interp:#c792ea; --interp-bg:rgba(199,146,234,.08);
+  --limit:#8b98a9; --limit-bg:rgba(139,152,169,.06);
+  --font:'Inter','Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono','Fira Code',ui-monospace,Consolas,monospace;
+  --ar:'Segoe UI','Noto Naskh Arabic',Tahoma,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg-primary);color:var(--text-primary);font-family:var(--font);
+  font-size:clamp(1.02rem,.97rem + .3vw,1.16rem);line-height:1.66;
+  background-image:linear-gradient(rgba(35,44,58,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(35,44,58,.13) 1px,transparent 1px);
+  background-size:44px 44px}
+.wrap{max-width:1480px;margin:0 auto;padding:38px clamp(16px,3vw,44px) 70px}
+
+/* ---------- D92: Arabic line ---------- */
+.ar{display:block;margin-top:.62em;direction:rtl;text-align:right;font-family:var(--ar);
+  font-size:.85em;line-height:1.75;color:var(--text-secondary)}
+
+/* ---------- header ---------- */
+.chip{display:inline-block;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;
+  padding:5px 11px;border-radius:5px;border:1px solid var(--border);color:var(--cyan);
+  background:rgba(0,217,255,.06)}
+h1{font-size:clamp(2.05rem,1.5rem + 2.2vw,3rem);line-height:1.13;margin:.5em 0 .1em;font-weight:660;
+  border-left:5px solid var(--cyan);padding-left:18px}
+h1 .ar{font-size:.42em;font-weight:400;padding:0;border:0;margin-top:.5em}
+.sec{margin:52px 0 0}
+h2{font-size:clamp(1.35rem,1.1rem + .9vw,1.85rem);margin:0 0 6px;color:var(--cyan);font-weight:620}
+
+/* ---------- D92: grid, main + side rail ---------- */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 316px;gap:30px;align-items:start}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}}
+.main>p{max-width:74ch;margin:0 0 18px}   /* 45ch floor / 65-80ch target */
+
+/* ---------- side rail ---------- */
+.rail{position:sticky;top:24px;display:flex;flex-direction:column;gap:14px}
+.note{border-left:3px solid var(--limit);background:var(--limit-bg);border-radius:0 8px 8px 0;
+  padding:13px 15px;font-size:.9rem;line-height:1.6}
+.note.warn{border-left-color:var(--amber);background:rgba(255,180,84,.07)}
+.note.soc{border-left-color:var(--green);background:rgba(0,255,157,.06)}
+.note b{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;
+  color:var(--text-secondary);margin-bottom:6px;text-transform:uppercase}
+.note.warn b{color:var(--amber)} .note.soc b{color:var(--green)}
+.note .ar{font-size:.9em}
+
+/* ================= D94 · FIGURE: parallel rows + spotlight walk (looping, no button) ========= */
+.fig{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;
+  padding:20px 20px 16px;margin:6px 0 20px}
+.fig-head{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--border)}
+.fig-title{font-family:var(--mono);font-size:.76rem;letter-spacing:.13em;color:var(--text-secondary)}
+/* pattern 4 — step counter */
+.step{position:relative;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;
+  border:1px solid var(--border);border-radius:20px;padding:5px 14px;min-width:196px;text-align:center;
+  background:var(--bg-card)}
+.step i{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;opacity:0;
+  animation:step 13.5s infinite}
+.step i:nth-child(1){color:var(--cyan);animation-delay:0s}
+.step i:nth-child(2){color:var(--amber);animation-delay:4.5s}
+.step i:nth-child(3){color:var(--red);animation-delay:9s}
+@keyframes step{0%{opacity:0}3%{opacity:1}30%{opacity:1}33%{opacity:0}100%{opacity:0}}
+
+.rows{display:flex;flex-direction:column;gap:11px}
+.row{position:relative;border:1px solid var(--border);border-radius:10px;background:var(--bg-card);
+  padding:14px 16px;animation:lit 13.5s infinite;--c:var(--cyan)}
+.row:nth-child(1){--c:var(--cyan);animation-delay:0s}
+.row:nth-child(2){--c:var(--amber);animation-delay:4.5s}
+.row:nth-child(3){--c:var(--red);animation-delay:9s}
+@keyframes lit{
+  0%{border-color:var(--border);box-shadow:none;background:var(--bg-card);opacity:.62}
+  3%{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 0 26px -6px var(--c);opacity:1}
+  30%{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 0 26px -6px var(--c);opacity:1}
+  34%{border-color:var(--border);box-shadow:none;opacity:.62}
+  100%{border-color:var(--border);box-shadow:none;opacity:.62}}
+.row-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.name{font-family:var(--mono);font-size:.9rem;font-weight:600;color:var(--c);min-width:112px}
+.path{font-family:var(--mono);font-size:.78rem;color:var(--text-secondary);
+  background:var(--bg-primary);border:1px solid var(--border);border-radius:5px;padding:3px 9px;
+  white-space:nowrap}
+.verdict{margin-left:auto;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  padding:4px 10px;border-radius:5px;border:1px solid}
+.v-yes{color:var(--green);border-color:rgba(0,255,157,.35);background:rgba(0,255,157,.07)}
+.v-no{color:var(--red);border-color:rgba(255,77,94,.35);background:rgba(255,77,94,.08)}
+/* pattern 3 — the explanation fades in only while the row is lit */
+.reveal{margin-top:11px;font-size:.95rem;line-height:1.6;max-width:72ch;opacity:0;
+  animation:rev 13.5s infinite}
+.row:nth-child(1) .reveal{animation-delay:0s}
+.row:nth-child(2) .reveal{animation-delay:4.5s}
+.row:nth-child(3) .reveal{animation-delay:9s}
+@keyframes rev{0%{opacity:0}5%{opacity:1}30%{opacity:1}34%{opacity:0}100%{opacity:0}}
+.reveal .ar{font-size:.87em}
+/* pattern 8 — caption that changes with the step */
+.cap{position:relative;height:52px;margin-top:14px;border-top:1px solid var(--border);padding-top:12px}
+.cap i{position:absolute;left:0;right:0;top:12px;font-style:normal;font-size:.9rem;
+  color:var(--text-secondary);opacity:0;animation:rev 13.5s infinite}
+.cap i:nth-child(1){animation-delay:0s}.cap i:nth-child(2){animation-delay:4.5s}
+.cap i:nth-child(3){animation-delay:9s}
+@media(prefers-reduced-motion:reduce){
+  .row,.reveal,.cap i,.step i{animation:none!important;opacity:1!important}
+  .row{border-color:var(--c)}}
+
+/* ---------- pattern 7 · real chrome ---------- */
+.term{background:#05080c;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:4px 0 0}
+.term-bar{display:flex;align-items:center;gap:8px;padding:9px 13px;background:#0d131b;
+  border-bottom:1px solid var(--border)}
+.dot{width:11px;height:11px;border-radius:50%}
+.term-t{font-family:var(--mono);font-size:.72rem;color:var(--text-secondary);margin-left:6px}
+.term pre{margin:0;padding:14px 16px;font-family:var(--mono);font-size:.79rem;line-height:1.65;
+  color:#cbd5e1;overflow-x:auto}
+.term .p{color:var(--green)} .term .k{color:var(--cyan)} .term .w{color:var(--amber)}
+.ph{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;color:var(--amber);
+  background:rgba(255,180,84,.09);border-top:1px solid rgba(255,180,84,.25);padding:7px 16px}
+
+/* ---------- finding / interpretation pair ---------- */
+.fi{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+@media(max-width:860px){.fi{grid-template-columns:1fr}}
+.box{border-left:3px solid;border-radius:0 9px 9px 0;padding:14px 16px}
+.box b{display:block;font-family:var(--mono);font-size:.67rem;letter-spacing:.14em;margin-bottom:7px}
+.f{border-color:var(--finding);background:var(--finding-bg)} .f b{color:var(--finding)}
+.i{border-color:var(--interp);background:var(--interp-bg);border-left-style:dashed} .i b{color:var(--interp)}
+.box p{margin:0;font-size:.95rem;line-height:1.6}
+.foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--border);
+  font-family:var(--mono);font-size:.72rem;color:var(--text-secondary);line-height:1.9}
+.src{font-family:var(--mono);font-size:.68rem;color:var(--text-secondary);opacity:.75;margin-top:7px}
+</style></head><body><div class="wrap">
+
+<span class="chip">T18 · EVIDENCE OF EXECUTION · 40 MIN</span>
+<h1>Three artifacts, three different claims
+  <span class="ar">تلات آثار، و كل واحد بيدّعي حاجة مختلفة</span></h1>
+
+<div class="layout">
+<div class="main">
+
+<p>Prefetch, Amcache and ShimCache are all called “evidence of execution.” Only one of them
+  actually is. Getting this wrong is the single most common mistake in a Windows examination,
+  and it is the mistake that puts a wrong name in a report.
+  <span class="ar">التلاتة بيتقال عليهم "دليل تشغيل"، بس واحد بس فيهم اللي فعلاً كده. الغلطة دي أشهر غلطة في فحص ويندوز — و هي اللي بتحط اسم غلط في التقرير.</span></p>
+
+<!-- ===== D94 patterns 1·2·3·4·8 — whole system on screen, spotlight walks, no button ===== -->
+<div class="fig">
+  <div class="fig-head">
+    <span class="fig-title">FIG T18-1 · WHAT EACH ARTIFACT ACTUALLY PROVES</span>
+    <span class="step"><i>1 / 3 · PREFETCH</i><i>2 / 3 · AMCACHE</i><i>3 / 3 · SHIMCACHE</i></span>
+  </div>
+
+  <div class="rows">
+    <div class="row">
+      <div class="row-top">
+        <span class="name">Prefetch</span>
+        <span class="path">C:\Windows\Prefetch\*.pf</span>
+        <span class="verdict v-yes">PROVES EXECUTION</span>
+      </div>
+      <div class="reveal">The program ran. The file records run count and the last eight run times.
+        <span class="ar">البرنامج اشتغل فعلاً. الملف بيسجّل عدد المرات و آخر ٨ مواعيد تشغيل.</span></div>
+    </div>
+
+    <div class="row">
+      <div class="row-top">
+        <span class="name">Amcache</span>
+        <span class="path">C:\Windows\AppCompat\Programs\Amcache.hve</span>
+        <span class="verdict v-no">PRESENCE ONLY</span>
+      </div>
+      <div class="reveal">The file existed on this system, with its SHA-1 and compile time. It does
+        <b>not</b> say the program ran.
+        <span class="ar">الملف كان موجود على الجهاز، و معاه الـ SHA-1 و وقت الـ compile. لكنه <b>مش</b> بيقول إنه اشتغل.</span></div>
+    </div>
+
+    <div class="row">
+      <div class="row-top">
+        <span class="name">ShimCache</span>
+        <span class="path">SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatCache</span>
+        <span class="verdict v-no">PRESENCE ONLY</span>
+      </div>
+      <div class="reveal">Windows looked at the file. That is all. An entry here is created by a
+        directory listing as readily as by an execution.
+        <span class="ar">ويندوز بصّ على الملف. بس كده. الإدخال هنا ممكن يتعمل من مجرد فتح الفولدر زي ما بيتعمل من التشغيل.</span></div>
+    </div>
+  </div>
+
+  <div class="cap">
+    <i>Prefetch is the only one of the three that answers “did it run?”</i>
+    <i>Amcache answers “was it here?” — a different question with a similar-looking answer.</i>
+    <i>ShimCache answers “did Windows see it?” — and analysts read it as execution every day.</i>
+  </div>
+</div>
+
+<!-- ===== pattern 7 · real chrome ===== -->
+<div class="term">
+  <div class="term-bar">
+    <span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span>
+    <span class="dot" style="background:#28c840"></span>
+    <span class="term-t">FOR-WS01 — PECmd.exe — FIN-WKS-07 Prefetch</span>
+  </div>
+  <pre><span class="p">PS C:\Tools&gt;</span> <span class="k">PECmd.exe -d E:\EVI-SRC01\Windows\Prefetch --csv .\out</span>
+
+  Executable name : <span class="w">RCLONE.EXE</span>
+  Run count       : <span class="w">3</span>
+  Last run        : 2026-08-25 21:14:07
+  Previous runs   : 2026-08-25 20:52:11 , 2026-08-24 23:07:44
+  Volume          : \VOLUME{01dc...}  Serial: 8C4A-19F2</pre>
+  <div class="ph">⚠ PLACEHOLDER — D94 forbids fabricated tool output. Replaced with real capture once EVS-02 is acquired.</div>
+</div>
+<div class="src">Source: our own lab — FOR-WS01, PECmd on EVI-SRC01 (D93)</div>
+
+<div class="fi">
+  <div class="box f"><b>FINDING</b>
+    <p>RCLONE.EXE ran three times on FIN-WKS-07, most recently 2026-08-25 21:14:07.
+      <span class="ar">RCLONE.EXE اشتغل تلات مرات، آخرها ٢٥ أغسطس ٢٠٢٦ الساعة ٢١:١٤:٠٧.</span></p></div>
+  <div class="box i"><b>INTERPRETATION — SEPARATE</b>
+    <p>Consistent with staged exfiltration. The artifact does not say what was copied, or by whom.
+      <span class="ar">متوافق مع تسريب بيانات. لكن الأثر مش بيقول إيه اللي اتنسخ، ولا مين اللي عمله.</span></p></div>
+</div>
+
+</div><!-- /main -->
+
+<!-- ===== D92 · the side rail — notes never interrupt the middle ===== -->
+<aside class="rail">
+  <div class="note warn"><b>Does NOT prove — R10</b>
+    A ShimCache entry is not execution. Windows writes one when it merely examines a file — a
+    directory listing is enough.
+    <span class="ar">إدخال في ShimCache مش معناه تشغيل. ويندوز بيكتبه لما بس يبص على الملف — فتح الفولدر لوحده كفاية.</span></div>
+
+  <div class="note soc"><b>As a SOC analyst</b>
+    Your SIEM said “process created.” This says how many times, and when the first time was.
+    <span class="ar">الـ SIEM قالك "process created". ده بيقولك كام مرة، و إمتى أول مرة.</span></div>
+
+  <div class="note"><b>Report → section 8</b>
+    Findings. One line per artifact, each naming its exact path.
+    <span class="ar">قسم ٨ — Findings. سطر لكل أثر، و كل سطر بيسمّي مساره بالظبط.</span></div>
+</aside>
+</div>
+
+<div class="foot">
+  PROTOTYPE — demonstrates: D92 typography &amp; side rail · D76/D92 bilingual line · D94 patterns
+  1 · 2 · 3 · 4 · 7 · 8 · 9 · 10 · looping spotlight with no button · D93 source line · D7 finding /
+  interpretation pair · R10 does-not-prove box.
+</div>
+</div></body></html>

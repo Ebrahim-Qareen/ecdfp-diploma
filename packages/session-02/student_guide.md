@@ -1,203 +1,191 @@
 # Session 2 — Student Guide
 
-**Acquisition: Disk, Memory & Live Response**
+**Acquisition: Disk, Memory &amp; Live Response**
 
 ---
 
 ## What changes today
 
-Session 1 was about what has to be true **before** analysis starts. Today you make the evidence
-yourself.
+Session 1 was about what has to be true **before** analysis starts, and it ended with you reading the
+first bytes of a file. Today you **make** the evidence.
 
 Everything you examine in Sessions 3 to 6 comes from the images made in this session. If the
-acquisition is wrong, no later analysis can repair it. That is why acquisition is a **decision**, not
-a button.
+acquisition is wrong, no later analysis repairs it. That is why acquisition is a **decision**, not a
+button.
 
-By the end of the session you can:
-
-- **O1** — sequence a collection on a running host by order of volatility, and state what each delay destroys
-- **O2** — capture memory from a live host, and state why the result is a smear rather than a snapshot
-- **O3** — choose physical or logical acquisition for a stated goal, and name the evidence each one forfeits
-- **O4** — create an image as E01 and as raw, and state exactly what `verified` covers and what it does not
-- **O5** — acquire and verify the suspect USB, and write the result as a finding separated from interpretation
+| # | By the end you can |
+|---|---|
+| **O1** | sequence a collection on a running host by order of volatility, and state what each delay destroys |
+| **O2** | capture memory from a live host, and state why the result is a smear rather than a snapshot |
+| **O3** | choose physical or logical acquisition, name what each forfeits, and identify a file from its bytes |
+| **O4** | create an image as E01 and as raw, and state what `verified` covers and what it does not |
+| **O5** | acquire and verify the suspect USB, and write the result as a finding separated from interpretation |
 
 ---
 
-## 1 · Order of volatility, in practice
+## 1 · Live response, and the order of volatility
 
-In Session 1 you learned the list. Today it is a race.
+**Live response is collecting volatile data from a machine that is still running.** There is a
+paradox at the centre of it: to preserve a running machine you must touch it, and every command
+changes it. There is no clean option — only a **recorded** one.
 
-| # | Store | How long it survives |
+Collection is also not free. Data stores decay at very different rates:
+
+| # | Store | Survives |
 |--:|---|---|
 | 1 | CPU registers and cache | nanoseconds |
 | 2 | RAM | until power is lost |
 | 3 | Network state — connections, ARP, routing | seconds to minutes |
 | 4 | Running processes | until reboot |
-| 5 | Disk | survives power loss |
-| 6 | Remote and centralised logs | until they rotate |
+| 5 | Disk | power loss |
+| 6 | Central logs | until they rotate |
 | 7 | Archival media | months to years |
 
-**Collection is not free.** While you collect RAM, network state is decaying. While you image the
-disk, both are already gone. The order you choose is a decision about what you accept losing.
-
-### The example from Case 01
-
-In Session 1 the host was received **powered down**, and the responder's notes record that **no memory
-capture was taken**. Everything in stores 1 to 4 was destroyed before the examiner saw the machine.
-
-These questions can now never be answered for that host:
-
-- what was running
-- what network connections were open
-- whether code was injected into a running process
-- anything that was only ever decrypted in memory
-
-That loss is the reason this session exists.
-
----
-
-## 2 · Live response
-
-**Live response is collecting volatile data from a machine that is still running.**
-
-There is a paradox at the centre of it: to preserve what is on a running machine, you must touch it —
-and every command you run changes it. There is no clean option. There is only a **recorded** one.
-
-### What the operating system reports is not always what is true
-
-A live collector asks the operating system for the process list. If the operating system has been
-subverted, it answers with the list the attacker wants you to see. The report can look perfectly
-normal while three processes are hidden.
-
-This is why memory is captured as well: the memory image can be examined later with tools that do not
-have to trust the operating system's answer.
+That ordering is the **order of volatility**: collect the most perishable first, the most durable
+last. **While you collect RAM, network state is decaying. While you image the disk, both are gone.**
+The order you choose is a decision about what you accept losing.
 
 ### The five rules
 
 1. Run the collector from **external media**. Never install it on the evidence host.
-2. Write output to **external media**. Never to the evidence disk.
+2. Write output to **external media**. Never to the evidence disk — you would overwrite the
+   unallocated space Session 4 needs.
 3. Record **every command and its time**, as you run it.
-4. Isolate the network **before** collecting, and record when you did.
+4. Isolate the network **before** collecting, and record when.
 5. Prefer one tool that does several things over many separate commands — fewer footprints.
 
-### The output tree
+---
+
+## 2 · The collector — it has a name
+
+**BriMor Labs Live Response Collection.** You run `Windows_Live_Response.bat` as administrator, from
+your own external media, and choose a menu option:
+
+| Option | What it takes |
+|---|---|
+| **Triage** | fastest, smallest — key artifacts only |
+| **Memory Dump** | RAM only |
+| **Complete** | memory **and** triage |
+| `Secure-` variants | the same, compressed and password-protected |
+
+It is a wrapper: it runs many small utilities and files their output in one structure.
 
 ```
 FIN-WKS-07_2026-09-02_1412\
 ├── ForensicImages\
-│   └── Memory\                    the raw memory capture
+│   ├── Memory\                    the RAM capture
+│   └── DiskImage\                 a disk image, if you asked for one
 ├── LiveResponseData\
-│   ├── ProcessInfo\               process list, DLLs, handles
+│   ├── BasicInfo\                 host identity
 │   ├── NetworkInfo\               connections, ARP, routing, DNS cache
+│   ├── PersistenceMechanisms\     autoruns
 │   ├── UserInfo\                  logged-on users, sessions
-│   └── SystemInfo\                uptime, patches, services, scheduled tasks
+│   └── CopiedFiles\event logs\Logs\*.evtx
 ├── <hostname>_hashes.csv          one hash per collected file
-└── Processing_Details.txt         every command, its start and finish time
+└── Processing_Details.txt         every command, with start and finish times
 ```
 
-**`Processing_Details.txt` is the most important file in that tree.** A qualified third party must be
-able to reconstruct what you did. On a live host that is only possible if every command and its time
-were recorded while you ran them.
+**Two of those files are a record of *your own conduct*, not the host's state.**
+`Processing_Details.txt` is your method section, written as you worked — ISO/IEC 27037 requires that
+a third party can reconstruct what you did, and on a live host that is only possible from a
+contemporaneous command record. The hash list proves the collected files have not changed **since**
+collection.
 
-**What the hash list proves:** the collected files have not changed since collection.
-**What it does not prove:** that the operating system told the truth when it listed them.
+### 🟢 Velociraptor — the one to use on a paid engagement
+
+Apache 2.0 licensed, and it builds a **standalone offline collector** you carry on a USB stick: one
+`.exe`, no server needed.
+
+⚠️ **This matters commercially.** KAPE is free for classroom use but **not available for commercial
+use since 1 January 2026** — that is, on a third-party network or as part of a paid engagement.
+Velociraptor carries no such restriction.
+
+### What a clean report does *not* prove
+
+A collector asks the operating system what is running and writes down the answer. If the operating
+system has been subverted, the answer is the one the attacker chose. A clean live-response report is
+evidence of **what the host said about itself**, and nothing more. That is why memory is captured
+too: the image can be examined later with tools that do not have to trust the OS.
 
 ---
 
 ## 3 · Memory acquisition
 
 Memory holds what exists nowhere else: running processes, open network connections, injected code,
-loaded drivers, and data that is only ever decrypted in RAM. Power off and it is gone. There is no
-second chance.
+loaded drivers, and data that is only ever decrypted in RAM. Power off and it is gone.
 
-### A memory capture is a smear, not a snapshot
+Free tools: **WinPmem**, **DumpIt**, or FTK Imager's `File > Capture Memory`.
 
-The capture tool reads memory from low addresses to high, and it takes time — minutes on a large host.
-**The machine keeps running the whole time.** So the top of the dump was read at one moment and the
-bottom at a later one. A process that existed when the read started may be gone by the time the read
-reaches its pages.
+### A capture is a smear, not a snapshot
 
-| This makes unreliable | This is unaffected |
+The tool reads memory from low addresses to high, and it takes minutes. **The machine keeps running
+the whole time.** So the top of the dump was read at one moment and the bottom at a later one.
+
+| This becomes unreliable | This is unaffected |
 |---|---|
 | a claim that two structures were consistent **with each other** at one instant | an artifact you find — it really was there |
 | counts that must add up exactly | strings, injected code and connections recovered intact |
-| "the process table proves the exact state at 14:12" | "this process was present during the capture window" |
 
-**Write it this way:**
-> *The capture ran from 14:12 to 14:19 UTC. Findings describe the state during that window, not at a
-> single instant.*
+**Write it this way:** *the capture ran from 14:12 to 14:19 UTC; findings describe the state during
+that window, not at a single instant.*
 
-### What can block a capture
+### What can block it
 
 | Blocker | What you see | What to do |
 |---|---|---|
-| Driver signing enforcement | the tool's driver refuses to load | use a signed acquisition tool |
-| Secure Boot | driver load blocked at boot level | use a signed tool, or record that capture was not possible |
-| A hypervisor | the guest sees only its own memory | capture at the host, or take the VM's memory file |
-| An anti-cheat or EDR driver | the tool is blocked, or the host crashes | record the attempt and the refusal |
+| Driver signing | the tool's driver refuses to load | use a signed acquisition tool |
+| Secure Boot | blocked below the OS | signed tool, or record that capture was impossible |
+| A hypervisor | the guest sees only its own memory | capture at the host, or take the VM memory file |
+| Anti-cheat / EDR driver | blocked, or the host crashes | coordinate with the vendor; record the refusal |
 
 **A failed capture is a finding.** Record the tool, its version, the exact error and the time.
-*"Memory capture was attempted at 14:05 UTC with `<tool> <version>` and failed because the driver was
-blocked by Secure Boot"* is a defensible sentence. Silence is not.
 
-### Self-review — check your own capture
+### Check your own capture
 
-The dump should be roughly the size of physical RAM. A 16 GB host gives a file of about 16 GB. If it
-is much smaller, the capture did not finish — check **before** the machine is powered down, because
-after that there is nothing left to re-run.
+The dump should be roughly the size of physical RAM. If it is much smaller the capture did not
+finish — check **before** power-down, because afterwards there is nothing left to re-run.
 
 ---
 
-## 4 · Physical and logical acquisition
+## 4 · Acquisition scope, and image formats
 
 | | **Physical** | **Logical** |
 |---|---|---|
 | Reaches | every sector on the device | allocated files only |
-| Includes | slack space, unallocated space, deleted remnants, HPA/DCO, partition gaps | the files you can see, and their metadata |
-| Misses | nothing on the device | everything not currently allocated to a file |
-| Size | the full device size | the size of the selected data |
-| Choose when | you can take the whole device, and the case may need deleted data | the device is very large, or legal scope is narrow |
+| Includes | slack, unallocated space, deleted remnants, HPA/DCO | the files you can see, and their metadata |
+| Choose when | you can take the whole device | the device is enormous, or scope is narrow |
 
-**This decision sets a ceiling on every later session.** In Session 4 you recover deleted staging files
-from **unallocated space** and parse the `$MFT`. A logical acquisition taken today would make that
-impossible — the data simply would not be in your image.
+**This decision caps every later session.** Session 4 recovers deleted staging files from
+**unallocated space**. A logical image taken today makes that impossible — the data is simply not in
+your evidence.
 
 ### The four methods
 
-| Method | Produces | Forfeits |
-|---|---|---|
-| **Disk-to-image** | one or more image files from the source | nothing — this is the default |
-| **Disk-to-disk (clone)** | a second physical disk, sector for sector | compression, metadata and an embedded hash; needs a disk as large as the source |
-| **Sparse** | selected portions of the device | everything outside the selection |
-| **Logical** | selected files in a container | slack, unallocated space, deleted data |
+| Method | Forfeits |
+|---|---|
+| **Disk-to-image** | nothing — the default |
+| **Disk-to-disk (clone)** | compression, metadata, embedded hash; needs a disk as large as the source |
+| **Sparse** | everything outside the selection |
+| **Logical** | slack, unallocated space, deleted data |
 
----
-
-## 5 · Image formats
+### The three containers
 
 | | **raw (`dd`)** | **E01 (EWF)** | **AD1** |
 |---|---|---|---|
 | Contents | bytes, nothing else | bytes plus structure | selected files only |
-| Metadata | none | case number, examiner, notes, times | container metadata |
+| Metadata | none | case, examiner, times | container metadata |
 | Compression | no | yes | yes |
-| Built-in integrity | none | **per-chunk CRC + embedded image hash** | container hash |
-| Read by | everything | most forensic tools | AccessData tools — Autopsy **cannot** open AD1 |
+| Built-in integrity | **none** | per-chunk CRC + embedded hash | container hash |
+| Read by | everything | most forensic tools | AccessData tools — **Autopsy cannot open AD1** |
 
-**E01 is the default** because it carries its own verification and its own case metadata, so the image
-describes itself. **Raw still matters** because every tool reads it, and several Linux utilities used
-later in this course want a raw device.
-
-🔴 **The catch, and it is the point of the next section.** E01's embedded hash verifies **the image
-against itself**. It proves the container is internally intact. It does **not** re-read the source
-device, and it does not prove the image still matches the original drive.
+🔴 **The catch:** E01's embedded hash verifies **the image against itself**. It does not re-read the
+source device.
 
 ---
 
-## 6 · What `verified` covers — and what it does not
+## 5 · What `verified` covers — and what it does not
 
 This is the most important idea in the session.
-
-When FTK Imager finishes and its log says `verified`, here is what happened:
 
 | The tool **did** | The tool **did not** |
 |---|---|
@@ -205,96 +193,70 @@ When FTK Imager finishes and its log says `verified`, here is what happened:
 | read the image back and hash it again | prove the image matches the original **now** |
 | prove the two match — the write was clean | prove nothing was altered before you arrived |
 
-**A sentence you may write:**
-> *`F-02` — The acquisition log for `EVS-02` records the image hash as `<value>` and the read-back
-> verification as `verified` (FTK Imager 8.3, 2026-09-02 15:02 UTC).*
+**You may write:** *`F-02` — the acquisition log records the image hash as `<value>` and the read-back
+verification as `verified` (FTK Imager 8.3).*
 
-**A sentence you may not write:**
-> ~~*The image is verified, so the disk was not tampered with.*~~
+**You may not write:** ~~the image is verified, so the disk was not tampered with.~~
 
-The second sentence is an interpretation, and it is not supported. Verification covers the copy. It
-says nothing about the history of the original.
-
-### Self-review — read your own verification log
-
-```
-[Computed Hashes]
- MD5 checksum    : <placeholder-md5>
- SHA1 checksum   : <placeholder-sha1>
-
-Image Verification Results:
- Verification started: 2026-09-02 14:41:07
- Verification finished: 2026-09-02 15:02:55
- MD5 checksum    : <placeholder-md5>   : verified
- SHA1 checksum   : <placeholder-sha1>  : verified
-```
-
-Ask yourself the three questions: which data was hashed first? Which data was hashed second? Was the
-source drive read a second time? The answer to the third is **no** — and that is the whole lesson.
+Verification covers the copy. The history of the original is the chain of custody's job.
 
 ---
 
-## 7 · `dd`, `dc3dd` and targeted triage
+## 6 · `dc3dd` and targeted triage
 
-| | `dd` | `dc3dd` **7.3.1** | KAPE |
+| | `dd` | `dc3dd` **7.3.1** | triage |
 |---|:-:|:-:|:-:|
-| Hashes while imaging | ✗ | ✅ | ✅ (per file) |
+| Hashes while imaging | ✗ | ✅ | ✅ per file |
 | Writes a log | ✗ | ✅ | ✅ |
-| Handles read errors well | ✗ | ✅ | n/a |
+| Handles read errors | ✗ | ✅ | n/a |
 | Scope | whole device | whole device | **selected artifacts only** |
-
-The command you run:
 
 ```
 sudo dc3dd if=/dev/sdX of=/evidence/scratch.dd hash=sha256 log=/evidence/scratch.log
 ```
 
-The log ends with the hash:
-
-```
-   204800 sectors in
-   204800 sectors out
-   [sha256] <placeholder-sha256>
-```
-
-**Why this matters:** the log is proof that the hash was computed **at acquisition time**, not
-afterwards. Plain `dd` gives you neither a hash nor a log, so you must hash the source and the image
-in separate steps and record them by hand — and if they disagree, nothing tells you where the read
-failed.
-
-### Targeted triage
-
-Triage collects the artifacts that answer the question instead of the whole disk. It is used when the
-disk is very large, the system cannot be taken offline, or time is short.
-
-⚠️ **KAPE licence.** KAPE's FAQ states it is **no longer available for commercial use** as of
-1 January 2026 — that is, on a third-party network or as part of a paid engagement. **Classroom and
-educational use remain free.** In paid work, use the free alternatives: the EZ Tools underneath KAPE
-are separately free, and a target set is only a list of file paths that a script can collect.
+The log ends with the hash — proof it was computed **at acquisition time**, not afterwards. Plain
+`dd` gives you neither, so you must hash the source and image separately and record them by hand.
 
 **What triage forfeits:** unallocated space, slack, deleted files, and anything not on the target
-list. **You cannot later answer a question about data you chose not to collect.** Triage trades
-completeness for speed, and that trade has to be recorded.
+list. **You cannot answer a question about data you chose not to collect** — so record what you left.
+
+---
+
+## 7 · Signature vs extension, on what you acquired
+
+In Session 1 you read the first bytes of a single file. Now you run that across a whole image,
+because the first thing an examiner asks of a file set is *are these files what they claim to be?*
+
+| Type | Signature | Note |
+|---|---|---|
+| JPEG | `FF D8 FF` | ends `FF D9` — Session 3 finds things after that |
+| PNG | `89 50 4E 47 0D 0A 1A 0A` | the `89` catches a 7-bit transfer |
+| ZIP / DOCX | `50 4B 03 04` | ASCII `PK`. A `.docx` **is** a ZIP of XML |
+| OLE (legacy `.doc`) | `D0 CF 11 E0 A1 B1 1A E1` | a macro lives somewhere different from OOXML |
+
+**When the name and the bytes disagree, the bytes win.**
+
+**Finding:** *the file at `\Users\l.bennett\holiday_snap.jpg` begins `50 4B 03 04`, the ZIP signature.*
+**Interpretation:** *the file is a ZIP archive carrying a `.jpg` extension.*
+**Cannot prove:** *that it was renamed deliberately, or by whom.*
 
 ---
 
 ## 8 · The acquisition decision, in one path
 
-Work down it and record the answer at each step:
+1. **Is the host running?** → yes: volatile data first, then power down and image. → no: do not power it on.
+2. **Is the data encrypted at rest?** → a powered-down image may be unreadable. Capture while unlocked.
+3. **Is time short, or the device too large?** → consider triage, and record what you did not collect.
+4. **Which method?** → physical unless a stated reason forces otherwise. Record the reason.
 
-1. **Is the host running?** → yes: capture volatile data first (live response, then memory), then power down and image.
-   → no: do not power it on. Image the disk.
-2. **Is the data encrypted at rest?** → yes: a powered-down image may be unreadable. Capture while the volume is unlocked, or capture the key material in memory.
-3. **Is time short, or is the device too large to image?** → consider targeted triage, and record exactly what you chose not to collect.
-4. **Which method?** → physical unless a stated reason forces logical. Record the reason.
-
-Every answer is written down. The decision is part of the evidence.
+Every answer is written down. **The decision is part of the evidence.**
 
 ---
 
 ## 9 · Before you leave
 
-- Your images are made and verified.
-- Both digests are recorded for every artifact.
-- Your custody line is filled and the session's steps are closed on the record page.
-- You can say, in one sentence, what `verified` does not cover.
+- Images made and verified, both digests recorded.
+- Start **and** finish times recorded for the memory capture.
+- Your custody line filled and the session's steps closed on the record page.
+- You can say in one sentence what `verified` does not cover.

@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P09 &middot; File systems &middot; eCDFP Diploma</title>
+<meta name="description" content="FAT directory entries and cluster chains, what a delete really changes, the NTFS $MFT with resident data and alternate streams, and carving a volume with no file system — page 9 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P09 &middot; File systems</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>Objectives</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; How FAT keeps track</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>The three structures</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>What a directory entry holds</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>What deleting actually does</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>Why recovery gets harder with time</span></a></li>
+      <li class="is-part"><a href="#p9"><span class="n">09</span><span>PART 2 &mdash; How NTFS keeps track</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>The $MFT</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>FAT and NTFS, side by side</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>A file that is two files</span></a></li>
+      <li class="is-part"><a href="#p13"><span class="n">13</span><span>PART 3 &mdash; When there is no file system</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>What carving is</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>Signatures, and where they end</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>What a fragment does to a carve</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>Six objects, three outcomes</span></a></li>
+      <li class="is-part"><a href="#p18"><span class="n">18</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>Four MFT records</span></a></li>
+      <li class="is-part"><a href="#p20"><span class="n">20</span><span>YOUR TURN &mdash; Case 05</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>Case 05 &mdash; the brief</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Carving Case 05</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>Exercise &mdash; four carving claims</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Knowledge check</span></a></li>
+      <li class="is-part"><a href="#p25"><span class="n">25</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p27"><span class="n">27</span><span>TASK</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>Task &mdash; carve, and document it</span></a></li>
+      <li><a href="#p29"><span class="n">29</span><span>Report &mdash; writing up a carve</span></a></li>
+      <li><a href="#p30"><span class="n">30</span><span>Summary</span></a></li>
+      <li><a href="#p31"><span class="n">31</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+<main class="main">
+
+<section class="page" id="p1">
+<span class="kicker">P09 &middot; Page 9 of 14 &middot; 77 topic minutes</span>
+<h2>File systems
+  <span class="ar">أنظمة الملفات</span></h2>
+<p class="lede">`P08` stopped at the <b>cluster</b>. This page opens the structures that decide which cluster a file gets, what happens to them when a file is deleted, and what is still readable after those structures are gone entirely.
+  <span class="ar">توقّفت `P08` عند الـ <b>cluster</b>. و تفتح هذه الصفحة البنى التي تقرّر أي cluster يأخذه الملف، و ما يحدث لها عند حذف ملف، و ما يظل قابلاً للقراءة بعد أن تختفي تلك البنى تمامًا.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Topic</th><th>Minutes</th><th>Hands-on</th></tr></thead>
+  <tbody>
+    <tr><td><b>T14</b> File Systems &mdash; FAT &amp; NTFS<span class="ar">أنظمة الملفات — FAT و NTFS</span></td><td>52</td><td>Yes</td></tr>
+    <tr><td><b>T15</b> Carving &amp; Deleted Data<span class="ar">الـ carving و البيانات المحذوفة</span></td><td>25</td><td>Yes</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Every number on this page is measured</b> from <code>EVS-11</code>, three disk images built by <code>scripts/make_evs11.py</code> in this repository. <b>49 assertions</b> were run against the produced images before a word of this page was written.
+    <span class="ar"><b>كل رقم على هذه الصفحة مقيس</b> من <code>EVS-11</code>، و هي ثلاث صور أقراص بناها <code>scripts/make_evs11.py</code> في هذا المستودع. و جرى تنفيذ <b>٤٩ فحصًا</b> على الصور المنتَجة قبل كتابة كلمة واحدة من هذه الصفحة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T14 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن</span></h2>
+<figure class="dgm" id="dg-lc-p09" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p09">
+  <title id="t-dg-lc-p09">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="78" text-anchor="middle" fill="#00ff9d">ANALYSE</text>
+    <text class="xs" x="388" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 3.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p>`P08` was about the <b>disk</b> &mdash; sectors, clusters, and how a disk is divided. This page is about the <b>bookkeeping</b> that sits on top of a partition and turns a region of clusters into files with names.
+  <span class="ar">كانت `P08` عن <b>القرص</b> — الـ sectors و الـ clusters و كيف يُقسَّم. و هذه الصفحة عن <b>المسك الدفتري</b> الذي يجلس فوق الـ partition و يحوّل منطقة من الـ clusters إلى ملفات لها أسماء.</span></p>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P09 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستكون قادرًا عليه</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>By the end of this page</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Read a FAT directory entry and follow a cluster chain <b>by hand</b><span class="ar">قراءة directory entry في الـ FAT و تتبّع سلسلة clusters <b>يدويًّا</b></span></td></tr>
+    <tr><td>2</td><td>State exactly what a delete changes on FAT &mdash; and what it does not<span class="ar">تحديد ما يغيّره الحذف في الـ FAT بالضبط — و ما لا يغيّره</span></td></tr>
+    <tr><td>3</td><td>Read an <code>$MFT</code> record: header, attributes, resident and non-resident <code>$DATA</code><span class="ar">قراءة سجل <code>$MFT</code>: الـ header و الـ attributes و الـ <code>$DATA</code> الـ resident و الـ non-resident</span></td></tr>
+    <tr><td>4</td><td>Find a second data stream that no directory listing reports<span class="ar">العثور على data stream ثانٍ لا يعرضه أي سرد للمجلد</span></td></tr>
+    <tr><td>5</td><td>Carve files from a volume with <b>no file system at all</b><span class="ar">استخراج ملفات بالـ carving من volume <b>بلا نظام ملفات إطلاقًا</b></span></td></tr>
+    <tr><td>6</td><td>Say which carved files you would sign for, and why the others fail<span class="ar">تحديد أي الملفات المستخرَجة توقّع عليها، و لماذا تفشل البقية</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>`T14` and `T15` are one continuous argument: <b>the file system is a set of promises about where things are, and forensics is what you do when those promises are missing or wrong.</b>
+    <span class="ar">`T14` و `T15` حجة واحدة متّصلة: <b>نظام الملفات مجموعة وعود عن مواضع الأشياء، و علم الأدلة الرقمية هو ما تفعله حين تكون تلك الوعود غائبة أو خاطئة.</b></span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 3</span>
+  <h2>How FAT keeps track<span class="ar">كيف تتعقّب الـ FAT الملفات</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Three structures, one number each, and a chain that is the only thing that knows the order.<span class="ar">ثلاث بنى، رقم واحد في كلٍّ منها، و سلسلة هي وحدها ما يعرف الترتيب.</span></p>
+  <p class="divider-meta">4 screens &middot; 22 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T14 &middot; Theory &middot; measured</span>
+<h2>The three structures
+  <span class="ar">البنى الثلاث</span></h2>
+<p>A FAT volume keeps a file in <b>three separate places</b>. None of them is the file, and you need all three to read one.
+  <span class="ar">يحفظ الـ volume من نوع FAT الملف في <b>ثلاثة مواضع منفصلة</b>. و لا واحد منها هو الملف، و تحتاجها جميعًا لتقرأ ملفًّا واحدًا.</span></p>
+<figure class="dgm" id="dg9-f1" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F1</span><span class="dgm-tag">STRUCTURE</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 296" role="img" aria-labelledby="t9f1">
+  <title id="t9f1">The directory entry, the FAT and the data area</title>
+  <text class="xs mut" x="14" y="24">THREE STRUCTURES, AND A FILE NEEDS ALL THREE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="38" width="240" height="70" rx="6"/>
+    <text class="lbl" x="134" y="62" text-anchor="middle">DIRECTORY ENTRY</text>
+    <text class="xs mut" x="134" y="82" text-anchor="middle">name &#183; size &#183; first cluster</text>
+    <text class="xs" x="134" y="99" text-anchor="middle">WHITEB~1.JPG &#183; 75,389 &#183; 20</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="270" y="38" width="240" height="70" rx="6"/>
+    <text class="lbl" x="390" y="62" text-anchor="middle">THE FAT</text>
+    <text class="xs mut" x="390" y="82" text-anchor="middle">one entry per cluster</text>
+    <text class="xs" x="390" y="99" text-anchor="middle">20&#8594;21 &#8230; 28&#8594;38 &#8230; 47&#8594;END</text>
+    <path class="arw" d="M255 73 L268 73"/>
+    <path class="arw" d="M262 68 L268 73 L262 78"/>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="526" y="38" width="240" height="70" rx="6"/>
+    <text class="lbl" x="646" y="62" text-anchor="middle">THE DATA AREA</text>
+    <text class="xs mut" x="646" y="82" text-anchor="middle">the bytes themselves</text>
+    <text class="xs" x="646" y="99" text-anchor="middle">cluster 20 at offset 0x2C000</text>
+    <path class="arw" d="M511 73 L524 73"/>
+    <path class="arw" d="M518 68 L524 73 L518 78"/>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="130" width="752" height="36" rx="5"/>
+    <text class="sm" x="30" y="153">The chain is the file. Nineteen clusters, and they are NOT in order.</text>
+  </g>
+  <g data-step="5">
+    <rect class="box ok" x="14" y="186" width="212" height="56" rx="5"/>
+    <text class="sm" x="120" y="209" text-anchor="middle">clusters 20&#8211;28</text>
+    <text class="xs mut" x="120" y="228" text-anchor="middle">the photograph, part 1</text>
+    <rect class="box no" x="240" y="186" width="212" height="56" rx="5"/>
+    <text class="sm" x="346" y="209" text-anchor="middle">clusters 29&#8211;37</text>
+    <text class="xs mut" x="346" y="228" text-anchor="middle">logs.txt &#8212; someone else</text>
+    <rect class="box ok" x="466" y="186" width="300" height="56" rx="5"/>
+    <text class="sm" x="616" y="209" text-anchor="middle">clusters 38&#8211;47</text>
+    <text class="xs mut" x="616" y="228" text-anchor="middle">the photograph, part 2</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="252" width="752" height="30" rx="5"/>
+    <text class="sm" x="30" y="273">Lose the FAT and the order is gone. The bytes are not.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">What this volume actually contains</span>
+  <p>Six live files and one deleted entry on <code>EVS-11-fat.dd</code>. <code>site_photo.jpg</code> occupies <b>twelve consecutive clusters</b> starting at 3. <code>whiteboard.jpg</code> occupies nineteen clusters in <b>two runs</b> &mdash; 20&#8211;28 and 38&#8211;47 &mdash; with nine clusters of an unrelated log file between them.
+    <span class="ar">ستة ملفات حيّة و مدخل محذوف واحد على <code>EVS-11-fat.dd</code>. يشغل <code>site_photo.jpg</code> <b>اثني عشر cluster متتاليًا</b> تبدأ من ٣. و يشغل <code>whiteboard.jpg</code> تسعة عشر cluster في <b>مقطعين</b> — ٢٠&#8211;٢٨ و ٣٨&#8211;٤٧ — و بينهما تسعة clusters لملف سجلات لا علاقة له به.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>What a directory entry holds
+  <span class="ar">ما يحمله الـ directory entry</span></h2>
+<p>Thirty-two bytes per file. That is the whole entry, and it is worth knowing by field &mdash; because in the next screen one of these bytes changes and nothing else does.
+  <span class="ar">اثنان و ثلاثون byte لكل ملف. هذا هو المدخل كله، و يستحق أن تعرفه حقلاً حقلاً — لأن byte واحدًا منه سيتغيّر في الشاشة التالية و لن يتغيّر شيء آخر.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Offset</th><th>Bytes</th><th>Field</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td>8</td><td>name, padded with spaces<span class="ar">الاسم، مكمّلاً بمسافات</span></td></tr>
+    <tr><td>8</td><td>3</td><td>extension<span class="ar">الامتداد</span></td></tr>
+    <tr><td>11</td><td>1</td><td>attributes &mdash; read-only, hidden, system, volume label, directory<span class="ar">الخصائص — للقراءة فقط، مخفي، نظام، volume label، مجلد</span></td></tr>
+    <tr><td>20</td><td>2</td><td>first cluster, <b>high</b> 16 bits (FAT32 only)<span class="ar">أول cluster، الـ <b>16 bit</b> العليا (في FAT32 فقط)</span></td></tr>
+    <tr><td>26</td><td>2</td><td>first cluster, <b>low</b> 16 bits<span class="ar">أول cluster، الـ <b>16 bit</b> الدنيا</span></td></tr>
+    <tr><td>28</td><td>4</td><td>size in bytes<span class="ar">الحجم بالـ bytes</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>The 8.3 name is why the entry for <code>whiteboard.jpg</code> reads <code>WHITEB~1.JPG</code>. The long name is stored <b>separately</b>, in extra entries with attribute <code>0x0F</code> immediately before the short one &mdash; which is a detail worth knowing, because a tool that ignores them shows you tildes and a tool that ignores the short entry loses the size and the first cluster.
+    <span class="ar">اسم 8.3 هو سبب ظهور مدخل <code>whiteboard.jpg</code> بصيغة <code>WHITEB~1.JPG</code>. أما الاسم الطويل فيُخزَّن <b>منفصلاً</b> في مدخلات إضافية خاصّتها <code>0x0F</code> تسبق القصير مباشرةً — و هي تفصيلة تستحق المعرفة، لأن الأداة التي تتجاهلها تعرض لك علامات ~، و الأداة التي تتجاهل المدخل القصير تفقد الحجم و أول cluster.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T14 &middot; Theory &middot; measured</span>
+<h2>What deleting actually does
+  <span class="ar">ما الذي يفعله الحذف فعلاً</span></h2>
+<p>One file was deleted from this volume before it was handed over. Here is every byte that changed.
+  <span class="ar">حُذف ملف واحد من هذا الـ volume قبل تسليمه. و هذه كل الـ bytes التي تغيّرت.</span></p>
+<figure class="dgm" id="dg9-f2" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F2</span><span class="dgm-tag">MECHANISM</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 300" role="img" aria-labelledby="t9f2">
+  <title id="t9f2">What a FAT delete changes and what it leaves</title>
+  <text class="xs mut" x="14" y="24">DELETING old_invoice.pdf &#8212; THREE STRUCTURES, TWO OF THEM TOUCHED</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="38" width="752" height="52" rx="6"/>
+    <text class="sm" x="30" y="60">DIRECTORY ENTRY   4F 4C 44 5F 49 4E 7E 31 50 44 46 &#8230;  size 1,583   first cluster 19</text>
+    <text class="xs mut" x="30" y="80">O  L  D  _  I  N  ~  1  P  D  F</text>
+  </g>
+  <g data-step="2">
+    <rect class="box no" x="14" y="102" width="752" height="52" rx="6"/>
+    <text class="sm" x="30" y="124">DIRECTORY ENTRY   E5 4C 44 5F 49 4E 7E 31 50 44 46 &#8230;  size 1,583   first cluster 19</text>
+    <text class="xs" x="30" y="144" fill="#ff8a6a">^^ one byte. The name loses its first letter and NOTHING ELSE CHANGES.</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="166" width="368" height="52" rx="6"/>
+    <text class="sm" x="34" y="188">THE FAT   entry 19: 0FFFFFFF &#8594; 00000000</text>
+    <text class="xs mut" x="34" y="208">the cluster is now marked free</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="398" y="166" width="368" height="52" rx="6"/>
+    <text class="sm" x="418" y="188">THE DATA   cluster 19: 25 50 44 46 &#8230;</text>
+    <text class="xs mut" x="418" y="208">%PDF- &#8212; untouched, byte for byte</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="234" width="752" height="52" rx="6"/>
+    <text class="sm" x="30" y="257">Deleting changed 5 bytes. The 1,583 bytes of the document are all still there.</text>
+    <text class="xs mut" x="30" y="277">Measured on EVS-11-fat.dd after mdel.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">Measured on EVS-11-fat.dd</span>
+  <p>The entry still reads <code>E5 4C 44 5F 49 4E 7E 31 50 44 46</code> &mdash; <b>ten of the eleven name bytes</b>, the size <b>1,583</b>, and the first cluster <b>19</b>. The FAT entry for cluster 19 is zero. Cluster 19 still begins <code>25 50 44 46</code>.
+    <span class="ar">ما زال المدخل يقرأ <code>E5 4C 44 5F 49 4E 7E 31 50 44 46</code> — <b>عشرة من أحد عشر byte</b> من الاسم، و الحجم <b>١٬٥٨٣</b>، و أول cluster <b>١٩</b>. و مدخل الـ FAT للـ cluster ١٩ صفر. و ما زال الـ cluster ١٩ يبدأ بـ<code>25 50 44 46</code>.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">And what it does not establish</span>
+  <p>Not <b>who</b> deleted it and not <b>when</b>. The entry carries a modification date &mdash; that is when the file was last <b>written</b>, not when it was deleted. <b>FAT records no deletion time at all.</b>
+    <span class="ar">لا <b>من</b> حذفه و لا <b>متى</b>. يحمل المدخل تاريخ تعديل — و هو وقت آخر <b>كتابة</b> للملف، لا وقت حذفه. <b>فالـ FAT لا تسجّل وقت حذف إطلاقًا.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p8">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>Why recovery gets harder with time
+  <span class="ar">لماذا تصعب الاستعادة مع الوقت</span></h2>
+<p>The deleted file is recoverable because <b>nothing has needed its cluster yet</b>. That is the whole of the protection, and it is not protection.
+  <span class="ar">الملف المحذوف قابل للاستعادة لأن <b>لا شيء احتاج الـ cluster الخاص به بعد</b>. و هذه كل الحماية، و هي ليست حماية.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>What happens next</th><th>What it costs you</th></tr></thead>
+  <tbody>
+    <tr><td>nothing is written<span class="ar">لا يُكتب شيء</span></td><td>the file is fully recoverable, indefinitely<span class="ar">الملف قابل للاستعادة بالكامل، بلا حدّ زمني</span></td></tr>
+    <tr><td>a <b>smaller</b> file takes the cluster<span class="ar">ملف <b>أصغر</b> يأخذ الـ cluster</span></td><td>the beginning is gone; the tail survives in the <b>slack</b> &mdash; `P08`<span class="ar">البداية اختفت؛ و الذيل ينجو في الـ <b>slack</b> — راجع `P08`</span></td></tr>
+    <tr><td>a <b>larger</b> file takes it<span class="ar">ملف <b>أكبر</b> يأخذه</span></td><td>the cluster is overwritten entirely<span class="ar">يُكتب فوق الـ cluster بالكامل</span></td></tr>
+    <tr><td>the disk is an <b>SSD with TRIM</b><span class="ar">القرص <b>SSD مفعّل عليه TRIM</b></span></td><td>the controller may have zeroed it already &mdash; `P04`<span class="ar">قد يكون الـ controller صفّره بالفعل — راجع `P04`</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence to carry</span>
+  <ul>
+    <li><b>&ldquo;The file was not recovered&rdquo; is a statement about the disk you were given, at the moment you looked at it.</b> It is not a statement about whether the file ever existed.
+      <span class="ar"><b>عبارة «لم يُستَرجَع الملف» قول عن القرص الذي أُعطيته، في اللحظة التي نظرت فيها إليه.</b> و ليست قولاً عن هل وُجد الملف أصلاً.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page divider" id="p9">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 3</span>
+  <h2>How NTFS keeps track<span class="ar">كيف يتعقّب الـ NTFS الملفات</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">One table, one record per file, and a file small enough to live inside its own bookkeeping.<span class="ar">جدول واحد، سجل لكل ملف، و ملف صغير بما يكفي ليعيش داخل دفتر حساباته نفسه.</span></p>
+  <p class="divider-meta">4 screens &middot; 26 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p10">
+<span class="kicker">T14 &middot; Theory &middot; measured</span>
+<h2>The $MFT
+  <span class="ar">جدول الـ $MFT</span></h2>
+<p>NTFS keeps everything in one table: the <b>Master File Table</b>. Every file has a record in it, every directory has a record in it, and so does <b>the table itself</b>.
+  <span class="ar">يحفظ الـ NTFS كل شيء في جدول واحد: الـ <b>Master File Table</b>. لكل ملف سجل فيه، و لكل مجلد سجل فيه، و كذلك <b>للجدول نفسه</b>.</span></p>
+<figure class="dgm" id="dg9-f3" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F3</span><span class="dgm-tag">STRUCTURE</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 320" role="img" aria-labelledby="t9f3">
+  <title id="t9f3">One MFT record and the attributes inside it</title>
+  <text class="xs mut" x="14" y="24">ONE MFT RECORD = 1,024 BYTES &#183; RECORD 64, notes.txt</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="38" width="752" height="34" rx="5"/>
+    <text class="sm" x="30" y="60">HEADER   &#8220;FILE&#8221; &#183; sequence 1 &#183; links 1 &#183; flags 0x01 IN USE &#183; used 672 of 1,024</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="14" y="82" width="368" height="46" rx="5"/>
+    <text class="sm" x="34" y="103">0x10 $STANDARD_INFORMATION</text>
+    <text class="xs mut" x="34" y="121">the four timestamps you will report</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="398" y="82" width="368" height="46" rx="5"/>
+    <text class="sm" x="418" y="103">0x30 $FILE_NAME</text>
+    <text class="xs mut" x="418" y="121">the name, AND four more timestamps</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="140" width="752" height="56" rx="5"/>
+    <text class="sm" x="30" y="163">0x80 $DATA   RESIDENT   290 bytes</text>
+    <text class="xs" x="30" y="184">&#8220;Handover notes for case 04. The disk was received sealed.&#8221; &#8212; inside the record</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="208" width="752" height="56" rx="5"/>
+    <text class="sm" x="30" y="231">RECORD 65, report.bin   0x80 $DATA   NON-RESIDENT   204,800 bytes</text>
+    <text class="xs mut" x="30" y="252">the record holds only a RUN LIST &#8212; a start cluster and a length</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="278" width="752" height="30" rx="5"/>
+    <text class="sm" x="30" y="299">Under about 700 bytes, the file has no clusters at all. The record IS the file.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">Measured on EVS-11-ntfs.dd</span>
+  <p>Record size <b>1,024 bytes</b>. The <code>$MFT</code> starts at <b>LCN 4</b>, offset <code>0x4000</code>. <code>notes.txt</code> is record <b>64</b> and uses <b>672</b> of its 1,024 bytes, with its entire <b>290-byte</b> content inside it. <code>report.bin</code> is record <b>65</b> and holds a run list instead.
+    <span class="ar">حجم السجل <b>١٬٠٢٤ byte</b>. و يبدأ الـ <code>$MFT</code> عند <b>LCN ٤</b>، أي الإزاحة <code>0x4000</code>. و <code>notes.txt</code> هو السجل <b>٦٤</b> و يستهلك <b>٦٧٢</b> من ١٬٠٢٤ byte، و محتواه كله <b>٢٩٠ byte</b> بداخله. أما <code>report.bin</code> فهو السجل <b>٦٥</b> و يحمل run list بدلاً من ذلك.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T14 &middot; Theory</span>
+<h2>FAT and NTFS, side by side
+  <span class="ar">الـ FAT و الـ NTFS جنبًا إلى جنب</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th></th><th>FAT</th><th>NTFS</th></tr></thead>
+  <tbody>
+    <tr><td>where the name lives<span class="ar">أين يعيش الاسم</span></td><td>a 32-byte directory entry</td><td>an attribute in the MFT record</td></tr>
+    <tr><td>where the order lives<span class="ar">أين يعيش الترتيب</span></td><td>the FAT, a chain of next-pointers</td><td>a run list inside the record</td></tr>
+    <tr><td>timestamps<span class="ar">الأزمنة</span></td><td>3, at 2-second resolution</td><td>8, at 100-nanosecond resolution</td></tr>
+    <tr><td>a small file<span class="ar">الملف الصغير</span></td><td>still gets a whole cluster</td><td>may have <b>no cluster at all</b></td></tr>
+    <tr><td>extra streams<span class="ar">الـ streams الإضافية</span></td><td>no such thing</td><td>any number, named</td></tr>
+    <tr><td>on delete<span class="ar">عند الحذف</span></td><td>1 name byte + the chain</td><td>a flag, a link count, a sequence number</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>The row that matters most for `T15` is the fourth. On FAT, a 1-byte file still costs a cluster (`P08`). On NTFS, a file under roughly <b>700 bytes</b> is stored <b>inside the record</b> &mdash; so when it is deleted, <b>the content is deleted along with the bookkeeping, in the same place</b>, and both survive together.
+    <span class="ar">أهم صف بالنسبة إلى `T15` هو الرابع. ففي الـ FAT يكلّف ملف حجمه byte واحد cluster كاملاً (راجع `P08`). أما في الـ NTFS فيُخزَّن الملف الأقل من نحو <b>٧٠٠ byte</b> <b>داخل السجل</b> — فحين يُحذف <b>يُحذف المحتوى مع دفتر الحسابات في الموضع نفسه</b>، و ينجوان معًا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p12">
+<span class="kicker">T14 &middot; Theory &middot; measured</span>
+<h2>A file that is two files
+  <span class="ar">ملف هو ملفان</span></h2>
+<p>One more thing NTFS has and FAT does not: a file can carry <b>more than one</b> <code>$DATA</code> attribute. The extra ones have names, and almost nothing reports them.
+  <span class="ar">شيء آخر يملكه الـ NTFS و لا تملكه الـ FAT: يستطيع الملف أن يحمل <b>أكثر من</b> <code>$DATA</code>. و الإضافية لها أسماء، و لا يكاد شيء يعرضها.</span></p>
+<figure class="dgm" id="dg9-f4" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F4</span><span class="dgm-tag">FINDING</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 246" role="img" aria-labelledby="t9f4">
+  <title id="t9f4">One file with two data streams</title>
+  <text class="xs mut" x="14" y="24">MFT RECORD 66 &#183; budget.csv</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="38" width="752" height="40" rx="5"/>
+    <text class="sm" x="30" y="63">dir listing:   budget.csv        34 bytes</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="92" width="368" height="52" rx="5"/>
+    <text class="sm" x="34" y="114">0x80 $DATA  (unnamed)</text>
+    <text class="xs mut" x="34" y="133">34 bytes &#8212; item,cost / laptop,1200 &#8230;</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="398" y="92" width="368" height="52" rx="5"/>
+    <text class="sm" x="418" y="114">0x80 $DATA:notes</text>
+    <text class="xs" x="418" y="133" fill="#ff8a6a">41 bytes &#8212; and no listing shows it</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="14" y="158" width="752" height="72" rx="6"/>
+    <text class="sm" x="30" y="182">The file is 34 bytes AND it is 75 bytes. Both are true.</text>
+    <text class="xs mut" x="30" y="204">Windows reports the unnamed stream. dir /r and the $MFT report both.</text>
+    <text class="xs mut" x="30" y="222">Measured on EVS-11-ntfs.dd, record 66.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="interpretation">
+  <span class="cl-label">Why this is on a forensics page and not a trivia page</span>
+  <p>A named stream is a <b>place to put something that a directory listing will not count</b>. It is used legitimately &mdash; Windows marks downloaded files with <code>Zone.Identifier</code> &mdash; and it is used to hide payloads. <b>Both look identical in the $MFT</b>, so finding one is a finding and calling it hiding is an interpretation.
+    <span class="ar">الـ stream المسمّى <b>موضع لوضع شيء لا يعدّه سرد المجلد</b>. و يُستخدم استخدامًا مشروعًا — إذ يعلّم ويندوز الملفات المنزَّلة بـ<code>Zone.Identifier</code> — و يُستخدم لإخفاء حمولات. <b>و الاثنان يبدوان متطابقين في الـ $MFT</b>، فالعثور على واحد نتيجة، و تسميته إخفاءً استنتاج.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p13">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 3 of 3</span>
+  <h2>When there is no file system<span class="ar">حين لا يوجد نظام ملفات</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The bookkeeping is gone. The bytes are not. What can you still say?<span class="ar">اختفى دفتر الحسابات. و لم تختفِ الـ bytes. فما الذي تستطيع قوله بعد؟</span></p>
+  <p class="divider-meta">4 screens &middot; 25 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T15 &middot; Theory</span>
+<h2>What carving is
+  <span class="ar">ما هو الـ carving</span></h2>
+<p>Every technique so far has <b>asked the file system</b> where a file is. Carving is what you do when there is nothing to ask.
+  <span class="ar">كل أسلوب حتى الآن كان <b>يسأل نظام الملفات</b> أين الملف. و الـ carving هو ما تفعله حين لا يوجد من تسأله.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>File-system recovery</th><th>Carving</th></tr></thead>
+  <tbody>
+    <tr><td>reads the directory entry or the MFT record<span class="ar">يقرأ الـ directory entry أو سجل الـ MFT</span></td><td>scans the raw bytes for <b>known signatures</b><span class="ar">يمسح الـ bytes الخام بحثًا عن <b>توقيعات معروفة</b></span></td></tr>
+    <tr><td>recovers the <b>name</b>, the size and the timestamps<span class="ar">يستعيد <b>الاسم</b> و الحجم و الأزمنة</span></td><td>recovers <b>none</b> of those &mdash; a carved file has no name<span class="ar"><b>لا يستعيد</b> أيًّا منها — فالملف المستخرَج بلا اسم</span></td></tr>
+    <tr><td>follows a <b>chain</b>, so fragments are fine<span class="ar">يتبع <b>سلسلة</b>، فالتجزئة لا تضرّه</span></td><td>reads <b>forward</b>, so a fragment ruins it<span class="ar">يقرأ <b>إلى الأمام</b>، فالتجزئة تُفسده</span></td></tr>
+    <tr><td>cannot see past a wiped table<span class="ar">لا يرى شيئًا بعد جدول ممحو</span></td><td>does not care that the table is gone<span class="ar">لا يعنيه اختفاء الجدول</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>The two are <b>not alternatives</b>. You run file-system recovery first because it gives you names and times, and then you carve the same image because it finds what the file system has already forgotten. <b>The set of things each one finds is different, and neither is a superset of the other.</b>
+    <span class="ar">الاثنان <b>ليسا بديلين</b>. تُجري استعادة نظام الملفات أولاً لأنها تعطيك الأسماء و الأزمنة، ثم تُجري الـ carving على الصورة نفسها لأنه يجد ما نسيه نظام الملفات. <b>فمجموعة ما يجده كلٌّ منهما مختلفة، و لا واحدة منهما تحتوي الأخرى.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">T15 &middot; Theory &middot; measured</span>
+<h2>Signatures, and where they end
+  <span class="ar">التوقيعات، و أين تنتهي</span></h2>
+<p>A carver knows a small table of byte patterns. This is the entire table it used on this page.
+  <span class="ar">يعرف الـ carver جدولاً صغيرًا من أنماط الـ bytes. و هذا هو الجدول كله الذي استُخدم في هذه الصفحة.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Type</th><th>Header</th><th>Footer</th></tr></thead>
+  <tbody>
+    <tr><td>JPEG</td><td><code>FF D8 FF</code></td><td><code>FF D9</code></td></tr>
+    <tr><td>PNG</td><td><code>89 50 4E 47 0D 0A 1A 0A</code></td><td><code>IEND AE 42 60 82</code></td></tr>
+    <tr><td>PDF</td><td><code>25 50 44 46 2D</code> &mdash; <code>%PDF-</code></td><td><code>%%EOF</code></td></tr>
+    <tr><td>ZIP</td><td><code>50 4B 03 04</code></td><td><code>PK 05 06</code> + 18 bytes</td></tr>
+  </tbody>
+</table></div>
+<div class="interpretation">
+  <span class="cl-label">Two of these four have a problem, and it is the same problem</span>
+  <p>A footer is a <b>guess about where the file ends</b>. <code>%%EOF</code> is genuinely the last thing in a PDF &mdash; except that most PDFs write a newline after it, so a carver that stops at <code>%%EOF</code> returns a file <b>one byte short</b>. And a ZIP&rsquo;s end-of-central-directory record has a <b>variable-length comment field</b> after it, so &ldquo;+18 bytes&rdquo; is right only when the comment is empty.
+    <span class="ar">الـ footer <b>تخمين لموضع نهاية الملف</b>. فـ<code>%%EOF</code> هو فعلاً آخر ما في الـ PDF — إلا أن معظم ملفات الـ PDF تكتب سطرًا جديدًا بعده، فالـ carver الذي يتوقّف عند <code>%%EOF</code> يعيد ملفًّا <b>ناقصًا byte واحدًا</b>. و في الـ ZIP يأتي بعد سجل نهاية الفهرس المركزي <b>حقل تعليق متغيّر الطول</b>، فعبارة «زائد ١٨ byte» صحيحة فقط حين يكون التعليق فارغًا.</span></p>
+</div>
+<div class="note">
+  <p>This is why a carved file is compared against a known original <b>by hash</b> whenever one exists, and why a carved file with no original to compare against is reported as <b>carved</b>, never as <b>recovered</b>.
+    <span class="ar">و لهذا يُقارن الملف المستخرَج بأصل معروف <b>بالـ hash</b> كلما وُجد أصل، و لهذا يُذكر الملف المستخرَج الذي لا أصل له في التقرير بوصفه <b>مستخرَجًا بالـ carving</b>، لا <b>مستعادًا</b>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p16">
+<span class="kicker">T15 &middot; Theory &middot; measured</span>
+<h2>What a fragment does to a carve
+  <span class="ar">ما تفعله التجزئة بالاستخراج</span></h2>
+<p>The volume in the lab has one fragmented file. Watch what the carver does with it, and note that <b>nothing goes wrong</b> &mdash; the carver behaves exactly as designed.
+  <span class="ar">في الـ volume الذي في المعمل ملف واحد مجزّأ. راقب ما يفعله الـ carver به، و لاحظ أن <b>لا شيء يعطل</b> — فالـ carver يتصرّف كما صُمّم تمامًا.</span></p>
+<figure class="dgm" id="dg9-f5" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F5</span><span class="dgm-tag">MECHANISM</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 300" role="img" aria-labelledby="t9f5">
+  <title id="t9f5">A header-to-footer carver crossing a fragment boundary</title>
+  <text class="xs mut" x="14" y="24">THE CARVER KNOWS TWO THINGS: FF D8 FF AND FF D9</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="38" width="212" height="46" rx="5"/>
+    <text class="sm" x="120" y="60" text-anchor="middle">clusters 20&#8211;28</text>
+    <text class="xs mut" x="120" y="78" text-anchor="middle">the photograph, part 1</text>
+    <rect class="box" x="240" y="38" width="212" height="46" rx="5"/>
+    <text class="sm" x="346" y="60" text-anchor="middle">clusters 29&#8211;37</text>
+    <text class="xs mut" x="346" y="78" text-anchor="middle">logs.txt</text>
+    <rect class="box" x="466" y="38" width="300" height="46" rx="5"/>
+    <text class="sm" x="616" y="60" text-anchor="middle">clusters 38&#8211;47</text>
+    <text class="xs mut" x="616" y="78" text-anchor="middle">the photograph, part 2</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="98" width="40" height="30" rx="4"/>
+    <text class="xs" x="64" y="118">FF D8 FF &#8212; a JPEG starts here</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="140" width="752" height="34" rx="5"/>
+    <text class="sm" x="30" y="163">the carver reads FORWARD, cluster after cluster, until it meets FF D9</text>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="240" y="188" width="212" height="34" rx="5"/>
+    <text class="xs" x="346" y="209" text-anchor="middle" fill="#ff8a6a">36,864 BYTES OF LOG FILE</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="236" width="752" height="52" rx="6"/>
+    <text class="sm" x="30" y="259">Carved: 112,253 bytes. Original: 75,389. It opens. It is not the file.</text>
+    <text class="xs mut" x="30" y="279">Measured on EVS-11-carve.dd &#8212; the same volume with 0.2% of it zeroed.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<figure class="photo wide">
+  <img src="../assets/img/carve_compare.png" alt="The original photograph beside the carved one, with a band of corruption across the middle of the carved copy">
+  <figcaption>The same photograph: as it is on the volume, and as the carver returned it. <b>The right-hand image opens, is 800&times;500, and is 36,864 bytes of somebody else&rsquo;s log file in the middle.</b><span class="ar">الصورة نفسها: كما هي على الـ volume، و كما أعادها الـ carver. <b>الصورة اليمنى تُفتح، و مقاسها ٨٠٠&times;٥٠٠، و في وسطها ٣٦٬٨٦٤ byte من ملف سجلات لشخص آخر.</b></span></figcaption>
+</figure>
+    </section>
+
+<section class="page" id="p17">
+<span class="kicker">T15 &middot; Theory &middot; measured</span>
+<h2>Six objects, three outcomes
+  <span class="ar">ستة أشياء، ثلاث نتائج</span></h2>
+<p>The full result of carving <code>EVS-11-carve.dd</code>. Read the third column before the first.
+  <span class="ar">النتيجة الكاملة لاستخراج <code>EVS-11-carve.dd</code>. اقرأ العمود الثالث قبل الأول.</span></p>
+<figure class="dgm" id="dg9-f6" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P09-F6</span><span class="dgm-tag">RESULT</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 296" role="img" aria-labelledby="t9f6">
+  <title id="t9f6">Six carved objects and what happened to each</title>
+  <text class="xs mut" x="14" y="22">SIX OBJECTS CARVED FROM EVS-11-carve.dd</text>
+  <text class="xs mut" x="24" y="44">FILE</text>
+  <text class="xs mut" x="250" y="44">ON DISK</text>
+  <text class="xs mut" x="500" y="44">WHAT THE CARVER RETURNED</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="54" width="752" height="28" rx="4"/>
+    <text class="xs" x="24" y="73">site_photo.jpg</text>
+    <text class="xs mut" x="250" y="73">one run, 12 clusters</text>
+    <text class="xs" x="500" y="73">EXACT &#8212; hash matches</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="88" width="752" height="28" rx="4"/>
+    <text class="xs" x="24" y="107">badge_scan.png</text>
+    <text class="xs mut" x="250" y="107">one run, 1 cluster</text>
+    <text class="xs" x="500" y="107">EXACT &#8212; hash matches</text>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="14" y="122" width="752" height="28" rx="4"/>
+    <text class="xs" x="24" y="141">exports.zip</text>
+    <text class="xs mut" x="250" y="141">one run, 2 clusters</text>
+    <text class="xs" x="500" y="141">EXACT &#8212; hash matches</text>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="14" y="156" width="752" height="28" rx="4"/>
+    <text class="xs" x="24" y="175">handover.pdf</text>
+    <text class="xs mut" x="250" y="175">one run, 1 cluster</text>
+    <text class="xs" x="500" y="175">1,624 of 1,625 bytes</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="190" width="752" height="28" rx="4"/>
+    <text class="xs" x="24" y="209">old_invoice.pdf</text>
+    <text class="xs mut" x="250" y="209">DELETED before the wipe</text>
+    <text class="xs" x="500" y="209">1,582 of 1,583 bytes</text>
+  </g>
+  <g data-step="6">
+    <rect class="box no" x="14" y="224" width="752" height="28" rx="4"/>
+    <text class="xs" x="24" y="243">whiteboard.jpg</text>
+    <text class="xs mut" x="250" y="243">TWO runs, a gap between</text>
+    <text class="xs" x="500" y="243">112,253 of 75,389 bytes</text>
+  </g>
+  <text class="xs mut" x="14" y="286">Three exact. Two off by one byte. One off by 36,864.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="key-takeaway"><span class="cl-label">The two sentences this part turns on</span>
+  <ul>
+    <li><b>A carver finds structures, not files.</b> It found the deleted invoice because it never asked what was deleted, and it wrecked the photograph because it never asked what was fragmented.
+      <span class="ar"><b>الـ carver يجد بنى، لا ملفات.</b> وجد الفاتورة المحذوفة لأنه لم يسأل عمّا حُذف، و أفسد الصورة لأنه لم يسأل عمّا جُزّئ.</span></li>
+    <li><b>Opening is not integrity.</b> Three of these six are exact, and the only thing that told them apart was a hash.
+      <span class="ar"><b>الفتح ليس سلامة.</b> ثلاثة من هذه الستة مطابقة، و لم يفرّق بينها إلا الـ hash.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page divider" id="p18">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>Reading a deleted file out of the $MFT<span class="ar">المعمل — قراءة ملف محذوف من الـ $MFT</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Four records, and one of them belongs to a file that is not in the directory.<span class="ar">أربعة سجلات، و أحدها لملف ليس في المجلد.</span></p>
+  <p class="divider-meta">1 screen &middot; the instructor drives</p>
+</div>
+    </section>
+
+<section class="page" id="p19">
+<span class="kicker">T14 &middot; Instructor demo</span>
+<h2>Lab &mdash; four MFT records
+  <span class="ar">المعمل — أربعة سجلات MFT</span></h2>
+<p>Five steps on <code>EVS-11-ntfs.dd</code>. The fourth record is the one to remember.
+  <span class="ar">خمس خطوات على <code>EVS-11-ntfs.dd</code>. و السجل الرابع هو الذي تتذكّره.</span></p>
+<div class="simscreen" id="ss-t14" data-title="Reading a deleted file out of the $MFT" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="m1" style="width:720px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># the volume, before any file is opened</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">ntfsinfo -m EVS-11-ntfs.dd</span>
+
+  Volume Name       : CASENTFS
+  Cluster Size      : 4096
+<span id="q1">  MFT Record Size   : <span class="w">1024</span></span>
+  MFT LCN           : 4
+
+<span class="d"># every file on this volume has one 1,024-byte record. Including the deleted ones.</span></div>
+  </div>
+
+  <div class="wu" id="m2" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># record 64 -- a 290-byte file</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">mft.py EVS-11-ntfs.dd 64</span>
+
+  name      : notes.txt        flags 0x01 IN USE
+  0x10 $STANDARD_INFORMATION   resident    48 B
+  0x30 $FILE_NAME              resident    84 B
+<span id="q2">  0x80 $DATA                   <span class="w">resident</span>   <span class="w">290</span> B</span>
+
+<span class="d"># resident. The file is not on the disk anywhere else -- it is IN this record.</span></div>
+  </div>
+
+  <div class="wu" id="m3" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># record 66 -- one file, and count the $DATA attributes</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">mft.py EVS-11-ntfs.dd 66</span>
+
+  name      : budget.csv       flags 0x01 IN USE
+  0x80 $DATA                   resident    34 B
+<span id="q3">  0x80 <span class="e">$DATA:notes</span>             resident    <span class="e">41</span> B</span>
+
+<span class="d"># ls says 34 bytes. The record says 34 and 41.</span></div>
+  </div>
+
+  <div class="wu" id="m4" style="width:750px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># record 67 -- and this one is not in the directory at all</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">mft.py EVS-11-ntfs.dd 67</span>
+
+  name      : old_plan.txt     <span class="e">flags 0x00 NOT IN USE</span>
+  links     : 0                sequence 2
+<span id="q4">  0x80 $DATA                   resident   <span class="w">212</span> B</span>
+  content   : <span class="e">DRAFT PLAN 2026 -- superseded, delete before rev</span>
+
+<span class="d"># the file was deleted. Its 212 bytes are still sitting in the record.</span></div>
+  </div>
+
+  <div class="wu" id="m5" style="width:745px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># so what can you write, and what cannot you write?</span>
+
+  the content of old_plan.txt   : <span class="k">at offset 0x14D78, reproducible</span>
+  that it was deleted           : <span class="k">flags 0x00, links 0, sequence 2</span>
+<span id="q5">  WHO deleted it                : <span class="e">not in the record</span></span>
+  WHEN it was deleted           : <span class="e">not in the record</span>
+
+<span class="d"># the record records a state. It does not record the act that produced it.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="finding">
+  <span class="cl-label">What the lab produced</span>
+  <p>The full <b>212-byte</b> content of <code>old_plan.txt</code>, a file that appears in <b>no directory listing</b>, read out of MFT record <b>67</b> at offset <code>0x14D78</code> &mdash; together with the three fields that prove it was deleted: <b>flags 0x00</b>, <b>link count 0</b>, <b>sequence 2</b>.
+    <span class="ar">المحتوى الكامل <b>٢١٢ byte</b> لملف <code>old_plan.txt</code>، و هو ملف لا يظهر في <b>أي سرد للمجلد</b>، مقروءًا من السجل <b>٦٧</b> عند الإزاحة <code>0x14D78</code> — مع الحقول الثلاثة التي تثبت أنه حُذف: <b>flags 0x00</b> و <b>عدد الروابط صفر</b> و <b>التسلسل ٢</b>.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">And exactly what it does not establish</span>
+  <p>Not <b>who</b> deleted it, not <b>when</b>, and not whether anyone ever opened it. The record holds a timestamp for when the <b>MFT entry</b> last changed &mdash; which the deletion did change &mdash; but a timestamp is <b>when something happened, never who made it happen</b>.
+    <span class="ar">لا <b>من</b> حذفه، و لا <b>متى</b>، و لا هل فتحه أحد أصلاً. يحمل السجل زمنًا لآخر تغيّر في <b>مدخل الـ MFT</b> — و الحذف غيّره فعلاً — لكن الزمن <b>يقول متى حدث شيء، و لا يقول أبدًا من أحدثه</b>.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p20">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>Case 05 &mdash; a volume with no file system<span class="ar">القضية ٠٥ — volume بلا نظام ملفات</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">An image that mounts nowhere, and six objects that come out of it.<span class="ar">صورة لا تُركَّب في أي مكان، و ستة أشياء تخرج منها.</span></p>
+  <p class="divider-meta">4 screens &middot; solo</p>
+</div>
+    </section>
+
+<section class="page" id="p21">
+<span class="kicker">T15 &middot; Case 05 &middot; the brief</span>
+<h2>Case 05 &mdash; the brief
+  <span class="ar">القضية ٠٥ — الملف</span></h2>
+<p><b>The exhibit.</b> <code>EVS-11-carve.dd</code>, a 40 MiB image acquired from a USB stick. <b>The request.</b> <i>&ldquo;Recover whatever is on it and tell us what you can stand behind.&rdquo;</i>
+  <span class="ar"><b>الـ exhibit.</b> <code>EVS-11-carve.dd</code>، صورة حجمها ٤٠ ميجابايت مأخوذة من USB stick. <b>الطلب.</b> <i>«استعد ما عليها و أخبرنا بما تستطيع الدفاع عنه.»</i></span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>What you are given</th><th>What you are not</th></tr></thead>
+  <tbody>
+    <tr><td>the image, and its acquisition hash<span class="ar">الصورة، و قيمة hash الـ acquisition الخاصة بها</span></td><td>any statement of what was on the volume<span class="ar">أي بيان بما كان على الـ volume</span></td></tr>
+    <tr><td>the tools on your own machine<span class="ar">الأدوات على جهازك أنت</span></td><td>a working file system to read<span class="ar">نظام ملفات صالح للقراءة</span></td></tr>
+    <tr><td>`T04`&rsquo;s signature table from `P03`<span class="ar">جدول التوقيعات من `T04` في `P03`</span></td><td>the names of any of the files<span class="ar">أسماء أي من الملفات</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Everything you report here is carved, not recovered.</b> Keep the two words apart from the first line of the notes, because by the time you are writing Section 8 it is too late to remember which was which.
+    <span class="ar"><b>كل ما تذكره هنا مستخرَج بالـ carving، لا مستعاد.</b> افصل بين الكلمتين من أول سطر في ملاحظاتك، لأنك حين تصل إلى القسم الثامن سيكون قد فات وقت تذكّر أيّهما كان أيًّا.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">T15 &middot; Your turn &middot; Case 05</span>
+<h2>Lab &mdash; carving Case 05
+  <span class="ar">المعمل — استخراج القضية ٠٥</span></h2>
+<p>Five steps. The third is the only one that decides anything.
+  <span class="ar">خمس خطوات. الثالثة وحدها هي التي تقرّر شيئًا.</span></p>
+<div class="simscreen" id="ss-t15" data-title="Case 05 -- carving a volume with no file system" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="v1" style="width:745px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># Case 05. The image mounts nowhere.</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">fsstat EVS-11-carve.dd</span>
+  <span class="e">Cannot determine file system type</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">cmp EVS-11-carve.dd EVS-11-fat.dd | head -1</span>
+<span id="c1">  differ: byte 16385, line 1   <span class="w">86,016 bytes of 41,943,040</span></span>
+
+<span class="d"># 0.2% of the image is different. That 0.2% was the file system.</span></div>
+  </div>
+
+  <div class="wu" id="v2" style="width:740px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># no chain to follow. Scan for headers instead.</span>
+
+<span class="p">analyst@lab:~$</span> <span class="k">carve.py EVS-11-carve.dd</span>
+
+  jpg  at 0x19000     45,769 B
+  png  at 0x25000      2,570 B
+  zip  at 0x26000      6,773 B
+  pdf  at 0x28000      1,624 B
+  pdf  at 0x29000      1,582 B
+<span id="c2">  jpg  at 0x2C000    <span class="w">112,253 B</span></span>
+
+<span class="d"># six objects. Five files were on this volume.</span></div>
+  </div>
+
+  <div class="wu" id="v3" style="width:750px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># compare each one against the original. This is the only step that matters.</span>
+
+  site_photo.jpg    <span class="k">EXACT</span>
+  badge_scan.png    <span class="k">EXACT</span>
+  exports.zip       <span class="k">EXACT</span>
+  handover.pdf      <span class="w">1,624 of 1,625 bytes</span>   the trailing newline
+<span id="c3">  whiteboard.jpg    <span class="e">112,253 of 75,389 bytes</span>   +36,864</span>
+
+<span class="d"># and one object matched nothing on the volume at all.</span></div>
+  </div>
+
+  <div class="wu" id="v4" style="width:745px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># the sixth object</span>
+
+  pdf at 0x29000, 1,582 B  ->  <span class="w">INVOICE 2026-0418 - SUPERSEDED</span>
+
+<span id="c4">  <span class="e">this file was DELETED before the volume was wiped</span></span>
+
+<span class="d"># the carver never asked the file system. So "deleted" meant nothing to it.</span></div>
+  </div>
+
+  <div class="wu" id="v5" style="width:750px">
+    <div class="wu-tb"><span class="t">analyst@lab</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># open the 112,253-byte photograph</span>
+
+  format   : <span class="k">JPEG</span>
+  size     : <span class="k">800 x 500</span>
+  opens    : <span class="k">yes</span>
+<span id="c5">  intact   : <span class="e">no -- 36,864 bytes of a log file across the middle</span></span>
+
+<span class="d"># a file that opens is not a file that is intact.</span></div>
+  </div>
+ </div></div>
+</div>
+    </section>
+
+<section class="page" id="p23">
+<span class="kicker">T15 &middot; On your own &middot; 10 min</span>
+<h2>Exercise &mdash; four carving claims
+  <span class="ar">تمرين — أربعة ادّعاءات عن الـ carving</span></h2>
+<p>An analyst carved Case 05 and wrote these four lines. For each: <b>would you sign it?</b>
+  <span class="ar">استخرج محلل القضية ٠٥ و كتب هذه السطور الأربعة. لكلٍّ منها: <b>هل كنت ستوقّع عليه؟</b></span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>The line, and the question it raises</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><b>&ldquo;Six files were recovered from the volume.&rdquo;</b> &mdash; six <i>objects</i> were carved, and one of them is 37 KB of two files spliced together. Is that six files?<span class="ar"><b>«استُعيدت ستة ملفات من الـ volume.»</b> — استُخرجت ستة <i>أشياء</i>، و أحدها ٣٧ كيلوبايت من ملفين ملتصقين. فهل هذه ستة ملفات؟</span></td></tr>
+    <tr><td>2</td><td><b>&ldquo;The JPEG at 0x2C000 is a photograph of a whiteboard.&rdquo;</b> &mdash; it opens and it shows one. Does it show only one thing?<span class="ar"><b>«الـ JPEG عند 0x2C000 صورة لسبّورة.»</b> — تُفتح و تُظهر واحدة. فهل تُظهر شيئًا واحدًا فقط؟</span></td></tr>
+    <tr><td>3</td><td><b>&ldquo;The invoice PDF had been deleted by the user.&rdquo;</b> &mdash; the file system that would say so was zeroed. What in the carved bytes names an actor?<span class="ar"><b>«حذف المستخدم ملف الفاتورة.»</b> — نظام الملفات الذي كان سيقول ذلك صُفِّر. فما الذي في الـ bytes المستخرَجة يُسمّي فاعلاً؟</span></td></tr>
+    <tr><td>4</td><td><b>&ldquo;handover.pdf is unmodified.&rdquo;</b> &mdash; the carved copy is 1,624 bytes and differs from the original. Which of the two is the modified one?<span class="ar"><b>«ملف handover.pdf غير معدَّل.»</b> — النسخة المستخرَجة ١٬٦٢٤ byte و تختلف عن الأصل. فأيّهما المعدَّل؟</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>Line 4 is the trap, and it is the same trap as `P08`&rsquo;s line 4 wearing different clothes. <b>The carved copy is short because the carver stopped early, not because anyone changed the file.</b> A hash mismatch is a <b>finding about two files</b>; deciding which one moved needs a third fact.
+    <span class="ar">السطر الرابع هو الفخّ، و هو الفخّ نفسه في السطر الرابع من `P08` بثياب مختلفة. <b>فالنسخة المستخرَجة أقصر لأن الـ carver توقّف مبكرًا، لا لأن أحدًا غيّر الملف.</b> و اختلاف الـ hash <b>نتيجة عن ملفين</b>؛ أما تحديد أيّهما تغيّر فيحتاج حقيقة ثالثة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check
+  <span class="ar">اختبار سريع</span></h2>
+<div class="q mcq" data-correct="b">
+  <p class="qtext">A 300-byte file on an NTFS volume is deleted, and its MFT record has not been reused. What can you recover?
+    <span class="ar">حُذف ملف حجمه ٣٠٠ byte من volume نوعه NTFS، و لم يُعَد استخدام سجل الـ MFT الخاص به. فما الذي تستطيع استعادته؟</span></p>
+  <label><input type="radio" name="q1" value="a"> The name and the timestamps, but not the content &mdash; the clusters were freed</label>
+  <label><input type="radio" name="q1" value="b"> The name, the timestamps <b>and the full content</b></label>
+  <label><input type="radio" name="q1" value="c"> Nothing &mdash; NTFS overwrites the record on delete</label>
+  <label><input type="radio" name="q1" value="d"> Only the content, from the slack of the cluster it used</label>
+  <div class="feedback"><b>b.</b> Under roughly 700 bytes, <code>$DATA</code> is <b>resident</b> &mdash; the file has <b>no clusters at all</b>, so there are none to free. Deleting marks the record unused and leaves the content sitting in it. Measured on record 67 of <code>EVS-11-ntfs.dd</code>: <b>212 bytes, still readable</b>, at offset <code>0x14D78</code>. Answer <b>d</b> is the `P08` mechanism applied to the wrong file system &mdash; a resident file never touched a cluster, so it has no slack anywhere.
+    <span class="ar"><b>ب.</b> عند أقل من نحو ٧٠٠ byte يكون <code>$DATA</code> من نوع <b>resident</b> — فالملف <b>بلا clusters إطلاقًا</b>، فلا شيء يُحرَّر. و الحذف يعلّم السجل بأنه غير مستخدَم و يترك المحتوى بداخله. مقيس على السجل ٦٧ في <code>EVS-11-ntfs.dd</code>: <b>٢١٢ byte ما زالت تُقرأ</b>، عند الإزاحة <code>0x14D78</code>. أما الإجابة <b>د</b> فهي آلية `P08` مطبَّقة على نظام ملفات خاطئ — فالملف الـ resident لم يلمس cluster أصلاً، فلا slack له في أي مكان.</span></div>
+</div>
+    </section>
+
+<section class="page divider" id="p25">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">How FAT and NTFS hold a file, what deleting really does, and what carving can and cannot recover &mdash; in the form you reach for at the keyboard.<span class="ar">كيف يحمل FAT و NTFS الملف، و ما يفعله الحذف فعلاً، و ما يستعيده الـ carving و ما لا يستعيده — بالشكل الذي ستحتاجه على الجهاز.</span></p>
+  <p class="divider-meta">1 screen &middot; print it</p>
+</div>
+    </section>
+
+<section class="page" id="p26">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet &mdash; FAT, NTFS, and carving
+  <span class="ar">ورقة المراجعة — FAT و NTFS و الـ carving</span></h2>
+<p>The page condensed to what you use when you read a file system, or a volume that has none.
+  <span class="ar">الصفحة مختصرة فيما تستعمله وقت قراءة نظام ملفات، أو volume بلا نظام.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b>FAT = three structures</b> &mdash; the boot sector/BPB, the FAT (the cluster chain), and the directory (name + first cluster + size).<span class="ar">FAT ثلاث بنى: boot sector/BPB، و الـ FAT (سلسلة الـ clusters)، و الـ directory (الاسم + أول cluster + الحجم).</span></li>
+    <li><b>Deleting in FAT</b> sets the name&rsquo;s first byte to <code>0xE5</code> and frees the chain &mdash; the data stays until overwritten.<span class="ar">الحذف في FAT يجعل أول byte من الاسم <code>0xE5</code> و يحرّر السلسلة — و البيانات تبقى حتى يُكتب فوقها.</span></li>
+    <li><b>NTFS = one $MFT record per file.</b> A small file&rsquo;s <code>$DATA</code> is <b>resident</b> (inside the record), so deleting it does not remove it from anywhere.<span class="ar">NTFS: سجل <code>$MFT</code> لكل ملف. و <code>$DATA</code> الملف الصغير <b>resident</b> داخل السجل، فحذفه لا يزيله من أي مكان.</span></li>
+    <li><b>Resident vs non-resident</b> &mdash; small data lives in the MFT record; large data points out to clusters. Delete marks the record free, not wiped.<span class="ar">resident مقابل non-resident: البيانات الصغيرة داخل سجل الـ MFT، و الكبيرة تشير إلى clusters. و الحذف يعلّم السجل حرًّا لا ممسوحًا.</span></li>
+    <li><b>Recovery gets harder with time</b> &mdash; every write is a chance to reuse the freed clusters.<span class="ar">الاستعادة تصعب مع الوقت — فكل كتابة فرصة لإعادة استعمال الـ clusters المحرَّرة.</span></li>
+    <li><b>Carving ignores the file system</b> &mdash; it searches header-to-footer signatures across raw bytes. It recovers a deleted file with <b>no name and no timestamp</b>.<span class="ar">الـ carving يتجاهل نظام الملفات — يبحث عن signatures من الـ header للـ footer عبر الـ bytes الخام. يستعيد ملفًا محذوفًا <b>بلا اسم و بلا زمن</b>.</span></li>
+    <li><b>A fragmented file carves wrong</b> &mdash; header-to-footer grabs whatever lies between, so the result is too long or too short &mdash; and may still open.<span class="ar">الملف المجزّأ يُستخرَج غلط — من الـ header للـ footer يلتقط ما بينهما، فيخرج أطول أو أقصر — و قد يفتح رغم ذلك.</span></li>
+  </ul>
+  <p><button class="btn" type="button" onclick="window.print()">&#128424; Print the cheat sheet</button></p>
+</div>
+    </section>
+
+<section class="page divider" id="p27">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Handed in before P10<span class="ar">يُسلَّم قبل P10</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Your homework, then the report stage: a carved file has no name and no time, and the report has to say so before it says anything else.<span class="ar">واجبك، ثم مرحلة التقرير: الملف المستخرَج بلا اسم و بلا زمن، و على التقرير أن يقول ذلك قبل أي شيء آخر.</span></p>
+  <p class="divider-meta">2 screens &middot; the report advances</p>
+</div>
+    </section>
+
+<section class="page" id="p28">
+<span class="kicker">Task &middot; handed in before P10</span>
+<h2>Task &mdash; carve a volume, and document it
+  <span class="ar">الـ task — استخرج من volume، و وثّقه</span></h2>
+<p>Three items on <b>your own machine</b> and the images in this repository. <b>Nothing to download.</b>
+  <span class="ar">ثلاثة بنود على <b>جهازك أنت</b> و على الصور الموجودة في هذا المستودع. <b>لا شيء يُنزَّل.</b></span></p>
+<div id="taskList" class="steps"></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Task</th><th>Deliverable</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Create a text file under 500 bytes on an NTFS volume, then check whether it has any clusters &mdash; <code>fsutil file queryallocatedranges</code>, or read its MFT record.<span class="ar">أنشئ ملفًّا نصيًّا أقل من ٥٠٠ byte على volume نوعه NTFS، ثم افحص هل له clusters أصلاً — باستخدام <code>fsutil file queryallocatedranges</code>، أو بقراءة سجل الـ MFT الخاص به.</span></td><td>the answer, and how you got it</td></tr>
+    <tr><td>2</td><td>Write a named stream on a file of your own: <code>echo test &gt; notes.txt:hidden</code>, then compare <code>dir</code> with <code>dir /r</code>.<span class="ar">اكتب stream مسمّى على ملف من ملفاتك: <code>echo test &gt; notes.txt:hidden</code>، ثم قارن <code>dir</code> بـ<code>dir /r</code>.</span></td><td>both listings, side by side</td></tr>
+    <tr><td>3</td><td>Carve <code>EVS-11-carve.dd</code> yourself and <b>hash every object against the original in <code>EVS-11-fat.dd</code></b>. Then write the one sentence you can support about the 112,253-byte JPEG.<span class="ar">استخرج <code>EVS-11-carve.dd</code> بنفسك و <b>احسب hash كل شيء و قارنه بالأصل في <code>EVS-11-fat.dd</code></b>. ثم اكتب الجملة الوحيدة التي تستطيع دعمها عن صورة الـ JPEG ذات الـ١١٢٬٢٥٣ byte.</span></td><td>the hash table, and the sentence</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>Item 3 is the assessment. <b>The hash table is easy and the sentence is not</b> &mdash; and the sentence is the part a reviewer will read.
+    <span class="ar">البند الثالث هو التقييم. <b>فجدول الـ hash سهل، و الجملة ليست كذلك</b> — و الجملة هي الجزء الذي سيقرؤه المراجع.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p29">
+<span class="kicker">T15 &middot; Report stage &middot; 6 min</span>
+<h2>Report &mdash; writing up a carve
+  <span class="ar">التقرير — كتابة نتائج الـ carving</span></h2>
+<p>Two techniques on this page produce two different kinds of sentence, and mixing them is the most common error in this whole topic.
+  <span class="ar">أسلوبان في هذه الصفحة يُنتجان نوعين مختلفين من الجمل، و الخلط بينهما هو أشيع خطأ في هذا الموضوع كله.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Do not write</th><th>Write</th></tr></thead>
+  <tbody>
+    <tr><td>&ldquo;<b>recovered</b> whiteboard.jpg&rdquo;<span class="ar">«<b>استُعيد</b> ملف whiteboard.jpg»</span></td><td>&ldquo;a JPEG was <b>carved</b> from offset 0x2C000; it has no file name&rdquo;<span class="ar">«<b>استُخرج</b> ملف JPEG من الإزاحة 0x2C000؛ و ليس له اسم ملف»</span></td></tr>
+    <tr><td>&ldquo;the file was <b>deleted</b> by the user&rdquo;<span class="ar">«<b>حذف المستخدم</b> الملف»</span></td><td>&ldquo;MFT record 67 is marked <b>not in use</b>, link count 0&rdquo;<span class="ar">«سجل الـ MFT رقم ٦٧ معلَّم بأنه <b>غير مستخدَم</b>، و عدد الروابط صفر»</span></td></tr>
+    <tr><td>&ldquo;the carved file is <b>intact</b>&rdquo;<span class="ar">«الملف المستخرَج <b>سليم</b>»</span></td><td>&ldquo;it opens as an 800&times;500 JPEG; it is <b>36,864 bytes longer</b> than expected&rdquo;<span class="ar">«يُفتح كصورة JPEG مقاسها ٨٠٠&times;٥٠٠؛ و هو <b>أطول بـ٣٦٬٨٦٤ byte</b> مما هو متوقَّع»</span></td></tr>
+    <tr><td>&ldquo;six files were on the volume&rdquo;<span class="ar">«كان على الـ volume ستة ملفات»</span></td><td>&ldquo;six objects were carved; <b>one is two files spliced</b>&rdquo;<span class="ar">«استُخرجت ستة أشياء؛ <b>أحدها ملفان ملتصقان</b>»</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The line that separates a carve report from a file listing</span>
+  <p><b>Every carved object needs its offset.</b> A name can be wrong and a time can be absent, but the offset is <b>where you found it, in the image you hashed</b> &mdash; and it is the only thing in a carve that another examiner can go and check without trusting your tool.
+    <span class="ar"><b>كل شيء مستخرَج يحتاج إزاحته.</b> فالاسم قد يكون خاطئًا و الزمن قد يكون غائبًا، أما الإزاحة فهي <b>موضع عثورك عليه، في الصورة التي حسبت قيمة الـ hash لها</b> — و هي الشيء الوحيد في الـ carving الذي يستطيع فاحص آخر أن يذهب و يتحقّق منه دون أن يثق بأداتك.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p30">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>You can state</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>which clusters a FAT file occupies, in order<span class="ar">أي clusters يشغلها ملف FAT، بالترتيب</span></td><td>the entry gives the first, and the FAT chains the rest<span class="ar">المدخل يعطي الأول، و الـ FAT تسلسل الباقي</span></td></tr>
+    <tr><td>exactly what a FAT delete changed<span class="ar">ما الذي غيّره الحذف في الـ FAT بالضبط</span></td><td><b>five bytes</b> &mdash; one in the name, four in the FAT<span class="ar"><b>خمسة bytes</b> — واحد في الاسم و أربعة في الـ FAT</span></td></tr>
+    <tr><td>why a small NTFS file has no clusters<span class="ar">لماذا لا يشغل ملف NTFS الصغير أي cluster</span></td><td>under ~700 B, <code>$DATA</code> is <b>resident</b> in the record<span class="ar">عند أقل من ~٧٠٠ byte يكون <code>$DATA</code> <b>resident</b> في السجل</span></td></tr>
+    <tr><td>the full content of a deleted resident file<span class="ar">المحتوى الكامل لملف محذوف من نوع resident</span></td><td>deleting marks the record, it does not clear it<span class="ar">الحذف يعلّم السجل، و لا يمسحه</span></td></tr>
+    <tr><td>that a file&rsquo;s size in a listing counts one stream<span class="ar">أن حجم الملف في السرد يعدّ stream واحدًا</span></td><td>record 66 holds <b>34 bytes and 41 bytes</b><span class="ar">السجل ٦٦ يحمل <b>٣٤ byte و ٤١ byte</b></span></td></tr>
+    <tr><td>what carving finds that recovery cannot, and the reverse<span class="ar">ما يجده الـ carving و تعجز عنه الاستعادة، و العكس</span></td><td>one reads bytes, the other reads bookkeeping<span class="ar">أحدهما يقرأ الـ bytes و الآخر يقرأ دفتر الحسابات</span></td></tr>
+    <tr><td>that a carved file which opens may still be wrong<span class="ar">أن الملف المستخرَج الذي يُفتح قد يظل خاطئًا</span></td><td>112,253 bytes, valid JPEG, 36,864 of them a log file<span class="ar">١١٢٬٢٥٣ byte، صورة JPEG صالحة، و ٣٦٬٨٦٤ منها ملف سجلات</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this page turns on</span>
+  <ul>
+    <li><b>The file system is a set of promises about where things are. Forensics is what you do when those promises are missing, and it is a different job from reading them.</b>
+      <span class="ar"><b>نظام الملفات مجموعة وعود عن مواضع الأشياء. و علم الأدلة الرقمية هو ما تفعله حين تغيب تلك الوعود، و هو عمل مختلف عن قراءتها.</b></span></li>
+    <li><b>And a file that opens is not a file that is intact.</b>
+      <span class="ar"><b>و الملف الذي يُفتح ليس ملفًّا سليمًا.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p31">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td><b><code>scripts/make_evs11.py</code></b> &mdash; in this repository<span class="ar">ملف <code>scripts/make_evs11.py</code> في هذا المستودع</span></td><td>the three images, and every offset, size and cluster number on this page<span class="ar">الصور الثلاث، و كل إزاحة و حجم و رقم cluster على هذه الصفحة</span></td></tr>
+    <tr><td><b>Microsoft FAT specification</b> &mdash; directory entry layout<span class="ar">مواصفة FAT من Microsoft و بنية الـ directory entry</span></td><td>the 32-byte fields, and <code>0xE5</code> as the deleted marker<span class="ar">الحقول الاثنين و الثلاثين byte، و <code>0xE5</code> بوصفه علامة الحذف</span></td></tr>
+    <tr><td><b>ntfs-3g</b> 2022.10.3 &mdash; <code>mkntfs</code>, <code>ntfscp</code>, <code>ntfsinfo</code><span class="ar">أدوات ntfs-3g 2022.10.3</span></td><td>the NTFS volume, and the record layout it produced<span class="ar">الـ volume من نوع NTFS، و بنية السجلات التي أنتجها</span></td></tr>
+    <tr><td><b>INE eCDFP</b> module 3<span class="ar">وحدة INE eCDFP الثالثة</span></td><td>FAT and NTFS structures, and the carving section<span class="ar">بنى الـ FAT و الـ NTFS، و قسم الـ carving</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Evidence note.</b> <code>EVS-11</code> was <b>built, not downloaded</b>. The FAT and carve images are <b>byte-reproducible</b>: two builds to two paths are identical. The NTFS image is <b>not</b>, and the manifest says so &mdash; <code>mkntfs</code> writes a journal and index entries carrying timestamps, and pinning those would mean forging a <code>$LogFile</code> that does not match what happened. So the manifest also carries the <b>four MFT records this page reads</b>, which are stable across builds. <b>A student checks those.</b>
+    <span class="ar"><b>ملاحظة عن الدليل.</b> جرى <b>بناء</b> <code>EVS-11</code> لا تنزيله. و صورتا الـ FAT و الـ carve <b>قابلتان لإعادة الإنتاج byte بـ byte</b>: بناءان إلى مسارين مختلفين يخرجان متطابقين. أما صورة الـ NTFS <b>فلا</b>، و الـ manifest يقول ذلك — إذ يكتب <code>mkntfs</code> سجلاً journal و مدخلات فهرسة تحمل أزمنة، و تثبيتها يعني تزوير <code>$LogFile</code> لا يطابق ما حدث. لذلك يحمل الـ manifest أيضًا <b>سجلات الـ MFT الأربعة التي تقرؤها هذه الصفحة</b>، و هي ثابتة عبر البناءات. <b>و الطالب يتحقّق منها.</b></span></p>
+</div>
+<p><b>Next: `P10` &mdash; The registry.</b> Three pages have read <b>files</b>. `T16` and `T17` open the database Windows keeps about itself &mdash; what was configured, what was attached, and when.
+  <span class="ar"><b>التالي: `P10` — الـ registry.</b> قرأت ثلاث صفحات <b>الملفات</b>. و يفتح `T16` و `T17` قاعدة البيانات التي يحتفظ بها ويندوز عن نفسه — ما الذي جرى ضبطه، و ما الذي وُصِّل، و متى.</span></p>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 31</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P09</b> &middot; content from
+     <code>packages/page-09/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t14', [
+ {screen:'m1', target:'q1',
+  en:'Start with the volume, not the file. A record here is <b>1,024 bytes</b>, and the <code>$MFT</code> begins at <b>LCN 4</b> &mdash; offset <code>0x4000</code>. Everything else on this screen is read from those two numbers.',
+  ar:'ابدأ بالـ volume لا بالملف. فالسجل هنا <b>١٬٠٢٤ byte</b>، و يبدأ الـ <code>$MFT</code> عند <b>LCN ٤</b> — أي الإزاحة <code>0x4000</code>. و كل ما تراه بعد ذلك مقروء من هذين الرقمين.'},
+ {screen:'m2', target:'q2',
+  en:'Record 64 is <code>notes.txt</code>, 290 bytes, and its <code>$DATA</code> is <b>resident</b> &mdash; <b>the file has no clusters</b>. Copy this one record and you have copied the file.',
+  ar:'السجل ٦٤ هو <code>notes.txt</code> بحجم ٢٩٠ byte، و <code>$DATA</code> فيه <b>resident</b> — <b>فالملف بلا clusters</b>. انسخ هذا السجل وحده فتكون قد نسخت الملف.'},
+ {screen:'m3', target:'q3',
+  en:'Record 66 has <b>two</b> <code>$DATA</code> attributes. The unnamed one is what every directory listing reports. The named one, <code>notes</code>, <b>is 41 bytes that no listing counts</b>.',
+  ar:'في السجل ٦٦ <b>اثنان</b> من <code>$DATA</code>. غير المسمّى هو ما يعرضه كل سرد للمجلد. أما المسمّى <code>notes</code> فهو <b>٤١ byte لا يعدّها أي سرد</b>.'},
+ {screen:'m4', target:'q4',
+  en:'Record 67 has <b>flags 0x00</b> &mdash; not in use &mdash; link count <b>0</b>, and a sequence number bumped to <b>2</b>. The file is deleted. <b>And its 212 bytes of content are still in the record, readable.</b>',
+  ar:'في السجل ٦٧ <b>flags 0x00</b> — غير مستخدَم — و عدد الروابط <b>صفر</b>، و رقم التسلسل صار <b>٢</b>. الملف محذوف. <b>و ٢١٢ byte من محتواه ما زالت في السجل و تُقرأ.</b>'},
+ {screen:'m5', target:'q5',
+  en:'And now the discipline, the same as every page. <b>The content and the deletion are findings</b> &mdash; both are in bytes you can point at. <b>Who and when are not in the record</b>, and reading it harder will not put them there.',
+  ar:'و الآن الانضباط، كما في كل صفحة. <b>المحتوى و الحذف نتيجتان</b> — و كلاهما في bytes تستطيع الإشارة إليها. <b>أما «من» و «متى» فليسا في السجل</b>، و لن تضعهما فيه إعادة القراءة.'}
+]);
+SimScreen.init('#ss-t15', [
+ {screen:'v1', target:'c1',
+  en:'No tool can name the file system, because the FAT and the root directory are zeroed. That is <b>86,016 bytes of 41,943,040</b> &mdash; <b>0.2%</b> of the image. Everything else is exactly as it was.',
+  ar:'لا أداة تستطيع تسمية نظام الملفات، لأن الـ FAT و المجلد الجذر مُصفّران. و هذا <b>٨٦٬٠١٦ byte من ٤١٬٩٤٣٬٠٤٠</b> — <b>٠٫٢٪</b> من الصورة. و كل ما عداه كما كان تمامًا.'},
+ {screen:'v2', target:'c2',
+  en:'With no chain to follow, all that is left is <b>header and footer</b>. Six objects come back &mdash; and the volume held <b>five</b> files. Both numbers are interesting.',
+  ar:'و بلا سلسلة تُتّبع، لا يبقى إلا <b>الـ header و الـ footer</b>. فتعود ستة أشياء — و كان على الـ volume <b>خمسة</b> ملفات. و الرقمان كلاهما مثير للاهتمام.'},
+ {screen:'v3', target:'c3',
+  en:'Three came back <b>byte for byte</b>. One is a <b>single byte short</b> &mdash; the PDF ends with a newline after <code>%%EOF</code> and the footer rule does not. And one is <b>36,864 bytes too long</b>.',
+  ar:'عادت ثلاثة <b>byte بـ byte</b>. و واحد <b>ناقص byte واحدًا</b> — فالـ PDF ينتهي بسطر جديد بعد <code>%%EOF</code> و قاعدة الـ footer لا تشمله. و واحد <b>زائد ٣٦٬٨٦٤ byte</b>.'},
+ {screen:'v4', target:'c4',
+  en:'The sixth object is a document that was <b>deleted before the wipe</b>. The carver found it because <b>it never consulted the file system</b> &mdash; which is carving&rsquo;s greatest strength and the reason it cannot tell you a file was deleted.',
+  ar:'و الشيء السادس مستند كان <b>محذوفًا قبل المحو</b>. وجده الـ carver لأنه <b>لم يسأل نظام الملفات أصلاً</b> — و هذه أعظم نقاط قوته، و هي نفسها سبب عجزه عن إخبارك بأن ملفًّا كان محذوفًا.'},
+ {screen:'v5', target:'c5',
+  en:'And the last one is the sentence to carry away. The 112,253-byte file is a <b>valid JPEG</b>, it is <b>800&times;500</b>, and it <b>opens</b>. Nine clusters of somebody&rsquo;s log file run across the middle of it. <b>Opening is not integrity, and only the hash knew.</b>',
+  ar:'و الأخير هو الجملة التي تخرج بها. فالملف ذو الـ١١٢٬٢٥٣ byte صورة <b>JPEG صالحة</b>، مقاسها <b>٨٠٠&times;٥٠٠</b>، و <b>تُفتح</b>. و تمرّ في وسطها تسعة clusters من ملف سجلات لأحدهم. <b>فالفتح ليس سلامة، و لم يعرف ذلك إلا الـ hash.</b>'}
+]);
+Dgm.init('#dg-lc-p09', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>ACQUIRE.</b> إخراج الدليل من الجهاز دون تغييره.'},
+ {en:'<b>PRESERVE.</b> Prove it did not change afterwards.', ar:'<b>PRESERVE.</b> إثبات أنه لم يتغيّر بعد ذلك.'},
+ {en:'<b>ANALYSE.</b> Read what is there, and say only what the bytes support. <b>This page is here</b>, and it is the deepest read in the diploma so far.', ar:'<b>ANALYSE.</b> قراءة ما هو موجود، و قول ما تدعمه الـ bytes فقط. <b>و هذه الصفحة هنا</b>، و هي أعمق قراءة في الدبلومة حتى الآن.',key:true},
+ {en:'<b>VALIDATE.</b> Check the finding against a second source.', ar:'<b>VALIDATE.</b> التحقّق من النتيجة بمصدر ثانٍ.'},
+ {en:'<b>PRESENT.</b> Write it so someone else can check it.', ar:'<b>PRESENT.</b> كتابتها بحيث يستطيع غيرك التحقّق منها.'}
+]);
+Dgm.init('#dg9-f1', [
+ {en:'The <b>directory entry</b> holds the name, the size and <b>one number</b>: the first cluster. It does not hold the file.', ar:'يحمل الـ <b>directory entry</b> الاسم و الحجم و <b>رقمًا واحدًا</b>: أول cluster. و هو لا يحمل الملف.'},
+ {en:'The <b>FAT</b> is a list with one entry per cluster, and each entry names the <b>next</b> one. Follow it and you have the order.', ar:'و الـ <b>FAT</b> قائمة فيها مدخل لكل cluster، و كل مدخل يذكر <b>التالي</b>. تتبعها فتحصل على الترتيب.'},
+ {en:'The <b>data area</b> holds the bytes. Nothing in it says which file they belong to &mdash; <b>that knowledge lives entirely in the other two structures</b>.', ar:'و <b>منطقة البيانات</b> تحمل الـ bytes. و لا شيء فيها يقول لأي ملف تنتمي — <b>فهذه المعرفة تعيش كاملةً في البنيتين الأخريين</b>.'},
+ {en:'So reading a file means three lookups, in order. Miss one and you have <b>bytes without meaning</b> or <b>meaning without bytes</b>.', ar:'إذن قراءة ملف تعني ثلاث مراجعات بالترتيب. تفقد واحدة فتحصل على <b>bytes بلا معنى</b> أو <b>معنًى بلا bytes</b>.'},
+ {en:'And on this volume the chain is <b>not contiguous</b>. <code>whiteboard.jpg</code> occupies <b>20&#8211;28</b>, then jumps over nine clusters of an unrelated log file, then continues at <b>38&#8211;47</b>.', ar:'و السلسلة على هذا الـ volume <b>غير متّصلة</b>. فملف <code>whiteboard.jpg</code> يشغل <b>٢٠&#8211;٢٨</b>، ثم يقفز فوق تسعة clusters لملف سجلات لا علاقة له به، ثم يكمل عند <b>٣٨&#8211;٤٧</b>.'},
+ {en:'<b>The FAT is the only thing that knows about the jump.</b> Remember that sentence &mdash; the last part of this page is about what happens when it is gone.', ar:'<b>و الـ FAT وحدها ما يعرف بأمر القفزة.</b> تذكّر هذه الجملة — فالجزء الأخير من هذه الصفحة عمّا يحدث حين تختفي.',key:true}
+]);
+Dgm.init('#dg9-f2', [
+ {en:'Before. The entry names the file, records <b>1,583 bytes</b>, and points at <b>cluster 19</b>.', ar:'قبل الحذف. يذكر الـ entry اسم الملف، و يسجّل <b>١٬٥٨٣ byte</b>، و يشير إلى <b>الـ cluster ١٩</b>.'},
+ {en:'After. The first byte of the name becomes <code>0xE5</code>. <b>The size is still there. The first cluster is still there.</b> Ten of the eleven name bytes are still there.', ar:'بعد الحذف. يصير أول byte من الاسم <code>0xE5</code>. <b>و الحجم ما زال موجودًا. و أول cluster ما زال موجودًا.</b> و عشرة من أحد عشر byte من الاسم ما زالت موجودة.'},
+ {en:'In the FAT, the entry for cluster 19 is set to <b>zero</b> &mdash; the cluster is free for the next file that wants it.', ar:'و في الـ FAT، يُضبط مدخل الـ cluster ١٩ على <b>صفر</b> — فالـ cluster صار متاحًا لأول ملف يطلبه.'},
+ {en:'And in the data area, <b>nothing at all happens</b>. The PDF still begins with <code>%PDF-</code> at the same offset it always did.', ar:'أما في منطقة البيانات <b>فلا يحدث شيء إطلاقًا</b>. فما زال الـ PDF يبدأ بـ<code>%PDF-</code> عند الإزاحة نفسها.'},
+ {en:'<b>Five bytes changed. The document did not.</b> That is why deleted files are recoverable, and it is also why <i>&ldquo;I deleted it&rdquo;</i> is a claim about a table, not about a disk.', ar:'<b>تغيّرت خمسة bytes. و لم يتغيّر المستند.</b> و لهذا تُستعاد الملفات المحذوفة، و لهذا أيضًا تكون عبارة <i>«حذفته»</i> ادّعاءً عن جدول، لا عن قرص.',key:true}
+]);
+Dgm.init('#dg9-f3', [
+ {en:'Every file on NTFS has a record in the <b>$MFT</b>, and on this volume a record is <b>1,024 bytes</b>. The header says whether it is in use.', ar:'لكل ملف على الـ NTFS سجل في الـ <b>$MFT</b>، و السجل في هذا الـ volume <b>١٬٠٢٤ byte</b>. و الـ header يقول هل هو مستخدَم.'},
+ {en:'Everything else is an <b>attribute</b>. <code>$STANDARD_INFORMATION</code> carries four timestamps &mdash; created, modified, MFT-changed, accessed.', ar:'و كل ما عداه <b>attribute</b>. فـ<code>$STANDARD_INFORMATION</code> يحمل أربعة أزمنة — الإنشاء و التعديل و تغيّر الـ MFT و الوصول.'},
+ {en:'<code>$FILE_NAME</code> carries the name &mdash; and <b>four timestamps of its own</b>. Two sets, and they can disagree. `T18` will make that disagreement do real work.', ar:'و يحمل <code>$FILE_NAME</code> الاسم — و <b>أربعة أزمنة خاصة به</b>. مجموعتان، و قد تختلفان. و سيجعل `T18` هذا الاختلاف يؤدي عملاً حقيقيًّا.'},
+ {en:'<code>$DATA</code> is the file itself. For <code>notes.txt</code> &mdash; <b>290 bytes</b> &mdash; it is <b>resident</b>: the content sits inside the record, and the file occupies <b>no cluster anywhere</b>.', ar:'و <code>$DATA</code> هو الملف نفسه. و في <code>notes.txt</code> — <b>٢٩٠ byte</b> — يكون <b>resident</b>: فالمحتوى داخل السجل، و الملف <b>لا يشغل أي cluster في أي مكان</b>.'},
+ {en:'For <code>report.bin</code> &mdash; <b>204,800 bytes</b> &mdash; it does not fit, so <code>$DATA</code> goes <b>non-resident</b> and the record keeps only a <b>run list</b> pointing at the clusters.', ar:'أما <code>report.bin</code> — <b>٢٠٤٬٨٠٠ byte</b> — فلا يتّسع، فيصير <code>$DATA</code> <b>non-resident</b> و لا يبقى في السجل سوى <b>run list</b> يشير إلى الـ clusters.'},
+ {en:'<b>That distinction decides everything about recovery.</b> A resident file that is deleted still has its content in the record. A non-resident one has only a pointer to clusters that may already be reused.', ar:'<b>و هذا التمييز يقرّر كل شيء في الاستعادة.</b> فالملف الـ resident المحذوف يبقى محتواه في السجل. أما الـ non-resident فلا يبقى منه سوى مؤشّر إلى clusters قد تكون أُعيد استخدامها.',key:true}
+]);
+Dgm.init('#dg9-f4', [
+ {en:'A directory listing shows one file, <b>34 bytes</b>. That is the honest answer to the question the listing was asked.', ar:'يُظهر سرد المجلد ملفًّا واحدًا حجمه <b>٣٤ byte</b>. و هذه إجابة صادقة عن السؤال الذي سُئله السرد.'},
+ {en:'The record holds an <b>unnamed</b> <code>$DATA</code> attribute of 34 bytes. That is the file everyone sees.', ar:'يحمل السجل <code>$DATA</code> <b>بلا اسم</b> حجمه ٣٤ byte. و هذا هو الملف الذي يراه الجميع.'},
+ {en:'And it holds a <b>second</b> <code>$DATA</code>, named <code>notes</code>, of <b>41 bytes</b>. NTFS allows any number of named streams on one file, and <b>the size in the listing counts only the unnamed one</b>.', ar:'و يحمل <code>$DATA</code> <b>ثانيًا</b> اسمه <code>notes</code> حجمه <b>٤١ byte</b>. و يسمح الـ NTFS بأي عدد من الـ streams المسمّاة على ملف واحد، و <b>الحجم في السرد لا يعدّ إلا غير المسمّى</b>.'},
+ {en:'So <i>&ldquo;the file is 34 bytes&rdquo;</i> is a <b>finding about one stream</b>, not about the file. Write it that way, and check for the others.', ar:'إذن عبارة <i>«الملف ٣٤ byte»</i> <b>نتيجة عن stream واحد</b>، لا عن الملف. اكتبها هكذا، و افحص البقية.',key:true}
+]);
+Dgm.init('#dg9-f5', [
+ {en:'This is the same layout as before, with <b>one file interrupting another</b>. Nothing is wrong with the disk &mdash; this is ordinary allocation.', ar:'هذا هو التوزيع نفسه، مع <b>ملف يقطع ملفًّا آخر</b>. و لا عيب في القرص — فهذا تخصيص عادي.'},
+ {en:'The FAT is gone, so the carver has no chain to follow. All it can do is scan for a <b>header</b>: <code>FF D8 FF</code>.', ar:'اختفت الـ FAT، فلا سلسلة يتبعها الـ carver. و كل ما يستطيعه هو البحث عن <b>header</b>: <code>FF D8 FF</code>.'},
+ {en:'Then it reads <b>forward</b> until it finds the footer. It has no way to know a cluster belongs to someone else, because <b>the only structure that knew has been erased</b>.', ar:'ثم يقرأ <b>إلى الأمام</b> حتى يجد الـ footer. و لا سبيل له ليعرف أن cluster يخصّ ملفًّا آخر، لأن <b>البنية الوحيدة التي كانت تعرف قد مُحيت</b>.'},
+ {en:'So nine clusters of an unrelated log file are read <b>into the middle of the photograph</b> &mdash; <b>36,864 bytes</b> of it, exactly.', ar:'فتُقرأ تسعة clusters من ملف سجلات لا علاقة له <b>إلى داخل الصورة</b> — <b>٣٦٬٨٦٤ byte</b> منها بالضبط.'},
+ {en:'The result is <b>112,253 bytes</b> where the file is 75,389. <b>And it still opens as an 800&times;500 image.</b> A file that opens is not a file that is intact.', ar:'و النتيجة <b>١١٢٬٢٥٣ byte</b> بينما الملف ٧٥٬٣٨٩. <b>و ما زال يُفتح كصورة ٨٠٠&times;٥٠٠.</b> فالملف الذي يُفتح ليس ملفًّا سليمًا.',key:true}
+]);
+Dgm.init('#dg9-f6', [
+ {en:'<code>site_photo.jpg</code> was <b>contiguous</b>, and the carver returned it <b>byte for byte</b>. The hash matches the original.', ar:'كان <code>site_photo.jpg</code> <b>متّصلاً</b>، فأعاده الـ carver <b>byte بـ byte</b>. و قيمة الـ hash تطابق الأصل.'},
+ {en:'So did the PNG. One cluster, one run, exact.', ar:'و كذلك الـ PNG. cluster واحد، run واحد، مطابق.'},
+ {en:'And the ZIP. <b>Three of six recovered perfectly</b> &mdash; carving works, and it works well.', ar:'و كذلك الـ ZIP. <b>ثلاثة من ستة استُعيدت بشكل مثالي</b> — فالـ carving يعمل، و يعمل جيدًا.'},
+ {en:'Then the PDF: <b>1,624 bytes of 1,625</b>. The file ends <code>%%EOF\n</code> and the carver&rsquo;s footer rule stops at <code>%%EOF</code>. <b>One byte, and the hash no longer matches.</b>', ar:'ثم الـ PDF: <b>١٬٦٢٤ byte من ١٬٦٢٥</b>. فالملف ينتهي بـ<code>%%EOF\n</code> و قاعدة الـ footer عند الـ carver تتوقّف عند <code>%%EOF</code>. <b>byte واحد، و لم تعد قيمة الـ hash تطابق.</b>'},
+ {en:'The second PDF had been <b>deleted before the wipe</b> &mdash; and the carver found it anyway, because <b>a carver does not read the file system and so does not know what &ldquo;deleted&rdquo; means</b>.', ar:'أما الـ PDF الثاني فكان <b>محذوفًا قبل المحو</b> — و وجده الـ carver رغم ذلك، لأن <b>الـ carver لا يقرأ نظام الملفات فلا يعرف معنى «محذوف» أصلاً</b>.'},
+ {en:'And the fragmented photograph came back <b>37 KB too big</b>. <b>Three exact, two off by one byte, one off by 36,864 &mdash; and only a hash comparison tells them apart.</b>', ar:'و عادت الصورة المجزّأة <b>أكبر بـ٣٧ كيلوبايت</b>. <b>ثلاثة مطابقة، و اثنان بفارق byte واحد، و واحد بفارق ٣٦٬٨٦٤ — و لا يفرّق بينها إلا مقارنة الـ hash.</b>',key:true}
+]);
+</script>
+
+</body>
+</html>

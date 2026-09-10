@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P02 &middot; Evidence integrity &middot; eCDFP Diploma</title>
+<meta name="description" content="What a matching hash proves and what it does not, the chain of custody, and how the use of a write blocker is evidenced &mdash; page 2 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P02 &middot; Evidence integrity</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Cover</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li class="is-part"><a href="#p3"><span class="n">03</span><span>PART 1 &mdash; What a hash proves</span></a></li>
+      <li><a href="#p4"><span class="n">04</span><span>What is a hash?</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>What a matching hash proves</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>#1 It does not prove completeness</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>#2 A mismatch is not tampering</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>#3 It does not prove authenticity</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>#4 Where the digest is stored</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>The four cases side by side</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>Where authenticity lives</span></a></li>
+      <li class="is-part"><a href="#p12"><span class="n">12</span><span>PART 2 &mdash; Preserving the evidence</span></a></li>
+      <li><a href="#p13"><span class="n">13</span><span>What is chain of custody?</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>What is a write blocker?</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>The write-block proof trail</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>The software write-block fallback</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>Reading an imager&rsquo;s verification log</span></a></li>
+      <li class="is-part"><a href="#p18"><span class="n">18</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>Verify a set you did not create</span></a></li>
+      <li class="is-part"><a href="#p20"><span class="n">20</span><span>YOUR TURN</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>Exercises &mdash; sorting and a defect hunt</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>Knowledge check</span></a></li>
+      <li class="is-part"><a href="#p23"><span class="n">23</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>Cheat sheet</span></a></li>
+      <li class="is-part"><a href="#p25"><span class="n">25</span><span>TASK</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Task &mdash; prove integrity you did not create</span></a></li>
+      <li><a href="#p27"><span class="n">27</span><span>Report &mdash; Sections 4 and 5</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>Summary</span></a></li>
+      <li><a href="#p29"><span class="n">29</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+  <main class="main">
+
+<section class="page" id="p1">
+<span class="kicker">P02 &middot; Page 2 of 14 &middot; 38 topic minutes</span>
+<h1>Evidence integrity
+  <span class="ar">الـ integrity في الدليل</span></h1>
+<p class="lede">And the two records that carry what it cannot.
+  <span class="ar">و السجلّان اللذان يحملان ما تعجز الـ hash عن حمله.</span></p>
+<div class="key-takeaway">
+  <span class="cl-label">By the end of this page you can</span>
+  <ul>
+    <li>state in one sentence what a matching hash actually proves &mdash; and defend it.
+      <span class="ar">أن تصوغ في جملة واحدة ما تثبته الـ hash المتطابقة فعلاً، و أن تدافع عن تلك الجملة.</span></li>
+    <li>read a <code>FAILED</code> result without saying a word you cannot support.
+      <span class="ar">أن تقرأ نتيجة <code>FAILED</code> دون أن تنطق بلفظ لا تستطيع إسناده إلى دليل.</span></li>
+    <li>show how a write blocker was used, when the image itself records nothing about it.
+      <span class="ar">أن تُثبت استخدام الـ write blocker، مع أن ملف النسخة لا يسجّل عنه شيئًا.</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">Bridge from T01</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن — و ما الذي يتغيّر هنا</span></h2>
+<p>Last page you signed that your examination platform was in a <b>known, described state</b> before
+  any evidence touched it, and you can name the snapshot.
+  <span class="ar">في الصفحة السابقة وقّعت على أن منصة الفحص كانت في <b>حالة معروفة موصوفة</b> قبل أن يمسّها أي دليل، و تستطيع تسمية الـ snapshot الذي يُثبت ذلك.</span></p>
+<p><b>The evidence is different.</b> It arrives from somewhere you did not control, and you cannot
+  snapshot someone else&rsquo;s disk. So what can you actually prove about it?
+  <span class="ar"><b>أما الدليل فأمره مختلف.</b> يصلك من مكان لم تكن تسيطر عليه، و لا يمكنك أخذ snapshot لقرص شخص آخر. فما الذي يمكنك إثباته عنه حقًا؟</span></p>
+<figure class="dgm" id="dg-lc-p02" data-mode="story" data-reveal="upto" data-interval="9000">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p02">
+  <title id="t-dg-lc-p02">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="78" text-anchor="middle" fill="#00ff9d">PRESERVE</text>
+    <text class="xs" x="236" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="86" text-anchor="middle">ANALYSE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 2.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="note">
+  <span class="cl-label">The answer most people give</span>
+  <p>&ldquo;I hash it.&rdquo; That is the right tool and the wrong confidence. This page is about the gap
+    between the two.
+    <span class="ar">«آخذ الـ hash الخاص به.» و هي الأداة الصحيحة، لكن بثقة أكبر مما تستحق. و هذه الصفحة كلها عن الفجوة بين الاثنين.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p3">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 2</span>
+  <h2>What a hash proves, and what it does not<span class="ar">ما الذي يُثبته الـ hash و ما الذي لا يُثبته</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">One function, one answer, and four separate claims people make with it that it cannot support. Each limit gets its own screen.<span class="ar">دالة واحدة تعطي إجابة واحدة، و أربعة ادعاءات يبنيها الناس عليها و هي لا تستطيع حملها. و لكل حدٍّ من هذه الحدود شاشة مستقلة.</span></p>
+  <p class="divider-meta">8 screens &middot; about 22 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p4">
+<span class="kicker">T03 &middot; Theory</span>
+<h2>What is a hash?
+  <span class="ar">ما هو الـ hash؟</span></h2>
+<p>A hash is a <b>one-way</b> function: any input, any size, in &mdash; a <b>fixed-length</b> digest
+  out. Change one bit and the digest changes completely and unpredictably. That is the
+  <b>avalanche</b> property, and it is the whole basis of using hashes on evidence.
+  <span class="ar">دالة <b>أحادية الاتجاه</b>: تستقبل مدخلاً بأي حجم و تُخرج hash <b>ثابتة الطول</b>. و تغيير بت واحد يغيّر الـ hash تغييرًا كاملاً لا يمكن التنبؤ به. هذه خاصية <b>الانهيار</b> (avalanche)، و عليها يقوم استعمال الـ hashes في الأدلة كله.</span></p>
+<figure class="dgm" id="dg-fn" data-mode="loop" data-reveal="upto" data-interval="4200">
+  <div class="dgm-head"><span class="dgm-id">FIG P02-D1 &middot; VARIABLE IN, FIXED OUT</span><span class="dgm-tag">PATTERN 2 &middot; 6</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 300" role="img" aria-labelledby="t-fn">
+  <title id="t-fn">Three inputs of very different sizes each produce a digest of the same fixed length</title>
+
+  <text class="xs mut" x="14" y="18">INPUT</text>
+  <text class="xs mut" x="332" y="18">SHA-256</text>
+  <text class="xs mut" x="556" y="18">DIGEST</text>
+
+  <g data-step="1">
+    <rect class="box key" x="14" y="34" width="292" height="56" rx="6"/>
+    <text class="m sm" x="32" y="60">"H"</text>
+    <text class="xs mut" x="32" y="80">1 byte</text>
+    <path class="arw key" d="M312 62 L400 62"/><path class="arw key" d="M392 57 L402 62 L392 67"/>
+    <rect class="box key" x="408" y="34" width="132" height="56" rx="6"/>
+    <text class="xs mut" x="428" y="58">one way</text>
+    <text class="xs mut" x="428" y="76">no way back</text>
+    <path class="arw key" d="M546 62 L604 62"/><path class="arw key" d="M596 57 L606 62 L596 67"/>
+    <rect class="box key" x="612" y="34" width="154" height="56" rx="6"/>
+    <text class="m sm" x="628" y="68">64 hex chars</text>
+  </g>
+
+  <g data-step="2">
+    <rect class="box key" x="14" y="112" width="292" height="56" rx="6"/>
+    <text class="m sm" x="32" y="138">a 2 TB disk image</text>
+    <text class="xs mut" x="32" y="158">2 000 000 000 000 bytes</text>
+    <path class="arw key" d="M312 140 L400 140"/><path class="arw key" d="M392 135 L402 140 L392 145"/>
+    <rect class="box key" x="408" y="112" width="132" height="56" rx="6"/>
+    <text class="xs mut" x="428" y="136">same function</text>
+    <text class="xs mut" x="428" y="154">same work</text>
+    <path class="arw key" d="M546 140 L604 140"/><path class="arw key" d="M596 135 L606 140 L596 145"/>
+    <rect class="box key" x="612" y="112" width="154" height="56" rx="6"/>
+    <text class="m sm" x="628" y="146">64 hex chars</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box warn" x="14" y="190" width="292" height="56" rx="6"/>
+    <text class="m sm" x="32" y="216">"h"</text>
+    <text class="xs" x="32" y="236" fill="#ffb454">the same byte, one bit changed</text>
+    <path class="arw warn" d="M312 218 L400 218" stroke="#ffb454"/>
+    <path class="arw warn" d="M392 213 L402 218 L392 223" stroke="#ffb454"/>
+    <rect class="box warn" x="408" y="190" width="132" height="56" rx="6"/>
+    <text class="xs mut" x="428" y="222">one bit in</text>
+    <path class="arw warn" d="M546 218 L604 218" stroke="#ffb454"/>
+    <path class="arw warn" d="M596 213 L606 218 L596 223" stroke="#ffb454"/>
+    <rect class="box warn" x="612" y="190" width="154" height="56" rx="6"/>
+    <text class="m sm" x="628" y="224" fill="#ffb454">64 hex chars</text>
+  </g>
+
+  <g data-step="4">
+    <rect class="box ok" x="14" y="266" width="752" height="26" rx="13"/>
+    <text class="sm" x="30" y="284" fill="#00ff9d">Same length every time &mdash; so the digest tells you nothing about the size or shape of what made it.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="wu" style="max-width:100%">
+  <div class="wu-tb"><span class="t">Windows PowerShell</span>
+    <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+  <div class="wu-term"><span class="p">PS C:\Forensics&gt;</span> <span class="k">"H" | Set-Content -NoNewline t.txt ; (Get-FileHash t.txt -Algorithm SHA256).Hash</span>
+<span class="w">44BD5A6...</span><span class="d">  (compute it yourself &mdash; never copy a digest from a page)</span>
+
+<span class="p">PS C:\Forensics&gt;</span> <span class="k">"h" | Set-Content -NoNewline t.txt ; (Get-FileHash t.txt -Algorithm SHA256).Hash</span>
+<span class="w">2D0F04A...</span><span class="d">  one bit of difference. nothing in common.</span></div>
+</div>
+<div class="warn">
+  <span class="cl-label">Never copy a digest &mdash; including from this page</span>
+  <p>A value you did not compute is a <b>claim</b> about a value. Run the command.
+    <span class="ar">القيمة التي لم تحسبها بنفسك ليست إلا <b>ادعاءً</b> عن قيمة. نفّذ الأمر و احسبها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T03 &middot; Theory</span>
+<h2>What a matching hash proves
+  <span class="ar">ما الذي يثبته تطابق الـ hash</span></h2>
+<div class="finding">
+  <span class="cl-label">Finding &middot; solid border</span>
+  <p>Two byte streams are identical, to within the collision resistance of the function.
+    <span class="ar">أن تدفّقَي الـ bytes متطابقان، في حدود مقاومة الدالة للتصادم.</span></p>
+  <div class="eg"><b>Example:</b> the image of a 2 TB drive and the drive itself, compared without
+    reading either one twice by hand.
+    <span class="ar"><b>مثال:</b> مقارنة نسخة قرص سعته ٢ تيرابايت بالقرص نفسه، دون قراءة أيٍّ منهما مرتين يدويًا.</span></div>
+</div>
+<p>That is genuinely valuable, and it is two different things at once: it shows a copy equals its
+  source <b>at acquisition</b>, and re-running it months later shows that nothing <b>in your own
+  custody</b> changed the image.
+  <span class="ar">و هذه فائدة حقيقية، و هي فائدتان في آن: تُظهر أن النسخة تساوي مصدرها <b>لحظة الـ acquisition</b>، و إعادتها بعد شهور تُظهر أن شيئًا <b>في عهدتك أنت</b> لم يغيّر النسخة.</span></p>
+<div class="note">
+  <p>Everything on the rest of this page is a consequence of the four words <b>&ldquo;as read at that
+    moment&rdquo;</b>.
+    <span class="ar">كل ما يأتي في بقية هذه الصفحة نتيجةٌ لعبارة واحدة: <b>«كما قُرئ في تلك اللحظة»</b>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">What it does not prove &middot; 1 of 4</span>
+<h2>#1 It does not prove the copy is complete
+  <span class="ar">#1 لا تُثبت أن النسخة كاملة</span></h2>
+<p>A drive can hold a <b>host protected area</b> &mdash; a region the interface does not report. If
+  the imaging tool never sees it, the tool never reads it.
+  <span class="ar">قد يحتوي القرص على <b>HPA</b> (HPA) لا تُعلن عنها الواجهة. فإن لم ترها أداة النسخ، لم تقرأها أصلاً.</span></p>
+<figure class="dgm" id="dg-hpa" data-mode="loop" data-reveal="upto" data-interval="4400">
+  <div class="dgm-head"><span class="dgm-id">FIG P02-D2 &middot; WHAT THE DIGEST COVERED</span><span class="dgm-tag">PATTERN 1 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 306" role="img" aria-labelledby="t-hpa">
+  <title id="t-hpa">The host protected area sits outside the region the tool read, so it is absent from both digests</title>
+
+  <text class="xs mut" x="14" y="18">THE PHYSICAL DISK &mdash; 500 GB</text>
+  <rect class="box" x="14" y="30" width="752" height="60" rx="6"/>
+  <rect x="16" y="32" width="574" height="56" fill="#16303f"/>
+  <text class="sm" x="212" y="66">488 GB the interface reports</text>
+
+  <g data-step="1">
+    <rect x="590" y="32" width="174" height="56" fill="#3a2416"/>
+    <line x1="590" y1="30" x2="590" y2="90" stroke="#ffb454" stroke-width="2"/>
+    <text class="xs" x="606" y="56" fill="#ffb454">12 GB host</text>
+    <text class="xs" x="606" y="76" fill="#ffb454">protected area</text>
+  </g>
+
+  <g data-step="2">
+    <path class="arw key" d="M300 96 L300 130"/><path class="arw key" d="M295 122 L300 132 L305 122"/>
+    <text class="xs mut" x="314" y="120">the tool reads only what it is told exists</text>
+    <rect class="box key" x="14" y="138" width="576" height="48" rx="6"/>
+    <text class="lbl" x="32" y="158">SOURCE DIGEST</text>
+    <text class="m xs mut" x="32" y="176">over the 488 GB that were read</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box key" x="14" y="198" width="576" height="48" rx="6"/>
+    <text class="lbl" x="32" y="218">IMAGE DIGEST</text>
+    <text class="m xs mut" x="32" y="236">over the 488 GB that were written</text>
+    <path class="arw ok" d="M598 162 L628 162 L628 222 L598 222"/>
+    <rect class="box ok" x="634" y="174" width="132" height="38" rx="19"/>
+    <text class="lbl" x="676" y="199" fill="#00ff9d">MATCH</text>
+  </g>
+
+  <g data-step="4">
+    <path class="arw warn dash" d="M676 96 L676 168" stroke="#ffb454"/>
+    <text class="xs" x="694" y="130" fill="#ffb454">never</text>
+    <text class="xs" x="694" y="148" fill="#ffb454">read</text>
+    <rect class="box warn" x="14" y="262" width="752" height="34" rx="6"/>
+    <text class="sm" x="30" y="284" fill="#ffb454">A hash compares two reads. It has nothing to say about what was never read.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">Cannot prove &middot; dotted border</span>
+  <p>The unread region is absent from the source hash <b>and</b> from the image hash. The two agree
+    perfectly &mdash; about a partial copy.
+    <span class="ar">المنطقة غير المقروءة غائبة عن hash المصدر <b>و</b> عن hash النسخة معًا. فتتطابق قيمتا الـ hash تطابقًا تامًا — على نسخة ناقصة.</span></p>
+  <div class="eg"><b>Example:</b> a 500 GB disk with a 12 GB HPA images as 488 GB and verifies
+    flawlessly. Nothing in the result says 12 GB is missing.
+    <span class="ar"><b>مثال:</b> قرص سعته ٥٠٠ جيجابايت فيه HPA بحجم ١٢ جيجابايت يُنسخ بحجم ٤٨٨ و يجتاز التحقق دون ملاحظة. و لا شيء في النتيجة يشير إلى غياب الاثني عشر.</span></div>
+</div>
+<p>A hash compares <b>two reads</b>. It has nothing to say about what was never read.
+  <span class="ar">الـ hash تقارن <b>قراءتين</b>. و ليس لديها ما تقوله عمّا لم يُقرأ قط.</span></p>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">What it does not prove &middot; 2 of 4</span>
+<h2>#2 A mismatch does not mean tampering
+  <span class="ar">#2 عدم التطابق لا يعني العبث</span></h2>
+<figure class="dgm" id="dg-mis" data-mode="loop" data-reveal="upto" data-interval="3800">
+  <div class="dgm-head"><span class="dgm-id">FIG P02-D7 &middot; FOUR WAYS TO GET <tspan>FAILED</tspan></span><span class="dgm-tag">PATTERN 2 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 280" role="img" aria-labelledby="t-mis">
+  <title id="t-mis">Four unrelated causes that all produce an identical mismatch result</title>
+
+  <rect class="box no" x="286" y="216" width="208" height="46" rx="6"/>
+  <text class="lbl" x="330" y="245" fill="#ff4d5e">FAILED</text>
+
+  <g data-step="1">
+    <rect class="box warn" x="14" y="30" width="168" height="62" rx="6"/>
+    <text class="sm" x="32" y="56">A failing sector</text>
+    <text class="xs mut" x="32" y="78">different bytes on re-read</text>
+    <path class="arw no" d="M98 98 L98 216 L280 232"/>
+  </g>
+  <g data-step="2">
+    <rect class="box warn" x="200" y="30" width="168" height="62" rx="6"/>
+    <text class="sm" x="218" y="56">A cable fault</text>
+    <text class="xs mut" x="218" y="78">one block corrupt in transit</text>
+    <path class="arw no" d="M284 98 L284 210"/>
+  </g>
+  <g data-step="3">
+    <rect class="box warn" x="386" y="30" width="180" height="62" rx="6"/>
+    <text class="sm" x="404" y="56">SSD after TRIM</text>
+    <text class="xs mut" x="404" y="78">the drive reorganised itself</text>
+    <path class="arw no" d="M476 98 L476 210"/>
+  </g>
+  <g data-step="4">
+    <rect class="box no" x="584" y="30" width="182" height="62" rx="6"/>
+    <text class="sm" x="602" y="56" fill="#ff4d5e">Deliberate alteration</text>
+    <text class="xs mut" x="602" y="78">someone edited the file</text>
+    <path class="arw no" d="M676 98 L676 216 L500 232"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="14" y="122" width="752" height="62" rx="6"/>
+    <text class="sm" x="30" y="148">The result line is <tspan fill="#ff4d5e">identical</tspan> in all four.</text>
+    <text class="xs mut" x="30" y="170">Nothing in it distinguishes the red box from the three amber ones.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p>Every one of these produces the same <code>FAILED</code>, with nobody at fault:
+  <span class="ar">كل حالة من هذه الحالات تُنتج نتيجة <code>FAILED</code> نفسها، دون أن يكون أحد قد أخطأ:</span></p>
+<div class="table-wrap"><table>
+  <tbody>
+  <tr><td><b>A failing sector</b><span class="ar">قطاع تالف</span></td>
+      <td>the drive returns different bytes on the second read
+        <span class="ar">القرص يُعيد bytes مختلفة عند القراءة الثانية.</span></td></tr>
+  <tr><td><b>A cable or controller fault</b><span class="ar">عطل في الكابل أو المتحكم</span></td>
+      <td>a transfer error corrupts one block in transit
+        <span class="ar">خطأ في النقل يُفسد كتلة واحدة أثناء انتقالها.</span></td></tr>
+  <tr><td><b>SSD garbage collection</b><span class="ar">تنظيف الذاكرة في أقراص SSD</span></td>
+      <td>after TRIM, a deleted region can read differently the second time &mdash; the drive did it
+        to itself, with no command from you
+        <span class="ar">بعد أمر TRIM قد تُقرأ منطقة محذوفة قراءةً مختلفة في المرة الثانية — و القرص فعل ذلك بنفسه دون أمر منك.</span></td></tr>
+  <tr><td><b>A text editor</b><span class="ar">محرّر نصوص</span></td>
+      <td>saving a file can rewrite every line ending
+        <span class="ar">مجرّد حفظ الملف قد يعيد كتابة نهايات الأسطر كلها.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="limitation">
+  <span class="cl-label">Cannot prove &middot; dotted border</span>
+  <p><code>FAILED</code> carries no cause, no time, no identity &mdash; and <b>no magnitude</b>.
+    A one-character edit and a total replacement produce the same line.
+    <span class="ar">نتيجة <code>FAILED</code> لا تحمل سببًا و لا وقتًا و لا هوية — و لا <b>مقدارًا</b>. فتعديل حرف واحد و استبدال الملف بالكامل يُنتجان السطر نفسه.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p8">
+<span class="kicker">What it does not prove &middot; 3 of 4</span>
+<h2>#3 It does not prove authenticity
+  <span class="ar">#3 لا تُثبت الأصالة</span></h2>
+<figure class="dgm" id="dg-auth" data-mode="loop" data-reveal="upto" data-interval="4200">
+  <div class="dgm-head"><span class="dgm-id">FIG P02-D8 &middot; TWO DIFFERENT QUESTIONS</span><span class="dgm-tag">PATTERN 2 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 276" role="img" aria-labelledby="t-auth">
+  <title id="t-auth">Integrity is a property of the copy; authenticity is a property of the original</title>
+
+  <g data-step="1">
+    <rect class="box ok" x="14" y="34" width="366" height="110" rx="6"/>
+    <text class="lbl" x="34" y="62" fill="#00ff9d">INTEGRITY</text>
+    <text class="sm" x="34" y="88">&ldquo;Is my copy the same as what I read?&rdquo;</text>
+    <text class="xs mut" x="34" y="112">answered by: the hash</text>
+    <text class="xs mut" x="34" y="132">a measurement you can repeat any time</text>
+  </g>
+  <g data-step="2">
+    <rect class="box warn" x="400" y="34" width="366" height="110" rx="6"/>
+    <text class="lbl" x="420" y="62" fill="#ffb454">AUTHENTICITY</text>
+    <text class="sm" x="420" y="88">&ldquo;Is the original what it claims to be?&rdquo;</text>
+    <text class="xs mut" x="420" y="112">answered by: the chain of custody</text>
+    <text class="xs mut" x="420" y="132">a record you can only write at the time</text>
+  </g>
+  <g data-step="3">
+    <path class="arw no" d="M197 152 L197 178"/>
+    <path class="arw no" d="M583 152 L583 178"/>
+    <rect class="box no" x="14" y="186" width="752" height="76" rx="6"/>
+    <text class="sm" x="30" y="212" fill="#ff4d5e">&ldquo;The evidence is authentic because the hash matched&rdquo; answers the</text>
+    <text class="sm" x="30" y="234" fill="#ff4d5e">right-hand question with the left-hand tool.</text>
+    <text class="xs mut" x="30" y="254">It is not an overstatement. It is a different claim entirely.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p>The hash compares a copy to a source. It is silent on every question about the <b>source
+  itself</b>.
+  <span class="ar">الـ hash تقارن نسخةً بمصدر. و هي صامتة تمامًا أمام كل سؤال عن <b>المصدر نفسه</b>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>The question</th><th>What answers it</th></tr></thead>
+  <tbody>
+  <tr><td>Is this the drive that was seized?<span class="ar">أهذا هو القرص الذي جرى ضبطه؟</span></td>
+      <td>the chain of custody<span class="ar">الـ chain of custody.</span></td></tr>
+  <tr><td>Whose data is on it?<span class="ar">لمن هذه البيانات؟</span></td>
+      <td>the seizure record and the investigation<span class="ar">محضر الضبط و التحقيق.</span></td></tr>
+  <tr><td>Was it already altered before I arrived?<span class="ar">هل جرى تغييرها قبل وصولي؟</span></td>
+      <td>nothing you hold &mdash; state it as a limitation<span class="ar">لا شيء مما بين يديك. اذكرها بوصفها حدًّا من حدود الفحص.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="interpretation">
+  <span class="cl-label">Interpretation &middot; dashed border</span>
+  <p>&ldquo;The evidence is authentic because the hash matched&rdquo; is not a stronger claim than the
+    evidence supports &mdash; it is a <b>different claim entirely</b>, about provenance, resting on a
+    measurement of equality.
+    <span class="ar">قولك «الدليل أصلي لأن الـ hash تطابقت» ليس مبالغةً في ادعاء يسنده الدليل، بل هو <b>ادعاء مختلف كليًا</b> عن مصدر الدليل، مبنيّ على قياس للتطابق لا غير.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p9">
+<span class="kicker">What it does not prove &middot; 4 of 4</span>
+<h2>#4 Where the digest is stored
+  <span class="ar">#4 موضع حفظ الـ hash هو ما يحدّد قيمتها</span></h2>
+<p>Someone who can alter the image <b>and</b> alter the file holding its digest simply recomputes.
+  The protection was never the strength of the function &mdash; it is <b>where the value is
+  stored</b>.
+  <span class="ar">من يستطيع تعديل النسخة <b>و</b> تعديل الملف الذي يحوي الـ hash الخاصة بها، يعيد حسابها و ينتهي الأمر. فالحماية لم تكن يومًا في قوة الدالة، بل في <b>موضع حفظ القيمة</b>.</span></p>
+<figure class="dgm" id="dg-store" data-mode="loop" data-reveal="upto" data-interval="4400">
+  <div class="dgm-head"><span class="dgm-id">FIG P02-D4 &middot; WHERE THE DIGEST LIVES</span><span class="dgm-tag">PATTERN 2 &middot; 3</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 292" role="img" aria-labelledby="t-store">
+  <title id="t-store">Image and digest reachable by one person, versus a digest held separately</title>
+
+  <g data-step="1">
+    <text class="xs mut" x="14" y="18">A &mdash; BOTH ON THE SAME SERVER</text>
+    <rect class="box no" x="14" y="30" width="470" height="82" rx="6"/>
+    <rect class="box" x="34" y="48" width="192" height="46" rx="5"/>
+    <text class="sm" x="82" y="77">the image</text>
+    <rect class="box" x="272" y="48" width="192" height="46" rx="5"/>
+    <text class="sm" x="304" y="77">the digest file</text>
+  </g>
+
+  <g data-step="2">
+    <path class="arw no dash" d="M226 71 L266 71"/>
+    <path class="arw no" d="M498 71 L556 71"/><path class="arw no" d="M548 66 L558 71 L548 76"/>
+    <rect class="box no" x="562" y="34" width="204" height="74" rx="6"/>
+    <text class="sm" x="578" y="60" fill="#ff4d5e">one write path</text>
+    <text class="xs mut" x="578" y="82">alter the image, recompute</text>
+    <text class="xs mut" x="578" y="100">the digest, and it says MATCH</text>
+  </g>
+
+  <g data-step="3">
+    <text class="xs mut" x="14" y="152">B &mdash; THE DIGEST IS HELD ELSEWHERE</text>
+    <rect class="box ok" x="14" y="164" width="216" height="82" rx="6"/>
+    <rect class="box" x="34" y="182" width="176" height="46" rx="5"/>
+    <text class="sm" x="82" y="211">the image</text>
+    <rect class="box ok" x="252" y="164" width="232" height="82" rx="6"/>
+    <rect class="box" x="272" y="182" width="192" height="46" rx="5"/>
+    <text class="xs" x="288" y="203">notebook page 41,</text>
+    <text class="xs" x="288" y="221">signed, off the network</text>
+  </g>
+
+  <g data-step="4">
+    <path class="arw ok" d="M498 205 L556 205"/><path class="arw ok" d="M548 200 L558 205 L548 210"/>
+    <rect class="box ok" x="562" y="168" width="204" height="74" rx="6"/>
+    <text class="sm" x="578" y="194" fill="#00ff9d">two custodians</text>
+    <text class="xs mut" x="578" y="216">altering the image no longer</text>
+    <text class="xs mut" x="578" y="234">alters what checks it</text>
+    <text class="sm" x="14" y="278">Same algorithm. Same key length. The only difference is who can reach the second copy.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="warn">
+  <span class="cl-label">The courseware says both things, one slide apart</span>
+  <p>Our own source material states at one point that hashes <i>&ldquo;prove that the file has not
+    been tampered with&rdquo;</i> &mdash; and, on the next slide, that the hash must be stored securely
+    and <b>separately</b>. The second statement is the true one, and it is true <i>because</i> of
+    where the value lives.
+    <span class="ar">تذكر مادتنا المصدرية في موضع أن الـ hash <i>«تثبت أن الملف لم يُعبث به»</i>، ثم تذكر في الشريحة التالية أن الـ hash يجب أن تُحفظ في مكان آمن <b>منفصل</b>. و العبارة الثانية هي الصحيحة، و صحّتها نابعة <i>من</i> موضع حفظ القيمة نفسه.</span></p>
+  <p><b>This is shown deliberately.</b> A respected source stated it loosely and corrected itself.
+    An analyst who has never seen an authority be imprecise learns to trust authorities instead of
+    evidence &mdash; which is the opposite of this profession.
+    <span class="ar"><b>و عرضُ هذا مقصود.</b> فمصدر موثوق صاغ العبارة صياغةً غير دقيقة ثم صحّح نفسه. و المحلل الذي لم يرَ قط مصدرًا معتبرًا يُخطئ، يتعلّم أن يثق في المصادر بدلاً من أن يثق في الدليل — و هذا نقيض هذه المهنة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p10">
+<span class="kicker">T03 &middot; Synthesis</span>
+<h2>The four cases side by side
+  <span class="ar">الحالات الأربع جنبًا إلى جنب</span></h2>
+<figure class="cmp n4">
+  <div class="cmp-head">
+    <span class="cmp-title">FIG P02-F1 &middot; THE RESULT LINE IS THE SAME IN ALL FOUR</span>
+    <span class="cmp-step"><i>COMPLETE</i><i>INCOMPLETE</i><i>INNOCENT</i><i>WORTHLESS</i></span>
+  </div>
+  <div class="cmp-rows">
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">A clean acquisition</span>
+        <span class="cmp-sub">whole disk read &middot; source and image hashed &middot; values match</span>
+        <span class="cmp-verdict yes">match</span></div>
+      <div class="cmp-reveal">The case the result line was designed for. The copy equals the source as read.
+        <span class="ar">الحالة التي صُمّم سطر النتيجة من أجلها. النسخة تساوي المصدر كما قُرئ.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">A disk with an HPA</span>
+        <span class="cmp-sub">12 GB never reported &middot; never read &middot; absent from both digests</span>
+        <span class="cmp-verdict yes">match</span></div>
+      <div class="cmp-reveal">Same green line. <b>The copy is incomplete and the result cannot say so</b>, because the missing region was never in either read.
+        <span class="ar">السطر الأخضر نفسه. <b>النسخة ناقصة و النتيجة عاجزة عن قول ذلك</b>، لأن المنطقة الغائبة لم تدخل في أيٍّ من القراءتين.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">An SSD re-read after TRIM</span>
+        <span class="cmp-sub">deleted region reads differently &middot; nobody touched it</span>
+        <span class="cmp-verdict no">mismatch</span></div>
+      <div class="cmp-reveal">A red line with <b>no wrongdoing behind it at all</b>. The drive reorganised itself. Reporting this as tampering is a career-shaped mistake.
+        <span class="ar">سطر أحمر <b>لا يقف خلفه أي فعل خاطئ</b>. القرص أعاد تنظيم نفسه. و الإبلاغ عن هذا بوصفه عبثًا خطأ يُكلّف صاحبه مهنته.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">Image and digest on one server</span>
+        <span class="cmp-sub">one administrator can write to both &middot; digest recomputed</span>
+        <span class="cmp-verdict yes">match</span></div>
+      <div class="cmp-reveal">Green, and <b>worth nothing</b>. The value was recomputed after the change. Storage location, not algorithm strength, is what was missing.
+        <span class="ar">أخضر، و <b>لا قيمة له</b>. أُعيد حساب الـ hash بعد التغيير. و الناقص هنا موضع الحفظ، لا قوة الخوارزمية.</span></div>
+    </div>
+  </div>
+  <div class="cmp-cap">
+    <i>The case the check was designed for.</i>
+    <i>Green, and the copy is missing 12 GB.</i>
+    <i>Red, and nobody did anything wrong.</i>
+    <i>Green, and it proves nothing at all.</i>
+  </div>
+</figure>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T03 &middot; Theory</span>
+<h2>Where authenticity lives
+  <span class="ar">أين تعيش الأصالة فعلاً</span></h2>
+<p>Everything the hash cannot carry is carried by <b>two records</b>. You write both. Neither can be
+  reconstructed afterwards.
+  <span class="ar">كل ما تعجز الـ hash عن حمله يحمله <b>سجلّان</b>. أنت من يكتبهما، و لا يمكن إعادة بنائهما بعد فوات الأوان.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Record</th><th>What only it can say</th></tr></thead>
+  <tbody>
+  <tr><td><b>Chain of custody</b><span class="ar">الـ chain of custody</span></td>
+      <td>who held this exhibit, when, and what they did to it &mdash; unbroken from seizure
+        <span class="ar">من حاز هذا الـ exhibit، و متى، و ما الذي فعله به — متصلاً دون انقطاع منذ لحظة الضبط.</span></td></tr>
+  <tr><td><b>The write-block proof trail</b><span class="ar">artifact إثبات الـ write blocker</span></td>
+      <td>that write commands could not reach the media during this acquisition
+        <span class="ar">أن أوامر الكتابة لم تكن تصل إلى الـ media أثناء عملية الـ acquisition هذه.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <span class="cl-label">Why this is the hard part</span>
+  <p>Both are things you do <b>at the time, by hand</b>. A hash can be recomputed next year. A
+    custody line you did not write at 09:12 does not exist, and no tool will produce it for you.
+    <span class="ar">كلاهما عمل تؤدّيه <b>في حينه و بيدك</b>. فالـ hash يمكن إعادة حسابها بعد عام. أما سطر الـ custody الذي لم تكتبه في الساعة ٩:١٢ فهو غير موجود، و لن تُنتجه لك أداة.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p12">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 2</span>
+  <h2>Preserving the evidence<span class="ar">حفظ الدليل</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">A hash answers a question about a copy. This part is about the paperwork and the hardware that make the copy worth asking about.<span class="ar">يجيب الـ hash عن سؤال يخصّ النسخة. و هذا الجزء عن الإجراءات و العتاد اللذين يجعلان تلك النسخة جديرة بالسؤال أصلاً.</span></p>
+  <p class="divider-meta">5 screens &middot; about 16 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p13">
+<span class="kicker">T03 &middot; Theory</span>
+<h2>What is chain of custody?
+  <span class="ar">ما هي الـ chain of custody؟</span></h2>
+<ol>
+  <li>No <b>unexplained time gap</b>.
+    <span class="ar">ألا توجد فجوة زمنية بلا تفسير.</span></li>
+  <li>No transfer without <b>two signatures</b>.
+    <span class="ar">ألا يقع تسليم دون توقيعين.</span></li>
+  <li>Hashes recorded at seizure that <b>still match today</b>.
+    <span class="ar">أن تكون قيم الـ hash المسجَّلة عند الضبط ما زالت مطابقة اليوم.</span></li>
+</ol>
+<p>Physical control is part of the same record: antistatic bag, padding, sealed container, and
+  <b>tape signed across the seal</b> so that re-opening is visible.
+  <span class="ar">و الضبط المادي جزء من السجل نفسه: كيس مضاد للكهرباء الساكنة، و حشو، و container مختومة، و <b>شريط مُوقَّع عبر موضع الختم</b> ليصبح أي فتح لاحق ظاهرًا للعيان.</span></p>
+<figure class="dgm" id="dg-coc" data-mode="loop" data-reveal="upto" data-interval="4200">
+  <div class="dgm-head"><span class="dgm-id">FIG P02-D6 &middot; READ IT AS A TIMELINE</span><span class="dgm-tag">PATTERN 1 &middot; 4</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 268" role="img" aria-labelledby="t-coc">
+  <title id="t-coc">A custody timeline in which one interval carries no signature</title>
+
+  <text class="xs mut" x="14" y="20">Three checks: no unexplained gap &middot; no transfer without two signatures &middot; seizure hashes still match today.</text>
+  <line x1="46" y1="96" x2="740" y2="96" stroke="#2b3947" stroke-width="2"/>
+
+  <g data-step="1">
+    <circle cx="86" cy="96" r="8" fill="#00ff9d"/>
+    <text class="sm" x="52" y="74">seizure</text>
+    <text class="m xs mut" x="58" y="124">09:07</text>
+    <text class="xs mut" x="56" y="144">RS / RT</text>
+  </g>
+  <g data-step="2">
+    <circle cx="278" cy="96" r="8" fill="#00ff9d"/>
+    <text class="sm" x="228" y="74">to the store</text>
+    <text class="m xs mut" x="250" y="124">10:22</text>
+    <text class="xs mut" x="248" y="144">RT / ES</text>
+  </g>
+  <g data-step="3">
+    <rect x="278" y="86" width="192" height="20" fill="#ff4d5e" opacity=".16"/>
+    <circle cx="470" cy="96" r="8" fill="#ff4d5e"/>
+    <text class="sm" x="424" y="74">to examiner</text>
+    <text class="m xs mut" x="442" y="124">13:40</text>
+    <text class="xs" x="418" y="144" fill="#ff4d5e">no signature</text>
+  </g>
+  <g data-step="4">
+    <circle cx="672" cy="96" r="8" fill="#00ff9d"/>
+    <text class="sm" x="616" y="74">back to store</text>
+    <text class="m xs mut" x="634" y="124">08:55 +1d</text>
+    <text class="xs mut" x="642" y="144">E1 / ES</text>
+    <rect class="box no" x="14" y="176" width="752" height="76" rx="6"/>
+    <text class="lbl" x="30" y="202" fill="#ff4d5e">3 hours 18 minutes with one custodian and one signature</text>
+    <text class="sm mut" x="30" y="226">The other side does not have to prove substitution.</text>
+    <text class="sm mut" x="30" y="246">They only have to raise the possibility &mdash; and the whole exhibit goes with it.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">Cannot prove &middot; dotted border</span>
+  <p>A custody form proves continuity of the <b>exhibit</b>. It says nothing about whether the
+    <b>data</b> was genuine before seizure.
+    <span class="ar">استمارة الـ chain of custody تثبت اتصال custody <b>الـ exhibit</b>. و لا تقول شيئًا عن سلامة <b>البيانات</b> قبل الضبط.</span></p>
+  <div class="eg"><b>Example:</b> the attacker&rsquo;s wiper ran three hours before you arrived. The
+    chain of custody from that moment on is flawless, and the disk is still half empty.
+    <span class="ar"><b>مثال:</b> عمل برنامج المسح لدى المهاجم قبل وصولك بثلاث ساعات. الـ chain of custody منذ تلك اللحظة سليمة تمامًا، و القرص مع ذلك نصف فارغ.</span></div>
+</div>
+<figure class="photo">
+  <img src="../assets/img/photos/evidence-bag-sealed.jpg" alt="Two seized mobile phones inside a sealed tamper-evident evidence bag with a completed custody label and a unique bag number" loading="lazy">
+  <figcaption>A sealed tamper-evident bag: completed label, <b>unique bag number</b>, and a strip that cannot be reopened invisibly. That bag number is what ties this physical object to a line on the custody form.<span class="ar">كيس أدلة مختوم يكشف العبث: بطاقة مكتملة، و <b>رقم كيس فريد</b>، و شريط لا يمكن إعادة فتحه دون أن يظهر الـ artifact الخاص به. و رقم الكيس هو ما يربط هذا الشيء المادي بسطر في استمارة الـ chain of custody.</span>
+    <span class="credit">Photo: ErrantX, public domain, via Wikimedia Commons.</span></figcaption>
+</figure>
+<div class="warn">
+  <span class="cl-label">The asymmetry that decides exhibits</span>
+  <p>A perfect chain does not by itself win admissibility. <b>A single unexplained gap is enough to
+    lose it</b> &mdash; the other side only has to raise the <i>possibility</i> of substitution.
+    <span class="ar">السلسلة السليمة لا تكسب القبول وحدها. <b>لكن فجوة واحدة بلا تفسير تكفي لخسارته</b>، فيكفي الطرف الآخر أن يثير <i>احتمال</i> الاستبدال.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p14">
+<span class="kicker">T03 &middot; Theory</span>
+<h2>What is a write blocker?
+  <span class="ar">ما هو الـ write blocker؟</span></h2>
+<p>A write blocker filters write commands out of the path before they reach the media. It matters
+  because attaching a disk to a running Windows machine <b>is a write</b>: Windows touches the
+  volume, updates journal state, and can mount and modify without being asked.
+  <span class="ar">الـ write blocker يحجب أوامر الكتابة قبل بلوغها الـ media. و أهميته أن توصيل قرص بجهاز ويندوز يعمل <b>هو في ذاته كتابة</b>: فويندوز يمسّ وحدة التخزين، و يحدّث حالة السجل، و قد يضمّها و يعدّلها دون أن يُطلب منه ذلك.</span></p>
+<div class="photo-row">
+<figure class="photo">
+  <img src="../assets/img/photos/write-blocker-inline.jpg" alt="A portable hardware write blocker cabled between a host computer and a bare 3.5-inch hard drive" loading="lazy">
+  <figcaption>A hardware blocker is <b>a physical box in the path</b>. Nothing reaches the drive except through it.<span class="ar">الـ write blocker العتادي <b>صندوق مادي يقع في المسار</b>. فلا يصل إلى القرص شيء إلا عبره.</span>
+    <span class="credit">Photo: ErrantX, public domain, via Wikimedia Commons.</span></figcaption>
+</figure>
+<figure class="photo">
+  <img src="../assets/img/photos/write-blocker-ports.jpg" alt="The port side of a Tableau forensic SATA and IDE bridge with data and power cabling attached" loading="lazy">
+  <figcaption>The port side. <b>Photograph this before you disconnect anything</b> &mdash; serials legible, everything still cabled.<span class="ar">جهة المنافذ. <b>صوّرها قبل فصل أي شيء</b> — بأرقام تسلسلية واضحة و كل شيء ما يزال موصولاً.</span>
+    <span class="credit">Photo: ErrantX, public domain, via Wikimedia Commons.</span></figcaption>
+</figure>
+</div>
+<figure class="dgm" id="dg-wb" data-mode="loop" data-reveal="upto" data-interval="4400">
+  <div class="dgm-head"><span class="dgm-id">FIG P02-D5 &middot; THE PATH, AND WHAT RECORDS IT</span><span class="dgm-tag">PATTERN 1 &middot; 5</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 310" role="img" aria-labelledby="t-wb">
+  <title id="t-wb">Read commands pass the blocker, write commands are filtered, and the image records neither</title>
+
+  <rect class="box" x="14" y="66" width="168" height="76" rx="6"/>
+  <text class="lbl" x="34" y="98">WORKSTATION</text>
+  <text class="xs mut" x="34" y="120">issues commands</text>
+
+  <rect class="box key" x="310" y="52" width="148" height="104" rx="6"/>
+  <text class="lbl" x="340" y="82">BLOCKER</text>
+  <text class="xs mut" x="330" y="108">passes reads</text>
+  <text class="xs mut" x="330" y="128">drops writes</text>
+
+  <rect class="box warn" x="586" y="66" width="180" height="76" rx="6"/>
+  <text class="lbl" x="606" y="98">THE MEDIA</text>
+  <text class="xs mut" x="606" y="120">never receives a write</text>
+
+  <g data-step="1">
+    <text class="xs" x="246" y="70" fill="#00ff9d" text-anchor="middle">READ</text>
+    <path class="arw ok" d="M188 86 L302 86"/><path class="arw ok" d="M294 81 L304 86 L294 91"/>
+    <path class="arw ok" d="M466 86 L578 86"/><path class="arw ok" d="M570 81 L580 86 L570 91"/>
+  </g>
+
+  <g data-step="2">
+    <path class="arw no" d="M188 124 L290 124"/>
+    <line x1="296" y1="114" x2="314" y2="134" stroke="#ff4d5e" stroke-width="2.5"/>
+    <line x1="314" y1="114" x2="296" y2="134" stroke="#ff4d5e" stroke-width="2.5"/>
+    <text class="xs" x="238" y="150" fill="#ff4d5e" text-anchor="middle">WRITE &mdash; filtered</text>
+  </g>
+
+  <g data-step="3">
+    <path class="arw dash" d="M384 162 L384 186"/>
+    <rect class="box" x="310" y="192" width="148" height="42" rx="5"/>
+    <text class="xs mut" x="332" y="218">the image file</text>
+    <text class="sm" x="480" y="208" fill="#ff4d5e">no field records any of this</text>
+    <text class="xs mut" x="480" y="228">blocked and unblocked are byte-identical</text>
+  </g>
+
+  <g data-step="4">
+    <rect class="box ok" x="14" y="252" width="752" height="46" rx="6"/>
+    <text class="lbl" x="30" y="274" fill="#00ff9d">SO THE PROOF IS FOUR RECORDS OUTSIDE IT</text>
+    <text class="xs mut" x="30" y="292">blocker log &middot; photograph of the rig &middot; custody-form line &middot; source hashed before AND after the run</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="limitation">
+  <span class="cl-label">Cannot prove &middot; dotted border</span>
+  <p>An image taken on a write blocker and an image taken without one are <b>byte-identical</b>.
+    There is no field. No tool can tell anyone afterwards.
+    <span class="ar">النسخة المأخوذة عبر مانع كتابة و النسخة المأخوذة بدونه <b>متطابقتان byte بـ byte</b>. لا توجد خانة تسجّل ذلك. و لا تستطيع أي أداة إخبار أحد به لاحقًا.</span></p>
+</div>
+<p>So <i>&ldquo;a write blocker was used&rdquo;</i> is a <b>claim</b> that lives or dies entirely on your
+  documentation.
+  <span class="ar">و بذلك تكون عبارة <i>«استُخدم write blocker»</i> <b>ادعاءً</b> يحيا أو يموت بتوثيقك وحده.</span></p>
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">T03 &middot; Theory</span>
+<h2>The write-block proof trail
+  <span class="ar">artifact إثبات الـ write blocker</span></h2>
+<figure class="cmp n4">
+  <div class="cmp-head">
+    <span class="cmp-title">FIG P02-F2 &middot; THE PROOF ACCUMULATES OUTSIDE THE IMAGE</span>
+    <span class="cmp-step"><i>+ LOG</i><i>+ PHOTO</i><i>+ FORM</i><i>+ NOTES</i></span>
+  </div>
+  <div class="cmp-rows">
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">The blocker&rsquo;s own log</span>
+        <span class="cmp-sub">image file: unchanged</span>
+        <span class="cmp-verdict mid">1 / 4</span></div>
+      <div class="cmp-reveal">Its display or log names the device and the mode it ran in. Capture it before you disconnect anything.
+        <span class="ar">شاشته أو سجلّه يسمّي الجهاز و الوضع الذي عمل به. سجّله قبل فصل أي شيء.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">A photograph of the rig</span>
+        <span class="cmp-sub">image file: unchanged</span>
+        <span class="cmp-verdict mid">2 / 4</span></div>
+      <div class="cmp-reveal">Serials legible, everything still connected. <b>Taken before disconnection or it is a photograph of a different arrangement.</b>
+        <span class="ar">الأرقام التسلسلية واضحة، و كل شيء ما يزال موصولاً. <b>تُلتقط قبل الفصل، و إلا فهي صورة لتركيب آخر.</b></span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">The custody-form line</span>
+        <span class="cmp-sub">image file: unchanged</span>
+        <span class="cmp-verdict mid">3 / 4</span></div>
+      <div class="cmp-reveal">Make, model, serial and firmware, on the form that travels with the exhibit.
+        <span class="ar">الصانع و الطراز و الرقم التسلسلي و إصدار البرنامج الثابت، في الاستمارة التي ترافق الـ exhibit.</span></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cmp-top"><span class="cmp-name">Source hashed before and after</span>
+        <span class="cmp-sub">image file: unchanged</span>
+        <span class="cmp-verdict yes">the real proof</span></div>
+      <div class="cmp-reveal">Two matching <b>source</b> hashes across the imaging run is the strongest technical evidence that nothing was written. It is a <b>measurement</b>; the other three are records of care.
+        <span class="ar">تطابق قيمتَي الـ hash <b>المصدر</b> قبل عملية النسخ و بعدها هو أقوى دليل فني على أن شيئًا لم يُكتب. فهو <b>قياس</b>، أما الثلاثة الأخرى فسجلات عناية.</span></div>
+    </div>
+  </div>
+  <div class="cmp-cap">
+    <i>The device says what it did.</i>
+    <i>The photograph says what was connected.</i>
+    <i>The form says what it was.</i>
+    <i>And the hash pair <b>measures</b> the claim instead of asserting it.</i>
+  </div>
+</figure>
+    </section>
+
+<section class="page" id="p16">
+<span class="kicker">T03 &middot; Theory</span>
+<h2>The software write-block fallback
+  <span class="ar">البديل البرمجي لالـ write blocking</span></h2>
+<p>When no hardware blocker is available, Windows can present USB mass-storage volumes read-only.
+  It is free and always to hand &mdash; and it is a <b>fallback, not an equal</b>.
+  <span class="ar">حين لا يتوفّر مانع كتابة عتادي، يستطيع ويندوز أن يعرض وحدات تخزين USB للقراءة فقط. و هو متاح دائمًا و بلا تكلفة — و هو <b>بديل، لا نظير</b>.</span></p>
+<div class="wu" style="max-width:100%">
+  <div class="wu-tb"><span class="t">Registry Editor</span>
+    <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+  <div class="wu-body" style="font-size:11.5px">
+    <div class="wu-lb"><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies</code></div>
+    <div class="wu-cols">
+      <span class="h">Name</span><span class="h">Type</span><span class="h">Data</span><span class="h">&nbsp;</span>
+      <span class="c sel">WriteProtect</span><span class="c sel">REG_DWORD</span><span class="c sel">0x00000001 (1)</span><span class="c sel">&nbsp;</span>
+    </div>
+    <div class="wu-sb" style="margin-top:10px">USB mass storage presented read-only after re-enumeration</div>
+  </div>
+</div>
+<div class="limitation">
+  <span class="cl-label">Cannot prove &middot; dotted border</span>
+  <p>This value is in <b>your</b> registry, not the evidence&rsquo;s. It is not per-device and not
+    timestamped, so it says something about your workstation and <b>nothing about how any particular
+    exhibit was handled</b>.
+    <span class="ar">هذه القيمة في سجل <b>جهازك أنت</b>، لا في الدليل. و هي ليست خاصة بجهاز بعينه و لا مقترنة بوقت، فتقول شيئًا عن محطة عملك و <b>لا شيء عن كيفية التعامل مع exhibit بعينه</b>.</span></p>
+  <div class="eg"><b>It covers less than people assume:</b> USB mass storage only &mdash; not a SATA
+    disk on an internal port, not a dock that presents as a fixed disk, not MTP devices.
+    <span class="ar"><b>و نطاقه أضيق مما يُظن:</b> وحدات تخزين USB فقط — لا قرص SATA على منفذ داخلي، و لا حاضنة تُعرَّف بوصفها قرصًا ثابتًا، و لا أجهزة MTP.</span></div>
+</div>
+<div class="warn">
+  <span class="cl-label">The classic failure</span>
+  <p>Set the value, skip the reboot, plug the evidence in, write <i>&ldquo;software write blocked&rdquo;</i>
+    in the report. Windows writes to it happily. <b>Demonstrate the block on a scratch stick first</b>
+    &mdash; attempt a write, confirm it fails, log the result.
+    <span class="ar">يضبط الفاحص القيمة، و يتجاوز إعادة التشغيل، و يوصّل الدليل، ثم يكتب في التقرير <i>«مُنعت الكتابة برمجيًا»</i>. و ويندوز يكتب عليه دون عائق. <b>جرّب المنع أولاً على ذاكرة اختبارية</b>: حاول الكتابة، و تأكّد من فشلها، و سجّل النتيجة.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p17">
+<span class="kicker">T03 &middot; Theory</span>
+<h2>Reading an imager&rsquo;s verification log
+  <span class="ar">قراءة سجل التحقق في أداة النسخ</span></h2>
+<p>Every imager writes a log ending in a line like <code>MD5 checksum: … : verified</code>. Students
+  read it as independent confirmation. It is not.
+  <span class="ar">كل أداة نسخ تكتب سجلاً ينتهي بسطر مثل <code>MD5 checksum: … : verified</code>. و يقرؤه الطلاب بوصفه تأكيدًا مستقلاً. و ليس كذلك.</span></p>
+<figure class="dgm" id="dg-loop" data-mode="loop" data-reveal="upto" data-interval="4400">
+  <div class="dgm-head"><span class="dgm-id">FIG P02-D3 &middot; WHAT <tspan>verified</tspan> COMPARED</span><span class="dgm-tag">PATTERN 1 &middot; 4</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 316" role="img" aria-labelledby="t-loop">
+  <title id="t-loop">The imager compares its own write digest against its own read-back digest; the source drive is never re-read</title>
+
+  <rect class="box warn" x="14" y="60" width="164" height="84" rx="6"/>
+  <text class="lbl" x="38" y="96">SOURCE</text>
+  <text class="lbl" x="38" y="118">DRIVE</text>
+
+  <rect class="box key" x="286" y="46" width="196" height="112" rx="6"/>
+  <text class="lbl" x="318" y="78">THE IMAGER</text>
+
+  <rect class="box key" x="590" y="60" width="176" height="84" rx="6"/>
+  <text class="lbl" x="618" y="96">THE IMAGE</text>
+  <text class="xs mut" x="618" y="118">on your disk</text>
+
+  <g data-step="1">
+    <path class="arw key" d="M184 102 L276 102"/><path class="arw key" d="M268 97 L278 102 L268 107"/>
+    <text class="xs mut" x="196" y="92">read &mdash; once</text>
+    <text class="xs mut" x="318" y="104">digest computed</text>
+    <text class="xs mut" x="318" y="122">while WRITING</text>
+  </g>
+
+  <g data-step="2">
+    <path class="arw key" d="M490 82 L580 82"/><path class="arw key" d="M572 77 L582 82 L572 87"/>
+    <text class="xs mut" x="502" y="72">write</text>
+  </g>
+
+  <g data-step="3">
+    <path class="arw key" d="M580 128 L490 128"/><path class="arw key" d="M498 123 L488 128 L498 133"/>
+    <text class="xs mut" x="500" y="148">read back</text>
+    <text class="xs mut" x="318" y="146">digest on READ-BACK</text>
+  </g>
+
+  <g data-step="4">
+    <path class="arw ok" d="M384 164 L384 190"/><path class="arw ok" d="M379 182 L384 192 L389 182"/>
+    <rect class="box ok" x="286" y="196" width="196" height="40" rx="20"/>
+    <text class="lbl" x="336" y="222" fill="#00ff9d">verified</text>
+  </g>
+
+  <g data-step="5">
+    <path class="arw no dash" d="M280 216 L110 216 L110 154"/>
+    <line x1="186" y1="206" x2="204" y2="226" stroke="#ff4d5e" stroke-width="2.5"/>
+    <line x1="204" y1="206" x2="186" y2="226" stroke="#ff4d5e" stroke-width="2.5"/>
+    <rect class="box no" x="14" y="258" width="752" height="44" rx="6"/>
+    <text class="sm" x="30" y="286" fill="#ff4d5e">The source is never re-read. Nothing in this loop ever touches the drive again.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="wu" style="max-width:100%">
+  <div class="wu-tb"><span class="t">EVI-SRC01_acquisition_log.txt &mdash; Notepad</span>
+    <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+  <div class="wu-term"> Image Verification Results:
+  MD5 checksum   : (computed over the written image)  : <span class="w">verified</span>
+  SHA256 checksum: (computed over the written image)  : <span class="w">verified</span>
+
+<span class="d">  NOTE ON SCOPE OF VERIFICATION
+  The verification above compares the digest computed while WRITING the image
+  against the digest computed while READING THE IMAGE BACK. The source drive
+  was not re-read during verification.</span></div>
+</div>
+<div class="finding">
+  <span class="cl-label">Finding &middot; solid border</span>
+  <p>The write-then-read round trip was clean.
+    <span class="ar">دورة الكتابة ثم القراءة تمّت سليمة.</span></p>
+</div>
+<div class="limitation">
+  <span class="cl-label">Cannot prove &middot; dotted border</span>
+  <p>Anything about the <b>source</b>, which the tool never re-read. It also does not record whether
+    a write blocker was attached, or which physical device was selected &mdash; so it cannot detect
+    that you imaged the wrong disk.
+    <span class="ar">أي شيء عن <b>المصدر</b>، فالأداة لم تُعد قراءته. كما أنها لا تسجّل هل كان الـ write blocker موصولاً، و لا أي جهاز فعلي جرى اختياره — فلا تستطيع كشف أنك نسخت القرص الخطأ.</span></p>
+  <div class="eg"><b>And:</b> the Case Information block in that file is free text typed by the
+    operator, and the drive geometry is what the <b>interface reported</b> &mdash; so an
+    HPA-shortened capacity is logged faithfully as though it were the whole disk.
+    <span class="ar"><b>و أيضًا:</b> بيانات القضية في ذلك الملف نص حر يكتبه المشغّل، و أبعاد القرص هي ما <b>أعلنته الواجهة</b> — فتُسجَّل السعة المنقوصة بسبب HPA تسجيلاً أمينًا كأنها القرص كله.</span></div>
+</div>
+    </section>
+
+<section class="page divider" id="p18">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>Verify a set you did not create<span class="ar">المعمل — التحقق من مجموعة لم تُنشئها أنت</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Watch the set verified once: four documents, two manifests, a letter that says everything checked. One file fails &mdash; and you repeat the whole verification on your own in the task.<span class="ar">شاهد التحقق من المجموعة مرة واحدة: أربع وثائق، و ملفَّا manifest، و خطاب يقول إن كل شيء تحقّق. ملف واحد يخفق — و تعيد التحقق كله بنفسك في الـ task.</span></p>
+  <p class="divider-meta">1 screen &middot; the instructor drives</p>
+</div>
+    </section>
+
+<section class="page" id="p19">
+<span class="kicker">T03 &middot; Instructor demo</span>
+<h2>Lab &mdash; verify a set you did not create
+  <span class="ar">التحقق من مجموعة لم تُنشئها أنت</span></h2>
+<p>Four documents and two manifests from case <code>ITG-2026-014</code>. <b>Three verify. One does
+  not.</b>
+  <span class="ar">أربع وثائق و ملفَّا manifest من القضية <code>ITG-2026-014</code>. <b>ثلاث تجتاز التحقق، و واحدة لا تجتازه.</b></span></p>
+<div class="simscreen" id="ss-t03" data-title="SIMSCREEN T03-1 &middot; VERIFY A SET YOU DID NOT CREATE" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <!-- 1 · Explorer -->
+  <div class="wu on" id="scExp" style="width:660px">
+    <div class="wu-tb"><span class="t">EVS-01</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-body">
+      <div class="wu-tx dis" style="margin-bottom:10px">&#128193; &nbsp; This PC &rsaquo; Local Disk (C:) &rsaquo; Forensics &rsaquo; Cases &rsaquo; ITG-2026-014 &rsaquo; EVS-01</div>
+      <div class="wu-cols">
+        <span class="h">Name</span><span class="h">Date modified</span><span class="h">Type</span><span class="h">Size</span>
+        <span class="c">&#128196; seizure_notes.txt</span><span class="c">2026-03-04 09:02</span><span class="c">Text</span><span class="c">2 KB</span>
+        <span class="c" id="k1">&#128196; EVI-SRC01_acquisition_log.txt</span><span class="c">2026-03-04 12:31</span><span class="c">Text</span><span class="c">2 KB</span>
+        <span class="c">&#128196; custody_form_EVI-SRC01.txt</span><span class="c">2026-03-05 09:00</span><span class="c">Text</span><span class="c">2 KB</span>
+        <span class="c">&#128196; evidence_inventory.csv</span><span class="c">2026-03-04 13:40</span><span class="c">CSV</span><span class="c">1 KB</span>
+        <span class="c sel" id="k2">&#128220; EVS-01.sha256</span><span class="c sel">2026-03-04 12:35</span><span class="c sel">SHA256</span><span class="c sel">1 KB</span>
+      </div>
+      <div class="wu-sb" style="margin-top:10px">6 items &nbsp; 1 item selected</div>
+    </div>
+  </div>
+
+  <!-- 2 · read the manifest -->
+  <div class="wu" id="scMan" style="width:700px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="k3"><span class="p">PS ...\EVS-01&gt;</span> <span class="k">Get-Content EVS-01.sha256</span>
+
+ee62e8b1...c7a81a1  seizure_notes.txt
+f05bfee8...57171d7  EVI-SRC01_acquisition_log.txt
+bb8ea198...bfcc0adc  custody_form_EVI-SRC01.txt
+acc6c875...eb9a29ee  evidence_inventory.csv
+
+<span class="d"># four claims, made by someone else, at some past moment.</span></div>
+  </div>
+
+  <!-- 3 · hash one yourself -->
+  <div class="wu" id="scOne" style="width:700px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term" id="k4"><span class="p">PS ...\EVS-01&gt;</span> <span class="k">Get-FileHash .\seizure_notes.txt -Algorithm SHA256</span>
+
+Algorithm  Hash
+---------  ----
+<span class="w">SHA256</span>     <span class="w">ee62e8b1...c7a81a1</span>
+
+<span class="p">PS ...\EVS-01&gt;</span> <span class="k">Get-FileHash .\seizure_notes.txt -Algorithm MD5</span>
+<span class="w">MD5</span>        <span class="w">a1c4...9e02</span>   <span class="d"># same file, two functions, both recorded</span></div>
+  </div>
+
+  <!-- 4 · verify the set -->
+  <div class="wu" id="scAll" style="width:700px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">PS ...\EVS-01&gt;</span> <span class="k">wsl sha256sum -c EVS-01.sha256</span>
+
+seizure_notes.txt: <span class="p">OK</span>
+<span id="k5">EVI-SRC01_acquisition_log.txt: <span class="e">FAILED</span></span>
+custody_form_EVI-SRC01.txt: <span class="p">OK</span>
+evidence_inventory.csv: <span class="p">OK</span>
+<span class="e">sha256sum: WARNING: 1 computed checksum did NOT match</span></div>
+  </div>
+
+  <!-- 5 · find the difference -->
+  <div class="wu" id="scDiff" style="width:700px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">PS ...\EVS-01&gt;</span> <span class="k">Get-Content .\EVI-SRC01_acquisition_log.txt | Select-String "Acquisition started"</span>
+<span id="k6">Acquisition started : 2026-03-04 09:14:<span class="w">03</span> UTC</span>
+
+<span class="p">PS ...\EVS-01&gt;</span> <span class="k">Get-Content .\custody_form_EVI-SRC01.txt | Select-String "Imaging started"</span>
+ 2026-03-04 09:14  Imaging started, hardware write blocker inline.
+
+<span class="d"># one second. that is the entire difference.</span></div>
+  </div>
+
+  <!-- 6 · where the blocker lives -->
+  <div class="wu" id="scBlk" style="width:700px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="p">PS ...\EVS-01&gt;</span> <span class="k">Get-Content .\custody_form_EVI-SRC01.txt | Select-String -Context 0,3 "re-hashed"</span>
+
+<span id="k7"> 2026-03-04 11:52  Source re-hashed after the imaging run. The before and
+                     after source values match. This pair is the technical
+                     evidence that nothing was written across the run.</span>
+
+<span class="d"># not "a write blocker was used". a measurement.</span></div>
+  </div>
+
+ </div></div>
+</div>
+<div class="note">
+  <p>Full steps, each with its verification line, in <code>guided_lab.md</code>.
+    <span class="ar">الخطوات كاملة، و مع كل خطوة سطر التحقق منها، في <code>guided_lab.md</code>.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p20">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>Sorting results, and one defect hunt<span class="ar">ترتيب النتائج، و البحث عن خلل</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">You classify four results with no help, then find the integrity defect in a public training room that thousands of people have finished without noticing it.<span class="ar">تُصنّف أربع نتائج دون مساعدة، ثم تبحث عن خلل في الـ integrity داخل غرفة تدريب عامّة أنهاها آلاف المتدربين دون أن ينتبهوا إليه.</span></p>
+  <p class="divider-meta">2 screens &middot; 9 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p21">
+<span class="kicker">T03 &middot; Independent &middot; 9 min</span>
+<h2>Exercises &mdash; sorting results and finding a defect
+  <span class="ar">تمارين — فرز النتائج و صيد الخلل</span></h2>
+<h3>(a) Sort five results &middot; 4 min<span class="ar">(أ) فرز خمس نتائج · ٤ دقائق</span></h3>
+<p>Three buckets: <b>integrity intact</b> &middot; <b>integrity broken</b> &middot; <b>cannot tell
+  from this</b>. Read the <i>question</i> in each scenario, not just the result &mdash; two of the
+  five ask something a hash cannot answer at all.
+  <span class="ar">ثلاثة تصنيفات: <b>الـ integrity سليمة</b> · <b>الـ integrity مختلّة</b> · <b>لا يمكن الحكم من هذا</b>. اقرأ <i>السؤال</i> في كل حالة لا النتيجة وحدها — فاثنتان من الخمس تسألان عمّا لا تستطيع الـ hash الإجابة عنه أصلاً.</span></p>
+<div class="warn">
+  <p><b>Success criterion:</b> you used <i>cannot tell from this</i> at least twice, and for each you
+    can name the evidence that <i>would</i> answer the question.
+    <span class="ar"><b>معيار النجاح:</b> أن تستعمل تصنيف <i>لا يمكن الحكم من هذا</i> مرتين على الأقل، و أن تسمّي في كل مرة الدليل الذي <i>كان</i> سيجيب عن السؤال.</span></p>
+</div>
+<h3>(b) The defect hunt &middot; 5 min<span class="ar">(ب) صيد الخلل · ٥ دقائق</span></h3>
+<p>A widely used free training room verifies a disk image&rsquo;s MD5, confirms the match &mdash; and on
+  the very next page runs:
+  <span class="ar">غرفة تدريب مجانية واسعة الانتشار تتحقق من hash MD5 لنسخة قرص و تؤكّد التطابق — ثم تنفّذ في الصفحة التالية مباشرةً:</span></p>
+<div class="wu" style="max-width:100%">
+  <div class="wu-tb"><span class="t">Task 5 &mdash; Mounting the image</span>
+    <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+  <div class="wu-term"><span class="p">$</span> <span class="k">sudo mount -o loop example1.img /mnt/example1</span>
+<span class="d"># the hash verified on the previous page is now wrong.
+# the room never re-checks it. 18,481 people have completed it.</span></div>
+</div>
+<p><b>Write three things:</b> what the command writes into the image &middot; the command you would
+  use instead, with every option justified &middot; one report sentence on what you can and cannot
+  now say about that image.
+  <span class="ar"><b>اكتب ثلاثة أمور:</b> ما الذي يكتبه الأمر داخل النسخة · و الأمر الذي كنت ستستعمله بدلاً منه مع تبرير كل خيار فيه · و جملة تقرير واحدة عمّا يمكنك و ما لا يمكنك قوله عن تلك النسخة الآن.</span></p>
+<div class="note">
+  <p>The room is not bad &mdash; its audit-trail task is the best treatment of <i>logging the
+    examiner</i> in any room reviewed for this course. <b>A source can be worth using and wrong in
+    one place. Telling which is which is the job.</b>
+    <span class="ar">و الغرفة ليست رديئة — فمهمة artifact التدقيق فيها أفضل معالجة لفكرة <i>أن يسجّل الفاحص نفسه</i> بين كل الغرف التي راجعناها لهذه الدبلومة. <b>قد يستحق المصدر أن يُستعمل و يكون مخطئًا في موضع. و التمييز بينهما هو العمل نفسه.</b></span></p>
+</div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">Knowledge check</span>
+<h2>Knowledge check
+  <span class="ar">اختبار الفهم</span></h2>
+<div class="q mcq" data-correct="b">
+  <p class="qtext">An imager&rsquo;s log reads <code>MD5 checksum: … : verified</code>. Which two things
+    did the tool compare?
+    <span class="ar">سجل أداة النسخ يقول <code>MD5 checksum: … : verified</code>. أي شيئين قارنتهما الأداة؟</span></p>
+  <label><input type="radio" name="q1" value="a"> The source drive against the finished image</label>
+  <label><input type="radio" name="q1" value="b"> The digest computed while writing the image against the digest computed while reading it back</label>
+  <label><input type="radio" name="q1" value="c"> The image against the value on the chain-of-custody form</label>
+  <label><input type="radio" name="q1" value="d"> The image against a manufacturer-published baseline</label>
+  <p class="feedback"></p>
+</div>
+<details>
+  <summary>Two identical unlabelled drives were seized from the same office. Both images verify
+    perfectly. Which desk did each come from?</summary>
+  <p><b>Neither hash can say.</b> A digest carries no provenance. The answer needed to exist at
+    seizure &mdash; a label, a photograph, a note &mdash; and it was never created. This is why INE
+    files unlabelled exhibits under <i>commingling</i>: after that moment, no form on earth can
+    recover it.
+    <span class="ar"><b>لا تستطيع أي hash الإجابة.</b> فالـ hash لا تحمل معلومات عن المصدر. و الإجابة كان يجب أن توجد لحظة الضبط — بطاقة أو صورة أو ملاحظة — و لم تُنشأ قط. و لهذا تُصنَّف الـ exhibits غير المعلَّمة تحت <i>الاختلاط</i>: فبعد تلك اللحظة لا توجد استمارة على وجه الأرض تستطيع استرجاعها.</span></p>
+</details>
+<p>Full quiz in <code>quiz.md</code>, with the answer key. Two of them &mdash; Q3 and Q10 &mdash;
+  are the same idea at different depths: Q3 asks you to state a mismatch without over-claiming, Q10
+  asks you to notice a <i>match</i> that has quietly stopped being true.
+  <span class="ar">الاختبار الكامل في <code>quiz.md</code> و معه نموذج الإجابة. و سؤالان منه — الثالث و العاشر — يقيسان الفكرة نفسها بعمقين: الثالث يطلب وصف عدم التطابق دون تجاوز، و العاشر يطلب ملاحظة تطابقٍ لم يعد صحيحًا في صمت.</span></p>
+    </section>
+
+<section class="page divider" id="p23">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">What a match and a mismatch each mean, and where authenticity actually lives &mdash; in the form you reach for it in the next lab.<span class="ar">ماذا يعني التطابق و عدمه، و أين تعيش الأصالة فعلاً — بالشكل الذي ستحتاجه في الـ lab القادم.</span></p>
+  <p class="divider-meta">1 screen &middot; print it</p>
+</div>
+    </section>
+
+<section class="page" id="p24">
+<span class="kicker">Cheat sheet &middot; keep this open</span>
+<h2>Cheat sheet &mdash; hashes, custody, the write blocker
+  <span class="ar">ورقة المراجعة — الـ hash و الحيازة و الـ write blocker</span></h2>
+<p>One screen for the next lab: what a match and a mismatch each prove, and the four records that carry a write blocker.<span class="ar">شاشة واحدة للـ lab القادم: ماذا يثبت التطابق و عدمه، و السجلات الأربعة التي تحمل الـ write blocker.</span></p>
+<div class="cheat">
+  <ul>
+    <li><b>Match</b> &mdash; the copy equals the source <i>as read at that moment</i>. Nothing more.
+      <span class="ar">التطابق: النسخة تساوي المصدر <i>كما قُرئ في تلك اللحظة</i>. لا أكثر.</span></li>
+    <li><b>Mismatch</b> &mdash; these differ. No cause, no time, no identity, <b>no magnitude</b>.
+      <span class="ar">عدم التطابق: هما مختلفان. بلا سبب و لا وقت و لا هوية و لا <b>مقدار</b>.</span></li>
+    <li><b>Both digests</b> &mdash; MD5 and SHA-256, every row, always.
+      <span class="ar">قيمتا الـ hash: MD5 و SHA-256، في كل سطر، دائمًا.</span></li>
+    <li><b>Store the hash elsewhere</b> &mdash; beside the image it protects nothing.
+      <span class="ar">احفظ الـ hash في مكان آخر: بجوار النسخة لا تحمي شيئًا.</span></li>
+    <li><b>Write blocker</b> &mdash; the image records nothing. The proof is four records outside it.
+      <span class="ar">الـ write blocker: النسخة لا تسجّل عنه شيئًا. و الإثبات أربعة سجلات خارجها.</span></li>
+    <li><b><code>verified</code></b> &mdash; the tool checked its own round trip, not the source.
+      <span class="ar"><code>verified</code>: راجعت الأداة دورتها هي، لا المصدر.</span></li>
+  </ul>
+  <p><button class="btn" type="button" data-action="print">Print the cheat sheet</button></p>
+</div>
+    </section>
+
+<section class="page divider" id="p25">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Handed in before P03<span class="ar">يُسلَّم قبل P03</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">You verify a set on your own, then fill the two report sections a defence reads first &mdash; Sections 4 and 5, where a case is lost before any analysis is questioned.<span class="ar">تتحقق من مجموعة بنفسك، ثم تملأ القسمين اللذين يقرؤهما الدفاع أولاً — الرابع و الخامس، حيث تسقط القضية قبل أن يُناقَش أي تحليل.</span></p>
+  <p class="divider-meta">2 screens &middot; the report advances</p>
+</div>
+    </section>
+
+<section class="page" id="p26">
+<span class="kicker">Task &middot; handed in before P03</span>
+<h2>Task &mdash; prove integrity you did not create
+  <span class="ar">الـ task — أثبت integrity لم تُنشئها أنت</span></h2>
+<p>You watched one set verified. Now you verify four on your own &mdash; and this week criterion 1 (integrity) carries the most weight.<span class="ar">شاهدت التحقق من مجموعة واحدة. الآن تتحقق من أربعة بنفسك — و هذا الأسبوع المعيار الأول (الـ integrity) هو الأعلى وزنًا.</span></p>
+<ul id="taskList"></ul>
+<p>Four tasks in <code>homework.md</code>, due before <b>P03</b>. Graded on the same rubric, with
+  <b>criterion 1 (Integrity)</b> weighted heaviest this week.
+  <span class="ar">أربع مهام في <code>homework.md</code>، تُسلَّم قبل <b>P03</b>. و تُقيَّم بالمعايير نفسها، مع ترجيح <b>المعيار الأول (الـ integrity)</b> هذا الأسبوع.</span></p>
+<div class="limitation"><span class="cl-label">How it is graded</span>
+  <p>Criterion 1 asks whether Sections 4 and 5 read as <b>measurements, not claims</b>: two matching source hashes across the run, both digests on every row, and no unaccounted transfer on the custody line.<span class="ar">المعيار الأول يسأل: هل كُتب القسمان الرابع و الخامس كـ<b>قياسات لا ادعاءات</b>؟ تطابق hash المصدر قبل و بعد، القيمتان في كل سطر، و لا تسليم غير موثَّق في سطر الحيازة.</span></p></div>
+    </section>
+
+<section class="page" id="p27">
+<span class="kicker">T03 &middot; Report stage &middot; 4 min</span>
+<h2>Report &mdash; Sections 4 and 5
+  <span class="ar">التقرير — القسمان الرابع و الخامس</span></h2>
+<p>Fill <b>Section 4 Chain of custody</b> and <b>Section 5 Evidence received</b> for
+  <code>EVI-SRC01</code>, transcribing from the <code>EVS-01</code> forms.
+  <span class="ar">املأ <b>القسم الرابع: الـ chain of custody</b> و <b>القسم الخامس: الأدلة المستلَمة</b> للـ exhibit <code>EVI-SRC01</code>، ناقلاً من استمارات <code>EVS-01</code>.</span></p>
+<figure class="dgm" id="dg-rep" data-mode="loop" data-reveal="upto" data-interval="4400">
+  <div class="dgm-head"><span class="dgm-id">FIG P02-D9 &middot; WHAT P02 ADDS TO THE REPORT</span><span class="dgm-tag">PATTERN 5 &middot; 8</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 244" role="img" aria-labelledby="t-rep">
+  <title id="t-rep">The twelve report sections, with the two that this page fills</title>
+
+  <g data-step="1">
+    <rect class="box ok" x="14" y="40" width="112" height="46" rx="5"/>
+    <text class="xs" x="30" y="60" fill="#00ff9d">Section 1</text>
+    <text class="xs mut" x="30" y="78">case id</text>
+    <rect class="box ok" x="266" y="40" width="112" height="46" rx="5"/>
+    <text class="xs" x="282" y="60" fill="#00ff9d">Section 3</text>
+    <text class="xs mut" x="282" y="78">scope</text>
+    <text class="xs mut" x="140" y="68">filled on P01</text>
+  </g>
+  <g data-step="2">
+    <rect class="box key" x="14" y="106" width="176" height="52" rx="5"/>
+    <text class="sm" x="32" y="128">Section 4</text>
+    <text class="xs mut" x="32" y="148">chain of custody</text>
+    <rect class="box key" x="204" y="106" width="176" height="52" rx="5"/>
+    <text class="sm" x="222" y="128">Section 5</text>
+    <text class="xs mut" x="222" y="148">evidence received</text>
+    <text class="xs" x="396" y="136" fill="#00d9ff">you fill these today</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="14" y="176" width="366" height="52" rx="5"/>
+    <text class="xs mut" x="32" y="198">Sections 6 &middot; 7 &middot; 8 &middot; 10 &middot; 12 &mdash; later topics</text>
+    <text class="xs mut" x="32" y="218">Sections 2 &middot; 9 &middot; 11 &mdash; written LAST, deliberately</text>
+  </g>
+  <g data-step="4">
+    <rect class="box warn" x="400" y="40" width="366" height="70" rx="6"/>
+    <text class="lbl" x="418" y="66" fill="#ffb454">CRITERION 1 GRADES 4 AND 5</text>
+    <text class="xs mut" x="418" y="90">Both digests, custody continuity, and</text>
+    <text class="xs mut" x="418" y="106">where the source hash was stored.</text>
+    <rect class="box" x="400" y="176" width="366" height="52" rx="5"/>
+    <text class="xs mut" x="418" y="198">4 of 12 after two pages &mdash; on a page with</text>
+    <text class="xs mut" x="418" y="218">no analysis in it at all. That is the argument.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="table-wrap"><table>
+  <thead><tr><th>The rule</th><th>Why it is not negotiable</th></tr></thead>
+  <tbody>
+  <tr><td><b>Both digests, every row</b><span class="ar">قيمتا الـ hash معًا في كل سطر</span></td>
+      <td>MD5 and SHA-1 are broken for collision resistance. Recording both means a challenge to one
+        function does not take the exhibit with it. One digest is a single point of failure you chose.
+        <span class="ar">دالّتا MD5 و SHA-1 مكسورتان من جهة مقاومة التصادم. و تسجيل الاثنتين يعني أن الطعن في إحداهما لا يُسقط الـ exhibit. أما hash واحدة فنقطة انهيار وحيدة اخترتها بنفسك.</span></td></tr>
+  <tr><td><b>The hash lives where the exhibit does not</b><span class="ar">الـ hash تُحفظ في غير موضع الـ exhibit</span></td>
+      <td>A digest file beside the image protects nothing &mdash; whoever can change one can change
+        the other. <code>EVS-01</code> models it: notebook page 41, separate from the exhibit and
+        separate from the image.
+        <span class="ar">ملف hashes بجوار النسخة لا يحمي شيئًا — فمن يقدر على تغيير أحدهما يقدر على تغيير الآخر. و <code>EVS-01</code> يجسّد الصواب: صفحة ٤١ من دفتر الفاحص، بعيدًا عن الـ exhibit و عن النسخة معًا.</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The row that will be graded hardest</span>
+  <p>The one that did not verify. Write it as a measurement:
+    <span class="ar">السطر الخاص بالملف الذي لم يجتز التحقق. اكتبه بوصفه قياسًا:</span></p>
+  <div class="eg"><code>FAILED</code> &mdash; computed SHA-256 does not match the manifest value.
+    Difference located by inspection: one timestamp field, <code>09:14:02</code> vs
+    <code>09:14:03</code>. Cause not established. Referred to the set owner.
+    <span class="ar"><code>FAILED</code> — الـ hash المحسوب لا يطابق القيمة المسجَّلة في الـ manifest. و حُدِّد الفرق بالفحص المباشر: حقل توقيت واحد، <code>09:14:02</code> مقابل <code>09:14:03</code>. السبب غير مُثبَت. أُحيل الأمر إلى مالك المجموعة.</span></div>
+</div>
+<p>Read that back: it states a measurement, states what inspection added, and stops at the edge of
+  what is known. It does not say <i>tampered</i>, <i>altered by</i>, or <i>someone</i>.
+  <span class="ar">أعد قراءتها: تذكر قياسًا، ثم تذكر ما أضافه الفحص، ثم تقف عند حدّ المعلوم. و لا تقول <i>عُبث به</i> و لا <i>غيّره</i> و لا <i>شخص ما</i>.</span></p>
+<p><a class="btn" href="../report/index.html">Open the report template &rarr;</a></p>
+    </section>
+
+<section class="page" id="p28">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="key-takeaway">
+  <ul>
+    <li>That a copy is <b>byte-identical</b> to what your tool read from the source &mdash; and you
+      can say precisely what that does and does not cover.
+      <span class="ar">أن النسخة <b>مطابقة byte بـ byte</b> لما قرأته أداتك من المصدر — و أنك تستطيع تحديد ما يشمله ذلك و ما لا يشمله بدقة.</span></li>
+    <li>That an exhibit was held continuously from seizure, with <b>no unaccounted transfer</b> and
+      the seal recorded as intact at each one.
+      <span class="ar">أن الـ exhibit ظلّ في custody متصلة منذ الضبط، <b>دون تسليم غير موثَّق</b>، و أن الختم سُجِّل سليمًا عند كل تسليم.</span></li>
+    <li>That write commands could not reach the media during acquisition &mdash; evidenced by
+      <b>two matching source hashes across the run</b>, not by the sentence &ldquo;a blocker was
+      used&rdquo;.
+      <span class="ar">أن أوامر الكتابة لم تكن تبلغ الـ media أثناء الـ acquisition — بدليل <b>تطابق قيمتَي الـ hash للمصدر قبل العملية و بعدها</b>، لا بجملة «استُخدم write blocker».</span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p29">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<ul>
+  <li>INE eCDFP &mdash; <b>Module 2</b>, data acquisition: hashing, verification, and the acquisition record.<span class="ar">الـ hashing و التحقق و سجل الـ acquisition.</span></li>
+  <li>SWGDE <b>18-F-002</b> &mdash; chain of custody; the standard Section 4 follows.<span class="ar">المعيار الذي يلتزم به القسم الرابع.</span></li>
+  <li>NIST <b>SP 800-86</b> &mdash; the forensic process, acquisition and integrity, which Section 5 reflects.<span class="ar">المرجع في عملية الفحص و الـ acquisition و الـ integrity.</span></li>
+</ul>
+<div class="note">
+  <span class="cl-label">Next</span>
+  <p><b>P03</b> asks a harder question. The copy is identical &mdash; but what is actually
+    <i>in</i> it? A file says it is a <code>.jpg</code>. Who says?
+    <span class="ar"><b>P03</b> يطرح سؤالاً أصعب. النسخة مطابقة — لكن ما الذي <i>فيها</i> فعلاً؟ ملف يقول إنه <code>.jpg</code>. و من قال؟</span></p>
+</div>
+    </section>
+
+  </main>
+
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 29</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P02</b> &middot; content from
+     <code>packages/page-02/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t03', [
+ {screen:'scExp', target:'k2',
+  en:'The set arrives from someone else &mdash; four documents and two manifests. <b>Read the manifest before you verify against it.</b> It is four claims made by a person you are choosing to trust.',
+  ar:'تصلك المجموعة من جهة أخرى: أربع وثائق و ملفَّا manifest. <b>اقرأ الـ manifest قبل أن تتحقق في ضوئه.</b> فهو أربعة ادعاءات صاغها شخص اخترتَ أن تثق به.'},
+ {screen:'scMan', target:'k3',
+  en:'Four digests, four file names. Nothing here is verified yet &mdash; this is only what the set <i>says</i> about itself.',
+  ar:'أربع قيم hash و أربعة أسماء ملفات. لم يُتحقق من شيء بعد — فهذا كل ما <i>تقوله</i> المجموعة عن نفسها.'},
+ {screen:'scOne', target:'k4',
+  en:'Hash one file yourself, with <b>both</b> functions. Two lengths, one file, both correct. You record both so that a challenge to one function does not take the exhibit with it.',
+  ar:'احسب الـ hash لملف واحد بنفسك، بـ<b>كلتا</b> الدالتين. طولان مختلفان لملف واحد، و كلاهما صحيح. و تسجّلهما معًا كي لا يُسقط الطعن في إحدى الدالتين الـ exhibit كله.'},
+ {screen:'scAll', target:'k5', key:true,
+  en:'<b>Three OK. One FAILED.</b> Someone in the room will say <i>tampered with</i>. Ask what the command actually compared, and say only that: <b>the file differs from the digest the manifest records.</b> Not what changed. Not when. Not by whom. Not by how much.',
+  ar:'<b>ثلاثة اجتازت، و واحد أخفق.</b> سيقول أحدهم <i>عُبث به</i>. اسأل عمّا قارنه الأمر فعلاً، ثم قل ذلك وحده: <b>الملف يختلف عن الـ hash المسجَّل في الـ manifest.</b> لا ما الذي تغيّر، و لا متى، و لا بفعل من، و لا بأي مقدار.'},
+ {screen:'scDiff', target:'k6',
+  en:'The hash told you <i>that</i>. To learn <i>what</i>, you have to look. The difference is <b>one second</b> in one timestamp &mdash; and a one-second edit and a total replacement produce the same <code>FAILED</code> line. <b>A digest has no magnitude.</b>',
+  ar:'أخبرك الـ hash بـ<i>وجود</i> اختلاف. و لمعرفة <i>ما هو</i> هذا الاختلاف لا بدّ أن تنظر بنفسك. و الفرق <b>ثانية واحدة</b> في حقل توقيت — و تعديل ثانية واحدة و استبدال الملف كله يُنتجان سطر <code>FAILED</code> نفسه. <b>الـ hash لا يحمل مقدارًا.</b>'},
+ {screen:'scBlk', target:'k7',
+  en:'Now find the write blocker. It is not in the image and not in the acquisition log &mdash; it is on the custody form. And the line that matters is not the blocker&rsquo;s name: it is the <b>source hashed before the run and again after, both matching</b>. That is a measurement. &ldquo;A blocker was used&rdquo; is a claim.',
+  ar:'ابحث الآن عن الـ write blocker. لن تجده في النسخة و لا في سجل الـ acquisition — بل في استمارة الـ chain of custody. و السطر المهم ليس اسم الجهاز، بل <b>أن المصدر حُسب له hash قبل العملية و بعدها و تطابقت القيمتان</b>. هذا قياس. أما «استُخدم write blocker» فادعاء.'}
+]);
+Dgm.init('#dg-fn', [
+ {en:'One byte in. A 64-character digest out.', ar:'byte واحد يدخل، فيخرج hash من أربعة و ستين حرفًا.'},
+ {en:'Two terabytes in &mdash; through <b>the same function</b>. The digest is <b>exactly as long</b>.', ar:'و اثنان تيرابايت يدخلان عبر <b>الدالة نفسها</b>. و الـ hash <b>بالطول نفسه تمامًا</b>.'},
+ {en:'Now the first input again with <b>one bit</b> changed. The digest has <b>nothing in common</b> with the first &mdash; that is the <b>avalanche</b> property.', ar:'و الآن المُدخل الأول نفسه مع تغيير <b>bit واحد</b>. فلا يشترك الـ hash مع الأول <b>في شيء</b> — و هذه خاصية <b>الانهيار</b>.', key:true},
+ {en:'So a digest carries no size, no shape, and no <b>magnitude</b> of difference. That is why a mismatch cannot tell you <i>how much</i> changed.', ar:'إذن لا يحمل الـ hash حجمًا و لا شكلاً و لا <b>مقدار</b> اختلاف. و لهذا لا يستطيع عدم التطابق أن يخبرك <i>بكم</i> تغيّر الملف.'}
+]);
+Dgm.init('#dg-loop', [
+ {en:'The imager reads the source <b>once</b>, and computes a digest as it writes.', ar:'تقرأ الأداة المصدر <b>مرة واحدة</b>، و يحسب الـ hash أثناء الكتابة.'},
+ {en:'It writes the image to your disk.', ar:'ثم تكتب النسخة على قرصك.'},
+ {en:'Then it <b>reads its own output back</b> and computes a second digest.', ar:'ثم <b>تعيد قراءة ما كتبته هي</b> و يحسب hash ثانيًا.'},
+ {en:'The two digests match, and the log says <code>verified</code>. That is real: it proves the write-then-read round trip was clean.', ar:'تتطابق الـ hash مع الـ hash فيكتب السجل <code>verified</code>. و هذه نتيجة حقيقية: فهي تثبت أن دورة الكتابة ثم القراءة تمّت سليمة.'},
+ {en:'But look where the loop <b>never goes</b>. The source is not read again, so <code>verified</code> is a <b>self-check</b> &mdash; and it cannot tell you that you imaged the wrong disk.', ar:'لكن انظر إلى حيث <b>لا تذهب الحلقة أبدًا</b>. لا يُعاد قراءة المصدر، فتكون <code>verified</code> <b>مراجعة ذاتية</b> — و هي عاجزة عن إخبارك بأنك نسخت القرص الخطأ.', key:true}
+]);
+Dgm.init('#dg-hpa', [
+ {en:'The interface reports 488 GB. The orange 12 GB is a <b>host protected area</b> &mdash; the drive does not mention it.', ar:'تُعلن الواجهة عن ٤٨٨ جيجابايت. أما الاثنا عشر البرتقالية فهي <b>منطقة محمية</b> لا يذكرها القرص.'},
+ {en:'The tool reads what it was told exists, and hashes that.', ar:'تقرأ الأداة ما أُخبرت بوجوده، و تحسب الـ hash له.'},
+ {en:'It hashes the image it wrote. The two <b>agree perfectly</b>.', ar:'ثم يحسب الـ hash للنسخة التي كتبها. فتتطابق القيمتان <b>تطابقًا تامًا</b>.'},
+ {en:'And the 12 GB was in <b>neither read</b>. The verification is green and the copy is <b>incomplete</b>. Verification cannot detect what verification never saw.', ar:'و الاثنا عشر جيجابايت لم تدخل <b>في أيٍّ من القراءتين</b>. فالتحقق أخضر و النسخة <b>ناقصة</b>. فالتحقق لا يكشف ما لم يقرأه أصلاً.', key:true}
+]);
+Dgm.init('#dg-store', [
+ {en:'Arrangement A: the image and the file holding its digest sit on one server.', ar:'الترتيب الأول: النسخة و الملف الذي يحوي الـ hash الخاصة بها على خادم واحد.'},
+ {en:'One administrator has write access to <b>both</b>. Alter the image, recompute the digest &mdash; and every later check reports MATCH.', ar:'و لمسؤول واحد صلاحية الكتابة <b>عليهما معًا</b>. يعدّل النسخة، ثم يعيد حساب الـ hash — فيُعلن كل فحص لاحق التطابق.'},
+ {en:'Arrangement B: the same image, but the digest is written in a notebook, signed, off the network.', ar:'الترتيب الثاني: النسخة نفسها، لكن الـ hash مكتوب في دفتر موقَّع خارج الشبكة.'},
+ {en:'Now two different people hold the two halves. <b>The protection was never the algorithm</b> &mdash; it is whether one person can reach both.', ar:'و الآن يحمل شخصان مختلفان النصفين. <b>فالحماية لم تكن يومًا في الخوارزمية</b>، بل في هل يبلغ شخص واحد كليهما.', key:true}
+]);
+Dgm.init('#dg-wb', [
+ {en:'Read commands pass straight through the blocker and reach the media.', ar:'أوامر القراءة تمرّ عبر الـ write blocker و تبلغ الـ media.'},
+ {en:'Write commands are <b>stopped before the media</b>. That is the whole function of the box.', ar:'و أوامر الكتابة <b>تُوقَف قبل بلوغ الـ media</b>. و هذه وظيفة الجهاز كلها.'},
+ {en:'Now look at the image file it produced: <b>nothing in it records that any of this happened</b>.', ar:'و الآن انظر إلى ملف النسخة الناتج: <b>لا شيء فيه يسجّل أن أيًّا من ذلك قد حدث</b>.'},
+ {en:'So the claim lives in <b>four records outside the file</b> &mdash; and the strongest is the last: two matching source hashes across the run is a <b>measurement</b>, not a claim.', ar:'فيعيش الادعاء في <b>أربعة سجلات خارج الملف</b> — و أقواها الأخير: تطابق الـ hash للمصدر قبل العملية و بعدها <b>قياس</b> لا ادعاء.', key:true}
+]);
+Dgm.init('#dg-coc', [
+ {en:'Seizure. Two responders sign, and the exhibit is sealed.', ar:'الضبط. يوقّع اثنان من المستجيبين، و يُختم الـ exhibit.'},
+ {en:'Handed to the evidence store. Two signatures again.', ar:'يُسلَّم إلى مخزن الأحراز. و التوقيعان مرة أخرى.'},
+ {en:'Then out to the examiner &mdash; and this transfer carries <b>one signature</b>.', ar:'ثم يخرج إلى الفاحص — و هذا التسليم يحمل <b>توقيعًا واحدًا</b>.'},
+ {en:'The rest of the chain is flawless. It does not matter: <b>an unbroken chain does not win admissibility by itself, and one unexplained gap is enough to lose it.</b>', ar:'و بقية السلسلة سليمة تمامًا. و لا يُغني ذلك شيئًا: <b>فالسلسلة المتصلة لا تكسب القبول بذاتها، و فجوة واحدة بلا تفسير تكفي لخسارته.</b>', key:true}
+]);
+Dgm.init('#dg-mis', [
+ {en:'A failing sector returns different bytes the second time it is read.', ar:'الـ sector التالف يُعيد bytes مختلفة عند قراءته ثانيةً.'},
+ {en:'A cable or controller fault corrupts one block in transit.', ar:'و عطل في الكابل أو المتحكم يُفسد كتلة واحدة أثناء النقل.'},
+ {en:'An SSD reorganises a deleted region after TRIM &mdash; the drive did it to itself, with no command from anyone.', ar:'و قرص SSD يعيد تنظيم منطقة محذوفة بعد أمر TRIM — فعل ذلك بنفسه دون أمر من أحد.'},
+ {en:'And someone editing the file deliberately.', ar:'و شخص عدّل الملف عمدًا.'},
+ {en:'Three of these are <b>nobody\\u2019s fault</b>. The result line cannot tell you which one you are looking at, so <code>FAILED</code> is a <b>question</b>, not a verdict.', ar:'ثلاث من هذه الحالات <b>لا ذنب لأحد فيها</b>. و سطر النتيجة عاجز عن تمييز أيّها أمامك، فتكون <code>FAILED</code> <b>سؤالاً</b> لا حكمًا.', key:true}
+]);
+Dgm.init('#dg-auth', [
+ {en:'<b>Integrity</b> is a question about your copy, and a hash answers it exactly.', ar:'<b>الـ integrity</b> سؤال عن نسختك أنت، و الـ hash يجيب عنه إجابة دقيقة.'},
+ {en:'<b>Authenticity</b> is a question about the original &mdash; and only a contemporaneous record can answer it.', ar:'<b>الأصالة</b> سؤال عن الأصل — و لا يجيب عنه إلا سجلٌّ كُتب في حينه.'},
+ {en:'The commonest error in this topic is answering the <b>right-hand</b> question with the <b>left-hand</b> tool.', ar:'و أشيع خطأ في هذا الموضوع هو الإجابة عن السؤال <b>الأيمن</b> بالأداة <b>اليسرى</b>.', key:true}
+]);
+Dgm.init('#dg-rep', [
+ {en:'You filled Sections 1 and 3 on the last page, before any evidence existed.', ar:'ملأت القسمين الأول و الثالث في الصفحة السابقة، قبل أن يوجد أي دليل.'},
+ {en:'Today you fill <b>Section 4</b> and <b>Section 5</b> &mdash; custody, and what you received.', ar:'و اليوم تملأ <b>القسم الرابع</b> و <b>القسم الخامس</b> — الحيازة، و ما استلمته.'},
+ {en:'The rest wait for the topics that produce them, and three are held back on purpose until the very end.', ar:'و ينتظر الباقي المواضيع التي تُنتجه، و ثلاثة منها مؤجَّلة عمدًا حتى النهاية.'},
+ {en:'These two are what <b>rubric criterion 1</b> grades. Four of twelve sections are written and <b>nothing has been analysed yet</b> &mdash; which is the whole argument for writing as you go.', ar:'و هذان القسمان هما ما يقيسه <b>المعيار الأول</b>. أربعة أقسام من اثني عشر مكتوبة و <b>لم يُحلَّل شيء بعد</b> — و هذه هي الحجة كاملة لكتابة التقرير أثناء العمل.', key:true}
+]);
+</script>
+
+<script>
+Dgm.init('#dg-lc-p02', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>الجمع.</b> أن تأخذ الدليل من الجهاز دون أن تغيّره.'},
+ {en:'<b>PRESERVE.</b> Prove the copy still equals what you took, months later.', ar:'<b>الحفظ.</b> أن تُثبت أن النسخة ما زالت تساوي ما أخذته، بعد شهور.'},
+ {en:'<b>ANALYSE.</b> Read what is inside the copy. Most of this diploma lives here.', ar:'<b>التحليل.</b> أن تقرأ ما داخل النسخة. و معظم الدبلومة يقع هنا.'},
+ {en:'<b>VALIDATE.</b> Check your own result &mdash; a second tool, a second examiner, a repeated test.', ar:'<b>التحقق.</b> أن تراجع نتيجتك أنت — بأداة ثانية، أو فاحص ثانٍ، أو إعادة الاختبار.'},
+ {en:'<b>PRESENT.</b> Write it so someone who was not there can follow it.', ar:'<b>العرض.</b> أن تكتبها بحيث يتابعها من لم يحضر.'},
+ {en:'You are at <b>stage 2</b>. <code>P01</code> set the rules; this page is the first time you have to <b>prove</b> something about evidence you did not create.', ar:'أنت في <b>المرحلة الثانية</b>. وضع <code>P01</code> القواعد، و هذه أول صفحة يُطلب منك فيها أن <b>تُثبت</b> شيئًا عن دليل لم تُنشئه أنت.',key:true}
+]);
+</script>
+
+</body>
+</html>

@@ -48,10 +48,10 @@ By the end of this session a student can:
 
 | # | Objective | Blocks |
 |---|---|---|
-| **O1** | **Sequence** a collection by order of volatility, and **state** what is destroyed by getting the order wrong | `S1-02` |
-| **O2** | **Verify** a file set against a signed manifest, and **report** a mismatch as a finding rather than a conclusion | `S1-06` · `S1-09` |
+| **O1** | **Identify** a file from its first bytes, and **state** why its name is not evidence of what it is | `S1-09` |
+| **O2** | **Verify** a file set against a signed manifest, and **report** a mismatch as a finding rather than a conclusion | `S1-06` · `S1-10` |
 | **O3** | **Separate** findings from interpretation in writing, using the fixed course report template | `S1-04` |
-| **O4** | **Complete** a chain-of-custody record for one exhibit, and **identify** the gap that breaks one | `S1-07` · `S1-10` |
+| **O4** | **Complete** a chain-of-custody record for one exhibit, and **identify** the gap that breaks one | `S1-07` · `S1-11` |
 | **O5** | **State** the proof trail that evidences a write blocker was used — and why the image itself cannot | `S1-08` |
 
 Every quiz question and every homework criterion maps to one of these five.
@@ -62,19 +62,20 @@ Every quiz question and every homework criterion maps to one of these five.
 
 | # | Block | Type | Min | Cumulative |
 |---|---|---|--:|--:|
-| `S1-01` | What digital forensics is — mandate, evidence lifecycle, what you may not claim | theory | 15 | 15 |
-| `S1-02` | Forensic principles — volatility order, minimal footprint, repeatability, work on a copy | theory | 20 | 35 |
-| `S1-03` | What makes evidence defensible — relevant · reliable · competent | theory | 12 | 47 |
-| — | **Knowledge check 1** | check | *(within blocks)* | 47 |
-| `S1-04` | **The fixed report template — findings vs interpretation (`D7`)** | theory + guided | **25** | 72 |
-| `S1-05` | Analyst toolkit install and the `CLEAN-TOOLS` snapshot | guided lab | 20 | 92 |
-| — | **BREAK** — the snapshot completes while the room is out | break | *15* | *107* |
-| `S1-06` | Cryptographic hashing — what a hash proves and what it does not | theory + demo | 18 | 110 |
-| `S1-07` | Chain of custody — the form and the discipline | theory + guided | 12 | 122 |
-| `S1-08` | **Write blocking — and how to prove one was used** | theory | 8 | 130 |
-| `S1-09` | **[INVESTIGATION]** Case 01 — the tampered file | activity | **60** | 190 |
-| — | **Knowledge check 2** | check | *(within `S1-09`)* | 190 |
-| `S1-10` | **[RITUAL]** Hash-verify + chain-of-custody close | ritual | 15 | **205** |
+| `S1-01` | What digital forensics is — mandate, evidence lifecycle, what you may not claim | theory | 10 | 10 |
+| `S1-02` | Forensic principles — minimal footprint, repeatability, work on a copy | theory | 10 | 20 |
+| `S1-03` | What makes evidence defensible — relevant · reliable · competent | theory | 10 | 30 |
+| — | **Knowledge check 1** | check | *(within blocks)* | 30 |
+| `S1-04` | **The fixed report template — findings vs interpretation (`D7`)** | theory + guided | **25** | 55 |
+| `S1-05` | Analyst toolkit install and the `CLEAN-TOOLS` snapshot | guided lab | 15 | 70 |
+| — | **BREAK** — the snapshot completes while the room is out | break | *15* | *85* |
+| `S1-06` | Cryptographic hashing — what a hash proves and what it does not | theory + demo | 18 | 88 |
+| `S1-07` | Chain of custody — the form and the discipline | theory + guided | 12 | 100 |
+| `S1-08` | **Write blocking — and how to prove one was used** | theory | 8 | 108 |
+| `S1-09` | 🔴 **Inside a file — hex, magic bytes, and why renaming changes nothing** | theory + micro-lab | **22** | 130 |
+| `S1-10` | **[INVESTIGATION]** Case 01 — the tampered file | activity | **60** | 190 |
+| — | **Knowledge check 2** | check | *(within `S1-10`)* | 190 |
+| `S1-11` | **[RITUAL]** Hash-verify + chain-of-custody close | ritual | 15 | **205** |
 
 **Totals — checked against `topic_map.md`, not estimated:**
 
@@ -88,9 +89,9 @@ Every quiz question and every homework criterion maps to one of these five.
 | Slot | 240 |
 | **Slack** | **20** |
 
-**Hands-on: 158 min of 205 (77 %)** — `S1-04` through `S1-10`.
+**Hands-on: 160 min of 205 (78 %)** — `S1-04` through `S1-11`.
 
-**Why the break is at minute 92 and not at the midpoint.** `S1-05` ends by starting the
+**Why the break is at minute 70 and not at the midpoint.** `S1-05` ends by starting the
 `CLEAN-TOOLS` snapshot, which takes real wall-clock time. The machine works through the break.
 
 ---
@@ -128,7 +129,7 @@ in `S1-05` because sessions 2–6 need it, not because session 1 does.
 | A text editor + a manifest | — | 🟢🟢 **CORE** | the chain of custody is a document, not a tool — that is the lesson |
 
 **Installed in `S1-05` for later sessions** (`D49`): FTK Imager 8.3 · Autopsy 4.23.1 ·
-Wireshark 4.6.8 · Volatility 3 2.28.0 + symbol pack · ExifTool 13.59 · HxD 2.5.0.0 ·
+Wireshark 4.6.8 · Volatility 3 2.28.2 + symbol pack · ExifTool 13.59 · HxD 2.5.0.0 ·
 OSFMount 3.3.1000 · Arsenal Image Mounter 3.13.368 · TestDisk **7.2 stable** ·
 RegRipper **3.0 only** · Get-ZimmermanTools · NetworkMiner 3.1 · plaso · CyberChef offline copy.
 
@@ -141,7 +142,7 @@ RegRipper **3.0 only** · Get-ZimmermanTools · NetworkMiner 3.1 · plaso · Cyb
 | Xiao Steganography | **no living vendor** — every copy is a third-party mirror dating to 2010 or earlier |
 
 ⚠️ **Re-verify every version above on the build date** — forensic tooling rots fast.
-Versions here were confirmed 2026-08-29.
+Versions here were confirmed 2026-08-29; Volatility re-verified 2026-09-06.
 
 ---
 
@@ -200,10 +201,10 @@ about *what has to be true before analysis is allowed to start.*
 
 | What | When | Against |
 |---|---|---|
-| Knowledge check 1 | after `S1-03` | O1 |
-| Knowledge check 2 | after `S1-09` | O2 · O3 · O5 |
+| Knowledge check 1 | after `S1-03` | O3 |
+| Knowledge check 2 | after `S1-10` | O1 · O2 · O5 |
 | `quiz.md` — 10 questions | end of session | all five objectives |
-| Case 01 write-up | in `S1-09` | O2 · O3 |
+| Case 01 write-up | in `S1-10` | O2 · O3 |
 | Homework report | take-home | the `D20` rubric, all four criteria |
 
 **The rubric is published today and never changes** (`D20`):
@@ -220,6 +221,16 @@ is the only way to prove report writing is improving.
 
 **Peer review** (`D16`): pairs, once, on the report only — reading someone else's writing and
 marking where a *finding* has drifted into an *interpretation*. ~5 students = two pairs and a trio.
+
+---
+
+## 8.5 · Re-cut under `D58` (2026-09-06)
+
+**Order of volatility was removed from this session.** It was taught here *and* in S2 — 35 minutes for
+one idea. `S2-01` now owns it and teaches it operationally, where the decision is actually made.
+The theory blocks were trimmed to 10 minutes each and the recovered time went into a new hands-on
+block, **`S1-09` — hex and magic bytes**, so students open a file and read its real type on day one
+instead of at hour 9. Blocks after it renumbered: Case 01 is now `S1-10`, the ritual `S1-11`.
 
 ---
 

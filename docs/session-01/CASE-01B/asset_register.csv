@@ -1,0 +1,4 @@
+asset_id,description,assigned_to,location,last_audit
+AST-0041,workstation,finance-01,floor 3,2026-01-14
+AST-0042,usb mass storage,unassigned,floor 3,2026-01-14
+AST-0043,label printer,reception,floor 1,2026-01-14

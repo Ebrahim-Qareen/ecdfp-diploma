@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P12 &middot; Windows event logs &middot; eCDFP Diploma</title>
+<meta name="description" content="The anatomy of a Windows event, logon types, detecting a cleared log, the pass-the-hash pattern and Security-log-versus-Sysmon — read on six real attack recordings, page 12 of the ITGate eCDFP diploma.">
+<link rel="stylesheet" href="../assets/css/ecdfp.css">
+<link rel="stylesheet" href="../assets/css/win-ui.css">
+<link rel="stylesheet" href="../assets/css/simscreen.css">
+<link rel="icon" href="../assets/img/itgate-logo.jpg">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="hb" href="../index.html">
+      <img src="../assets/img/itgate-logo.jpg" alt="ITGate Academy">
+      <span class="hb-text"><span class="hb-name">ITGate Academy</span><span class="hb-sub">eCDFP Diploma</span></span>
+    </a>
+    <span class="session-title">P12 &middot; Windows event logs</span>
+    <nav class="topnav">
+      <a href="../index.html#pages" class="active">Pages</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../lab/index.html">Lab</a>
+      <a href="../resources/evidence.html">Evidence</a>
+      <a href="../record.html">Record</a>
+      <a href="../beyond/index.html">Beyond</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-layout">
+  <nav class="sidebar" aria-label="Pages">
+    <h2>Pages</h2>
+    <ol class="page-list">
+      <li><a href="#p1"><span class="n">01</span><span>Windows event logs</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Where we are</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>What you will be able to do</span></a></li>
+      <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; What an event is</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>What is an event log?</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>Logon types &mdash; the field that changes everything</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>The events worth memorising</span></a></li>
+      <li class="is-part"><a href="#p8"><span class="n">08</span><span>PART 2 &mdash; An attack in the logs</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>When a log is cleared</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>The pass-the-hash pattern</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>Two logs of one action</span></a></li>
+      <li class="is-part"><a href="#p12"><span class="n">12</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p13"><span class="n">13</span><span>Demo &mdash; six recordings, five verbs</span></a></li>
+      <li class="is-part"><a href="#p14"><span class="n">14</span><span>YOUR TURN</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>Lab &mdash; who became an administrator</span></a></li>
+      <li class="is-part"><a href="#p16"><span class="n">16</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>Cheat sheet &mdash; event IDs and logon types</span></a></li>
+      <li class="is-part"><a href="#p18"><span class="n">18</span><span>TASK</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>Task &mdash; reconstruct the pass-the-hash</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>Report &mdash; Section 8 for event logs</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>Summary &mdash; what you can now state</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>References and what comes next</span></a></li>
+    </ol>
+  </nav>
+
+<main class="main">
+<section class="page" id="p1">
+<span class="kicker">P12 &middot; Page 12 of 14 &middot; 49 topic minutes</span>
+<h2>Windows event logs
+  <span class="ar">سجلات أحداث ويندوز</span></h2>
+<p class="lede">Every artifact in `P11` was a <b>side effect</b> &mdash; Windows recording things by accident. Event logs are different: this is Windows <b>writing down on purpose</b> what happened. Logons, privilege use, a group changed, a log cleared. And because attackers know they are watched here, <b>the way they hide is itself the loudest evidence of all</b>.
+  <span class="ar">كان كل artifact في `P11` <b>أثرًا جانبيًّا</b> — ويندوز يسجّل الأشياء بالصدفة. أما سجلات الأحداث فمختلفة: هنا ويندوز <b>يكتب عمدًا</b> ما حدث. الدخول و استخدام الامتيازات و مجموعة تغيّرت و سجل مُسح. و لأن المهاجمين يعرفون أنهم مراقَبون هنا، <b>فطريقة إخفائهم هي نفسها أعلى الأدلة صوتًا</b>.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Topic</th><th>Minutes</th><th>Hands-on</th></tr></thead>
+  <tbody>
+    <tr><td><b>T20</b> Windows Event Logs<span class="ar">سجلات أحداث ويندوز</span></td><td>49</td><td>Yes</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Every event on this page is from a real attack recording</b> &mdash; <code>EVS-14</code>, six <code>.evtx</code> files from the open <code>EVTX-ATTACK-SAMPLES</code> collection (Samir Bousseaden, GPL-3.0), fetched at a pinned commit. <b>29 assertions</b> were run against them first. These are recordings of <b>simulated</b> attacks on lab machines, not a real victim.
+    <span class="ar"><b>كل حدث على هذه الصفحة من تسجيل هجوم حقيقي</b> — <code>EVS-14</code>، ستة ملفات <code>.evtx</code> من مجموعة <code>EVTX-ATTACK-SAMPLES</code> المفتوحة (Samir Bousseaden، GPL-3.0)، جُلبت عند commit مثبَّت. و جرى تنفيذ <b>٢٩ فحصًا</b> عليها أولاً. و هي تسجيلات هجمات <b>محاكاة</b> على أجهزة معمل، لا ضحية حقيقية.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p2">
+<span class="kicker">T20 &middot; Bridge</span>
+<h2>Where we are
+  <span class="ar">أين نحن الآن</span></h2>
+<figure class="dgm" id="dg-lc-p12" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">WHERE WE ARE</span><span class="dgm-tag">ORIENTATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 152" role="img" aria-labelledby="t-dg-lc-p12">
+  <title id="t-dg-lc-p12">The digital evidence lifecycle with the current stage marked</title>
+  <text class="xs mut" x="14" y="24">THE DIGITAL EVIDENCE LIFECYCLE</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="84" y="86" text-anchor="middle">ACQUIRE</text>
+    <path class="arw" d="M155 80 L164 80"/>
+    <path class="arw" d="M158 75 L164 80 L158 85"/>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="166" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="236" y="86" text-anchor="middle">PRESERVE</text>
+    <path class="arw" d="M307 80 L316 80"/>
+    <path class="arw" d="M310 75 L316 80 L310 85"/>
+  </g>
+  <g data-step="3">
+    <rect class="box ok" x="318" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="388" y="78" text-anchor="middle" fill="#00ff9d">ANALYSE</text>
+    <text class="xs" x="388" y="98" text-anchor="middle" fill="#00ff9d">&#9650; WE ARE HERE</text>
+    <path class="arw" d="M459 80 L468 80"/>
+    <path class="arw" d="M462 75 L468 80 L462 85"/>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="470" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="540" y="86" text-anchor="middle">VALIDATE</text>
+    <path class="arw" d="M611 80 L620 80"/>
+    <path class="arw" d="M614 75 L620 80 L614 85"/>
+  </g>
+  <g data-step="5">
+    <rect class="box" x="622" y="50" width="140" height="60" rx="6"/>
+    <text class="lbl" x="692" y="86" text-anchor="middle">PRESENT</text>
+  </g>
+  <text class="xs mut" x="14" y="140">Every page in this diploma sits at one of these five stages. This one is stage 3.</text>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<p><b>From the last page to this one.</b> `P11` read side effects and gave each a verb. Event logs give you something stronger and more dangerous: Windows <b>stating</b> that a thing happened, with a timestamp and an account. Stronger, because it is deliberate and structured. More dangerous, because it is the one artifact an attacker will <b>delete</b> &mdash; and, as you will see, cannot delete without saying so.
+  <span class="ar"><b>من الصفحة السابقة إلى هذه.</b> قرأت `P11` آثارًا جانبية و أعطت كلاًّ منها فعلاً. و تعطيك سجلات الأحداث ما هو أقوى و أخطر: ويندوز <b>يقرّر</b> أن شيئًا حدث، بزمن و حساب. أقوى لأنه متعمَّد و منظَّم. و أخطر لأنه الـ artifact الوحيد الذي <b>سيحذفه</b> المهاجم — و، كما سترى، لا يستطيع حذفه دون أن يقول ذلك.</span></p>
+    </section>
+
+<section class="page" id="p3">
+<span class="kicker">P12 &middot; Objectives</span>
+<h2>What you will be able to do
+  <span class="ar">ما الذي ستكون قادرًا عليه</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>By the end of this page</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Read one event: its System envelope, its EventData, and why the Provider is part of the ID<span class="ar">قراءة حدث واحد: ظرف الـ System و الـ EventData، و لماذا الـ Provider جزء من المعرّف</span></td></tr>
+    <tr><td>2</td><td>Name the common logon types &mdash; and why 4624 alone is never a finding<span class="ar">تسمية أنواع الدخول الشائعة — و لماذا 4624 وحده ليس نتيجة أبدًا</span></td></tr>
+    <tr><td>3</td><td>Find that a log was cleared, by whom, and read the record-number gap as a second witness<span class="ar">اكتشاف أن سجلاً مُسح، و بواسطة من، و قراءة فجوة رقم السجل كشاهد ثانٍ</span></td></tr>
+    <tr><td>4</td><td>Recognise the pass-the-hash pattern across five events, and name the pattern not the event<span class="ar">التعرّف على نمط pass-the-hash عبر خمسة أحداث، و تسمية النمط لا الحدث</span></td></tr>
+    <tr><td>5</td><td>Explain why the Security log and Sysmon see different things, and what absence means<span class="ar">شرح لماذا يرى سجل الـ Security و Sysmon أشياء مختلفة، و ما معنى الغياب</span></td></tr>
+    <tr><td>6</td><td>Map every finding to MITRE ATT&amp;CK, and write it with the EventID, Provider and time<span class="ar">ربط كل نتيجة بـ MITRE ATT&amp;CK، و كتابتها مع الـ EventID و الـ Provider و الزمن</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>This page assumes you have never opened Event Viewer for an investigation. It builds from <b>&ldquo;what is one event made of&rdquo;</b> to reading a multi-event attack, using only real recordings. If you work in a SOC you know these IDs &mdash; here you learn to read them <b>as a forensic examiner writing for court</b>, which is a stricter standard than an alert.
+    <span class="ar">تفترض هذه الصفحة أنك لم تفتح Event Viewer قط لتحقيق. و تبني من <b>«ممّ يتكوّن حدث واحد»</b> إلى قراءة هجوم متعدّد الأحداث، بتسجيلات حقيقية فقط. إن كنت تعمل في SOC فأنت تعرف هذه المعرّفات — و هنا تتعلّم قراءتها <b>كفاحص جنائي يكتب للمحكمة</b>، و هو معيار أصرم من التنبيه.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p4">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 1 of 2</span>
+  <h2>What an event is<span class="ar">ما هو الحدث</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">One record: an envelope that is always the same, and a payload that never is. Plus the logon types.<span class="ar">سجل واحد: ظرف ثابت دائمًا، و حمولة لا تثبت أبدًا. بالإضافة إلى أنواع الدخول.</span></p>
+  <p class="divider-meta">4 screens &middot; 20 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p5">
+<span class="kicker">T20 &middot; Theory</span>
+<h2>What is an event log?
+  <span class="ar">ما هو سجل الأحداث؟</span></h2>
+<p><b>Definition.</b> An event log is a file of timestamped records that Windows writes to say something happened. Modern Windows stores them as <code>.evtx</code> files under <code>C:\Windows\System32\winevt\Logs\</code>, split into <b>channels</b>: Security, System, Application, and one per installed component. Each record has a numeric <b>EventID</b> and a set of fields.
+  <span class="ar"><b>التعريف.</b> سجل الأحداث ملف من سجلات مؤرَّخة يكتبها ويندوز ليقول إن شيئًا حدث. و يخزّنها ويندوز الحديث ملفات <code>.evtx</code> تحت <code>C:\Windows\System32\winevt\Logs\</code>، مقسَّمة إلى <b>قنوات</b>: Security و System و Application، و واحدة لكل مكوّن مثبَّت. و لكل سجل <b>EventID</b> رقمي و مجموعة حقول.</span></p>
+<figure class="dgm" id="dg12-f1" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P12-F1</span><span class="dgm-tag">STRUCTURE</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 292" role="img" aria-labelledby="t12f1">
+  <title id="t12f1">The parts of a single Windows event record</title>
+  <text class="xs mut" x="14" y="22">ONE EVENT = SYSTEM (always the same shape) + DATA (different per event ID)</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="34" width="752" height="88" rx="5"/>
+    <text class="sm" x="28" y="55">&lt;System&gt;   the envelope, identical on every event</text>
+    <text class="xs mut" x="28" y="76">Provider   Microsoft-Windows-Security-Auditing</text>
+    <text class="xs mut" x="28" y="93">EventID 4624  &#183;  Channel Security  &#183;  Computer  &#183;  TimeCreated (UTC)</text>
+    <text class="xs mut" x="28" y="110">EventRecordID  &#183;  the monotonic counter that reveals gaps</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="14" y="132" width="752" height="70" rx="5"/>
+    <text class="sm" x="28" y="153">&lt;EventData&gt;   the payload, whose fields depend on the EventID</text>
+    <text class="xs" x="28" y="174">TargetUserName  IEUser   &#183;   LogonType  2   &#183;   IpAddress  -   &#183;   ProcessName  chrome.exe</text>
+    <text class="xs mut" x="28" y="191">for a 4624 these mean logon; for a 4688 they would mean a new process</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="212" width="752" height="34" rx="5"/>
+    <text class="xs" x="28" y="233">the EventID is meaningless without the Provider &#8212; ID 13 is a Sysmon registry write, or something else elsewhere</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="14" y="256" width="752" height="30" rx="5"/>
+    <text class="sm" x="28" y="275">Read System for WHICH event and WHEN. Read Data for WHAT. Never quote an ID without its Provider.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="note">
+  <p><b>Where each thing is logged</b> is half the skill. Logons and account changes are in <b>Security</b>. Service and driver events are in <b>System</b>. Program crashes are in <b>Application</b>. And the richest source &mdash; process creation, network connections, registry writes &mdash; is <b>Sysmon</b>, which is <b>not installed by default</b>. Knowing which channel holds an answer is knowing where to look.
+    <span class="ar"><b>أين يُسجَّل كل شيء</b> نصف المهارة. فالدخول و تغييرات الحسابات في <b>Security</b>. و أحداث الخدمات و التعريفات في <b>System</b>. و انهيارات البرامج في <b>Application</b>. و أغنى مصدر — إنشاء العمليات و اتصالات الشبكة و كتابات الـ registry — هو <b>Sysmon</b>، و هو <b>غير مثبَّت افتراضيًّا</b>. و معرفة أي قناة تحمل إجابةً هي معرفة أين تنظر.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p6">
+<span class="kicker">T20 &middot; Theory &middot; measured</span>
+<h2>Logon types &mdash; the field that changes everything
+  <span class="ar">أنواع الدخول — الحقل الذي يغيّر كل شيء</span></h2>
+<p>The most-read event in forensics is <b>4624</b>, &ldquo;an account logged on&rdquo;. On its own it says almost nothing. The <code>LogonType</code> field is what turns it into a finding.
+  <span class="ar">أكثر حدث يُقرأ في الأدلة الرقمية هو <b>4624</b>، «سجّل حساب دخوله». و هو وحده لا يقول شيئًا تقريبًا. و حقل <code>LogonType</code> هو ما يحوّله إلى نتيجة.</span></p>
+<figure class="dgm" id="dg12-f2" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P12-F2</span><span class="dgm-tag">REFERENCE</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 300" role="img" aria-labelledby="t12f2">
+  <title id="t12f2">Windows logon types and what each one really means</title>
+  <text class="xs mut" x="14" y="22">EVENT 4624 &#183; THE LogonType FIELD &#183; the number changes the whole meaning</text>
+  <text class="xs mut" x="24" y="42">TYPE</text><text class="xs mut" x="120" y="42">NAME</text><text class="xs mut" x="330" y="42">WHAT IT ACTUALLY IS</text>
+  <g data-step="1">
+    <rect class="box ok" x="14" y="50" width="752" height="26" rx="4"/>
+    <text class="sm" x="24" y="68">2</text>
+    <text class="sm" x="120" y="68">Interactive</text>
+    <text class="xs mut" x="330" y="68">someone at the keyboard, or a process acting as them</text>
+  </g>
+  <g data-step="2">
+    <rect class="box " x="14" y="80" width="752" height="26" rx="4"/>
+    <text class="sm" x="24" y="98">3</text>
+    <text class="sm" x="120" y="98">Network</text>
+    <text class="xs mut" x="330" y="98">a share, a remote WMI call &mdash; no desktop</text>
+  </g>
+  <g data-step="3">
+    <rect class="box " x="14" y="110" width="752" height="26" rx="4"/>
+    <text class="sm" x="24" y="128">4</text>
+    <text class="sm" x="120" y="128">Batch</text>
+    <text class="xs mut" x="330" y="128">a scheduled task</text>
+  </g>
+  <g data-step="4">
+    <rect class="box " x="14" y="140" width="752" height="26" rx="4"/>
+    <text class="sm" x="24" y="158">5</text>
+    <text class="sm" x="120" y="158">Service</text>
+    <text class="xs mut" x="330" y="158">a service starting under an account</text>
+  </g>
+  <g data-step="5">
+    <rect class="box no" x="14" y="170" width="752" height="26" rx="4"/>
+    <text class="sm" x="24" y="188">9</text>
+    <text class="sm" x="120" y="188">NewCredentials</text>
+    <text class="xs mut" x="330" y="188">runas /netonly &mdash; the PASS-THE-HASH type</text>
+  </g>
+  <g data-step="5">
+    <rect class="box " x="14" y="200" width="752" height="26" rx="4"/>
+    <text class="sm" x="24" y="218">10</text>
+    <text class="sm" x="120" y="218">RemoteInteractive</text>
+    <text class="xs mut" x="330" y="218">RDP</text>
+  </g>
+  <g data-step="5">
+    <rect class="box " x="14" y="230" width="752" height="26" rx="4"/>
+    <text class="sm" x="24" y="248">11</text>
+    <text class="sm" x="120" y="248">CachedInteractive</text>
+    <text class="xs mut" x="330" y="248">logon with cached domain creds, offline</text>
+  </g>
+  <g data-step="6">
+    <rect class="box key" x="14" y="266" width="752" height="30" rx="4"/>
+    <text class="sm" x="24" y="285">&#8220;A logon&#8221; is never enough. Type 2 is a person; type 9 is credential theft; type 3 is a share.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">Read straight from EVS-14</span>
+  <p>The logon recording holds <b>3 successes and 1 failure</b>. The failure is a <code>4625</code> for <code>IEUser</code>, <b>LogonType 2</b>, <b>SubStatus 0xC000006A &mdash; bad password</b>, from a Google Chrome updater process. The pass-the-hash recording holds a <code>4624</code> with <b>LogonType 9, NewCredentials</b>, logon process <code>seclogo</code>, from <code>::1</code>.
+    <span class="ar">يحمل تسجيل الدخول <b>٣ نجاحات و فشلاً واحدًا</b>. و الفشل <code>4625</code> لـ<code>IEUser</code>، <b>LogonType 2</b>، <b>SubStatus 0xC000006A — كلمة مرور خاطئة</b>، من عملية تحديث Google Chrome. و يحمل تسجيل الـ pass-the-hash <code>4624</code> بـ<b>LogonType 9، NewCredentials</b>، و عملية الدخول <code>seclogo</code>، من <code>::1</code>.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p7">
+<span class="kicker">T20 &middot; Theory</span>
+<h2>The events worth memorising
+  <span class="ar">الأحداث التي تستحق الحفظ</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>EventID</th><th>Channel</th><th>Means</th></tr></thead>
+  <tbody>
+    <tr><td><b>4624 / 4625</b></td><td>Security</td><td>logon success / failure &mdash; read the LogonType<span class="ar">نجاح / فشل دخول — اقرأ LogonType</span></td></tr>
+    <tr><td><b>4672</b></td><td>Security</td><td>special privileges assigned &mdash; an admin-level session<span class="ar">أُسندت امتيازات خاصة — جلسة بمستوى admin</span></td></tr>
+    <tr><td><b>4688</b></td><td>Security</td><td>a new process was created &mdash; with its command line, if audited<span class="ar">أُنشئت عملية جديدة — بسطر أوامرها إن دُقِّق</span></td></tr>
+    <tr><td><b>4720 / 4732 / 4728</b></td><td>Security</td><td>account created / added to a local / global group<span class="ar">حساب أُنشئ / أُضيف إلى مجموعة محلية / عامة</span></td></tr>
+    <tr><td><b>1102</b></td><td>Security</td><td>the Security log was cleared<span class="ar">مُسح سجل الـ Security</span></td></tr>
+    <tr><td><b>104</b></td><td>System</td><td>an event log was cleared<span class="ar">مُسح سجل أحداث</span></td></tr>
+    <tr><td><b>7045</b></td><td>System</td><td>a new service was installed &mdash; a classic persistence<span class="ar">ثُبِّتت خدمة جديدة — استمرارية كلاسيكية</span></td></tr>
+    <tr><td><b>Sysmon 1 / 3 / 11 / 13</b></td><td>Sysmon</td><td>process / network / file-create / registry-set<span class="ar">عملية / شبكة / إنشاء ملف / ضبط registry</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p>You do not memorise them as trivia. You memorise them because in an investigation you <b>filter for them by number</b> &mdash; a real Security log has millions of records, and the skill is asking the right &ldquo;show me every 1102, every 4732, every type-9 4624&rdquo; rather than reading top to bottom.
+    <span class="ar">لا تحفظها كمعلومات عامة. تحفظها لأنك في التحقيق <b>ترشّح عليها بالرقم</b> — فسجل Security حقيقي فيه ملايين السجلات، و المهارة أن تسأل الأسئلة الصحيحة «أرني كل 1102، و كل 4732، و كل 4624 من النوع 9» بدلاً من القراءة من الأعلى إلى الأسفل.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p8">
+<div class="divider-inner">
+  <span class="divider-kicker">Part 2 of 2</span>
+  <h2>Reading an attack in the logs<span class="ar">قراءة هجوم في السجلات</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">A cleared log, a stolen credential, a hidden persistence -- each is a real recording, read field by field.<span class="ar">سجل ممسوح، و بيان اعتماد مسروق، و استمرارية مخفية — كلٌّ تسجيل حقيقي، يُقرأ حقلاً حقلاً.</span></p>
+  <p class="divider-meta">4 screens &middot; 22 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p9">
+<span class="kicker">T20 &middot; Theory &middot; measured</span>
+<h2>When a log is cleared
+  <span class="ar">حين يُمسح سجل</span></h2>
+<p>The first thing a careful attacker does at the end is clear the logs. It is also the first thing you check &mdash; because <b>the clear is an event too</b>.
+  <span class="ar">أول ما يفعله المهاجم الحذر في النهاية هو مسح السجلات. و هو أيضًا أول ما تفحصه — لأن <b>المسح حدث أيضًا</b>.</span></p>
+<figure class="dgm" id="dg12-f3" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P12-F3</span><span class="dgm-tag">FINDING</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 286" role="img" aria-labelledby="t12f3">
+  <title id="t12f3">Clearing a log is itself the loudest event in it</title>
+  <text class="xs mut" x="14" y="22">2019-03-19 &#183; TWO LOGS CLEARED 42 SECONDS APART &#183; EVS-14</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="34" width="752" height="40" rx="5"/>
+    <text class="sm" x="28" y="52">23:34:25   System log   EventID 104   cleared by   EXAMPLE\user01</text>
+    <text class="xs mut" x="28" y="69">104 is written to the System log to say the System log was cleared</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="14" y="84" width="752" height="40" rx="5"/>
+    <text class="sm" x="28" y="102">23:35:07   Security log   EventID 1102   cleared by   EXAMPLE\user01</text>
+    <text class="xs mut" x="28" y="119">1102 is written to the Security log to say the Security log was cleared</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="134" width="752" height="46" rx="5"/>
+    <text class="sm" x="28" y="154">the file holds 112 records: the ONE 1102, and 110 file-access events (4663) around it</text>
+    <text class="xs mut" x="28" y="172">the clear is a single event in a sea of noise &#8212; you filter FOR it, you do not scroll TO it</text>
+  </g>
+  <g data-step="4">
+    <rect class="box ok" x="14" y="190" width="752" height="40" rx="5"/>
+    <text class="sm" x="28" y="210">EventRecordID jumps: the numbers before the clear are gone, the counter does not reset</text>
+    <text class="xs mut" x="28" y="227">a gap in the record numbers is the SECOND witness that something was removed</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="240" width="752" height="40" rx="5"/>
+    <text class="sm" x="28" y="260">You cannot clear a log without writing the event that says you cleared it.</text>
+    <text class="xs mut" x="28" y="277">so the attacker&#8217;s best move leaves the clearest mark. 104 and 1102 are gifts.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="interpretation">
+  <span class="cl-label">What the clear proves, and what it does not</span>
+  <p><b>Proves:</b> the Security log was cleared at <b>23:35:07</b> and the System log at <b>23:34:25</b>, both by <code>EXAMPLE\user01</code>; events before those times are gone; and the record-number gap confirms removal independently. <b>Does not prove:</b> what was in the cleared events, or that <code>user01</code> is a person rather than a compromised account. <b>Cannot recover</b> the cleared events from this log &mdash; but a <b>shadow copy (`P11`)</b> or a forwarded-log server may still hold them.
+    <span class="ar"><b>يثبت:</b> أن سجل الـ Security مُسح في <b>٢٣:٣٥:٠٧</b> و الـ System في <b>٢٣:٣٤:٢٥</b>، كلاهما بواسطة <code>EXAMPLE\user01</code>؛ و أن الأحداث قبل تلك الأوقات اختفت؛ و أن فجوة رقم السجل تؤكّد الإزالة مستقلةً. <b>لا يثبت:</b> ما كان في الأحداث الممسوحة، و لا أن <code>user01</code> شخص لا حساب مخترَق. <b>و لا يستطيع استعادة</b> الأحداث الممسوحة من هذا السجل — لكن <b>shadow copy (`P11`)</b> أو خادم سجلات مُحوَّلة قد يحملها بعد.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p10">
+<span class="kicker">T20 &middot; Theory &middot; measured</span>
+<h2>The pass-the-hash pattern
+  <span class="ar">نمط pass-the-hash</span></h2>
+<p>Now the hardest reading on the page: five events that <b>only mean something together</b>. This is where a forensic examiner earns the title &mdash; not by knowing one event, but by seeing the shape.
+  <span class="ar">الآن أصعب قراءة على الصفحة: خمسة أحداث <b>لا تعني شيئًا إلا معًا</b>. و هنا يستحقّ الفاحص الجنائي اللقب — لا بمعرفة حدث واحد، بل برؤية الشكل.</span></p>
+<figure class="dgm" id="dg12-f4" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P12-F4</span><span class="dgm-tag">INTERPRETATION</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 292" role="img" aria-labelledby="t12f4">
+  <title id="t12f4">The event pattern that means pass-the-hash</title>
+  <text class="xs mut" x="14" y="22">2019-03-18 11:06 &#183; LM_4624_pth_source.evtx &#183; SIX EVENTS, ONE STORY</text>
+  <g data-step="1">
+    <rect class="box no" x="14" y="34" width="752" height="34" rx="5"/>
+    <text class="sm" x="28" y="55">11:06:25   EventID 1102   the Security log was cleared FIRST</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="14" y="78" width="752" height="50" rx="5"/>
+    <text class="sm" x="28" y="98">11:06:29   EventID 4624   user01   LogonType 9 = NewCredentials</text>
+    <text class="xs mut" x="28" y="116">LogonProcessName seclogo  &#183;  from ::1  &#8212;  runas /netonly, local identity kept</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="14" y="138" width="752" height="34" rx="5"/>
+    <text class="sm" x="28" y="159">11:06:29   EventID 4672   Special Privileges assigned to that same logon</text>
+  </g>
+  <g data-step="4">
+    <rect class="box" x="14" y="182" width="752" height="34" rx="5"/>
+    <text class="sm" x="28" y="203">11:06:2x   EventID 4688   three new processes created under the new credentials</text>
+  </g>
+  <g data-step="5">
+    <rect class="box key" x="14" y="226" width="752" height="60" rx="5"/>
+    <text class="sm" x="28" y="247">Type 9 + seclogo + a cleared log around it is the pass-the-hash pattern.</text>
+    <text class="xs mut" x="28" y="266">no single event says &#8220;pass the hash&#8221;. The PATTERN across five events does,</text>
+    <text class="xs mut" x="28" y="281">never a single event.</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="finding">
+  <span class="cl-label">The full sequence in LM_4624_pth_source.evtx</span>
+  <p><b>11:06:25</b> &mdash; <code>1102</code>, log cleared. <b>11:06:29</b> &mdash; <code>4624</code>, <code>user01</code>, <b>LogonType 9</b>, process <code>seclogo</code>, from <code>::1</code>. Same second &mdash; <code>4672</code>, special privileges. Then three <code>4688</code> process creations. <b>MITRE ATT&amp;CK: T1550.002 Pass the Hash</b>, with <b>T1070.001</b> for the log clear.
+    <span class="ar"><b>١١:٠٦:٢٥</b> — <code>1102</code>، مُسح السجل. <b>١١:٠٦:٢٩</b> — <code>4624</code>، <code>user01</code>، <b>LogonType 9</b>، العملية <code>seclogo</code>، من <code>::1</code>. الثانية نفسها — <code>4672</code>، امتيازات خاصة. ثم ثلاثة <code>4688</code> لإنشاء عمليات. <b>MITRE ATT&amp;CK: T1550.002 Pass the Hash</b>، مع <b>T1070.001</b> لمسح السجل.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p11">
+<span class="kicker">T20 &middot; Theory &middot; measured</span>
+<h2>Two logs of one action
+  <span class="ar">سجلّان لفعل واحد</span></h2>
+<p>A registry <code>Run</code>-key persistence &mdash; the exact `P10` mechanism &mdash; seen through two different logs. What each records is the lesson.
+  <span class="ar">استمرارية بمفتاح <code>Run</code> في الـ registry — آلية `P10` نفسها — مرئية عبر سجلّين مختلفين. و ما يسجّله كلٌّ منهما هو الدرس.</span></p>
+<figure class="dgm" id="dg12-f5" data-mode="loop" data-reveal="upto" data-interval="4600">
+  <div class="dgm-head"><span class="dgm-id">FIG P12-F5</span><span class="dgm-tag">MECHANISM</span></div>
+  <div class="dgm-body"><svg viewBox="0 0 780 250" role="img" aria-labelledby="t12f5">
+  <title id="t12f5">Two logs of the same registry write, and what each records</title>
+  <text class="xs mut" x="14" y="22">A Run-key PERSISTENCE, SEEN TWO WAYS</text>
+  <g data-step="1">
+    <rect class="box" x="14" y="34" width="368" height="96" rx="5"/>
+    <text class="sm" x="28" y="55">SECURITY LOG (built-in)</text>
+    <text class="xs mut" x="28" y="76">records LOGONS, privilege use, account</text>
+    <text class="xs mut" x="28" y="93">changes &#8212; the things auditing is set for</text>
+    <text class="xs" x="28" y="116">a registry write? usually NOTHING here</text>
+  </g>
+  <g data-step="2">
+    <rect class="box ok" x="398" y="34" width="368" height="96" rx="5"/>
+    <text class="sm" x="412" y="55">SYSMON (installed, optional)</text>
+    <text class="xs mut" x="412" y="76">EventID 13 = a registry value was set</text>
+    <text class="xs" x="412" y="98">Image  a.exe   in C:\Users\Public\tools</text>
+    <text class="xs" x="412" y="116">Target HKLM\...\CurrentVersion\Run\</text>
+  </g>
+  <g data-step="3">
+    <rect class="box no" x="14" y="140" width="752" height="46" rx="5"/>
+    <text class="sm" x="28" y="160">Details: "c:\windows\tasks\taskhost.exe"  &#8212;  the value MASQUERADES as a system file</text>
+    <text class="xs mut" x="28" y="178">a.exe wrote a Run value disguised as taskhost; Sysmon caught it, the Security log would not.</text>
+  </g>
+  <g data-step="4">
+    <rect class="box key" x="14" y="196" width="752" height="46" rx="5"/>
+    <text class="sm" x="28" y="216">What you can see depends on what was being logged. Absence in one log is not absence of the event.</text>
+    <text class="xs mut" x="28" y="234">&#8220;no evidence of persistence&#8221; means &#8220;not in the logs I have&#8221; &#8212; was Sysmon even installed?</text>
+  </g>
+</svg></div>
+  <div class="dgm-cap"><p></p></div>
+</figure>
+<div class="key-takeaway"><span class="cl-label">The sentence this part turns on</span>
+  <ul>
+    <li><b>The events you can see are the events something was configured to record. &ldquo;Not in the log&rdquo; is a fact about the logging, not about the attack.</b>
+      <span class="ar"><b>الأحداث التي تراها هي الأحداث التي أُعِدَّ شيءٌ لتسجيلها. و «ليس في السجل» حقيقة عن التسجيل، لا عن الهجوم.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page divider" id="p12">
+<div class="divider-inner">
+  <span class="divider-kicker">Instructor demo</span>
+  <h2>Reading six real recordings<span class="ar">قراءة ستة تسجيلات حقيقية</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">The instructor drives one tool across six .evtx files. Every event on screen is verbatim from EVS-14.<span class="ar">المدرّب يقود أداة واحدة على ستة ملفات .evtx. و كل حدث على الشاشة حرفي من EVS-14.</span></p>
+  <p class="divider-meta">1 screen &middot; 12 minutes</p>
+</div>
+    </section>
+
+<section class="page" id="p13">
+<span class="kicker">T20 &middot; Instructor demo &middot; 12 min</span>
+<h2>Demo &mdash; six recordings, five verbs
+  <span class="ar">العرض — ستة تسجيلات، خمسة أفعال</span></h2>
+<p><b>Tool:</b> EvtxECmd (Eric Zimmerman), free, on the classroom machines; the same reading is possible in Event Viewer or with <code>wevtutil</code>. <b>Evidence:</b> <code>EVS-14</code>. Every line below is the real content of the file named in the command.
+  <span class="ar"><b>الأداة:</b> EvtxECmd (Eric Zimmerman)، مجانية، على أجهزة القاعة؛ و القراءة نفسها ممكنة في Event Viewer أو بـ<code>wevtutil</code>. <b>الدليل:</b> <code>EVS-14</code>. و كل سطر أدناه هو المحتوى الحقيقي للملف المسمّى في الأمر.</span></p>
+<div class="simscreen" id="ss-t20" data-title="Instructor demo -- reading six real attack recordings" data-interval="7500">
+ <div class="ss-stage"><div class="ss-holder">
+
+  <div class="wu on" id="l1" style="width:740px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 1 -- start where the attacker ended: was a log cleared?</span>
+
+<span class="p">PS C:\cases\EVS-14&gt;</span> <span class="k">EvtxECmd.exe -f DE_1102_security_log_cleared.evtx --inc 1102</span>
+
+Records found: 112   (filtered to EventId 1102: 1)
+
+<span id="v1">Event 1102  Security log cleared
+  TimeCreated : 2019-03-19 23:35:07
+  Cleared by  : <span class="w">EXAMPLE\user01</span></span>
+
+<span class="d"># 112 records in the file, and the one that matters is the clear. You filter for it.</span></div>
+  </div>
+
+  <div class="wu" id="l2" style="width:760px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 2 -- and the System log, moments earlier?</span>
+
+<span class="p">PS C:\cases\EVS-14&gt;</span> <span class="k">EvtxECmd.exe -f DE_104_system_log_cleared.evtx</span>
+
+Event 104  System log cleared
+<span id="v2">  TimeCreated : 2019-03-19 23:34:25   <span class="e">(42 seconds BEFORE the Security clear)</span>
+  Cleared by  : <span class="w">EXAMPLE\user01</span></span>
+
+<span class="d"># two logs, one account, 42 seconds apart. clearing a log writes the event that says you cleared it.</span></div>
+  </div>
+
+  <div class="wu" id="l3" style="width:780px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 3 -- a logon. read the TYPE before anything else.</span>
+
+<span class="p">PS C:\cases\EVS-14&gt;</span> <span class="k">EvtxECmd.exe -f CA_4624_4625_LogonType2.evtx --inc 4624,4625</span>
+
+4625  FAILED logon   TargetUserName IEUser   LogonType 2
+<span id="v3">  SubStatus <span class="e">0xC000006A</span>  = <span class="e">bad password</span>   ProcessName ...\chrome.exe</span>
+4624  SUCCESS logon   TargetUserName IEUser   LogonType 2   ProcessName ...\chrome.exe
+
+<span class="d"># type 2 = interactive. a failure then a success, both via a Chrome updater -- not a person typing.</span></div>
+  </div>
+
+  <div class="wu" id="l4" style="width:780px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 4 -- the dangerous one. a logon type you memorise.</span>
+
+<span class="p">PS C:\cases\EVS-14&gt;</span> <span class="k">EvtxECmd.exe -f LM_4624_pth_source.evtx --inc 4624,4672</span>
+
+4624  TargetUserName user01   <span class="w">LogonType 9  (NewCredentials)</span>
+<span id="v4">  LogonProcessName <span class="e">seclogo</span>   IpAddress ::1   <span class="e">= runas /netonly</span></span>
+4672  Special Privileges assigned to the same logon session
+
+<span class="d"># type 9 + seclogo = the pass-the-hash signature. and a 1102 clear opens this same file.</span></div>
+  </div>
+
+  <div class="wu" id="l5" style="width:790px">
+    <div class="wu-tb"><span class="t">Windows PowerShell</span>
+      <span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
+    <div class="wu-term"><span class="d"># step 5 -- something the Security log never saw. switch to Sysmon.</span>
+
+<span class="p">PS C:\cases\EVS-14&gt;</span> <span class="k">EvtxECmd.exe -f persist_run_key_sysmon_13.evtx</span>
+
+Channel: Microsoft-Windows-Sysmon/Operational
+Event 13  Registry value set
+  Image        : C:\Users\Public\tools\evasion\<span class="w">a.exe</span>
+  TargetObject : HKLM\SOFTWARE\...\CurrentVersion\<span class="w">Run</span>\
+<span id="v5">  Details      : <span class="e">"c:\windows\tasks\taskhost.exe"</span>  (masquerade)</span>
+
+<span class="d"># a Run-key persistence, disguised as taskhost. only Sysmon logged it. the Security log has nothing.</span></div>
+  </div>
+ </div></div>
+</div>
+<div class="note">
+  <p><b>Ask while it runs:</b> after step 2, <i>the logs were cleared &mdash; so is the case over?</i> (No: the clear names the account and the time, and a shadow copy may hold the rest.) After step 4, <i>which single event here would you take to court, and which only make sense as a set?</i>
+    <span class="ar"><b>اسأل أثناء التشغيل:</b> بعد الخطوة الثانية، <i>مُسحت السجلات — فهل انتهت القضية؟</i> (لا: المسح يسمّي الحساب و الزمن، و قد تحمل shadow copy البقية.) و بعد الرابعة، <i>أي حدث منفرد هنا تأخذه إلى المحكمة، و أيّها لا يُفهم إلا كمجموعة؟</i></span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p14">
+<div class="divider-inner">
+  <span class="divider-kicker">Your turn</span>
+  <h2>The account-change recording<span class="ar">تسجيل تغيير الحساب</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">One more file, a privilege escalation to read. Solo, or in a team of two.<span class="ar">ملف آخر، تصعيد امتيازات تقرؤه. فرديًّا، أو في فريق من اثنين.</span></p>
+  <p class="divider-meta">1 screen &middot; 18 minutes at the keyboard</p>
+</div>
+    </section>
+
+<section class="page" id="p15">
+<span class="kicker">T20 &middot; Your turn &middot; 18 min</span>
+<h2>Lab &mdash; who became an administrator
+  <span class="ar">المعمل — من صار مسؤولاً</span></h2>
+<p>EVS-14 has one recording the demo skipped: <code>guest_added_to_admins_4732.evtx</code>. Read it and reconstruct what happened, and to whom.
+  <span class="ar">في EVS-14 تسجيل تجاوزه العرض: <code>guest_added_to_admins_4732.evtx</code>. اقرأه و أعد بناء ما حدث، و لمن.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Step</th><th>Do</th><th>Write down</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>EvtxECmd.exe -f guest_added_to_admins_4732.evtx</code> &mdash; list both 4732 events<span class="ar"><code>EvtxECmd.exe -f guest_added_to_admins_4732.evtx</code> — اسرد كلا حدثي 4732</span></td><td>the two times, the SubjectUserName</td></tr>
+    <tr><td>2</td><td>For each, read <code>TargetUserName</code> (the group) and <code>MemberSid</code> (who was added)<span class="ar">لكلٍّ، اقرأ <code>TargetUserName</code> (المجموعة) و <code>MemberSid</code> (من أُضيف)</span></td><td>which group, which member SID</td></tr>
+    <tr><td>3</td><td>Decode the two member SIDs: one ends in <code>-501</code>, one is <code>S-1-5-20</code>. What accounts are those?<span class="ar">فكّ الـ SID-ين: واحد ينتهي بـ<code>-501</code>، و الآخر <code>S-1-5-20</code>. أي حسابين هذان؟</span></td><td>the account names</td></tr>
+  </tbody>
+</table></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Q</th><th>Answer in one sentence each</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>4732</code> is &ldquo;member added to a <b>local</b> group&rdquo;. Which local group, and why is that the group that matters?<span class="ar"><code>4732</code> هو «أُضيف عضو إلى مجموعة <b>محلية</b>». أي مجموعة محلية، و لماذا هي المجموعة التي تهمّ؟</span></td></tr>
+    <tr><td>2</td><td>A SID ending <code>-501</code> is the built-in <b>Guest</b>. Why is adding Guest to Administrators a bigger finding than creating a new admin?<span class="ar">الـ SID المنتهي بـ<code>-501</code> هو <b>Guest</b> المدمج. لماذا إضافة Guest إلى Administrators نتيجة أكبر من إنشاء admin جديد؟</span></td></tr>
+    <tr><td>3</td><td>Both adds were by <code>IEUser</code>. Does the event prove <code>IEUser</code> is the attacker? What is the MITRE technique?<span class="ar">كلا الإضافتين بواسطة <code>IEUser</code>. هل يثبت الحدث أن <code>IEUser</code> هو المهاجم؟ و ما تقنية MITRE؟</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>MITRE:</b> this is <b>T1098 Account Manipulation</b> / <b>T1078 Valid Accounts</b>. <b>Team version:</b> one student reads the events, the other looks up the SIDs and the MITRE techniques; together they write the three Section 8 lines. Enabling and hiding in the <b>Guest</b> account is a real, quiet persistence &mdash; a dormant account nobody watches, suddenly an administrator.
+    <span class="ar"><b>MITRE:</b> هذا <b>T1098 Account Manipulation</b> / <b>T1078 Valid Accounts</b>. <b>نسخة الفريق:</b> يقرأ طالب الأحداث، و الآخر يبحث عن الـ SIDs و تقنيات MITRE؛ و معًا يكتبان سطور القسم الثامن الثلاثة. و تفعيل حساب <b>Guest</b> و الاختباء فيه استمرارية حقيقية هادئة — حساب خامل لا يراقبه أحد، يصير فجأةً مسؤولاً.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p16">
+<div class="divider-inner">
+  <span class="divider-kicker">Cheat sheet</span>
+  <h2>Event IDs on one screen<span class="ar">معرّفات الأحداث في شاشة واحدة</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">Keep this open in the next lab.<span class="ar">أبقِ هذه مفتوحة في المعمل القادم.</span></p>
+  <p class="divider-meta">1 screen</p>
+</div>
+    </section>
+
+<section class="page" id="p17">
+<span class="kicker">P12 &middot; Cheat sheet</span>
+<h2>Cheat sheet &mdash; event IDs and logon types
+  <span class="ar">الملخّص — معرّفات الأحداث و أنواع الدخول</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>ID</th><th>Channel</th><th>Means</th><th>MITRE</th></tr></thead>
+  <tbody>
+    <tr><td>4624 / 4625</td><td>Security</td><td>logon success / failure (read LogonType)</td><td>&mdash;</td></tr>
+    <tr><td>4672</td><td>Security</td><td>special privileges (admin session)</td><td>&mdash;</td></tr>
+    <tr><td>4688</td><td>Security</td><td>process created (+ command line if audited)</td><td>T1059</td></tr>
+    <tr><td>4720</td><td>Security</td><td>a user account was created</td><td>T1136</td></tr>
+    <tr><td>4732 / 4728</td><td>Security</td><td>member added to local / global group</td><td>T1098</td></tr>
+    <tr><td>1102</td><td>Security</td><td><b>Security log cleared</b></td><td>T1070.001</td></tr>
+    <tr><td>104</td><td>System</td><td><b>an event log cleared</b></td><td>T1070.001</td></tr>
+    <tr><td>7045</td><td>System</td><td>new service installed</td><td>T1543.003</td></tr>
+    <tr><td>Sysmon 1</td><td>Sysmon</td><td>process creation (with hashes)</td><td>&mdash;</td></tr>
+    <tr><td>Sysmon 3</td><td>Sysmon</td><td>network connection</td><td>&mdash;</td></tr>
+    <tr><td>Sysmon 13</td><td>Sysmon</td><td>registry value set</td><td>T1112</td></tr>
+    <tr><td>Sysmon 11</td><td>Sysmon</td><td>file created</td><td>&mdash;</td></tr>
+  </tbody>
+</table></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>LogonType</th><th>What it is</th><th>Watch for</th></tr></thead>
+  <tbody>
+    <tr><td>2</td><td>Interactive &mdash; keyboard or process on the desktop</td><td>a service process &ldquo;logging on&rdquo; as a user</td></tr>
+    <tr><td>3</td><td>Network &mdash; a share or remote call</td><td>lateral movement, mass 4624 type 3</td></tr>
+    <tr><td>5</td><td>Service starting</td><td>a new service (pair with 7045)</td></tr>
+    <tr><td>9</td><td><b>NewCredentials &mdash; runas /netonly</b></td><td><b>pass-the-hash</b></td></tr>
+    <tr><td>10</td><td>RemoteInteractive &mdash; RDP</td><td>unexpected external RDP</td></tr>
+    <tr><td>11</td><td>Cached domain logon, offline</td><td>a laptop used off the network</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>The one rule:</b> quote every finding as <b>EventID + Provider + time (UTC) + the field that carries the meaning</b>. &ldquo;A 4624&rdquo; is not a finding. &ldquo;A 4624, LogonType 9, seclogo, 11:06:29 UTC&rdquo; is.
+    <span class="ar"><b>القاعدة الوحيدة:</b> اقتبس كل نتيجة كـ<b>EventID + Provider + الزمن (UTC) + الحقل الذي يحمل المعنى</b>. فـ«4624» ليست نتيجة. أما «4624، LogonType 9، seclogo، ١١:٠٦:٢٩ UTC» فنتيجة.</span></p>
+</div>
+    </section>
+
+<section class="page divider" id="p18">
+<div class="divider-inner">
+  <span class="divider-kicker">Task</span>
+  <h2>Due before P13<span class="ar">يُسلَّم قبل P13</span></h2>
+  <div class="divider-rule"></div>
+  <p class="lede">One attack, reconstructed from the logs, mapped to MITRE, written for court.<span class="ar">هجوم واحد، معاد بناؤه من السجلات، مربوط بـ MITRE، مكتوب للمحكمة.</span></p>
+  <p class="divider-meta">2 screens</p>
+</div>
+    </section>
+
+<section class="page" id="p19">
+<span class="kicker">P12 &middot; Task</span>
+<h2>Task &mdash; reconstruct the pass-the-hash
+  <span class="ar">المهمة — أعد بناء الـ pass-the-hash</span></h2>
+<p>Three items. Item 3 is the assessment.
+  <span class="ar">ثلاثة بنود. البند الثالث هو التقييم.</span></p>
+<div id="taskList" class="steps"></div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Task</th><th>Deliverable</th><th>Marks</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>On <b>your own machine</b>, open Event Viewer, go to Security, and filter for EventID 4624. Read the LogonType of the last five.<span class="ar">على <b>جهازك أنت</b>، افتح Event Viewer، اذهب إلى Security، و رشّح على EventID 4624. اقرأ LogonType لآخر خمسة.</span></td><td>the five types, and what each was</td><td>2</td></tr>
+    <tr><td>2</td><td>Take <code>LM_4624_pth_source.evtx</code> from EVS-14 and list every event with its time and EventID on <b>one timeline</b>.<span class="ar">خذ <code>LM_4624_pth_source.evtx</code> من EVS-14 و اسرد كل حدث بزمنه و EventID على <b>خط زمني واحد</b>.</span></td><td>the timeline, 6 rows</td><td>3</td></tr>
+    <tr><td>3</td><td>Write the <b>Section 8 narrative</b>: what the sequence shows, each claim tied to an EventID, mapped to MITRE, and one <b>cannot-prove</b> line. Then name the single event you would NOT rely on alone.<span class="ar">اكتب <b>سرد القسم الثامن</b>: ما يُظهره التسلسل، كل ادّعاء مربوط بـ EventID، مربوطًا بـ MITRE، و سطر <b>لا يمكن إثباته</b> واحد. ثم سمِّ الحدث الوحيد الذي لن تعتمد عليه وحده.</span></td><td>the narrative, with MITRE IDs</td><td>5</td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Grading item 3.</b> Full marks: the narrative names the <b>pattern</b> (pass-the-hash) and supports it with type-9 + seclogo + the surrounding clear, <b>not</b> with any one event; every claim carries an EventID and time; MITRE is <b>T1550.002</b> and <b>T1070.001</b>; and the cannot-prove line notes that the cleared events are unrecoverable from this log and that <code>user01</code> is an account, not proven a person. <b>Minus a mark for &ldquo;the 4672 proves admin abuse&rdquo;</b> &mdash; 4672 alone is routine.
+    <span class="ar"><b>تقييم البند الثالث.</b> الدرجة الكاملة: يسمّي السرد <b>النمط</b> (pass-the-hash) و يدعمه بالنوع ٩ + seclogo + المسح المحيط، <b>لا</b> بأي حدث واحد؛ و كل ادّعاء يحمل EventID و زمنًا؛ و MITRE هو <b>T1550.002</b> و <b>T1070.001</b>؛ و سطر لا يمكن إثباته يذكر أن الأحداث الممسوحة غير قابلة للاستعادة من هذا السجل و أن <code>user01</code> حساب لا شخص مثبَت. <b>و يُخصم لعبارة «يثبت الـ 4672 إساءة استخدام admin»</b> — فالـ 4672 وحده روتيني.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p20">
+<span class="kicker">T20 &middot; Report stage &middot; 5 min</span>
+<h2>Report &mdash; Section 8 for event logs
+  <span class="ar">التقرير — القسم الثامن لسجلات الأحداث</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Do not write</th><th>Write</th></tr></thead>
+  <tbody>
+    <tr><td>&ldquo;the attacker <b>logged in</b> at 11:06&rdquo;<span class="ar">«<b>سجّل</b> المهاجم <b>دخوله</b> في ١١:٠٦»</span></td><td>&ldquo;a <code>4624</code>, <b>LogonType 9</b>, process <code>seclogo</code>, at 11:06:29 UTC&rdquo;<span class="ar">«<code>4624</code>، <b>LogonType 9</b>، العملية <code>seclogo</code>، في ١١:٠٦:٢٩ UTC»</span></td></tr>
+    <tr><td>&ldquo;the logs were <b>wiped</b> to hide the attack&rdquo;<span class="ar">«<b>مُسحت</b> السجلات لإخفاء الهجوم»</span></td><td>&ldquo;<code>1102</code> and <code>104</code> record both logs cleared by <code>user01</code>; the record-number gap is consistent&rdquo;<span class="ar">«يسجّل <code>1102</code> و <code>104</code> مسح كلا السجلين بواسطة <code>user01</code>؛ و فجوة رقم السجل متّسقة»</span></td></tr>
+    <tr><td>&ldquo;<code>user01</code> <b>stole credentials</b>&rdquo;<span class="ar">«<b>سرق</b> <code>user01</code> بيانات اعتماد»</span></td><td>&ldquo;the type-9 logon pattern is consistent with <b>T1550.002 Pass the Hash</b>&rdquo;<span class="ar">«نمط الدخول من النوع ٩ متّسق مع <b>T1550.002 Pass the Hash</b>»</span></td></tr>
+    <tr><td>&ldquo;there was <b>no persistence</b>&rdquo;<span class="ar">«لم تكن هناك <b>استمرارية</b>»</span></td><td>&ldquo;no persistence event in the Security log; <b>Sysmon was not present</b> to confirm or exclude&rdquo;<span class="ar">«لا حدث استمرارية في سجل الـ Security؛ و <b>Sysmon غير موجود</b> للتأكيد أو الاستبعاد»</span></td></tr>
+  </tbody>
+</table></div>
+<div class="finding">
+  <span class="cl-label">The line that separates log analysis from a story</span>
+  <p><b>The EventID and the Provider.</b> They make a claim reproducible: another examiner opens the same <code>.evtx</code>, filters the same ID, and sees the same record. A sentence without them is your memory of a log, not the log. And <b>map to MITRE</b> &mdash; it turns a pile of IDs into a technique a reader can weigh.
+    <span class="ar"><b>الـ EventID و الـ Provider.</b> يجعلان الادّعاء قابلاً لإعادة الإنتاج: يفتح فاحص آخر الـ <code>.evtx</code> نفسه، و يرشّح المعرّف نفسه، و يرى السجل نفسه. و الجملة بلا هذين ذاكرتك عن سجل، لا السجل. و <b>اربط بـ MITRE</b> — فهو يحوّل كومة معرّفات إلى تقنية يستطيع القارئ وزنها.</span></p>
+</div>
+    </section>
+
+<section class="page" id="p21">
+<span class="kicker">Summary</span>
+<h2>Summary &mdash; what you can now state
+  <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>You can state</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>what one event is made of<span class="ar">ممّ يتكوّن الحدث الواحد</span></td><td>a fixed System envelope and an EventID-dependent payload<span class="ar">ظرف System ثابت و حمولة تعتمد على الـ EventID</span></td></tr>
+    <tr><td>what a logon actually was<span class="ar">ما كان الدخول فعلاً</span></td><td>the LogonType field &mdash; 2, 3, 5, 9, 10 mean different things<span class="ar">حقل LogonType — 2 و3 و5 و9 و10 تعني أشياء مختلفة</span></td></tr>
+    <tr><td>that a log was cleared, when, and by whom<span class="ar">أن سجلاً مُسح، و متى، و بواسطة من</span></td><td>1102 and 104 are written into the log they clear<span class="ar">1102 و104 يُكتبان في السجل الذي يمسحانه</span></td></tr>
+    <tr><td>that a record-number gap confirms removal<span class="ar">أن فجوة رقم السجل تؤكّد الإزالة</span></td><td>the EventRecordID counter never resets<span class="ar">عدّاد EventRecordID لا يُعاد ضبطه أبدًا</span></td></tr>
+    <tr><td>the pass-the-hash pattern<span class="ar">نمط pass-the-hash</span></td><td>type-9 + seclogo + a clear + new processes<span class="ar">النوع ٩ + seclogo + مسح + عمليات جديدة</span></td></tr>
+    <tr><td>why absence in a log is not absence of the event<span class="ar">لماذا الغياب في سجل ليس غياب الحدث</span></td><td>the Security log and Sysmon record different things<span class="ar">سجل الـ Security و Sysmon يسجّلان أشياء مختلفة</span></td></tr>
+  </tbody>
+</table></div>
+<div class="key-takeaway"><span class="cl-label">The sentence this page turns on</span>
+  <ul>
+    <li><b>Event logs are Windows testifying on purpose. The attacker&rsquo;s attempt to silence that testimony is written down as the loudest testimony of all.</b>
+      <span class="ar"><b>سجلات الأحداث هي ويندوز يشهد عمدًا. و محاولة المهاجم إسكات تلك الشهادة تُكتب بوصفها أعلى الشهادات صوتًا.</b></span></li>
+    <li><b>And every finding is an EventID, a Provider, a UTC time, and the one field that carries the meaning &mdash; never less.</b>
+      <span class="ar"><b>و كل نتيجة هي EventID و Provider و زمن UTC و الحقل الوحيد الذي يحمل المعنى — لا أقلّ أبدًا.</b></span></li>
+  </ul>
+</div>
+    </section>
+
+<section class="page" id="p22">
+<span class="kicker">References</span>
+<h2>References and what comes next
+  <span class="ar">المراجع و ما يأتي بعد</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+  <tbody>
+    <tr><td><b>Samir Bousseaden &mdash; <code>EVTX-ATTACK-SAMPLES</code></b> (GPL-3.0)</td><td>all six recordings and every event value<span class="ar">كل تسجيل و كل قيمة حدث</span></td></tr>
+    <tr><td><b>EvtxECmd</b> / <b>python-evtx</b></td><td>reading the .evtx files field by field<span class="ar">قراءة ملفات الـ evtx حقلاً حقلاً</span></td></tr>
+    <tr><td><b>Microsoft security-auditing reference</b></td><td>the EventID meanings and the LogonType table<span class="ar">معاني الـ EventID و جدول LogonType</span></td></tr>
+    <tr><td><b>MITRE ATT&amp;CK</b></td><td>T1070.001, T1550.002, T1098, T1543.003<span class="ar">التقنيات المذكورة على الصفحة</span></td></tr>
+    <tr><td><b>TryHackMe</b> &mdash; <i>Windows Event Logs</i>, <i>Investigating with Splunk</i></td><td>a live Event Viewer / SIEM walkthrough<span class="ar">شرح Event Viewer و SIEM حيّ</span></td></tr>
+  </tbody>
+</table></div>
+<div class="note">
+  <p><b>Evidence note.</b> <code>EVS-14</code> is <b>Tier 2</b>: a public, openly-licensed collection of attack recordings, fetched at a pinned commit and hash-checked by <code>scripts/fetch_corpora.py</code>, credited and never rehosted. The events describe <b>simulated</b> attacks on the author&rsquo;s lab machines &mdash; the account names (<code>user01</code>, <code>IEUser</code>) and hosts are lab fixtures, not real people (`D41`). Nothing on the page is a fabricated event (`D22`).
+    <span class="ar"><b>ملاحظة عن الدليل.</b> <code>EVS-14</code> من <b>المستوى الثاني</b>: مجموعة تسجيلات هجمات عامة مرخَّصة بحرية، جُلبت عند commit مثبَّت و فُحصت قيم الـ hash الخاصة بها بواسطة <code>scripts/fetch_corpora.py</code>، منسوبة و غير معاد استضافتها. و الأحداث تصف هجمات <b>محاكاة</b> على أجهزة معمل المؤلّف — فأسماء الحسابات (<code>user01</code> و <code>IEUser</code>) و الأجهزة تجهيزات معمل، لا أشخاص حقيقيون. و لا شيء على الصفحة حدث مُلفَّق.</span></p>
+</div>
+<p><b>Next: `P13` &mdash; Network evidence.</b> The logs on this page were what one machine wrote about itself. `T21`&ndash;`T23` read what crossed the <b>wire</b>: a packet capture, command-and-control hidden in ordinary traffic, and what a browser and an email client leave behind.
+  <span class="ar"><b>التالي: `P13` — أدلة الشبكة.</b> كانت سجلات هذه الصفحة ما كتبه جهاز واحد عن نفسه. و يقرأ `T21`&ndash;`T23` ما عبر <b>السلك</b>: التقاط حزم، و تحكّم و سيطرة مخفيان في حركة عادية، و ما يتركه متصفّح و عميل بريد.</span></p>
+    </section>
+
+  </main>
+</div>
+
+<nav class="page-nav">
+  <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
+  <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
+  <span class="counter">1 / 22</span>
+  <button class="btn" type="button" data-nav="next">Next &rarr;</button>
+</nav>
+
+<footer class="wrap foot">
+  <p>ITGate Academy &middot; eCDFP Diploma &middot; <b>P12</b> &middot; content from
+     <code>packages/page-12/</code> &middot; <a href="../roadmap.html">the map</a></p>
+</footer>
+
+<script src="../assets/js/session.js"></script>
+<script src="../assets/js/quiz.js"></script>
+<script src="../assets/js/homework.js"></script>
+<script src="../assets/js/task-creator.js"></script>
+<script src="../assets/js/simscreen.js"></script>
+<script src="../assets/js/dgm.js"></script>
+<script>
+SimScreen.init('#ss-t20', [
+ {screen:'l1', target:'v1',
+  en:'Start where an attacker tries to end: <b>was a log cleared?</b> The file has 112 records; filtering for <code>EventId 1102</code> returns the one that matters &mdash; the Security log was cleared at <b>23:35:07</b> by <code>EXAMPLE\\user01</code>. <b>The clear names the account that did it.</b>',
+  ar:'ابدأ حيث يحاول المهاجم أن ينتهي: <b>هل مُسح سجل؟</b> في الملف ١١٢ سجلاً؛ و الترشيح على <code>EventId 1102</code> يعيد الذي يهمّ — مُسح سجل الـ Security في <b>٢٣:٣٥:٠٧</b> بواسطة <code>EXAMPLE\\user01</code>. <b>و المسح يسمّي الحساب الذي فعله.</b>'},
+ {screen:'l2', target:'v2',
+  en:'The System log was cleared too, <b>42 seconds earlier</b>, by the same account. Two clears, one user &mdash; and each clear is written <i>into the log it clears</i>, so the most aggressive anti-forensic act is also the loudest.',
+  ar:'مُسح سجل الـ System أيضًا، <b>قبله بـ٤٢ ثانية</b>، بالحساب نفسه. مسحان، مستخدم واحد — و كل مسح يُكتب <i>في السجل الذي يمسحه</i>، فأشرس فعل مضادّ للأدلة هو أيضًا الأعلى صوتًا.'},
+ {screen:'l3', target:'v3',
+  en:'A logon pair. The <b>LogonType is 2</b> &mdash; interactive &mdash; but read the detail: a <code>4625</code> failure with <b>SubStatus 0xC000006A (bad password)</b>, then a <code>4624</code> success, both from a <b>Chrome updater process</b>. Interactive does not always mean a person typing.',
+  ar:'زوج دخول. <b>الـ LogonType هو 2</b> — تفاعلي — لكن اقرأ التفصيل: فشل <code>4625</code> بـ<b>SubStatus 0xC000006A (كلمة مرور خاطئة)</b>، ثم نجاح <code>4624</code>، كلاهما من <b>عملية تحديث Chrome</b>. فالتفاعلي لا يعني دائمًا شخصًا يكتب.'},
+ {screen:'l4', target:'v4',
+  en:'Now the one to memorise. <b>LogonType 9, NewCredentials</b>, from process <code>seclogo</code> at <code>::1</code> &mdash; that is <code>runas /netonly</code>, the <b>pass-the-hash signature</b>. A <code>4672</code> special-privileges event is stapled to it, and a <code>1102</code> clear opens this very file.',
+  ar:'الآن الذي تحفظه. <b>LogonType 9، NewCredentials</b>، من العملية <code>seclogo</code> عند <code>::1</code> — هذا <code>runas /netonly</code>، <b>العلامة المميِّزة لـ pass-the-hash</b>. و حدث امتيازات خاصة <code>4672</code> ملتصق به، و مسح <code>1102</code> يفتح هذا الملف نفسه.'},
+ {screen:'l5', target:'v5',
+  en:'The last event is one the <b>Security log never records</b>. Switch to <b>Sysmon</b>: EventID 13, a registry value set. <code>a.exe</code> wrote a <code>Run</code> key whose value is <code>"c:\\windows\\tasks\\taskhost.exe"</code> &mdash; <b>persistence disguised as a system file</b>. What you can see depends on what was being logged.',
+  ar:'الحدث الأخير من الأحداث التي <b>لا يسجّلها سجل الـ Security أبدًا</b>. بدّل إلى <b>Sysmon</b>: الحدث 13، ضبط قيمة registry. كتب <code>a.exe</code> مفتاح <code>Run</code> قيمته <code>"c:\\windows\\tasks\\taskhost.exe"</code> — <b>استمرارية متنكّرة كملف نظام</b>. فما تستطيع رؤيته يعتمد على ما كان يُسجَّل.'}
+]);
+Dgm.init('#dg-lc-p12', [
+ {en:'<b>ACQUIRE.</b> Get the evidence off the machine without changing it.', ar:'<b>ACQUIRE.</b> إخراج الدليل من الجهاز دون تغييره.'},
+ {en:'<b>PRESERVE.</b> Prove it did not change afterwards.', ar:'<b>PRESERVE.</b> إثبات أنه لم يتغيّر بعد ذلك.'},
+ {en:'<b>ANALYSE.</b> Read what is there, and say only what the bytes support. <b>This page is here.</b>', ar:'<b>ANALYSE.</b> قراءة ما هو موجود، و قول ما تدعمه الـ bytes فقط. <b>و هذه الصفحة هنا.</b>',key:true},
+ {en:'<b>VALIDATE.</b> Check the finding against a second source.', ar:'<b>VALIDATE.</b> التحقّق من النتيجة بمصدر ثانٍ.'},
+ {en:'<b>PRESENT.</b> Write it so someone else can check it.', ar:'<b>PRESENT.</b> كتابتها بحيث يستطيع غيرك التحقّق منها.'}
+]);
+Dgm.init('#dg12-f1', [
+ {en:'Every event has two halves. The <b>&lt;System&gt;</b> block is the envelope, and it is the <b>same shape on every event ever written</b>: who logged it (Provider), what it is (EventID), where (Channel), when (TimeCreated, always UTC), and a record number.', ar:'لكل حدث نصفان. كتلة <b>&lt;System&gt;</b> هي الظرف، و هي <b>الشكل نفسه على كل حدث كُتب يومًا</b>: من سجّله (Provider)، و ما هو (EventID)، و أين (Channel)، و متى (TimeCreated، دائمًا UTC)، و رقم سجل.'},
+ {en:'The <b>&lt;EventData&gt;</b> block is the payload, and <b>its fields change with the EventID</b>. For a 4624 they describe a logon: the account, the logon type, the source. For a different ID the same slots would mean something else.', ar:'و كتلة <b>&lt;EventData&gt;</b> هي الحمولة، و <b>حقولها تتغيّر مع الـ EventID</b>. ففي 4624 تصف تسجيل دخول: الحساب و نوع الدخول و المصدر. و في معرّف مختلف تعني الخانات نفسها شيئًا آخر.'},
+ {en:'So an <b>EventID is meaningless without its Provider</b>. ID 13 under <i>Sysmon</i> is a registry write; ID 13 under another provider is a different thing entirely. Always carry the pair.', ar:'إذن <b>الـ EventID بلا معنى دون Provider</b>. فالمعرّف 13 تحت <i>Sysmon</i> كتابة registry؛ و المعرّف 13 تحت provider آخر شيء مختلف تمامًا. احمل الزوج دائمًا.'},
+ {en:'<b>System says which and when; Data says what.</b> This split is the whole grammar of event-log analysis, and every screen after this reads exactly these two blocks.', ar:'<b>الـ System يقول أيّ حدث و متى؛ و الـ Data يقول ماذا.</b> هذا الفصل هو نحو تحليل سجلات الأحداث كله، و كل شاشة بعد هذه تقرأ هاتين الكتلتين بالضبط.',key:true}
+]);
+Dgm.init('#dg12-f2', [
+ {en:'A <code>4624</code> means &ldquo;an account logged on&rdquo; &mdash; but the <b>LogonType</b> field decides what that sentence means. Type <b>2</b> is interactive: a keyboard, or a process acting on the desktop.', ar:'الـ <code>4624</code> يعني «سجّل حساب دخوله» — لكن حقل <b>LogonType</b> يقرّر ما تعنيه تلك الجملة. النوع <b>2</b> تفاعلي: لوحة مفاتيح، أو عملية تعمل على سطح المكتب.'},
+ {en:'Type <b>3</b> is a network logon &mdash; a file share, a remote call. There is no desktop and no person necessarily present.', ar:'النوع <b>3</b> دخول شبكي — مشاركة ملفات، نداء بعيد. و لا سطح مكتب و لا شخص حاضر بالضرورة.'},
+ {en:'Type <b>4</b> is a scheduled task; type <b>5</b> is a service starting. Both run with no one there, and both are logons in the log.', ar:'النوع <b>4</b> مهمة مجدولة؛ و النوع <b>5</b> خدمة تبدأ. كلاهما يعمل دون أحد، و كلاهما دخول في السجل.'},
+ {en:'Type <b>9, NewCredentials</b>, is the one to know cold: it is <code>runas /netonly</code>, and it is the <b>signature of pass-the-hash</b> &mdash; a process keeping its local identity but using stolen credentials on the network. EVS-14 has a real one.', ar:'النوع <b>٩، NewCredentials</b>، هو الذي يجب أن تعرفه تمامًا: هو <code>runas /netonly</code>، و هو <b>العلامة المميِّزة لـ pass-the-hash</b> — عملية تحتفظ بهويتها المحلية لكنها تستخدم بيانات اعتماد مسروقة على الشبكة. و في EVS-14 واحد حقيقي.'},
+ {en:'Type <b>10</b> is RDP; type <b>11</b> is a cached domain logon while offline. Seven common types, seven different stories.', ar:'النوع <b>١٠</b> هو RDP؛ و النوع <b>١١</b> دخول domain مخزَّن أثناء عدم الاتصال. سبعة أنواع شائعة، سبع قصص مختلفة.'},
+ {en:'<b>So &ldquo;there was a logon&rdquo; is never a finding on its own.</b> The type is the finding, and writing 4624 without it is writing nothing.', ar:'<b>إذن «حدث دخول» ليس نتيجة بذاته أبدًا.</b> النوع هو النتيجة، و كتابة 4624 دونه كتابةٌ لا شيء.',key:true}
+]);
+Dgm.init('#dg12-f3', [
+ {en:'At <b>23:34:25</b>, the <b>System</b> log records event <b>104</b>: it was cleared, by <code>EXAMPLE\\user01</code>. The log writes its own clearing into itself as the last thing it does.', ar:'في <b>٢٣:٣٤:٢٥</b>، يسجّل سجل <b>System</b> الحدث <b>104</b>: مُسح، بواسطة <code>EXAMPLE\\user01</code>. يكتب السجل مسحه في نفسه كآخر ما يفعل.'},
+ {en:'Forty-two seconds later, at <b>23:35:07</b>, the <b>Security</b> log records event <b>1102</b>: the same user cleared it too. Two logs, two clear events, one account.', ar:'و بعد اثنتين و أربعين ثانية، في <b>٢٣:٣٥:٠٧</b>، يسجّل سجل <b>Security</b> الحدث <b>1102</b>: مسحه المستخدم نفسه أيضًا. سجلّان، حدثا مسح، حساب واحد.'},
+ {en:'The Security recording holds <b>112 records</b>: the one <code>1102</code>, and <b>110</b> file-access events around it. The clear is a needle &mdash; you <b>filter for EventID 1102</b>, you never scroll looking for it.', ar:'يحمل تسجيل الـ Security <b>١١٢ سجلاً</b>: الـ <code>1102</code> الواحد، و <b>١١٠</b> أحداث وصول للملفات حوله. و المسح إبرة — <b>ترشّح على EventID 1102</b>، و لا تتصفّح بحثًا عنه أبدًا.'},
+ {en:'Clearing removes the old events but <b>does not reset the record counter</b>. The <code>EventRecordID</code> jumps, and that gap is a <b>second, independent witness</b> that events were removed.', ar:'المسح يزيل الأحداث القديمة لكنه <b>لا يعيد ضبط عدّاد السجلات</b>. فيقفز <code>EventRecordID</code>، و تلك الفجوة <b>شاهد ثانٍ مستقل</b> على أن أحداثًا أُزيلت.'},
+ {en:'<b>You cannot clear a log without writing the event that says you did.</b> The most aggressive anti-forensic move leaves the most unambiguous mark &mdash; 104 and 1102 are the gifts an attacker cannot help giving.', ar:'<b>لا تستطيع مسح سجل دون كتابة الحدث الذي يقول إنك فعلت.</b> فأشرس حركة مضادة للأدلة تترك أوضح علامة — و 104 و 1102 هما الهديتان اللتان لا يملك المهاجم إلا تقديمهما.',key:true}
+]);
+Dgm.init('#dg12-f4', [
+ {en:'The recording opens with a <b>1102</b>: the Security log was cleared at 11:06:25. Everything that follows survived <b>because it was written after the clear</b>.', ar:'يفتح التسجيل بـ<b>1102</b>: مُسح سجل الـ Security في ١١:٠٦:٢٥. و كل ما يتبع نجا <b>لأنه كُتب بعد المسح</b>.'},
+ {en:'Four seconds later, a <b>4624</b> with <b>LogonType 9</b> &mdash; NewCredentials. The <code>LogonProcessName</code> is <code>seclogo</code>, the source is <code>::1</code>. This is <code>runas /netonly</code>: the process keeps <code>user01</code>&rsquo;s local identity and presents <b>different credentials to the network</b>.', ar:'و بعد أربع ثوانٍ، <b>4624</b> بـ<b>LogonType 9</b> — NewCredentials. و <code>LogonProcessName</code> هو <code>seclogo</code>، و المصدر <code>::1</code>. هذا <code>runas /netonly</code>: تحتفظ العملية بهوية <code>user01</code> المحلية و تقدّم <b>بيانات اعتماد مختلفة للشبكة</b>.'},
+ {en:'Immediately, a <b>4672</b>: special privileges were assigned to that logon session. On its own it is routine; <b>paired with a type-9 logon it is part of the pattern</b>.', ar:'و فورًا، <b>4672</b>: أُسندت امتيازات خاصة لتلك الجلسة. و هو وحده روتيني؛ <b>لكنه مقترنًا بدخول من النوع ٩ جزء من النمط</b>.'},
+ {en:'Then three <b>4688</b> process-creation events run under those new credentials. The chain is complete: clear, log on with stolen creds, elevate, act.', ar:'ثم ثلاثة أحداث <b>4688</b> لإنشاء عمليات تعمل بتلك البيانات الجديدة. اكتملت السلسلة: امسح، سجّل الدخول ببيانات مسروقة، تصعّد، تصرّف.'},
+ {en:'<b>No single event says &ldquo;pass-the-hash&rdquo;.</b> Type-9-plus-seclogo, wrapped in a cleared log and followed by new processes, is the pattern &mdash; and <b>an analyst names the pattern, never one event</b>. That is the difference between a SOC alert and a forensic finding.', ar:'<b>لا حدث واحد يقول «pass-the-hash».</b> فالنوع ٩ مع seclogo، ملفوفًا بسجل ممسوح و متبوعًا بعمليات جديدة، هو النمط — و <b>المحلل يسمّي النمط، لا حدثًا واحدًا</b>. و هذا هو الفرق بين تنبيه SOC و نتيجة جنائية.',key:true}
+]);
+Dgm.init('#dg12-f5', [
+ {en:'The built-in <b>Security</b> log is for auditing: logons, privilege use, account and group changes. A program quietly writing a registry value is <b>usually not audited</b>, so this persistence leaves <b>no Security event at all</b>.', ar:'سجل <b>Security</b> المدمج للتدقيق: الدخول و استخدام الامتيازات و تغييرات الحسابات و مجموعات الأمان. و برنامج يكتب قيمة registry بهدوء <b>لا يُدقَّق عليه عادةً</b>، فلا تترك هذه الاستمرارية <b>أي حدث Security إطلاقًا</b>.'},
+ {en:'<b>Sysmon</b> is a separate tool an admin installs. Its <b>EventID 13</b> records every registry value set: the writing image is <code>a.exe</code> in <code>C:\\Users\\Public\\tools</code>, the target is a <code>Run</code> key.', ar:'و <b>Sysmon</b> أداة منفصلة يثبّتها المسؤول. و <b>EventID 13</b> فيها يسجّل كل ضبط لقيمة registry: الصورة الكاتبة <code>a.exe</code> في <code>C:\\Users\\Public\\tools</code>، و الهدف مفتاح <code>Run</code>.'},
+ {en:'And the value it wrote is named <code>"c:\\windows\\tasks\\taskhost.exe"</code> &mdash; it <b>masquerades as a Windows file</b>. Sysmon caught the write and its disguise; the Security log would have shown neither.', ar:'و القيمة التي كتبها اسمها <code>"c:\\windows\\tasks\\taskhost.exe"</code> — إنها <b>تتنكّر كملف ويندوز</b>. أمسك Sysmon بالكتابة و بتنكّرها؛ و سجل الـ Security ما كان ليُظهر أيًّا منهما.'},
+ {en:'<b>What you can see depends on what was being logged.</b> &ldquo;No evidence of persistence&rdquo; means &ldquo;not in the logs I have&rdquo; &mdash; and the first question is whether Sysmon was installed at all. Absence in one log is never absence of the event.', ar:'<b>ما تستطيع رؤيته يعتمد على ما كان يُسجَّل.</b> فعبارة «لا دليل على استمرارية» تعني «ليس في السجلات التي لديّ» — و أول سؤال هو هل كان Sysmon مثبَّتًا أصلاً. و الغياب في سجل واحد ليس غياب الحدث أبدًا.',key:true}
+]);
+</script>
+
+</body>
+</html>
