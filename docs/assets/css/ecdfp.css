@@ -1527,8 +1527,8 @@ figure.photo img{ background:#0d1219; }
 
 /* two photographs of the same object, side by side -- pattern 2 (parallel
    rows): the layout is identical so the only thing that moves is the subject */
-.photo-row{ display:grid; gap:14px; grid-template-columns:1fr 1fr; margin:1.6em 0; }
-.photo-row figure.photo{ margin:0; width:auto; }
+.photo-row{ display:grid; gap:14px; grid-template-columns:minmax(0,1fr) minmax(0,1fr); margin:1.6em 0; }
+.photo-row figure.photo{ margin:0; width:auto; min-width:0; }
 .photo-row figure.photo img{ width:100%; }
 .photo-row figure.photo figcaption{ max-width:none; }
 @media (max-width:760px){ .photo-row{ grid-template-columns:minmax(0,1fr); } }
@@ -1735,3 +1735,79 @@ figure.photo img{ background:#0d1219; }
 .page figure.photo.wide { width: auto; max-width: none; }
 figure.photo.wide img { width: 100%; }
 figure.photo.wide figcaption { max-width: none; }
+
+/* ==========================================================================
+   30 · KNOWLEDGE CHECK (markup B) + ONE-SCREEN PRINT  (2026-09-10 · D164)
+   --------------------------------------------------------------------------
+   (a) Every topic page writes its MCQ as `.q.mcq[data-correct] > label > input`
+       (markup B in quiz.js). No rule styled those labels and no script read
+       them, so the radios did nothing and the .feedback -- which holds the
+       answer -- was visible before the student chose. quiz.js now handles
+       markup B; these rules style it and keep the feedback hidden until the
+       question is answered.
+   (b) `window.print()` on a deck page printed all 28+ screens, dark theme and
+       all, and the cheat sheet -- the one screen a student wants on paper --
+       was somewhere in the middle. session.js now marks the active screen
+       `.print-target` and the body `.print-one` on beforeprint, so a print
+       (button or Ctrl+P) is the current screen, black on white.
+   ========================================================================== */
+.q.mcq > .qtext { font-weight: 600; margin: 0 0 10px; }
+.q.mcq > label {
+  display: flex; gap: 9px; align-items: flex-start; margin: 0 0 6px;
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px;
+  cursor: pointer; font-size: 1rem; line-height: 1.5;
+}
+.q.mcq > label:hover { border-color: var(--accent-cyan); }
+.q.mcq > label input { margin-top: .32em; flex: 0 0 auto; accent-color: var(--accent-cyan); }
+.q.mcq > label.correct { border-color: var(--accent-green); background: rgba(0,255,157,.07); }
+.q.mcq > label.wrong   { border-color: var(--accent-red);   background: rgba(255,77,94,.07); }
+.q.mcq > .feedback {
+  display: none; margin-top: 10px; padding: 10px 12px; border-radius: 6px;
+  border: 1px dashed var(--border); font-size: .95rem; color: var(--text-primary);
+}
+.q.mcq.answered > .feedback { display: block; }
+.q.mcq.is-right > .feedback { border-color: rgba(0,255,157,.45); }
+.q.mcq.is-wrong > .feedback { border-color: rgba(255,180,84,.55); }
+.q.mcq .feedback .verdict { font-weight: 700; color: var(--accent-green); }
+.q.mcq.is-wrong .feedback .verdict { color: var(--accent-amber); }
+.q.mcq + .q.mcq { margin-top: 1.1em; }
+
+@media print {
+  body.print-one .page { display: none !important; }
+  body.print-one .foot, body.print-one footer, body.print-one .page-nav { display: none !important; }
+  body.print-one .page.print-target { display: block !important; page-break-after: auto; }
+  body.print-one .print-target,
+  body.print-one .print-target * {
+    color: #000 !important; background: #fff !important;
+    box-shadow: none !important; text-shadow: none !important; border-color: #999 !important;
+  }
+  body.print-one .print-target .ar { color: #444 !important; }
+  body.print-one .print-target code, body.print-one .print-target pre { background: #f2f2f2 !important; }
+  body.print-one .print-target svg text { fill: #000 !important; }
+  body.print-one .print-target .btn,
+  body.print-one .print-target .dgm-ctl, body.print-one .print-target .ss-ctl,
+  body.print-one .print-target .dgm-head .dgm-tag { display: none !important; }
+  body.print-one .print-target .q.mcq > .feedback { display: block !important; }
+}
+
+/* ==========================================================================
+   31 · DOWNLOAD ROW + EVIDENCE PHOTO STRIP  (2026-09-10 · D165)
+   A task pack the student pulls from the site: one button, the size, the
+   contents, and the SHA-256 they check it against before opening it.
+   ========================================================================== */
+.dl-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 8px 0 4px; }
+.dl-row .btn { text-decoration: none; }
+.dl-meta { font-size: .9rem; color: var(--text-secondary); }
+.dl-card { border: 1px solid var(--border); border-left: 3px solid var(--accent-cyan); border-radius: 12px;
+           background: var(--bg-card); padding: 14px 16px; margin: 1.2em 0; box-shadow: var(--lift); }
+.dl-card .dl-row { margin-top: 10px; }
+.dl-card code.h { font-size: .78rem; word-break: break-all; }
+.byte-tbl td:first-child, .byte-tbl td:nth-child(2) { font-family: var(--font-mono); white-space: nowrap; }
+.hexpane { font-family: var(--font-mono); font-size: 12px; line-height: 1.6; background: #fff; color: #1b1b1b;
+           border: 1px solid #a0a0a0; padding: 8px 10px; overflow-x: auto; white-space: pre; }
+.hexpane .off { color: #1a56b3; } .hexpane .hi { background: #ffe89a; } .hexpane .hi2 { background: #cfe8ff; }
+/* a recreated window beside its finding boxes; stacks below 900px */
+.side-by { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin: 0 0 1.2em; }
+.side-by > * { min-width: 0; }
+.side-by > .wu { flex: 0 1 420px; }
+.side-by > .boxes { flex: 1 1 340px; }

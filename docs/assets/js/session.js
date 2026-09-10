@@ -64,6 +64,18 @@
   links.forEach(function (a, n) {
     a.addEventListener('click', function (e) { e.preventDefault(); show(n, true); });
   });
+
+  /* ------------------------------------------------------- one-screen print
+     A deck page printed every screen. beforeprint marks the ACTIVE screen and
+     the print stylesheet (ecdfp.css section 30) prints only that one. Fires
+     for the cheat-sheet Print button and for Ctrl+P alike. */
+  function printTarget(on) {
+    pages.forEach(function (p) { p.classList.remove('print-target'); });
+    document.body.classList.toggle('print-one', on);
+    if (on && pages[current]) pages[current].classList.add('print-target');
+  }
+  window.addEventListener('beforeprint', function () { printTarget(true); });
+  window.addEventListener('afterprint',  function () { printTarget(false); });
   if (prevBtn) prevBtn.addEventListener('click', function () { show(current - 1, true); });
   if (nextBtn) nextBtn.addEventListener('click', function () { show(current + 1, true); });
 

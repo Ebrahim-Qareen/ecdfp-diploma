@@ -114,9 +114,14 @@ print("-"*72)
 def chk(label,val,limit,ok):
     print("  %-38s %-12s limit %-10s %s" % (label,val,limit,"PASS" if ok else "FAIL"))
     if not ok: fails.append(label)
-chk("total visible words",tot,"<= 4000",tot<=4000)
+# D163 (2026-09-10): the 4000-word page total is retired. Density is a per-screen
+# property -- the 180 average and 250 worst-screen limits below are what keep a
+# screen readable -- and a page that carries a whole INE module (P08, P09) is
+# allowed as many screens as it needs. The total is now reported, not gated.
+chk("total visible words",tot,"<= 180/screen",tot<=180*n)
 chk("average words / page",avg,"<= 180",avg<=180)
 chk("worst single page",worst,"<= 250",worst<=250)
+if worst>250: print("      -> %s" % ", ".join("%s=%d"%(r[0],r[1]) for r in rows if r[1]>250))
 chk("pages with NO visual",len(noviz) or "0","0",not noviz)
 chk("pages with 4+ consecutive <p>",len(pruns) or "0","0",not pruns)
 if noviz: print("      -> %s" % ", ".join(noviz))
