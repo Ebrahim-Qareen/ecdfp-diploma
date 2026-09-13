@@ -671,16 +671,17 @@
   <span class="ar">المعمل — اقرأ الـ MBR يدويًّا، ثم أثبت قراءتك</span></h2>
 <p>Sixty-four bytes, a calculator and a hex editor. Decode every entry, work out where each partition starts and ends, then <b>go there</b> and read the boot sector you predicted.
   <span class="ar">أربعة و ستون byte، و آلة حاسبة، و محرّر hex. فكّ كل مدخل، و احسب أين تبدأ كل partition و أين تنتهي، ثم <b>اذهب إلى هناك</b> و اقرأ الـ boot sector الذي توقّعته.</span></p>
+<p><a class="btn" href="../downloads/evs-15/mbr_lab.zip" download>&#11015; mbr_lab.zip</a> <a class="btn" href="../downloads/evs-15/SHA256SUMS.txt" download>&#11015; SHA256SUMS.txt</a></p>
 <div class="table-wrap"><table>
   <thead><tr><th>#</th><th>Do</th><th>Write down</th></tr></thead>
   <tbody>
-    <tr><td>1</td><td>hash <code>mbr_lab.001</code>; open it in HxD <b>read-only</b><span class="ar">احسب hash الملف <code>mbr_lab.001</code>؛ و افتحه في HxD بوضع <b>القراءة فقط</b></span></td><td>hash = manifest<span class="ar">الـ hash يساوي البيان</span></td></tr>
+    <tr><td>1</td><td>hash the file; open it in HxD <b>read-only</b><span class="ar">احسب hash الملف <code>mbr_lab.001</code>؛ و افتحه في HxD بوضع <b>القراءة فقط</b></span></td><td>hash = manifest<span class="ar">الـ hash يساوي البيان</span></td></tr>
     <tr><td>2</td><td>go to <code>0x1FE</code>, then <code>0x1B8</code><span class="ar">اذهب إلى <code>0x1FE</code>، ثم إلى <code>0x1B8</code></span></td><td><code>55 AA</code> &middot; the disk signature<span class="ar"><code>55 AA</code> · توقيع القرص</span></td></tr>
-    <tr><td>3</td><td>16 bytes at <code>0x1BE</code>; bytes 8&ndash;11 and 12&ndash;15 as <b>Int32</b> (Data Inspector)<span class="ar">16 byte عند <code>0x1BE</code>؛ و الـ bytes من 8 إلى 11 و من 12 إلى 15 كـ <b>Int32</b> في الـ Data Inspector</span></td><td>type &middot; LBA start &middot; count<span class="ar">النوع · بداية الـ LBA · العدد</span></td></tr>
+    <tr><td>3</td><td>16 bytes at <code>0x1BE</code>; bytes 8&ndash;11, 12&ndash;15 as <b>Int32</b><span class="ar">16 byte عند <code>0x1BE</code>؛ و الـ bytes 8–11 و 12–15 كـ <b>Int32</b></span></td><td>type &middot; LBA start &middot; count<span class="ar">النوع · بداية الـ LBA · العدد</span></td></tr>
     <tr><td>4</td><td>end = start + count &minus; 1 &middot; VBR offset = start &times; 512; repeat at <code>0x1CE</code>, <code>0x1DE</code>, <code>0x1EE</code><span class="ar">النهاية = البداية + العدد − 1 · إزاحة الـ VBR = البداية × 512؛ ثم كرّر عند <code>0x1CE</code> و <code>0x1DE</code> و <code>0x1EE</code></span></td><td>one row per entry<span class="ar">صف لكل مدخل</span></td></tr>
     <tr><td>5</td><td>go to each VBR offset: <code>EB 58 90</code> + <code>FAT32</code> at +0x52, or <code>EB 52 90</code> + <code>NTFS</code><span class="ar">اذهب إلى إزاحة كل VBR: <code>EB 58 90</code> مع <code>FAT32</code> عند +0x52، أو <code>EB 52 90</code> مع <code>NTFS</code></span></td><td>the file system of each<span class="ar">نظام الملفات في كل منها</span></td></tr>
     <tr><td>6</td><td>NTFS VBR: <b>hidden sectors</b> +0x1C, <b>total sectors</b> +0x28<span class="ar">في VBR الـ NTFS: الـ <b>hidden sectors</b> عند +0x1C، و الـ <b>total sectors</b> عند +0x28</span></td><td>equal to the MBR&rsquo;s start and count?<span class="ar">هل تساوي بداية الـ MBR و عدده؟</span></td></tr>
-    <tr><td>7</td><td>262 144 sectors on the disk; search what follows the last partition for <code>MRG</code><span class="ar">على القرص 262 144 sector؛ ابحث فيما يلي آخر partition عن <code>MRG</code></span></td><td>the unpartitioned range and its content<span class="ar">المدى غير المقسَّم و محتواه</span></td></tr>
+    <tr><td>7</td><td>262 144 sectors on the disk; search what follows the last partition for <code>MRG</code><span class="ar">على القرص 262 144 sector؛ ابحث فيما يلي آخر partition عن <code>MRG</code></span></td><td>the unpartitioned range<span class="ar">المدى غير المقسَّم</span></td></tr>
     <tr><td>8</td><td>FTK Imager &rarr; Add Evidence Item &rarr; Image File<span class="ar">FTK Imager ← Add Evidence Item ← Image File</span></td><td>its tree matches yours<span class="ar">شجرته تطابق جدولك</span></td></tr>
   </tbody>
 </table></div>
@@ -1106,6 +1107,7 @@
   <span class="ar">المعمل — الاستعادة نفسها بأداة TestDisk، الجزء الأول</span></h2>
 <p>You rebuilt the table by hand. <b>TestDisk</b> does the same search for boot sectors automatically &mdash; and because it can <i>write</i>, every rule about working copies applies twice. Three screens, in order.
   <span class="ar">أعدت بناء الجدول يدويًا. و أداة <b>TestDisk</b> تقوم بالبحث نفسه عن الـ boot sectors تلقائيًا — و لأنها تستطيع <i>الكتابة</i>، تنطبق كل قاعدة عن نسخ العمل مرتين. ثلاث شاشات بالترتيب.</span></p>
+<p><a class="btn" href="../downloads/evs-15/corrupt_lab.zip" download>&#11015; corrupt_lab.zip</a> <a class="btn" href="../downloads/evs-15/SHA256SUMS.txt" download>&#11015; SHA256SUMS.txt</a></p>
 <div class="wu">
   <div class="wu-tb"><span class="t">C:\Forensics\Tools\testdisk-7.2\testdisk_win.exe</span><span class="sp"><span class="b">&#8211;</span><span class="b">&#9633;</span><span class="b x">&#10005;</span></span></div>
   <div class="wu-term">TestDisk 7.2, Data Recovery Utility, February 2024

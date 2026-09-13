@@ -475,7 +475,7 @@ set has a secret or a person's data as its answer** (`D41`).
 | **Size** | 128 MiB + 128 MiB + 128 MiB + 150 MiB |
 | **File names** | kept as the class received them on 2026-09-13 (`mbr_lab.001` …) rather than renamed to `EVS-15-*` — the labs, keys and the students' hash lists all cite these names |
 | **Page** | `P08` (the by-hand MBR lab) · `P09` (the stream and `$I30` lab, the two Autopsy screens, the challenge) |
-| **Distribution** | class share only — `R9`: no image bytes in the repository. Hashes below |
+| **Distribution** | **published for download** at `docs/downloads/evs-15/` (four zips, 1.3 MB total, + `SHA256SUMS.txt`) — Ebrahim's decision 2026-09-13: *every file a task or lab needs goes on the site so students download it easily*. Same reasoning as `D67` for `EVS-01`: Tier 1, our own bytes, fictional data, fully derivable from the committed script. `ctf_disk_FIXED_reference.001` stays out (instructor only) |
 | **Date verified** | **2026-09-13** — every number the pages cite was read back with Sleuth Kit (`mmls`, `fls`, `istat`, `icat`) and a hand parser of the `$I30` block |
 
 | # | File | Bytes | The lesson it carries |
