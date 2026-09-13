@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>P08 &middot; The disk &middot; eCDFP Diploma</title>
 <meta name="description" content="Sectors, clusters and file slack, the MBR partition table and GPT, and recovering a partition table that was wiped — page 8 of the ITGate eCDFP diploma.">
-<link rel="stylesheet" href="../assets/css/ecdfp.css?v=f9ac6b6d">
+<link rel="stylesheet" href="../assets/css/ecdfp.css?v=aec0b7c9">
 <link rel="stylesheet" href="../assets/css/win-ui.css?v=3d886664">
 <link rel="stylesheet" href="../assets/css/simscreen.css?v=a7a3cc80">
 <link rel="icon" href="../assets/img/itgate-logo.jpg">
@@ -41,40 +41,42 @@
       <li class="is-part"><a href="#p4"><span class="n">04</span><span>PART 1 &mdash; How a disk stores a file</span></a></li>
       <li><a href="#p5"><span class="n">05</span><span>Platters and NAND</span></a></li>
       <li><a href="#p6"><span class="n">06</span><span>Inside a hard disk</span></a></li>
-      <li><a href="#p7"><span class="n">07</span><span>What TRIM destroys</span></a></li>
-      <li><a href="#p8"><span class="n">08</span><span>Sectors, clusters and slack</span></a></li>
-      <li><a href="#p9"><span class="n">09</span><span>Five files, and what they cost</span></a></li>
-      <li class="is-part"><a href="#p10"><span class="n">10</span><span>PART 2 &mdash; How a disk is divided</span></a></li>
-      <li><a href="#p11"><span class="n">11</span><span>Disk, partition, volume</span></a></li>
-      <li><a href="#p12"><span class="n">12</span><span>How a computer boots</span></a></li>
-      <li><a href="#p13"><span class="n">13</span><span>The master boot record</span></a></li>
-      <li><a href="#p14"><span class="n">14</span><span>Reading a real MBR</span></a></li>
-      <li><a href="#p15"><span class="n">15</span><span>The LBA arithmetic</span></a></li>
-      <li><a href="#p16"><span class="n">16</span><span>The partition type byte</span></a></li>
-      <li><a href="#p17"><span class="n">17</span><span>What four entries cost</span></a></li>
-      <li><a href="#p18"><span class="n">18</span><span>GPT</span></a></li>
-      <li><a href="#p19"><span class="n">19</span><span>The protective MBR</span></a></li>
-      <li><a href="#p20"><span class="n">20</span><span>The GPT header</span></a></li>
-      <li><a href="#p21"><span class="n">21</span><span>A GPT entry, and the GUID</span></a></li>
-      <li><a href="#p22"><span class="n">22</span><span>When the primary GPT is damaged</span></a></li>
-      <li class="is-part"><a href="#p23"><span class="n">23</span><span>INSTRUCTOR DEMO</span></a></li>
-      <li><a href="#p24"><span class="n">24</span><span>Reading file slack</span></a></li>
-      <li class="is-part"><a href="#p25"><span class="n">25</span><span>YOUR TURN &mdash; Case 04</span></a></li>
-      <li><a href="#p26"><span class="n">26</span><span>Case 04 &mdash; the brief</span></a></li>
-      <li><a href="#p27"><span class="n">27</span><span>Recovering the table</span></a></li>
-      <li><a href="#p28"><span class="n">28</span><span>Lab — TestDisk 1</span></a></li>
-      <li><a href="#p29"><span class="n">29</span><span>Lab — TestDisk 2</span></a></li>
-      <li><a href="#p30"><span class="n">30</span><span>Exercise &mdash; four recovery claims</span></a></li>
-      <li><a href="#p31"><span class="n">31</span><span>Knowledge check 1</span></a></li>
-      <li><a href="#p32"><span class="n">32</span><span>Knowledge check 2</span></a></li>
-      <li class="is-part"><a href="#p33"><span class="n">33</span><span>CHEAT SHEET</span></a></li>
-      <li><a href="#p34"><span class="n">34</span><span>Cheat sheet 1</span></a></li>
-      <li><a href="#p35"><span class="n">35</span><span>Cheat sheet 2</span></a></li>
-      <li class="is-part"><a href="#p36"><span class="n">36</span><span>TASK</span></a></li>
-      <li><a href="#p37"><span class="n">37</span><span>Task &mdash; recover, and document it</span></a></li>
-      <li><a href="#p38"><span class="n">38</span><span>Report &mdash; documenting a recovery</span></a></li>
-      <li><a href="#p39"><span class="n">39</span><span>Summary</span></a></li>
-      <li><a href="#p40"><span class="n">40</span><span>References and what comes next</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>How a read happens</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>What TRIM destroys</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>Sectors, clusters and slack</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>Five files, and what they cost</span></a></li>
+      <li class="is-part"><a href="#p11"><span class="n">11</span><span>PART 2 &mdash; How a disk is divided</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>Disk, partition, volume</span></a></li>
+      <li><a href="#p13"><span class="n">13</span><span>How a computer boots</span></a></li>
+      <li><a href="#p14"><span class="n">14</span><span>The master boot record</span></a></li>
+      <li><a href="#p15"><span class="n">15</span><span>Reading a real MBR</span></a></li>
+      <li><a href="#p16"><span class="n">16</span><span>The LBA arithmetic</span></a></li>
+      <li><a href="#p17"><span class="n">17</span><span>The partition type byte</span></a></li>
+      <li><a href="#p18"><span class="n">18</span><span>What four entries cost</span></a></li>
+      <li><a href="#p19"><span class="n">19</span><span>Lab &mdash; the MBR by hand</span></a></li>
+      <li><a href="#p20"><span class="n">20</span><span>GPT</span></a></li>
+      <li><a href="#p21"><span class="n">21</span><span>The protective MBR</span></a></li>
+      <li><a href="#p22"><span class="n">22</span><span>The GPT header</span></a></li>
+      <li><a href="#p23"><span class="n">23</span><span>A GPT entry, and the GUID</span></a></li>
+      <li><a href="#p24"><span class="n">24</span><span>When the primary GPT is damaged</span></a></li>
+      <li class="is-part"><a href="#p25"><span class="n">25</span><span>INSTRUCTOR DEMO</span></a></li>
+      <li><a href="#p26"><span class="n">26</span><span>Reading file slack</span></a></li>
+      <li class="is-part"><a href="#p27"><span class="n">27</span><span>YOUR TURN &mdash; Case 04</span></a></li>
+      <li><a href="#p28"><span class="n">28</span><span>Case 04 &mdash; the brief</span></a></li>
+      <li><a href="#p29"><span class="n">29</span><span>Recovering the table</span></a></li>
+      <li><a href="#p30"><span class="n">30</span><span>Lab — TestDisk 1</span></a></li>
+      <li><a href="#p31"><span class="n">31</span><span>Lab — TestDisk 2</span></a></li>
+      <li><a href="#p32"><span class="n">32</span><span>Exercise &mdash; four recovery claims</span></a></li>
+      <li><a href="#p33"><span class="n">33</span><span>Knowledge check 1</span></a></li>
+      <li><a href="#p34"><span class="n">34</span><span>Knowledge check 2</span></a></li>
+      <li class="is-part"><a href="#p35"><span class="n">35</span><span>CHEAT SHEET</span></a></li>
+      <li><a href="#p36"><span class="n">36</span><span>Cheat sheet 1</span></a></li>
+      <li><a href="#p37"><span class="n">37</span><span>Cheat sheet 2</span></a></li>
+      <li class="is-part"><a href="#p38"><span class="n">38</span><span>TASK</span></a></li>
+      <li><a href="#p39"><span class="n">39</span><span>Task &mdash; recover, and document it</span></a></li>
+      <li><a href="#p40"><span class="n">40</span><span>Report &mdash; documenting a recovery</span></a></li>
+      <li><a href="#p41"><span class="n">41</span><span>Summary</span></a></li>
+      <li><a href="#p42"><span class="n">42</span><span>References and what comes next</span></a></li>
     </ol>
   </nav>
 
@@ -266,6 +268,30 @@
 
 
 <section class="page" id="p7">
+<span class="kicker">T12 &middot; Theory &middot; animated</span>
+<h2>How a read happens &mdash; spin-up, seek, latency, read
+  <span class="ar">كيف تحدث القراءة — spin-up ثم seek ثم latency ثم read</span></h2>
+<p>A sector is not read the moment it is asked for. The platters must be at full speed, the arm must swing to the right track, and the disk must turn until the sector passes under the head. Press <b>Play</b> and watch the four stages once, then once more.
+  <span class="ar">لا يُقرأ الـ sector في اللحظة التي يُطلب فيها. فلا بد أن تصل الـ platters إلى سرعتها الكاملة، و أن تتحرك الذراع إلى الـ track الصحيح، و أن يدور القرص حتى يمرّ الـ sector تحت الـ head. اضغط <b>Play</b> و تابع المراحل الأربع مرة، ثم مرة أخرى.</span></p>
+<figure class="photo wide"><object data="../assets/img/fs/hdd-mechanism.svg" type="image/svg+xml" aria-label="Animated hard disk mechanism: idle, spin-up, seek, rotational latency, read; and a cylinder across the platter stack" style="width:100%;display:block;border-radius:5px;background:#0d1219"></object>
+  <figcaption>FIG P08-F0b &middot; the mechanism. Left: one surface, seen from above. Right: the stack, and why a cylinder is not a track.
+    <span class="ar">الشكل P08-F0b — الآلية. على اليسار: سطح واحد من أعلى. على اليمين: كومة الـ platters، و لماذا الـ cylinder ليس track.</span>
+    <span class="credit">Diagram: built for this page (animated SVG &mdash; press Play).</span></figcaption></figure>
+<div class="table-wrap"><table>
+  <thead><tr><th>Stage &middot; typical time</th><th>What it means for an examiner</th></tr></thead>
+  <tbody>
+    <tr><td><b>seek</b> &mdash; the arm moves to the track &middot; 3&ndash;12 ms<span class="ar"><b>seek</b> — تتحرك الذراع إلى الـ track · من 3 إلى 12 ms</span></td><td>a fragmented file costs one seek per fragment<span class="ar">الملف المجزّأ يكلّف seek واحدًا لكل جزء</span></td></tr>
+    <tr><td><b>rotational latency</b> &mdash; waiting for the sector &middot; 2&ndash;6 ms<span class="ar"><b>rotational latency</b> — انتظار وصول الـ sector · من 2 إلى 6 ms</span></td><td>half a turn on average; at 7 200 rpm that is 4.2 ms<span class="ar">نصف دورة في المتوسط؛ و عند 7 200 rpm تساوي 4.2 ms</span></td></tr>
+    <tr><td><b>transfer</b> &mdash; the head reads the bits &middot; microseconds<span class="ar"><b>transfer</b> — يقرأ الـ head الـ bits · أجزاء من الألف من الثانية</span></td><td>a physical image reads every sector <i>in order</i>, so it is the one fast case<span class="ar">الـ image الفيزيائية تقرأ كل sector <i>بالترتيب</i>، فهي الحالة السريعة الوحيدة</span></td></tr>
+  </tbody>
+</table></div>
+<figure class="photo wide"><video id="hddvid" controls preload="metadata" playsinline style="width:100%;display:block;border-radius:5px;background:#0d1219;aspect-ratio:16/9"><source src="../assets/media/hdd-branch-education.mp4#t=270,450" type="video/mp4"></video>
+  <figcaption><b>In class.</b> Three minutes of Branch Education&rsquo;s <i>How do Hard Disk Drives Work?</i> &mdash; the player opens at 4:30 and stops at 7:30 (the head, the magnetic grains, the servo tracks). Watch it once; the figure above is what is examinable.
+    <span class="ar"><b>في القاعة.</b> ثلاث دقائق من فيديو Branch Education بعنوان <i>How do Hard Disk Drives Work?</i> — يبدأ المشغّل عند 4:30 و يتوقف عند 7:30 (الـ head، و الحبيبات المغناطيسية، و الـ servo tracks). شاهده مرة واحدة؛ أما ما يُسأل عنه فهو الشكل أعلاه.</span>
+    <span class="credit">Video: Branch Education &mdash; classroom copy, not published with the site.</span></figcaption></figure>
+    </section>
+
+<section class="page" id="p8">
 <span class="kicker">T12 &middot; Theory</span>
 <h2>What TRIM destroys
   <span class="ar">ما الذي يُتلفه الـ TRIM</span></h2>
@@ -287,7 +313,7 @@
 </div>
     </section>
 
-<section class="page" id="p8">
+<section class="page" id="p9">
 <span class="kicker">T12 &middot; Theory &middot; measured</span>
 <h2>Sectors, clusters and slack
   <span class="ar">الـ sectors و الـ clusters و الـ slack</span></h2>
@@ -338,7 +364,7 @@
 </figure>
     </section>
 
-<section class="page" id="p9">
+<section class="page" id="p10">
 <span class="kicker">T12 &middot; Theory &middot; measured</span>
 <h2>Five files, and what they cost
   <span class="ar">خمسة ملفات، و ما تكلّفه</span></h2>
@@ -407,7 +433,7 @@
 </div>
     </section>
 
-<section class="page divider" id="p10">
+<section class="page divider" id="p11">
 <div class="divider-inner">
   <span class="divider-kicker">Part 2 of 2</span>
   <h2>How a disk is divided<span class="ar">كيف يُقسَّم القرص</span></h2>
@@ -417,7 +443,7 @@
 </div>
     </section>
 
-<section class="page" id="p11">
+<section class="page" id="p12">
 <span class="kicker">T13 &middot; Theory</span>
 <h2>Disk, partition, volume
   <span class="ar">الـ disk و الـ partition و الـ volume</span></h2>
@@ -452,7 +478,7 @@
     <span class="credit">Screenshot: TryHackMe, room <i>MBR and GPT Analysis</i>, used for teaching.</span></figcaption></figure>
     </section>
 
-<section class="page" id="p12">
+<section class="page" id="p13">
 <span class="kicker">T13 &middot; Theory</span>
 <h2>How a computer boots &mdash; where the map is read
   <span class="ar">كيف يُقلع الحاسوب — و أين تُقرأ الخريطة</span></h2>
@@ -487,7 +513,7 @@
 
 
 
-<section class="page" id="p13">
+<section class="page" id="p14">
 <span class="kicker">T13 &middot; Theory &middot; measured</span>
 <h2>The master boot record
   <span class="ar">سجل الإقلاع الرئيسي</span></h2>
@@ -537,7 +563,7 @@
 </div>
     </section>
 
-<section class="page" id="p14">
+<section class="page" id="p15">
 <span class="kicker">T13 &middot; Theory &middot; a real sector</span>
 <h2>Reading a real MBR, byte by byte
   <span class="ar">قراءة MBR حقيقي، byte بعد byte</span></h2>
@@ -561,7 +587,7 @@
 </table></div>
     </section>
 
-<section class="page" id="p15">
+<section class="page" id="p16">
 <span class="kicker">T13 &middot; Theory &middot; the one calculation</span>
 <h2>From four bytes to an offset &mdash; the LBA arithmetic
   <span class="ar">من أربع bytes إلى إزاحة — حساب الـ LBA</span></h2>
@@ -592,7 +618,7 @@
 </div>
     </section>
 
-<section class="page" id="p16">
+<section class="page" id="p17">
 <span class="kicker">T13 &middot; Theory</span>
 <h2>The partition type byte
   <span class="ar">الـ byte الخاص بنوع الـ partition</span></h2>
@@ -618,7 +644,7 @@
 
 
 
-<section class="page" id="p17">
+<section class="page" id="p18">
 <span class="kicker">T13 &middot; Theory</span>
 <h2>What four entries cost
   <span class="ar">ما تكلّفه أربعة مدخلات</span></h2>
@@ -639,7 +665,35 @@
 </div>
     </section>
 
-<section class="page" id="p18">
+<section class="page" id="p19">
+<span class="kicker">T13 &middot; Your turn &middot; 20 min &middot; <code>EVS-15</code></span>
+<h2>Lab &mdash; read the MBR by hand, then prove it
+  <span class="ar">المعمل — اقرأ الـ MBR يدويًّا، ثم أثبت قراءتك</span></h2>
+<p>Sixty-four bytes, a calculator and a hex editor. Decode every entry, work out where each partition starts and ends, then <b>go there</b> and read the boot sector you predicted.
+  <span class="ar">أربعة و ستون byte، و آلة حاسبة، و محرّر hex. فكّ كل مدخل، و احسب أين تبدأ كل partition و أين تنتهي، ثم <b>اذهب إلى هناك</b> و اقرأ الـ boot sector الذي توقّعته.</span></p>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Do</th><th>Write down</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>hash <code>mbr_lab.001</code>; open it in HxD <b>read-only</b><span class="ar">احسب hash الملف <code>mbr_lab.001</code>؛ و افتحه في HxD بوضع <b>القراءة فقط</b></span></td><td>hash = manifest<span class="ar">الـ hash يساوي البيان</span></td></tr>
+    <tr><td>2</td><td>go to <code>0x1FE</code>, then <code>0x1B8</code><span class="ar">اذهب إلى <code>0x1FE</code>، ثم إلى <code>0x1B8</code></span></td><td><code>55 AA</code> &middot; the disk signature<span class="ar"><code>55 AA</code> · توقيع القرص</span></td></tr>
+    <tr><td>3</td><td>16 bytes at <code>0x1BE</code>; bytes 8&ndash;11 and 12&ndash;15 as <b>Int32</b> (Data Inspector)<span class="ar">16 byte عند <code>0x1BE</code>؛ و الـ bytes من 8 إلى 11 و من 12 إلى 15 كـ <b>Int32</b> في الـ Data Inspector</span></td><td>type &middot; LBA start &middot; count<span class="ar">النوع · بداية الـ LBA · العدد</span></td></tr>
+    <tr><td>4</td><td>end = start + count &minus; 1 &middot; VBR offset = start &times; 512; repeat at <code>0x1CE</code>, <code>0x1DE</code>, <code>0x1EE</code><span class="ar">النهاية = البداية + العدد − 1 · إزاحة الـ VBR = البداية × 512؛ ثم كرّر عند <code>0x1CE</code> و <code>0x1DE</code> و <code>0x1EE</code></span></td><td>one row per entry<span class="ar">صف لكل مدخل</span></td></tr>
+    <tr><td>5</td><td>go to each VBR offset: <code>EB 58 90</code> + <code>FAT32</code> at +0x52, or <code>EB 52 90</code> + <code>NTFS</code><span class="ar">اذهب إلى إزاحة كل VBR: <code>EB 58 90</code> مع <code>FAT32</code> عند +0x52، أو <code>EB 52 90</code> مع <code>NTFS</code></span></td><td>the file system of each<span class="ar">نظام الملفات في كل منها</span></td></tr>
+    <tr><td>6</td><td>NTFS VBR: <b>hidden sectors</b> +0x1C, <b>total sectors</b> +0x28<span class="ar">في VBR الـ NTFS: الـ <b>hidden sectors</b> عند +0x1C، و الـ <b>total sectors</b> عند +0x28</span></td><td>equal to the MBR&rsquo;s start and count?<span class="ar">هل تساوي بداية الـ MBR و عدده؟</span></td></tr>
+    <tr><td>7</td><td>262 144 sectors on the disk; search what follows the last partition for <code>MRG</code><span class="ar">على القرص 262 144 sector؛ ابحث فيما يلي آخر partition عن <code>MRG</code></span></td><td>the unpartitioned range and its content<span class="ar">المدى غير المقسَّم و محتواه</span></td></tr>
+    <tr><td>8</td><td>FTK Imager &rarr; Add Evidence Item &rarr; Image File<span class="ar">FTK Imager ← Add Evidence Item ← Image File</span></td><td>its tree matches yours<span class="ar">شجرته تطابق جدولك</span></td></tr>
+  </tbody>
+</table></div>
+<figure class="photo"><img src="../assets/img/fs/ntfs-ftk-boot-sector-hex.png" alt="FTK Imager with $Boot selected and its first bytes EB 52 90 NTFS shown in the hex pane" loading="lazy">
+  <figcaption>Step 5: FTK Imager&rsquo;s <code>$Boot</code> is the sector you reached by arithmetic.
+    <span class="ar">الخطوة الخامسة: ملف <code>$Boot</code> في FTK Imager هو الـ sector الذي وصلت إليه بالحساب.</span>
+    <span class="credit">Screenshot: TryHackMe, room <i>NTFS Analysis</i>.</span></figcaption></figure>
+<div class="finding"><span class="cl-label">The line you can write afterwards</span>
+  <p><i>&ldquo;The MBR of <code>mbr_lab.001</code> holds two partition entries; the sectors after the second partition belong to none and contain readable text.&rdquo;</i> The <b>why</b> stays out of Section 8.
+    <span class="ar"><i>«يحمل الـ MBR في <code>mbr_lab.001</code> مدخلين لـ partitions؛ و الـ sectors التي تلي الـ partition الثانية لا تنتمي لأي منهما و تحوي نصًّا مقروءًا.»</i> أما <b>لماذا</b> فيبقى خارج القسم الثامن.</span></p></div>
+    </section>
+
+<section class="page" id="p20">
 <span class="kicker">T13 &middot; Theory &middot; measured</span>
 <h2>GPT
   <span class="ar">نظام الـ GPT</span></h2>
@@ -695,7 +749,7 @@
 </div>
     </section>
 
-<section class="page" id="p19">
+<section class="page" id="p21">
 <span class="kicker">T13 &middot; Theory &middot; measured</span>
 <h2>The protective MBR &mdash; one entry, type EE
   <span class="ar">الـ protective MBR — مدخل واحد بالنوع EE</span></h2>
@@ -713,7 +767,7 @@
     <span class="ar">أن الـ GPT خلفه سليم. فالـ protective MBR مع header مدمَّر لا يزال <i>يبدو</i> قرص GPT؛ و الأصفار في شفرة إقلاعه طبيعية و ليست دليلاً على المسح.</span></p></div>
     </section>
 
-<section class="page" id="p20">
+<section class="page" id="p22">
 <span class="kicker">T13 &middot; Theory &middot; a real header</span>
 <h2>The GPT header &mdash; 92 bytes at LBA 1
   <span class="ar">الـ GPT header — 92 byte عند LBA 1</span></h2>
@@ -742,7 +796,7 @@
 </table></div>
     </section>
 
-<section class="page" id="p21">
+<section class="page" id="p23">
 <span class="kicker">T13 &middot; Theory &middot; measured</span>
 <h2>A GPT entry, and the mixed-endian GUID
   <span class="ar">مدخل GPT، و الـ GUID مختلط الترتيب</span></h2>
@@ -780,7 +834,7 @@
     <span class="ar">الـ GUID الخاص بالنوع إعلان مثل byte النوع في MBR، و <b>الاسم نص حر</b> يُضبط عند الإنشاء. و الـ partition المسمّى <i>Basic data partition</i> هو ما أراد صاحبه تسميته.</span></p></div>
     </section>
 
-<section class="page" id="p22">
+<section class="page" id="p24">
 <span class="kicker">T13 &middot; Theory</span>
 <h2>When the primary GPT is damaged &mdash; the copy at the end
   <span class="ar">حين يتلف الـ GPT الأساسي — النسخة في نهاية القرص</span></h2>
@@ -821,7 +875,7 @@
 
 
 
-<section class="page divider" id="p23">
+<section class="page divider" id="p25">
 <div class="divider-inner">
   <span class="divider-kicker">Instructor demo</span>
   <h2>Twenty bytes, and what is under them<span class="ar">المعمل — عشرون byte، و ما تحتها</span></h2>
@@ -831,7 +885,7 @@
 </div>
     </section>
 
-<section class="page" id="p24">
+<section class="page" id="p26">
 <span class="kicker">T12 &middot; Instructor demo</span>
 <h2>Lab &mdash; reading file slack
   <span class="ar">المعمل — قراءة الـ file slack</span></h2>
@@ -904,7 +958,7 @@
 </div>
     </section>
 
-<section class="page divider" id="p25">
+<section class="page divider" id="p27">
 <div class="divider-inner">
   <span class="divider-kicker">Your turn</span>
   <h2>Case 04 &mdash; a disk with no table<span class="ar">القضية ٠٤ — قرص بلا جدول</span></h2>
@@ -914,7 +968,7 @@
 </div>
     </section>
 
-<section class="page" id="p26">
+<section class="page" id="p28">
 <span class="kicker">T13 &middot; Case 04 &middot; the brief</span>
 <h2>Case 04 &mdash; the brief
   <span class="ar">القضية ٠٤ — الملف</span></h2>
@@ -939,7 +993,7 @@
 </div>
     </section>
 
-<section class="page" id="p27">
+<section class="page" id="p29">
 <span class="kicker">T13 &middot; Your turn &middot; Case 04</span>
 <h2>Lab &mdash; recovering the table
   <span class="ar">المعمل — استعادة الجدول</span></h2>
@@ -1046,7 +1100,7 @@
 </figure>
     </section>
 
-<section class="page" id="p28">
+<section class="page" id="p30">
 <span class="kicker">T13 &middot; Your turn &middot; the automated path</span>
 <h2>Lab &mdash; the same recovery with TestDisk, 1 of 2
   <span class="ar">المعمل — الاستعادة نفسها بأداة TestDisk، الجزء الأول</span></h2>
@@ -1086,7 +1140,7 @@ Use arrow keys to select, then press Enter key:
 </div>
     </section>
 
-<section class="page" id="p29">
+<section class="page" id="p31">
 <span class="kicker">T13 &middot; Your turn &middot; the automated path</span>
 <h2>Lab &mdash; the same recovery with TestDisk, 2 of 2
   <span class="ar">المعمل — الاستعادة نفسها بأداة TestDisk، الجزء الثاني</span></h2>
@@ -1128,7 +1182,7 @@ rare for a disk to be 'Non-partitioned'.
 
 
 
-<section class="page" id="p30">
+<section class="page" id="p32">
 <span class="kicker">T13 &middot; On your own &middot; 10 min</span>
 <h2>Exercise &mdash; four recovery claims
   <span class="ar">تمرين — أربعة ادّعاءات عن استعادة</span></h2>
@@ -1154,7 +1208,7 @@ rare for a disk to be 'Non-partitioned'.
 </div>
     </section>
 
-<section class="page" id="p31">
+<section class="page" id="p33">
 <span class="kicker">Knowledge check</span>
 <h2>Knowledge check &mdash; 1 of 2
   <span class="ar">اختبار سريع — الجزء الأول</span></h2>
@@ -1170,7 +1224,7 @@ rare for a disk to be 'Non-partitioned'.
 </div>
     </section>
 
-<section class="page" id="p32">
+<section class="page" id="p34">
 <span class="kicker">Knowledge check</span>
 <h2>Knowledge check &mdash; 2 of 2
   <span class="ar">اختبار سريع — الجزء الثاني</span></h2>
@@ -1195,7 +1249,7 @@ rare for a disk to be 'Non-partitioned'.
     </section>
 
 
-<section class="page divider" id="p33">
+<section class="page divider" id="p35">
 <div class="divider-inner">
   <span class="divider-kicker">Cheat sheet</span>
   <h2>The one screen you keep open<span class="ar">الشاشة التي تُبقيها مفتوحة</span></h2>
@@ -1205,7 +1259,7 @@ rare for a disk to be 'Non-partitioned'.
 </div>
     </section>
 
-<section class="page" id="p34">
+<section class="page" id="p36">
 <span class="kicker">Cheat sheet &middot; keep this open</span>
 <h2>Cheat sheet 1 &mdash; storage and slack
   <span class="ar">ورقة المراجعة — التخزين و التقسيم و الاستعادة</span></h2>
@@ -1221,7 +1275,7 @@ rare for a disk to be 'Non-partitioned'.
 </div>
     </section>
 
-<section class="page" id="p35">
+<section class="page" id="p37">
 <span class="kicker">Cheat sheet &middot; keep this open</span>
 <h2>Cheat sheet 2 &mdash; MBR, GPT, recovery
   <span class="ar">ورقة المراجعة — التخزين و التقسيم و الاستعادة</span></h2>
@@ -1244,7 +1298,7 @@ rare for a disk to be 'Non-partitioned'.
     </section>
 
 
-<section class="page divider" id="p36">
+<section class="page divider" id="p38">
 <div class="divider-inner">
   <span class="divider-kicker">Task</span>
   <h2>Handed in before P09<span class="ar">يُسلَّم قبل P09</span></h2>
@@ -1254,7 +1308,7 @@ rare for a disk to be 'Non-partitioned'.
 </div>
     </section>
 
-<section class="page" id="p37">
+<section class="page" id="p39">
 <span class="kicker">Task &middot; handed in before P09</span>
 <h2>Task &mdash; recover a table, and document it
   <span class="ar">الـ task — استعِد جدولًا، و وثّقه</span></h2>
@@ -1275,7 +1329,7 @@ rare for a disk to be 'Non-partitioned'.
 </div>
     </section>
 
-<section class="page" id="p38">
+<section class="page" id="p40">
 <span class="kicker">T13 &middot; Report stage &middot; 6 min</span>
 <h2>Report &mdash; documenting a recovery
   <span class="ar">التقرير — توثيق استعادة</span></h2>
@@ -1298,7 +1352,7 @@ rare for a disk to be 'Non-partitioned'.
 </div>
     </section>
 
-<section class="page" id="p39">
+<section class="page" id="p41">
 <span class="kicker">Summary</span>
 <h2>Summary &mdash; what you can now state
   <span class="ar">الخلاصة — ما الذي تستطيع تقريره الآن</span></h2>
@@ -1323,7 +1377,7 @@ rare for a disk to be 'Non-partitioned'.
 </div>
     </section>
 
-<section class="page" id="p40">
+<section class="page" id="p42">
 <span class="kicker">References</span>
 <h2>References and what comes next
   <span class="ar">المراجع و ما يأتي بعد</span></h2>
@@ -1334,14 +1388,15 @@ rare for a disk to be 'Non-partitioned'.
     <tr><td><b>Microsoft FAT specification</b> &mdash; <code>BPB_BkBootSec</code><span class="ar">مواصفة FAT من Microsoft و حقل <code>BPB_BkBootSec</code></span></td><td>the field that told us the third candidate was a backup, not a partition<span class="ar">الحقل الذي أخبرنا أن المرشَّح الثالث نسخة احتياطية لا partition</span></td></tr>
     <tr><td><b>UEFI Specification</b> &mdash; GPT header and entry array<span class="ar">مواصفة UEFI و بنية header الـ GPT و مصفوفة المدخلات</span></td><td>the CRC32 fields, the 128&times;128 array, and the backup at the last LBA<span class="ar">حقول الـ CRC32، و المصفوفة ١٢٨&times;١٢٨، و النسخة الاحتياطية عند آخر LBA</span></td></tr>
     <tr><td><b>TryHackMe</b> &mdash; <a href="https://tryhackme.com/room/mbrandgptanalysis" target="_blank" rel="noopener"><i>MBR and GPT Analysis</i></a><span class="ar">غرفة TryHackMe عن MBR و GPT</span></td><td>the byte-level walk in Part 2, and its hex-editor screenshots<span class="ar">القراءة على مستوى الـ bytes في الجزء الثاني، و لقطات محرّر الـ hex</span></td></tr>
+    <tr><td><b><code>scripts/make_evs15.sh</code></b> &middot; <b>Branch Education</b> &middot; <b>NIST CFReDS</b><span class="ar">ملف <code>scripts/make_evs15.sh</code>، و فيديو Branch Education، و قضية NIST CFReDS</span></td><td><code>mbr_lab.001</code>; <a href="https://www.youtube.com/watch?v=wtdnatmVdIg" target="_blank" rel="noopener">the class video</a>; <a href="https://cfreds-archive.nist.gov/data_leakage_case/data-leakage-case.html" target="_blank" rel="noopener"><i>Data Leakage Case</i></a><span class="ar"><code>mbr_lab.001</code>؛ و فيديو القاعة؛ و قضية Data Leakage</span></td></tr>
     <tr><td><b>TestDisk 7.2</b> &mdash; cgsecurity.org<span class="ar">أداة TestDisk من cgsecurity.org</span></td><td>the automated recovery path; its log is part of the method<span class="ar">مسار الاستعادة الآلي؛ و سجلها جزء من المنهج</span></td></tr>
-    <tr><td><b>Belkasoft</b> &mdash; SSD forensics series<span class="ar">سلسلة Belkasoft عن التحليل الجنائي لأقراص SSD</span></td><td>TRIM and wear levelling, and what a negative result means on flash<span class="ar">الـ TRIM و توزيع الكتابة، و معنى النتيجة السلبية على الـ flash</span></td></tr>
-    <tr><td><b>INE eCDFP</b> module 3<span class="ar">وحدة INE eCDFP الثالثة</span></td><td>storage internals, slack terminology, and the MBR/GPT comparison<span class="ar">بنية التخزين، و مصطلحات الـ slack، و المقارنة بين MBR و GPT</span></td></tr>
+    <tr><td><b>Belkasoft</b> &mdash; SSD forensics series<span class="ar">سلسلة Belkasoft عن التحليل الجنائي لأقراص SSD</span></td><td>TRIM, wear levelling, and negative results on flash<span class="ar">الـ TRIM و توزيع الكتابة، و معنى النتيجة السلبية على الـ flash</span></td></tr>
+    <tr><td><b>INE eCDFP</b> module 3<span class="ar">وحدة INE eCDFP الثالثة</span></td><td>storage internals, slack, and MBR against GPT<span class="ar">بنية التخزين، و مصطلحات الـ slack، و المقارنة بين MBR و GPT</span></td></tr>
   </tbody>
 </table></div>
 <div class="note">
-  <p><b>Evidence note.</b> <code>EVS-07</code> was <b>built, not downloaded</b>: four images made by a script in this repository, so every number above can be reproduced by running it. The recovered table was checked <b>byte for byte</b> against the original &mdash; that is why this page can say the recovery was correct rather than that it worked.
-    <span class="ar"><b>ملاحظة عن الدليل.</b> جرى <b>بناء</b> <code>EVS-07</code> لا تنزيله: أربع صور صنعها script في هذا المستودع، فكل رقم أعلاه يمكن إعادة إنتاجه بتشغيله. و قُورن الجدول المستعاد <b>byte بـ byte</b> بالأصل — و لهذا تستطيع هذه الصفحة أن تقول إن الاستعادة <b>صحيحة</b>، لا أنها <b>نجحت</b>.</span></p>
+  <p><b>Evidence note.</b> <code>EVS-07</code> and <code>EVS-15</code> were <b>built, not downloaded</b>: images made by scripts in this repository, so every number above is reproducible. The recovered table was checked <b>byte for byte</b> against the original: <b>correct</b>, not merely working.
+    <span class="ar"><b>ملاحظة عن الدليل.</b> جرى <b>بناء</b> <code>EVS-07</code> و <code>EVS-15</code> لا تنزيلهما: صور صنعتها scripts في هذا المستودع، فكل رقم أعلاه يمكن إعادة إنتاجه. و قُورن الجدول المستعاد <b>byte بـ byte</b> بالأصل: <b>صحيح</b>، لا مجرد أنه يعمل.</span></p>
 </div>
 <p><b>Next: `P09` &mdash; File systems.</b> This page stopped at the cluster. `T14` opens the structures that decide which cluster a file gets &mdash; FAT and NTFS &mdash; and `T15` asks what is still readable after those structures forget a file entirely.
   <span class="ar"><b>التالي: `P09` — أنظمة الملفات.</b> توقّفت هذه الصفحة عند الـ cluster. و يفتح `T14` البنى التي تقرّر أي cluster يأخذه الملف — الـ FAT و الـ NTFS — و يسأل `T15` عمّا يظل قابلاً للقراءة بعد أن تنسى تلك البنى الملف تمامًا.</span></p>
@@ -1353,7 +1408,7 @@ rare for a disk to be 'Non-partitioned'.
 <nav class="page-nav">
   <button class="btn" type="button" data-nav="prev">&larr; Prev</button>
   <span class="kbd-hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> to move<span> &middot; </span><kbd>Home</kbd><kbd>End</kbd></span>
-  <span class="counter">1 / 40</span>
+  <span class="counter">1 / 42</span>
   <button class="btn" type="button" data-nav="next">Next &rarr;</button>
 </nav>
 
@@ -1485,6 +1540,11 @@ Dgm.init('#dg-gptbk', [
  {en:'<b>Linked both ways.</b> The primary header names the backup&rsquo;s LBA; the backup names the primary&rsquo;s. Either one finds the other.', ar:'<b>مرتبطتان في الاتجاهين.</b> الـ header الأساسي يسمّي LBA النسخة الاحتياطية؛ و النسخة الاحتياطية تسمّي LBA الأساسي. و أي منهما يجد الآخر.'},
  {en:'<b>Damage at the front</b> is what malware and bad sectors produce. The copy at the end survives, and a recovery is a copy from there &mdash; documented like every write in this diploma, on a working copy, hashes before and after.', ar:'<b>التلف في المقدمة</b> هو ما تُنتجه البرمجيات الخبيثة و الـ sectors التالفة. و النسخة في النهاية تبقى، و الاستعادة نسخ منها — موثَّق كأي كتابة في هذه الدبلومة، على نسخة عمل، و الـ hash قبل و بعد.', key:true}
 ]);
+
+(function(){var v=document.getElementById('hddvid'); if(!v) return; var src=v.querySelector('source');
+ src.addEventListener('error',function(){var f=document.createElement('div'); f.style.cssText='position:relative;width:100%;aspect-ratio:16/9;background:#0d1219;border-radius:5px;overflow:hidden';
+  f.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/wtdnatmVdIg?start=270&end=450&rel=0" title="How do Hard Disk Drives Work? (4:30-7:30)" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>';
+  v.replaceWith(f);});})();
 </script>
 </body>
 </html>

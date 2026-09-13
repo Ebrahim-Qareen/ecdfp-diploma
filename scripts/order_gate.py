@@ -18,6 +18,7 @@ EVS_READY = {          # EVS id -> the first topic at which it exists
     'EVS-12': 'T01',   # published registry corpus (Zimmerman), fetched at a pinned commit
     'EVS-13': 'T01',   # published parser-test corpus (Zimmerman), fetched at a pinned commit
     'EVS-14': 'T01',   # published EVTX-ATTACK-SAMPLES (GPL-3.0), fetched at a pinned commit
+    'EVS-15': 'T01',   # live-session disk set (make_evs15.sh), used on P08/P09 -- built before the course
     # Tier 1, produced by the lab acquisition run
     'EVS-03': 'T07',   # memory capture, taken in the memory-forensics topic
     'EVS-02': 'T09',   # the disk image, made in the imaging guided lab

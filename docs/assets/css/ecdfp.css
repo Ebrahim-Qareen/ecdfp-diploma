@@ -1585,9 +1585,13 @@ figure.photo img{ background:#0d1219; }
    disappears, because a shape that vanishes takes the student's model with it */
 .dgm [data-step]{ opacity:.16; transition:opacity .5s ease, filter .5s ease; }
 .dgm [data-step].on{ opacity:1; }
+/* .swap: a before/after figure whose steps share the same coordinates. The .16 ghost of the
+   inactive step reads as a second set of words behind the first, so here it is hidden outright. */
+.dgm.swap [data-step]:not(.on){ opacity:0; }
 .dgm [data-step].cur{ filter:drop-shadow(0 0 7px rgba(0,217,255,.34)); }
 @media (prefers-reduced-motion:reduce){
   .dgm [data-step]{ transition:none; opacity:1; }
+  .dgm.swap [data-step]:not(.on){ opacity:0; }   /* two states on one spot cannot both show */
   .dgm [data-step].cur{ filter:none; }
 }
 

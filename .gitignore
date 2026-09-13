@@ -66,3 +66,6 @@ mksSandbox*.log
 /evidence/**/SECURITY
 NTUSER.DAT
 USRCLASS.DAT
+
+# Classroom video copies (third-party, >100 MB) - played locally from P08, never published
+/docs/assets/media/

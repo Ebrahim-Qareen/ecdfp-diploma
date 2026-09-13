@@ -462,6 +462,45 @@ set has a secret or a person's data as its answer** (`D41`).
 
 ---
 
+### `EVS-15` — Pages 8 and 9 · the live-session disk set (2026-09-13)
+
+| Field | Value |
+|---|---|
+| **Name** | EVS-15 — the live-session disk set: a two-partition MBR disk, its GPT twin, the same disk with its table wiped, and a three-flag challenge disk |
+| **Tier** | **1 — built in our own lab.** Four raw images made by `sfdisk`/`sgdisk`, `mkfs.vfat`, `mkntfs` and `ntfs-3g`; fictional Meridian Retail Group data; the two photographs come from `EVS-10` |
+| **Source** | `scripts/make_evs15.sh` in this repository. The three flags, the Recycle-Bin SID and the name of the deleted root file are **not in the script** — it reads them from `instructor/evs15_secrets.env` (never committed), so the public repository does not carry the challenge answers |
+| **Publisher** | ITGate Academy |
+| **Licence** | ours — no third-party material, no real data, no real person |
+| **Format** | 4 × raw image (`.001`, FTK Imager naming) + 1 instructor-only reference |
+| **Size** | 128 MiB + 128 MiB + 128 MiB + 150 MiB |
+| **File names** | kept as the class received them on 2026-09-13 (`mbr_lab.001` …) rather than renamed to `EVS-15-*` — the labs, keys and the students' hash lists all cite these names |
+| **Page** | `P08` (the by-hand MBR lab) · `P09` (the stream and `$I30` lab, the two Autopsy screens, the challenge) |
+| **Distribution** | class share only — `R9`: no image bytes in the repository. Hashes below |
+| **Date verified** | **2026-09-13** — every number the pages cite was read back with Sleuth Kit (`mmls`, `fls`, `istat`, `icat`) and a hand parser of the `$I30` block |
+
+| # | File | Bytes | The lesson it carries |
+|--:|---|--:|---|
+| 1 | `mbr_lab.001` | 134 217 728 | MBR signature `0x4D524731` · P1 type `0x0C` LBA 2048 × 98 304 (`USB_DATA`, FAT32; `secret_plan.txt` deleted, `0xE5` at sector 3592) · P2 type `0x07` LBA 100 352 × 159 744 (`MRG-DATA`, NTFS) · 🔴 **ADS `readme.txt:policy_note.txt`, record 73, 118 bytes** · 🔴 **`photos\$I30`: 4 096-byte block, 1 344 in use, `team_photo.jpg` at byte 1 514 in slack; record 68 deleted** · `site_07.jpg` record 81 deleted · sectors 260 096–262 143 unpartitioned, text fragment at sector 260 600 |
+| 2 | `gpt_lab.001` | 134 217 728 | the same content on a GPT disk: protective MBR `0xEE`, `EFI PART` at LBA 1, two entries, backup header at the last LBA |
+| 3 | `corrupt_lab.001` | 134 217 728 | image 1 with bytes 446–509 zeroed and `55 AA` kept — the by-hand and TestDisk repair |
+| 4 | `ctf_disk.001` | 157 286 400 | one NTFS partition (LBA 2048 × 202 752), table zeroed · flag 1 hex-encoded in the first root file · flag 2 in the EXIF `UserComment` of a `$R` file under `$RECYCLE.BIN\<SID>\` with its `$I` (v2, size 78 130, deleted 2026-08-25 10:42 UTC) · flag 3 at sector 300 000, outside every partition · one deleted root file (the bonus question) |
+| 5 | `ctf_disk_FIXED_reference.001` | 157 286 400 | **instructor only** — image 4 before its table was zeroed |
+
+#### Manifest — SHA-256 (build of 2026-09-13; `mkntfs` draws a random serial, so a rebuild changes these — the record numbers and sector positions do not)
+
+```
+ad26fa592c01818a665623aaac019a5ee6c43cef94b0e6ad9bb572d6ea74eb22  mbr_lab.001
+2a01b182c2f38dba6bd45e11cd9c70a5512750f6187cc47cc414d6e7248eb826  gpt_lab.001
+ba74c825ec3625a12603c1f1148195098b967714bba9d189a4b26d45252d7cbd  corrupt_lab.001
+6ceab4a16158efe9c4649b4d845c4c9683a8c37be4f58d098230082b3d95d901  ctf_disk.001
+53f3db166ec2e9f705e30d6558d5c9c19759c1ec308e666fe1c981b4351b3b3d  ctf_disk_FIXED_reference.001
+```
+
+The answer key (flag values, decoded) lives with the live-session pack under `Claude outputs/` and in
+`instructor/`, never in `docs/`.
+
+---
+
 ### `EVS-12` · `EVS-13` · `EVS-14` — Pages 10–12 · the published Windows artifact corpora
 
 **Tier 2 — published corpora, linked and credited, never rehosted (`D22`, `R9`).** All three are fetched by
@@ -695,6 +734,7 @@ users, documentation IPs only, no real malware, no real credentials (`D19`, `D41
 | `EVS-08` | P13 | network capture, proxy log, phishing email (Tier 3) | ✅ **built and verified** — 2026-09-09 |
 | `EVS-09` | P14 | incident super-timeline (capstone) | ✅ **built and verified** — 2026-09-09 |
 | `EVS-11` | P09 | file systems and carving | ✅ **built and verified** — 2026-09-09 |
+| `EVS-15` | P08 · P09 | live-session disk set (MBR by hand, ADS/`$I30`, Autopsy, the three-flag challenge) | ✅ **built and verified** — 2026-09-13 |
 | `EVS-12` | P10 | published registry hives (Tier 2) | ✅ **fetched, pinned and verified** — 2026-09-09 |
 | `EVS-13` | P11 | published user-activity artifacts (Tier 2) | ✅ **fetched and pinned** — 2026-09-09 |
 | `EVS-14` | P12 | published attack event logs (Tier 2) | ✅ **fetched and pinned** — 2026-09-09 |

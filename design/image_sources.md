@@ -122,6 +122,10 @@ and reduced (≤1400 px, 256 colours).
 | `fs/ntfs-tle-mft-csv.png` | Timeline Explorer on `MFT_record.csv` (one frame of the room's GIF) | `P09` | same room | same |
 | `fs/ntfs-explorer-metasploit.png` | Explorer: the folder as it is today | `P09` | same room | same |
 | `fs/ntfs-tle-i30-slack.png` | Timeline Explorer on `i30.csv`, From Slack column | `P09` | same room | same |
+| `fs/ntfs-ftk-boot-sector-hex.png` | FTK Imager: `$Boot` selected, its VBR bytes `EB 52 90 NTFS` in the hex pane | `P08` (the by-hand MBR lab) | TryHackMe, *NTFS Analysis* | Screenshot: TryHackMe, room *NTFS Analysis* — added 2026-09-13 |
+| `fs/ntfs-ftk-ads-listed.png` | FTK Imager: a file and, beneath it, its alternate data stream as a second entry | `P09` (the stream / `$I30` lab) | same room | same — added 2026-09-13 |
+| `fs/ntfs-ftk-export-ads.png` | FTK Imager: exporting the stream (right-click → Export Files) | `P09` (the stream / `$I30` lab) | same room | same — added 2026-09-13 |
+| `fs/hdd-mechanism.svg` | Animated (SMIL) hard-disk mechanism: idle → spin-up → seek → rotational latency → read, plus the cylinder view; embedded with `<object>` so the animation runs | `P08` (*How a read happens*) | ours — drawn for the 2026-09-13 live session | none required (own work) |
 
 Thirteen further captures from the same three rooms (the remaining FTK Imager, MFTECmd and Timeline Explorer screens, the EE byte alone, a USB stick opened) are **not published**: they live in `instructor/assets/img/` for the instructor guides only, so the public site carries no image it does not use.
 
