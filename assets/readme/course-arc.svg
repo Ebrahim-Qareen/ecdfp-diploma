@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400" role="img" aria-label="eCDFP course arc — six sessions, one investigation">
+<title>eCDFP course arc — six sessions, one investigation</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0B1220"/><stop offset="1" stop-color="#111C33"/></linearGradient>
+<linearGradient id="accent" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22D3EE"/><stop offset="1" stop-color="#3B82F6"/></linearGradient>
+<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#1E2A45" stroke-width="1"/></pattern>
+<filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<marker id="arrow-64748B" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#64748B"/></marker>
+<marker id="arrow-F59E0B" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#F59E0B"/></marker>
+</defs>
+<rect width="1200" height="400" rx="16" fill="url(#bg)"/>
+<rect width="1200" height="400" rx="16" fill="url(#grid)" opacity="0.55"/>
+<rect x="0" y="0" width="6" height="400" rx="3" fill="url(#accent)"/>
+<text x="34" y="38" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="20" font-weight="700" fill="#E2E8F0">Course arc</text>
+<text x="34" y="60" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13" fill="#94A3B8">Six four-hour sessions · one incident acquired in S2 and cut deeper every session after</text>
+<rect x="34" y="78" width="110" height="28" rx="14" fill="#64748B" fill-opacity="0.06" stroke="#64748B" stroke-opacity="0.7"/>
+<text x="89.0" y="97" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" font-weight="500" fill="#64748B" text-anchor="middle">SOC Analyst</text>
+<path d="M148,92 L158,92" stroke="#64748B" stroke-width="2" marker-end="url(#arrow-64748B)"/>
+<rect x="168" y="78" width="50" height="28" rx="14" fill="#64748B" fill-opacity="0.06" stroke="#64748B" stroke-opacity="0.7"/>
+<text x="193.0" y="97" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" font-weight="500" fill="#64748B" text-anchor="middle">CEH</text>
+<path d="M222,92 L232,92" stroke="#64748B" stroke-width="2" marker-end="url(#arrow-64748B)"/>
+<rect x="242" y="78" width="58" height="28" rx="14" fill="#64748B" fill-opacity="0.06" stroke="#64748B" stroke-opacity="0.7"/>
+<text x="271.0" y="97" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" font-weight="500" fill="#64748B" text-anchor="middle">eCIR</text>
+<path d="M304,92 L314,92" stroke="#64748B" stroke-width="2" marker-end="url(#arrow-64748B)"/>
+<rect x="324" y="78" width="65" height="28" rx="14" fill="#22D3EE" fill-opacity="0.18" stroke="#22D3EE" stroke-opacity="0.7"/>
+<text x="356.5" y="97" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#22D3EE" text-anchor="middle">eCDFP</text>
+<rect x="324" y="78" width="65" height="28" rx="14" fill="none" stroke="#22D3EE" stroke-width="2"><animate attributeName="opacity" values="1;0.2;1" dur="1.8s" repeatCount="indefinite"/></rect>
+<text x="405" y="97" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#64748B">ITGate Academy path</text>
+<rect x="70" y="162" width="1060" height="6" rx="3" fill="url(#accent)"/>
+<circle r="6" fill="#E2E8F0" filter="url(#glow)"><animateMotion dur="7.2s" repeatCount="indefinite" path="M70,165 L1130,165"/></circle>
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.0s" dur="0.5s" fill="freeze"/>
+<circle cx="70.0" cy="165" r="17" fill="#0F172A" stroke="#3B82F6" stroke-width="2.5"/>
+<text x="70.0" y="170" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="800" fill="#3B82F6" text-anchor="middle">S1</text>
+<rect x="34" y="199" width="198.0" height="76" rx="10" fill="#0F172A" stroke="#1E3A5F" stroke-width="1.5"/>
+<rect x="34" y="199" width="198.0" height="4" rx="2" fill="#3B82F6"/>
+<text x="46" y="223" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#E2E8F0">Foundations</text>
+<text x="46" y="241" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#94A3B8">integrity · custody</text>
+</g>
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.2s" dur="0.5s" fill="freeze"/>
+<circle cx="282.0" cy="165" r="17" fill="#0F172A" stroke="#22D3EE" stroke-width="2.5"/>
+<text x="282.0" y="170" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="800" fill="#22D3EE" text-anchor="middle">S2</text>
+<rect x="183.0" y="199" width="198.0" height="76" rx="10" fill="#0F172A" stroke="#1E3A5F" stroke-width="1.5"/>
+<rect x="183.0" y="199" width="198.0" height="4" rx="2" fill="#22D3EE"/>
+<text x="195.0" y="223" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#E2E8F0">Acquisition</text>
+<text x="195.0" y="241" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#94A3B8">disk · memory · live</text>
+</g>
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.4s" dur="0.5s" fill="freeze"/>
+<circle cx="494.0" cy="165" r="17" fill="#0F172A" stroke="#22D3EE" stroke-width="2.5"/>
+<text x="494.0" y="170" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="800" fill="#22D3EE" text-anchor="middle">S3</text>
+<rect x="395.0" y="199" width="198.0" height="76" rx="10" fill="#0F172A" stroke="#1E3A5F" stroke-width="1.5"/>
+<rect x="395.0" y="199" width="198.0" height="4" rx="2" fill="#22D3EE"/>
+<text x="407.0" y="223" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#E2E8F0">File examination</text>
+<text x="407.0" y="241" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#94A3B8">data representation</text>
+</g>
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.6s" dur="0.5s" fill="freeze"/>
+<circle cx="706.0" cy="165" r="17" fill="#0F172A" stroke="#A78BFA" stroke-width="2.5"/>
+<text x="706.0" y="170" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="800" fill="#A78BFA" text-anchor="middle">S4</text>
+<rect x="607.0" y="199" width="198.0" height="76" rx="10" fill="#0F172A" stroke="#1E3A5F" stroke-width="1.5"/>
+<rect x="607.0" y="199" width="198.0" height="4" rx="2" fill="#A78BFA"/>
+<text x="619.0" y="223" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#E2E8F0">Storage &amp; FS</text>
+<text x="619.0" y="241" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#94A3B8">partitions · NTFS</text>
+</g>
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.8s" dur="0.5s" fill="freeze"/>
+<circle cx="918.0" cy="165" r="17" fill="#0F172A" stroke="#A78BFA" stroke-width="2.5"/>
+<text x="918.0" y="170" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="800" fill="#A78BFA" text-anchor="middle">S5</text>
+<rect x="819.0" y="199" width="198.0" height="76" rx="10" fill="#0F172A" stroke="#1E3A5F" stroke-width="1.5"/>
+<rect x="819.0" y="199" width="198.0" height="4" rx="2" fill="#A78BFA"/>
+<text x="831.0" y="223" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#E2E8F0">Windows forensics</text>
+<text x="831.0" y="241" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#94A3B8">registry · execution</text>
+</g>
+<g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.0s" dur="0.5s" fill="freeze"/>
+<circle cx="1130.0" cy="165" r="17" fill="#0F172A" stroke="#4ADE80" stroke-width="2.5"/>
+<text x="1130.0" y="170" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="800" fill="#4ADE80" text-anchor="middle">S6</text>
+<rect x="968.0" y="199" width="198.0" height="76" rx="10" fill="#0F172A" stroke="#1E3A5F" stroke-width="1.5"/>
+<rect x="968.0" y="199" width="198.0" height="4" rx="2" fill="#4ADE80"/>
+<text x="980.0" y="223" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#E2E8F0">Network · report</text>
+<text x="980.0" y="241" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#94A3B8">timeline · capstone</text>
+</g>
+<path d="M282.0,305 Q706.0,350 1130.0,305" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#arrow-F59E0B)"><animate attributeName="stroke-dashoffset" from="24" to="0" dur="1.2s" repeatCount="indefinite"/></path>
+<text x="706.0" y="345" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#F59E0B" text-anchor="middle">one incident · acquired in S2 · investigated through S6</text>
+<text x="34" y="386" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#64748B">ecdfp-diploma · assets/readme/course-arc.svg</text>
+</svg>
